@@ -4,7 +4,7 @@
 
 使用shell脚本下载所需的功能包
 
-固件使用fmuv3的v1.16.1
+
 
 消息依赖[px4_msgs](https://github.com/PX4/px4_msgs/)
 
@@ -23,4 +23,7 @@ ros2上下位机串口通信功能包[serial_driver_ros](https://github.com/Boom
 其中Intel® RealSense™ SDK 2.0 (v2.54.1) 中已经明确说明版本不再支持 T265 
 这里我们选择2.53.1 realsense-ros选择4.0.4
 
-因为固件是1.16.1，所以消息依赖也选择v1.16.1
+## 快速使用
+
+使用Scripts文件夹下的installation脚本 
+shell脚本会在BoomBoomFly的文件夹下创建src然后下载所有需要的功能包
