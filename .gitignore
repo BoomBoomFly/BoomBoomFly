@@ -5,3 +5,8 @@ log/
 Micro-XRCE-DDS-Agent/
 px4_msgs/
 vision_to_dds/
+offboard_cpp/
+realsense-ros/
+librealsense/
+rplidar_ros/
+px4_bringup/
