@@ -1,7 +1,7 @@
 # BoomBoomFly 文档
 
-> 更新时间：2026-07-24T22:38:13+08:00
-> 状态：P0-03 software fixed / hardware blocked / production disabled
+> 更新时间：2026-07-24T23:23:12+08:00
+> 状态：P0-03 software published for review / hardware blocked / production disabled
 
 ## 权威文档
 
@@ -10,6 +10,8 @@
 - [ADR-0001](adr/0001-dds-only-control-authority.md)：DDS-only 控制权决策。
 - [Offboard / px4_msgs 兼容性证据](evidence/OFFBOARD_PX4_MSGS_COMPAT_20260724.md)：
   exact checkout、15 项核验、构建/测试和 topic 决策。
+- Offboard 修复提交 `0c41de3e` 已推送，草稿 PR
+  [BoomBoomFly/offboard_cpp#1](https://github.com/BoomBoomFly/offboard_cpp/pull/1) 待合并。
 - [PX4 参数快照](evidence/PX4_PARAMS_20260724T203458+0800.json)：实机 972/972
   参数的原始只读采集结果。
 

@@ -6,7 +6,7 @@ BoomBoomFly 是 Ubuntu 20.04 / ROS 2 Foxy / PX4 的无人机伴随计算机工�
 ## 当前状态
 
 - 工作区：`/home/c/BoomBoomFly`
-- Offboard：基线 `BoomBoomFly/offboard_cpp:DDS@8925f8ae...`，本地兼容修复未提交
+- Offboard：兼容修复 `0c41de3e` 已推送至 `agent/px4-v116-rc-safety`，草稿 PR [#1](https://github.com/BoomBoomFly/offboard_cpp/pull/1) 待合并至 `DDS`
 - 实机：PX4 v1.16.2、PX4_FMU_V3、Generic Quad X
 - P0-03：`SOFTWARE FIXED / HARDWARE BLOCKED / FAIL-CLOSED`
 - 构建：`px4_msgs`、`offboard_cpp` 通过；RC gtest 7/7 通过
@@ -43,16 +43,15 @@ HEAD。发现任何 blocker 时仍完成其余条目，最后返回状态码 1�
 当前工作区的预期结果是：
 
 ```text
-Summary: planned=15 cloned=0 updated=0 verified=15 blockers=5
+Summary: planned=15 cloned=0 updated=0 verified=15 blockers=4
 exit status: 1
 ```
 
-`verified=15` 表示全部 HEAD/origin 与 lock 匹配；`blockers=5` 表示其中五个仓库
+`verified=15` 表示全部 HEAD/origin 与 lock 匹配；`blockers=4` 表示其中四个第三方仓库
 保留了本地修改，两者并不冲突：
 
 - `src/librealsense`
 - `src/navigation_msgs`
-- `src/offboard_cpp`
 - `src/realsense-ros`
 - `src/vision_opencv`
 
