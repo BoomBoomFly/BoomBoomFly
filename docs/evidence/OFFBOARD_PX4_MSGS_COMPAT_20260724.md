@@ -96,9 +96,10 @@ origin for every repository:
 At evidence-capture time, the official `--verify-only` command was deliberately
 fail-closed and stopped at the first pre-existing dirty checkout
 (`librealsense`). The installer was subsequently updated to audit every manifest
-entry before returning non-zero. Its current result is `planned=15`,
-`verified=15`, `blockers=5`; no existing dirty repository is reset, fetched,
-checked out, updated or otherwise changed.
+entry before returning non-zero. After publishing the Offboard fix and updating
+the root lock, its current result is `planned=15`, `verified=15`,
+`blockers=4`; no existing dirty repository is reset, fetched, checked out,
+updated or otherwise changed.
 
 The `offboard_cpp` fix now:
 
@@ -126,6 +127,15 @@ Summary: 8 tests, 0 errors, 0 failures, 0 skipped
 The seven gtests cover no first frame, `signal_lost`, insufficient channels,
 configured-index overflow, stale data, non-finite/out-of-range RC values and
 normalized mapping.
+
+## Publication
+
+- Offboard commit: `0c41de3cf8d56982bd67a5be56a9e281f3d9fc8f`
+- pushed branch: `agent/px4-v116-rc-safety`
+- draft PR: [BoomBoomFly/offboard_cpp#1](https://github.com/BoomBoomFly/offboard_cpp/pull/1),
+  targeting `DDS`
+- the companion BoomBoomFly publication branch pins this exact commit; merge the
+  Offboard PR before merging the root lock/docs PR
 
 ## Topic decision
 

@@ -32,7 +32,7 @@ repositories:
   src/offboard_cpp:
     type: git
     url: https://github.com/BoomBoomFly/offboard_cpp.git
-    version: 8925f8ae82258fb9f1378543f1a0dea16c15a282
+    version: 0c41de3cf8d56982bd67a5be56a9e281f3d9fc8f
   src/realsense-ros:
     type: git
     url: https://github.com/IntelRealSense/realsense-ros.git

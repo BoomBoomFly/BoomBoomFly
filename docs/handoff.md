@@ -1,6 +1,6 @@
 # BoomBoomFly 窗口交接
 
-> 更新时间：2026-07-24T22:55:17+08:00
+> 更新时间：2026-07-24T23:23:12+08:00
 > 工作区：`/home/c/BoomBoomFly`
 > 当前阶段：P0-03，**SOFTWARE FIXED / HARDWARE BLOCKED / FAIL-CLOSED**
 > production：**DISABLED**
@@ -9,8 +9,8 @@
 
 ```text
 读取 /home/c/BoomBoomFly/docs/handoff.md。
-保留当前 dirty 工作树，不 reset/clean/提交/推送。
-从“下一步”开始：保留已完成的 exact checkout 与 offboard_cpp 修复，先在隔离
+保留四个第三方 dirty checkout，不 reset/clean/覆盖。
+从“下一步”开始：先审阅 Offboard PR #1 与对应根 lock/docs PR，再在隔离
 PX4 v1.16.2 源码/SITL 中准备并验证 rc_channels DDS topic firmware profile；
 独立 DDS transport 需要维护者给出硬件选择并明确授权。未经明确授权，不写 PX4
 参数、不刷固件、不 arm、不切 mode、不发送 setpoint/vehicle command，也不启动
@@ -22,11 +22,11 @@ Agent、Offboard 或视觉注入链路。
 | 项目 | 当前值 |
 |---|---|
 | 根仓库 | `/home/c/BoomBoomFly` |
-| 根分支 / HEAD | `master @ e8b2e9e3a10006c1a8c3e1d82c36e6075bb33a08` |
-| 根工作树 | dirty：本轮文档清理、handoff 与证据；未 commit/push |
+| 根发布分支 / base | `agent/update-offboard-lock-docs` / `master@3b296de0` |
+| 根工作树 | 本发布仅更新 Offboard lock 与状态文档 |
 | Offboard origin | `https://github.com/BoomBoomFly/offboard_cpp.git` |
-| Offboard HEAD | detached、dirty，基线 `8925f8ae82258fb9f1378543f1a0dea16c15a282` |
-| Offboard 对齐 | 与远端 `DDS` HEAD、`workspace.lock.repos` 一致 |
+| Offboard HEAD | `agent/px4-v116-rc-safety@0c41de3cf8d56982bd67a5be56a9e281f3d9fc8f`，clean |
+| Offboard 对齐 | 根 lock 已固定 `0c41de3e`；草稿 PR [#1](https://github.com/BoomBoomFly/offboard_cpp/pull/1) 待合并至 `DDS` |
 | 旧 Offboard 备份 | 已按维护者要求永久删除；不存在备份 |
 
 已仅恢复原先缺失的 exact checkout：
@@ -39,7 +39,7 @@ Agent、Offboard 或视觉注入链路。
 
 全部 15 项经逐项只读核验，HEAD 与 origin 均匹配 lock。`librealsense`、
 `navigation_msgs`、`realsense-ros`、`vision_opencv` 是保留的既有 dirty 仓库；
-`offboard_cpp` 现在因本轮兼容修复而 dirty，其余 10 项 clean。
+Offboard 修复已在独立分支提交并推送，其余 11 项 clean。
 
 正式检查仍会 fail-closed，但现在会先完成整个 manifest 的只读审计：
 
@@ -47,8 +47,8 @@ Agent、Offboard 或视觉注入链路。
 bash Scripts/installation/uav_px4_dds_install.sh --verify-only --skip-package-check
 ```
 
-当前结果为 `planned=15 verified=15 blockers=5`，退出状态码 1。五个 blocker
-分别是保留本地修改的 `librealsense`、`navigation_msgs`、`offboard_cpp`、
+当前结果为 `planned=15 verified=15 blockers=4`，退出状态码 1。四个 blocker
+分别是按维护者要求暂不处理的 `librealsense`、`navigation_msgs`、
 `realsense-ros` 和 `vision_opencv`；全部 HEAD 与 origin 仍匹配 lock。
 命令没有 clone、fetch、checkout、更新 submodule 或覆盖任何既有仓库。完整记录见
 [`evidence/OFFBOARD_PX4_MSGS_COMPAT_20260724.md`](evidence/OFFBOARD_PX4_MSGS_COMPAT_20260724.md)。
@@ -172,6 +172,11 @@ Summary: 8 tests, 0 errors, 0 failures, 0 skipped
 持久证据见
 [`evidence/OFFBOARD_PX4_MSGS_COMPAT_20260724.md`](evidence/OFFBOARD_PX4_MSGS_COMPAT_20260724.md)。
 
+发布状态：Offboard 提交 `0c41de3e` 已推送至
+`agent/px4-v116-rc-safety`，草稿 PR
+[BoomBoomFly/offboard_cpp#1](https://github.com/BoomBoomFly/offboard_cpp/pull/1)
+目标为 `DDS`。根 lock/docs 发布分支依赖该 PR，必须在 Offboard PR 合并后再合并。
+
 ## 6. 仍有效的架构约束
 
 权威决策在 [`adr/0001-dds-only-control-authority.md`](adr/0001-dds-only-control-authority.md)
@@ -188,7 +193,7 @@ Summary: 8 tests, 0 errors, 0 failures, 0 skipped
 
 按顺序执行：
 
-1. 保留当前 dirty 工作树与已通过的 Offboard 修复，不 reset/clean/覆盖。
+1. 先审阅并合并 Offboard PR #1，再合并依赖它的根 lock/docs PR；保留四个第三方 dirty checkout。
 2. 在隔离的 PX4-Autopilot v1.16.2 源码中为 DDS 输出加入 `rc_channels`，锁定
    firmware source/submodule/toolchain 与 artifact SHA-256；先做静态生成和 SITL。
 3. 选择独立 DDS transport；当前 `/dev/ttyTHS0` 是 MAVLink TELEM2，禁止复用。
@@ -210,7 +215,7 @@ Summary: 8 tests, 0 errors, 0 failures, 0 skipped
 - 写 PX4 参数、重启飞控、刷 firmware；
 - 启动 Agent、Offboard、vision、MAVROS 或旧 bringup；
 - 把 `/dev/ttyTHS0` 同时交给 MAVLink 与 serial Agent；
-- reset/clean/强制 checkout、提交或推送；
+- reset/clean/强制 checkout；未经新的明确范围，不追加提交或推送；
 - 恢复已删除的旧 Offboard 备份或过时状态文档。
 
 ## 9. 本轮文件与验证
@@ -238,4 +243,4 @@ git -C src/offboard_cpp status --short --branch
 git status --short --branch
 ```
 
-当前没有 commit/push。
+根基线 `3b296de0` 已在 `master`；Offboard `0c41de3e` 已推送并创建草稿 PR #1。本 lock/docs 更新在独立发布分支中。
