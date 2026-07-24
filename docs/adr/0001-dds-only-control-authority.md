@@ -133,9 +133,9 @@ MAVROS/MAVLink 不作为备用控制链，不进入 production、bench、SITL �
 |---|---|---|---|
 | `offline-static` | 文件、manifest、静态 launch 检查 | 不运行 ROS/PX4 | 可立即使用 |
 | `sensor-isolated` | 单一传感器驱动、TF/回放工具 | 不连接 `/fmu/in/*` | 待 P1-03 实现 |
-| `px4-read-only` | 单 Agent + PX4 telemetry observer | 不启动 Offboard/视觉输入发布者 | 待 P0-03/P1-03 |
+| `px4-read-only` | 单 Agent + PX4 telemetry observer | 不启动 Offboard/视觉输入发布者 | 独立 transport 未选定；禁止启动 |
 | `sitl-dds` | PX4 SITL、单 Agent、单 Offboard、可选单任务 owner/视觉 owner | 仅隔离 SITL | 当前无项目入口 |
-| `bench-dds` | 拆桨/执行器隔离实机、单 Agent | 默认不 arm、不 set mode；逐门放行 | P0-03/P0-05 后 |
+| `bench-dds` | 拆桨/执行器隔离实机、单 Agent | 默认不 arm、不 set mode；逐门放行 | transport/firmware/P0-05 后 |
 | `production-dds` | 单 Agent、单 Offboard、单 arbiter、单视觉 owner | 完整控制 | **禁用**，直到全部安全门通过 |
 
 ## 当前入口处置
@@ -178,7 +178,8 @@ MAVROS/MAVLink 不作为备用控制链，不进入 production、bench、SITL �
 - 当前源码尚未实现 owner/lease，ADR 不是运行时安全机制。
 - 本地旧源码仍可能被人工误启动，需 P1-03 的 profile 隔离和后续安全清理。
 - 单机根 namespace 暂不支持 swarm。
-- production 在 P0-03、P0-05、P1-03、P1-04 和 P1-09 完成前保持禁用。
+- 默认 PX4 v1.16.2 DDS topic 集缺少 RC 安全互锁所需的 `rc_channels`。
+- production 在独立 transport、定制 firmware、P0-05、P1-03、P1-04 和 P1-09 完成前保持禁用。
 
 ## 证据
 
@@ -188,7 +189,8 @@ MAVROS/MAVLink 不作为备用控制链，不进入 production、bench、SITL �
 - `src/offboard_cpp/text/mock_rc_control.py:18-19`
 - `src/offboard_cpp/launch/offboard_swarm_control.launch.py:29-64`
 - `src/vision_to_dds/src/vision_to_dds.cpp:80-88,127-162`
-- [`SOURCE_BASELINE.md`](../SOURCE_BASELINE.md)
+- [`workspace.lock.repos`](../../workspace.lock.repos)
+- [`handoff.md`](../handoff.md)
 
 ## 验收
 

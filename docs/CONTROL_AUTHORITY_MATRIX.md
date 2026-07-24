@@ -15,6 +15,15 @@
 
 `Micro XRCE-DDS Agent` 是 transport bridge，不是 ROS 侧控制决策 owner；同一 profile 只允许一个与目标 PX4 对应的 Agent。
 
+### Firmware topic 可用性
+
+- PX4 v1.16.2 默认 `dds_topics.yaml` 不导出 `/fmu/out/rc_channels`。Offboard
+  保留该安全互锁，因此控制 profile 必须使用经过锁定和验证的定制 firmware。
+- baseline 不要求 `/fmu/in/landing_target_pose`；`enable_precland=false` 时视觉节点
+  不创建该 publisher。精降只能由独立 firmware/profile 显式启用。
+- 当前实机 `UXRCE_DDS_CFG=0`，唯一已识别的 `/dev/ttyTHS0` 被 MAVLink TELEM2
+  占用。在独立 transport 获批前，所有实机 DDS profile 均不可启动。
+
 ## 2. 上层命令白名单
 
 | 内部话题 | 消费者 | 每个 profile 允许的发布者 |
@@ -87,6 +96,10 @@ XOR future_control_authority_node
 | MAVROS/旧 bringup | 否 | 否 | 否 | 否 | 否 | 否 |
 | mock feedback | 否 | 独立 domain | 否 | 测试专用 | 否 | 否 |
 | arm/mode/setpoint | 否 | 否 | 否 | SITL 门禁 | 默认禁止 | 安全门通过后 |
+
+`px4-read-only`、`bench-dds` 和 `production-dds` 当前均受独立 transport 与定制
+`rc_channels` firmware 阻塞。表中的 “1” 表示通过相应门禁后的最大允许实例数，
+不表示当前获准启动。
 
 ## 7. 后续静态与运行验证
 

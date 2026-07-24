@@ -59,7 +59,10 @@ cd BoomBoomFly
 - HEAD 与 lock SHA 不一致时，默认拒绝并提示使用 `--update`。
 - `--update` 只 fetch 并切换到锁定提交，仍然保持 detached HEAD，不创建分支、不 pull。
 - 目标路径已存在但不是 Git 仓库时直接报错。
-- `--verify-only` 只核对现有仓库，不克隆、不更新。
+- `--verify-only` 不克隆、不 fetch、不 checkout、不更新 submodule；它会审计全部条目，
+  汇总缺失路径、非 Git 路径、origin、dirty 和 HEAD blocker，最后统一返回状态。
+- `--dry-run` 同样遍历整个 manifest。发现 blocker 时打印完整摘要并返回状态码 1；
+  没有 blocker 时返回 0。
 
 示例：
 

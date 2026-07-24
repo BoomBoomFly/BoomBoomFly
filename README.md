@@ -1,70 +1,35 @@
 # BoomBoomFly
 
-BoomBoomFly 是面向 Ubuntu 20.04、ROS 2 Foxy 和 PX4 的无人机伴随计算机工程。自 2026-07-23 的 P0-01 基线决策起，仓库只维护 **PX4 uXRCE-DDS** 飞控通信路径；MAVROS、vision-to-MAVROS、旧串口仓库和 MAVROS-only bringup 不再属于受管源码组合。
+BoomBoomFly 是 Ubuntu 20.04 / ROS 2 Foxy / PX4 的无人机伴随计算机工作区。
+当前受管飞控路径仅允许 PX4 uXRCE-DDS；MAVROS 不属于 production 基线。
 
-PX4-Autopilot 固件源码不在本仓库的受管依赖中。`px4_msgs v1.16.2` 是当前消息定义基线，不等同于已确认的实机固件版本。
+## 当前状态
 
-## 当前源码基线
+- 工作区：`/home/c/BoomBoomFly`
+- Offboard：基线 `BoomBoomFly/offboard_cpp:DDS@8925f8ae...`，本地兼容修复未提交
+- 实机：PX4 v1.16.2、PX4_FMU_V3、Generic Quad X
+- P0-03：`SOFTWARE FIXED / HARDWARE BLOCKED / FAIL-CLOSED`
+- 构建：`px4_msgs`、`offboard_cpp` 通过；RC gtest 7/7 通过
+- 阻塞：缺少独立 DDS transport，默认 firmware 未导出 `rc_channels`
+- production：禁用
 
-两份 manifest 承担不同职责：
+完整的当前状态、实机证据、验证结果和下一步只维护在
+[窗口交接](docs/handoff.md)。
 
-| 文件 | 条目 | 用途 |
-|---|---:|---|
-| `workspace.lock.repos` | 15 | DDS-only 精确 SHA；部署、CI 和可复现恢复首选 |
-| `workspace.repos` | 16 | 维护意图；Offboard 跟随 `DDS`，`../communication` 跟随 `main` |
+## 源码清单
 
-重要例外：
+- `workspace.lock.repos`：15 项精确 SHA，用于可复现恢复。
+- `workspace.repos`：维护分支意图；Offboard 跟随 `DDS`。
+- `communication` 是独立 moving dependency，不进入精确 lock。
 
-- `offboard_cpp` 的维护来源是 `BoomBoomFly/offboard_cpp` 的 `DDS` 分支；本次核验的远端 HEAD 为 `8925f8ae82258fb9f1378543f1a0dea16c15a282`，部署 lock 固定该 SHA。
-- `/home/aa/px4_ws/communication` 按维护者要求始终跟随 `wanone111/communication` 的最新 `main`，**不进入精确 lock**。
-- `vision_to_dds` 已正式纳入两份 manifest。
-- `mavlink`、`mavros`、`ros2_foxy_vision_to_mavros`、`px4_bringup`、`serial-ros2` 和旧 `serial_driver` 均已退出受管组合。
+## 恢复与审计
 
-完整决策、SHA 和恢复边界见 [源码基线](docs/SOURCE_BASELINE.md)。
+安装脚本只管理源码仓库，不安装 ROS、系统包、udev 规则或 PX4 firmware，
+也不启动 Agent、ROS 节点或硬件链路。
 
-## 目录结构
+### 只读审计现有工作区
 
-```text
-/home/aa/px4_ws/
-├── BoomBoomFly/
-│   ├── workspace.lock.repos
-│   ├── workspace.repos
-│   ├── Scripts/
-│   ├── docs/
-│   └── src/
-└── communication/               # 移动依赖：跟随 origin/main，不锁 SHA
-```
-
-`build/`、`install/`、`log/` 和当前 `src/` 是本地工作区状态，不应充当源码来源。清单中已移出的旧仓库可能暂时仍留在本机 `src/`，但不会被恢复脚本下载或视为基线组成。
-
-## 环境要求
-
-- Ubuntu 20.04
-- ROS 2 Foxy
-- Bash、Git、colcon
-- 按需使用 `vcstool`、`rosdep`
-- 与 `px4_msgs v1.16.2` 匹配的 PX4 firmware、board、参数和 `dds_topics.yaml`：仍待 P0-03 确认
-
-恢复脚本只管理源码，不安装系统包、固件、udev 规则或硬件配置，也不启动任何节点。
-
-## 恢复精确 DDS 基线
-
-先查看计划：
-
-```bash
-cd /home/aa/px4_ws/BoomBoomFly
-bash Scripts/installation/uav_px4_dds_install.sh \
-  --dry-run \
-  --skip-package-check
-```
-
-确认后恢复 15 个精确 SHA：
-
-```bash
-bash Scripts/installation/uav_px4_dds_install.sh
-```
-
-验证现有工作区而不修改：
+先检查全部 lock 条目，不执行 clone、fetch、checkout 或 submodule 更新：
 
 ```bash
 bash Scripts/installation/uav_px4_dds_install.sh \
@@ -72,11 +37,47 @@ bash Scripts/installation/uav_px4_dds_install.sh \
   --skip-package-check
 ```
 
-脚本拒绝覆盖 dirty 仓库、错误 origin 和错误 HEAD。只有在已确认现有仓库干净且允许切换时，才使用 `--update`。
+`--verify-only` 会遍历整个 manifest，检查路径、Git 仓库、origin、dirty 状态和
+HEAD。发现任何 blocker 时仍完成其余条目，最后返回状态码 1，且不修改仓库。
 
-## 恢复维护组合与 communication
+当前工作区的预期结果是：
 
-`workspace.repos` 包含 moving refs，必须显式允许：
+```text
+Summary: planned=15 cloned=0 updated=0 verified=15 blockers=5
+exit status: 1
+```
+
+`verified=15` 表示全部 HEAD/origin 与 lock 匹配；`blockers=5` 表示其中五个仓库
+保留了本地修改，两者并不冲突：
+
+- `src/librealsense`
+- `src/navigation_msgs`
+- `src/offboard_cpp`
+- `src/realsense-ros`
+- `src/vision_opencv`
+
+### 恢复精确 lock
+
+建议恢复到新的 `src` 目录。先 dry-run，确认后再执行恢复：
+
+```bash
+bash Scripts/installation/uav_px4_dds_install.sh \
+  --src-dir /path/to/new_ros2_ws/src \
+  --dry-run \
+  --skip-package-check
+
+bash Scripts/installation/uav_px4_dds_install.sh \
+  --src-dir /path/to/new_ros2_ws/src
+```
+
+默认使用 `workspace.lock.repos`，恢复出的依赖为 detached HEAD。已有 dirty 仓库、
+origin 不匹配和错误 HEAD 都会 fail-closed；只有已确认干净的仓库才可配合
+`--update` 切换到 manifest ref。脚本从不执行 `git pull` 或 `reset`。
+
+### 审计维护清单
+
+`workspace.repos` 包含 tag/branch 以及外部 moving dependency `../communication`，
+必须显式允许 moving refs：
 
 ```bash
 bash Scripts/installation/uav_px4_dds_install.sh \
@@ -86,74 +87,19 @@ bash Scripts/installation/uav_px4_dds_install.sh \
   --skip-package-check
 ```
 
-确认后去掉 `--dry-run`。该操作会把 `communication` 放在 BoomBoomFly 的同级路径 `../communication`。
+dry-run 同样会完整汇总 blocker 并以非零状态退出；它只打印计划，不创建目录、
+不 fetch，也不改变 Git ref。完整参数见脚本的 `--help` 和
+[Scripts 说明](Scripts/README.md)。
 
-注意：
-
-- `communication/main` 每次可能解析到不同提交，因此该命令用于同步维护意图，不用于重现实验。
-- 已存在且 dirty 的 `communication` 会被拒绝；脚本不会 pull、reset 或覆盖本地修改。
-- 需要可审计实验时，应在实验报告中额外记录当次 `git -C ../communication rev-parse HEAD`。
-
-## 当前受管软件
-
-| 分类 | 仓库 |
-|---|---|
-| PX4 DDS | `px4_msgs`、`Micro-XRCE-DDS-Agent`、`offboard_cpp`、`vision_to_dds` |
-| RealSense/视觉 | `librealsense`、`realsense-ros`、`vision_opencv` |
-| 导航/SLAM | `navigation2`、`navigation_msgs`、`slam_toolbox`、`rtabmap`、`rtabmap_ros`、`imu_tools` |
-| 仿真/传感器 | `gazebo_ros_pkgs`、`rplidar_ros` |
-| 外部移动通信仓库 | `../communication @ main` |
-
-## 构建边界
-
-本轮 P0-01 不执行构建。源码准备完成后，推荐在新的输出目录中分组验证：
-
-```bash
-source /opt/ros/foxy/setup.bash
-rosdep check --from-paths src --ignore-src
-colcon build --symlink-install
-```
-
-当前本机仍可能发现已退出基线的 MAVROS、旧 bringup 和旧 serial 包。执行构建前应使用清单生成的新工作区，或显式排除这些本地残留，不能把当前 `src/` 的包数当作 DDS-only 基线包数。
-
-## 运行安全
-
-当前没有经过验证的 DDS production bringup。不要运行旧的：
-
-```text
-px4_bringup/start_all_2025TI.launch.py
-```
-
-它属于已退出基线的 MAVROS 架构，并包含失效引用和真实硬件入口。P0 安全风险关闭前，不启动 Agent、Offboard 控制、飞控 mode/arming、视觉注入或任何硬件节点。
-
-P0-02 已冻结控制权规则：
-
-- `/offboard_control_node` 是三个 PX4 控制输入的唯一 writer；
-- `/vision_to_dds_node` 是外部视觉和可选精降目标的唯一 writer；
-- 每个 profile 只允许一个 mission owner；
-- 当前只支持单机根 namespace；
-- production profile 在运行时 owner/lease、graph guard 和安全状态机完成前保持禁用。
-
-详见 [ADR-0001](docs/adr/0001-dds-only-control-authority.md) 和 [控制权矩阵](docs/CONTROL_AUTHORITY_MATRIX.md)。
-
-## 维护规则
-
-1. `workspace.lock.repos` 的 15 个条目必须使用 40 位 SHA。
-2. Offboard 更新时先核验 `origin/DDS`，再更新 lock SHA。
-3. `communication` 是唯一允许不锁 SHA 的外部仓库；每次验证必须记录实际 HEAD。
-4. 不重新加入 MAVROS、旧 vision-to-MAVROS、旧 serial 或旧 bringup，除非维护者重新做架构决策。
-5. 不保存第三方仓库的临时构建缓存或本地补丁作为当前 DDS 基线。
-6. 更新 manifest 后执行 shell 语法、清单路径、URL、SHA、重复项和 dry-run 校验。
-7. 构建成功不等于可以连接飞控或安全起飞。
+`build/`、`install/`、`log/` 是可再生输出，不作为源码或验证证据保存。
 
 ## 文档
 
-- [下一窗口交接](docs/handoff.md)
-- [文档中心](docs/README.md)
-- [源码基线与恢复说明](docs/SOURCE_BASELINE.md)
-- [控制权与发布者矩阵](docs/CONTROL_AUTHORITY_MATRIX.md)
+- [窗口交接](docs/handoff.md)
+- [控制权矩阵](docs/CONTROL_AUTHORITY_MATRIX.md)
 - [ADR-0001：DDS-only 控制权](docs/adr/0001-dds-only-control-authority.md)
-- [仓库状态](docs/REPOSITORY_STATUS.md)
-- [构建与运行状态](docs/BUILD_AND_RUNTIME_STATUS.md)
-- [风险与阻塞项](docs/RISKS_AND_BLOCKERS.md)
-- [下一阶段任务](docs/NEXT_STAGE_TASKS.md)
+- [兼容性证据](docs/evidence/OFFBOARD_PX4_MSGS_COMPAT_20260724.md)
+- [实机参数快照](docs/evidence/PX4_PARAMS_20260724T203458+0800.json)
+
+未经明确授权，不写飞控参数、不刷固件、不 arm、不切 mode、不发送控制命令，
+也不启动 Agent、Offboard 或视觉注入链路。

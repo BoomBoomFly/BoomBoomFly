@@ -37,8 +37,8 @@ Options:
   --src-dir <path>       Target ROS 2 src directory. Default: ${SRC_DIR}
   --manifest <path>      Repositories manifest. Default: ${MANIFEST}
   --update               Sync existing clean repositories to the manifest ref.
-  --verify-only          Verify existing repositories without cloning/updating.
-  --dry-run              Print planned actions without changing files or Git refs.
+  --verify-only          Audit all repositories without cloning/updating.
+  --dry-run              Audit and print planned actions without changing files or Git refs.
   --skip-submodules      Do not initialize recursive Git submodules.
   --skip-package-check   Do not run colcon package discovery.
   --require-colcon       Fail if colcon is unavailable or package discovery fails.
@@ -50,6 +50,7 @@ Safety:
   * Existing repositories with a different origin URL are rejected.
   * Without --update, a repository at the wrong commit is rejected.
   * Exact lock SHAs are verified after checkout.
+  * Audit modes inspect every entry, summarize all blockers, then exit non-zero.
 EOF
 }
 
@@ -59,6 +60,11 @@ log() {
 
 warn() {
 	printf '[WARN] %s\n' "$*" >&2
+}
+
+record_blocker() {
+	warn "[BLOCK] $*"
+	BLOCKER_COUNT=$((BLOCKER_COUNT + 1))
 }
 
 die() {
@@ -375,6 +381,7 @@ process_repository() {
 	local current_head
 	local expected_head
 
+	local repo_blocked=0
 	if [[ "${manifest_path}" == ../communication ]]; then
 		target_dir="../communication"
 		full_path="${PROJECT_ROOT}/../communication"
@@ -388,20 +395,15 @@ process_repository() {
 
 	if [[ ! -d "${full_path}/.git" ]]; then
 		if [[ -e "${full_path}" ]]; then
-			if [[ ${DRY_RUN} -eq 1 ]]; then
-				warn "[BLOCK] ${full_path} exists but is not a Git repository"
-				BLOCKER_COUNT=$((BLOCKER_COUNT + 1))
+			if [[ ${DRY_RUN} -eq 1 || ${VERIFY_ONLY} -eq 1 ]]; then
+				record_blocker "${full_path} exists but is not a Git repository"
 				return 0
 			fi
 			die "${full_path} exists but is not a Git repository"
 		fi
 		if [[ ${VERIFY_ONLY} -eq 1 ]]; then
-			if [[ ${DRY_RUN} -eq 1 ]]; then
-				warn "[BLOCK] missing repository: ${full_path}"
-				BLOCKER_COUNT=$((BLOCKER_COUNT + 1))
-				return 0
-			fi
-			die "Missing repository: ${full_path}"
+			record_blocker "missing repository: ${full_path}"
+			return 0
 		fi
 
 		log "[CLONE] ${target_dir}"
@@ -428,21 +430,20 @@ process_repository() {
 		CLONED_COUNT=$((CLONED_COUNT + 1))
 	else
 		if ! verify_origin "${full_path}" "${repo_url}"; then
-			if [[ ${DRY_RUN} -eq 1 ]]; then
-				warn "[BLOCK] origin mismatch: ${full_path}"
-				BLOCKER_COUNT=$((BLOCKER_COUNT + 1))
+			if [[ ${DRY_RUN} -eq 1 || ${VERIFY_ONLY} -eq 1 ]]; then
+				record_blocker "origin mismatch: ${full_path}"
 				return 0
 			fi
 			die "Origin URL mismatch in ${full_path}; refusing to change remotes"
 		fi
 
 		if repo_is_dirty "${full_path}"; then
-			if [[ ${DRY_RUN} -eq 1 ]]; then
-				warn "[BLOCK] dirty repository: ${full_path}"
-				BLOCKER_COUNT=$((BLOCKER_COUNT + 1))
-				return 0
+			if [[ ${DRY_RUN} -eq 1 || ${VERIFY_ONLY} -eq 1 ]]; then
+				record_blocker "dirty repository: ${full_path}"
+				repo_blocked=1
+			else
+				die "Dirty repository: ${full_path}. Preserve or commit local changes before syncing."
 			fi
-			die "Dirty repository: ${full_path}. Preserve or commit local changes before syncing."
 		fi
 
 		current_head="$(git -C "${full_path}" rev-parse HEAD)"
@@ -462,12 +463,16 @@ process_repository() {
 		fi
 
 		if [[ ${DO_UPDATE} -eq 0 ]]; then
-			if [[ ${DRY_RUN} -eq 1 ]]; then
-				warn "[BLOCK] ${target_dir} HEAD ${current_head} does not match ${repo_ref}; use --update"
-				BLOCKER_COUNT=$((BLOCKER_COUNT + 1))
+			if [[ ${DRY_RUN} -eq 1 || ${VERIFY_ONLY} -eq 1 ]]; then
+				record_blocker "${target_dir} HEAD ${current_head} does not match ${repo_ref}; use --update"
 				return 0
 			fi
 			die "${target_dir} HEAD ${current_head} does not match ${repo_ref}; use --update"
+		fi
+
+		if [[ ${repo_blocked} -eq 1 ]]; then
+			warn "[SKIP] ${target_dir} cannot be updated until its blocker(s) are resolved"
+			return 0
 		fi
 
 		log "[SYNC] ${target_dir} -> ${repo_ref} (detached HEAD)"
@@ -547,10 +552,12 @@ verify_ros_packages
 
 log "Summary: planned=${PLANNED_COUNT} cloned=${CLONED_COUNT} updated=${UPDATED_COUNT} verified=${VERIFIED_COUNT} blockers=${BLOCKER_COUNT}"
 
-if [[ ${DRY_RUN} -eq 1 && ${BLOCKER_COUNT} -gt 0 ]]; then
-	warn "Dry-run found ${BLOCKER_COUNT} blocker(s); no files or Git refs were changed"
-fi
-
 log "DDS-only baseline excludes: mavlink, mavros, vision_to_mavros, px4_bringup, legacy serial repositories"
 log "Intentionally excluded from restore/build: offboard_py, cv_yolo_paddle_pkg, opencv_cpp"
+
+if [[ (${DRY_RUN} -eq 1 || ${VERIFY_ONLY} -eq 1) && ${BLOCKER_COUNT} -gt 0 ]]; then
+	warn "Audit found ${BLOCKER_COUNT} blocker(s); no files or Git refs were changed"
+	exit 1
+fi
+
 log "Done."
