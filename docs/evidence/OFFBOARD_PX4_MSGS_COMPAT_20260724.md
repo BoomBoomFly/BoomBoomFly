@@ -132,10 +132,13 @@ normalized mapping.
 
 - Offboard commit: `0c41de3cf8d56982bd67a5be56a9e281f3d9fc8f`
 - pushed branch: `agent/px4-v116-rc-safety`
-- draft PR: [BoomBoomFly/offboard_cpp#1](https://github.com/BoomBoomFly/offboard_cpp/pull/1),
+- PR [BoomBoomFly/offboard_cpp#1](https://github.com/BoomBoomFly/offboard_cpp/pull/1)
+  merged to `DDS` as `c4a95b95fc70cec2e807a4bdcf4c672961a3307a`
+- follow-up commit: `73569b2db19b6178bfa0a30ac38911175517cc97`
+- follow-up branch: `agent/px4-v116-status-contract`
+- draft PR: [BoomBoomFly/offboard_cpp#2](https://github.com/BoomBoomFly/offboard_cpp/pull/2),
   targeting `DDS`
-- the companion BoomBoomFly publication branch pins this exact commit; merge the
-  Offboard PR before merging the root lock/docs PR
+- the companion BoomBoomFly lock remains at `0c41de3e` until PR #2 is merged
 
 ## Topic decision
 
@@ -147,3 +150,85 @@ normalized mapping.
   that publisher while disabled. Precision landing requires a separate custom
   firmware/profile and separate verification.
 - No firmware was built or flashed and no PX4 parameter was changed here.
+
+## Read-only hardware DDS follow-up
+
+> Captured: 2026-07-25T20:02:13+08:00 to 2026-07-25T20:31:08+08:00
+> Scope: explicitly authorized transport and output-only validation. No
+> Offboard, vision, MAVROS, PX4 input publisher, arm, mode, setpoint, vehicle
+> command, parameter write or firmware flash was started.
+
+The maintainer reported changing the TELEM2/MAVLink/DDS parameters before this
+test. The exact post-change parameter values were not recaptured because no PX4
+USB or alternate MAVLink device was present. The 2026-07-24 JSON parameter
+snapshot therefore remains historical pre-change evidence.
+
+Preflight checks found `/dev/ttyTHS0` present, the user in `dialout`, no process
+holding the device, and no running Agent, MAVROS, Offboard or vision process.
+The locked Agent source was clean at:
+
+```text
+Micro-XRCE-DDS-Agent@57d086216d01ec43121845d385894a25987f8a2c
+```
+
+Agent v2.4.2 was built under `/tmp` with the system ROS 2 Foxy Fast DDS,
+Fast CDR and spdlog dependencies. No checkout or system package was modified.
+The serial probe used:
+
+```bash
+MicroXRCEAgent serial -D /dev/ttyTHS0 -b 921600 -v 6
+```
+
+Within approximately 0.3 seconds, client `0x00000001` established session
+`0x81`, and participant `/px4_micro_xrce_dds` was created. The Agent then
+created DDS publishers/datawriters and continuously forwarded payloads.
+
+ROS 2 discovery confirmed the default input/output graph. In particular:
+
+- `/fmu/out/battery_status` has one PX4 publisher and decoded live
+  `BatteryStatus` payloads (`connected=true`, four cells, approximately 16 V);
+- `/fmu/out/vehicle_status_v1` has one PX4 publisher;
+- `/fmu/out/rc_channels` is absent and `ros2 topic info` reports unknown topic.
+
+The versioned status topic is required by the locked message definition:
+
+```text
+src/px4_msgs/msg/VehicleStatus.msg: uint32 MESSAGE_VERSION = 1
+```
+
+At capture time, Offboard subscribed to `fmu/out/vehicle_status` without the
+`_v1` suffix. The earlier compile/unit tests did not cover this runtime contract.
+PR #1 was already merged before the mismatch was fixed, so the repair was made
+and validated later in the local working tree as recorded below.
+
+After validation the Agent was stopped, `/dev/ttyTHS0` was released, and the
+root, Agent, `px4_msgs`, and Offboard worktrees were checked. No source checkout
+was changed by the runtime test.
+
+## Local VehicleStatus contract repair
+
+> Captured: 2026-07-25
+> Scope: local source repair and isolated build/test only.
+
+The follow-up repair aligns the production subscription with the PX4 v1.16.2
+versioned output while keeping the runtime path fail-closed.
+
+Changes:
+
+- `include/topics.hpp` defines `fmu/out/vehicle_status_v1` once;
+- `src/node.cpp` uses that constant for the production subscription;
+- `test/test_topic_contract.cpp` checks the exact topic, production use of the
+  constant, and absence of the legacy literal;
+- `CMakeLists.txt` registers the new gtest executable.
+
+Validation:
+
+- isolated `px4_msgs` and `offboard_cpp` build: 2 packages finished;
+- full Offboard CTest: 2/2 executables, 9 gtest cases, 0 failures;
+- `git diff --check`: passed.
+
+The validation itself made no commit, push, PX4 parameter change, firmware
+build/flash, Agent, Offboard runtime, ROS hardware node or serial-device access.
+The validated source was later committed as `73569b2d`, pushed to
+`agent/px4-v116-status-contract`, and opened as draft PR #2; publishing did not
+perform any hardware or runtime action.

@@ -19,10 +19,15 @@
 
 - PX4 v1.16.2 默认 `dds_topics.yaml` 不导出 `/fmu/out/rc_channels`。Offboard
   保留该安全互锁，因此控制 profile 必须使用经过锁定和验证的定制 firmware。
+- PX4 v1.16.2 的 `VehicleStatus.msg` 为 `MESSAGE_VERSION=1`，实机导出
+  `/fmu/out/vehicle_status_v1`。Offboard 草稿 PR #2 已用集中常量修复订阅并通过
+  9 项 gtest；该修复没有放宽任何运行门禁，`rc_channels` profile 完成前仍必须
+  fail-closed。
 - baseline 不要求 `/fmu/in/landing_target_pose`；`enable_precland=false` 时视觉节点
   不创建该 publisher。精降只能由独立 firmware/profile 显式启用。
-- 当前实机 `UXRCE_DDS_CFG=0`，唯一已识别的 `/dev/ttyTHS0` 被 MAVLink TELEM2
-  占用。在独立 transport 获批前，所有实机 DDS profile 均不可启动。
+- 2026-07-24 参数快照中的 `UXRCE_DDS_CFG=0` 与 MAVLink TELEM2 状态已经过期。
+  维护者调整后，`/dev/ttyTHS0:921600` 已成功建立 XRCE session；当前只批准
+  显式授权的 `px4-read-only` 验证，不代表 bench 或 production 获批。
 
 ## 2. 上层命令白名单
 
@@ -48,7 +53,7 @@ XOR future_control_authority_node
 | 反馈 | 权威来源 | 非权威来源 |
 |---|---|---|
 | `/fmu/out/vehicle_odometry` | PX4 → Agent | bag/mock，除非隔离测试 |
-| `/fmu/out/vehicle_status` | PX4 → Agent | 任意脚本 |
+| `/fmu/out/vehicle_status_v1` | PX4 → Agent | 任意脚本 |
 | `/fmu/out/rc_channels` | PX4 → Agent | `mock_rc_control.py` |
 | `/fmu/out/battery_status` | PX4 → Agent | 任意脚本 |
 | `/fmu/out/vehicle_land_detected` | PX4 → Agent | 任意脚本 |
@@ -97,13 +102,23 @@ XOR future_control_authority_node
 | mock feedback | 否 | 独立 domain | 否 | 测试专用 | 否 | 否 |
 | arm/mode/setpoint | 否 | 否 | 否 | SITL 门禁 | 默认禁止 | 安全门通过后 |
 
-`px4-read-only`、`bench-dds` 和 `production-dds` 当前均受独立 transport 与定制
-`rc_channels` firmware 阻塞。表中的 “1” 表示通过相应门禁后的最大允许实例数，
-不表示当前获准启动。
+`px4-read-only` transport 已在显式授权下验证通过。`bench-dds` 和
+`production-dds` 仍受定制 `rc_channels` firmware、参数/domain/回滚证据和控制
+安全门阻塞。表中的 “1” 表示通过相应门禁后的最大允许实例数，不表示默认获准启动；
+本地 topic 契约测试通过也不构成启动授权。
 
 ## 7. 后续静态与运行验证
 
-以下命令只允许在对应隔离 profile 已实现后使用；本轮未执行：
+2026-07-25 已在 `px4-read-only` profile 执行输出 discovery 和以下只读检查：
+
+```bash
+ros2 topic list -t
+ros2 topic info -v /fmu/out/vehicle_status_v1
+ros2 topic info -v /fmu/out/battery_status
+ros2 topic info -v /fmu/out/rc_channels
+```
+
+输入与控制权检查只允许在对应隔离 profile 已实现后使用：
 
 ```bash
 ros2 node list

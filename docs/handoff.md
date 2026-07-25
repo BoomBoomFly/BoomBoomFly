@@ -1,8 +1,8 @@
 # BoomBoomFly 窗口交接
 
-> 更新时间：2026-07-24T23:23:12+08:00
+> 更新时间：2026-07-25T21:56:46+08:00
 > 工作区：`/home/c/BoomBoomFly`
-> 当前阶段：P0-03，**SOFTWARE FIXED / HARDWARE BLOCKED / FAIL-CLOSED**
+> 当前阶段：P0-03，**OFFBOARD CONTRACT PUBLISHED / FIRMWARE PROFILE BLOCKED / FAIL-CLOSED**
 > production：**DISABLED**
 
 ## 给新窗口的直接指令
@@ -10,11 +10,12 @@
 ```text
 读取 /home/c/BoomBoomFly/docs/handoff.md。
 保留四个第三方 dirty checkout，不 reset/clean/覆盖。
-从“下一步”开始：先审阅 Offboard PR #1 与对应根 lock/docs PR，再在隔离
-PX4 v1.16.2 源码/SITL 中准备并验证 rc_channels DDS topic firmware profile；
-独立 DDS transport 需要维护者给出硬件选择并明确授权。未经明确授权，不写 PX4
-参数、不刷固件、不 arm、不切 mode、不发送 setpoint/vehicle command，也不启动
-Agent、Offboard 或视觉注入链路。
+Offboard 对 `/fmu/out/vehicle_status_v1` 的修复已推送为 `73569b2d`，草稿 PR #2，
+9 项 gtest 已通过。从“下一步”开始：准备隔离 PX4-Autopilot v1.16.2 源码、
+锁定工具链和证据模板，再为 DDS 输出增加 `rc_channels` 并完成静态生成、SITL
+和 FMUv3 构建验证，但不刷写。TELEM2 是专用 DDS transport，
+不得与 MAVLink 复用。未经新授权，不访问硬件、不写 PX4 参数、不刷固件、不 arm、
+不切 mode、不发送 setpoint/vehicle command，也不启动 Agent、Offboard 或视觉链路。
 ```
 
 ## 1. 当前仓库状态
@@ -22,11 +23,11 @@ Agent、Offboard 或视觉注入链路。
 | 项目 | 当前值 |
 |---|---|
 | 根仓库 | `/home/c/BoomBoomFly` |
-| 根发布分支 / base | `agent/update-offboard-lock-docs` / `master@3b296de0` |
-| 根工作树 | 本发布仅更新 Offboard lock 与状态文档 |
+| 根发布分支 / base | `agent/update-p0-03-next-phase-docs` / `master@cdc80ef` |
+| 根工作树 | 发布分支；更新 P0-03 状态、证据和下一阶段安排 |
 | Offboard origin | `https://github.com/BoomBoomFly/offboard_cpp.git` |
-| Offboard HEAD | `agent/px4-v116-rc-safety@0c41de3cf8d56982bd67a5be56a9e281f3d9fc8f`，clean |
-| Offboard 对齐 | 根 lock 已固定 `0c41de3e`；草稿 PR [#1](https://github.com/BoomBoomFly/offboard_cpp/pull/1) 待合并至 `DDS` |
+| Offboard HEAD | `agent/px4-v116-status-contract@73569b2db19b6178bfa0a30ac38911175517cc97`，clean |
+| Offboard 对齐 | 根 lock 仍固定 `0c41de3e`；草稿 PR [#2](https://github.com/BoomBoomFly/offboard_cpp/pull/2) 待审阅至 `DDS` |
 | 旧 Offboard 备份 | 已按维护者要求永久删除；不存在备份 |
 
 已仅恢复原先缺失的 exact checkout：
@@ -39,7 +40,8 @@ Agent、Offboard 或视觉注入链路。
 
 全部 15 项经逐项只读核验，HEAD 与 origin 均匹配 lock。`librealsense`、
 `navigation_msgs`、`realsense-ros`、`vision_opencv` 是保留的既有 dirty 仓库；
-Offboard 修复已在独立分支提交并推送，其余 11 项 clean。
+Offboard 的 RC 修复已随 PR #1 合并，`vehicle_status_v1` 契约修复已推送为
+`73569b2d` 并创建草稿 PR #2；其余 11 项 clean。
 
 正式检查仍会 fail-closed，但现在会先完成整个 manifest 的只读审计：
 
@@ -47,16 +49,17 @@ Offboard 修复已在独立分支提交并推送，其余 11 项 clean。
 bash Scripts/installation/uav_px4_dds_install.sh --verify-only --skip-package-check
 ```
 
-当前结果为 `planned=15 verified=15 blockers=4`，退出状态码 1。四个 blocker
-分别是按维护者要求暂不处理的 `librealsense`、`navigation_msgs`、
-`realsense-ros` 和 `vision_opencv`；全部 HEAD 与 origin 仍匹配 lock。
+当前结果为 `planned=15 verified=14 blockers=5`，退出状态码 1。四个既有 blocker
+仍是按维护者要求暂不处理的 `librealsense`、`navigation_msgs`、`realsense-ros`
+和 `vision_opencv`；第五个是 Offboard 已前进到 PR #2 提交而根 lock 尚未更新。
+全部仓库 origin 仍匹配预期；审计保持 fail-closed。
 命令没有 clone、fetch、checkout、更新 submodule 或覆盖任何既有仓库。完整记录见
 [`evidence/OFFBOARD_PX4_MSGS_COMPAT_20260724.md`](evidence/OFFBOARD_PX4_MSGS_COMPAT_20260724.md)。
 
-## 2. 实机 PX4 基线
+## 2. 实机 PX4 基线与 transport 变化
 
-所有数据通过 `/dev/ttyTHS0:921600` 只读获取。采集时飞控未解锁、已落地；
-没有参数写入、切模、控制命令或刷写。
+下列固件信息和参数通过 `/dev/ttyTHS0:921600` 于 2026-07-24 只读获取。
+采集时飞控未解锁、已落地；采集过程没有参数写入、切模、控制命令或刷写。
 
 | 字段 | 实测值 |
 |---|---|
@@ -75,7 +78,7 @@ bash Scripts/installation/uav_px4_dds_install.sh --verify-only --skip-package-ch
 [`evidence/PX4_PARAMS_20260724T203458+0800.json`](evidence/PX4_PARAMS_20260724T203458+0800.json)。
 文件同时保留 MAVLink wire float、参数类型和解码值。
 
-关键参数：
+参数调整前的关键参数：
 
 | 参数 | 值 / 结论 |
 |---|---|
@@ -92,18 +95,27 @@ bash Scripts/installation/uav_px4_dds_install.sh --verify-only --skip-package-ch
 | `EKF2_EV_DELAY` | `0`，未标定 |
 | `EKF2_EV_POS_X/Y/Z` | `0/0/0`，lever arm 未配置 |
 
-结论：当前 `/dev/ttyTHS0` 是 MAVLink TELEM2，不是可直接启动 serial Agent 的
-独立 XRCE-DDS transport。若要改参数或端口，必须另开硬件维护审批。
+2026-07-25，维护者已自行调整 TELEM2/MAVLink/DDS 参数，并授权重新测试 DDS。
+调整后的精确参数值尚未重新采集；当前没有 PX4 USB 或其他 MAVLink 通道可用于
+只读参数快照。因此上表及 JSON 必须视为**调整前历史快照**，不得代表当前配置。
+
+调整后的运行验证已确认：
+
+- `/dev/ttyTHS0:921600` 在 Agent 启动前无进程占用；
+- PX4 与 Micro XRCE-DDS Agent v2.4.2 建立 client `0x00000001` session；
+- DDS participant `/px4_micro_xrce_dds` 创建成功并持续写入真实 payload；
+- 测试结束后 Agent 已停止，串口已释放。
 
 尚缺：实际烧录 `.px4` artifact SHA-256，以及原构建目录的 clean/patch/
-submodule 证据。实机 git hash只能确认二进制对应官方 release commit。
+submodule 证据；还缺调整后的 PX4 参数快照。实机 git hash只能确认二进制对应
+官方 release commit。
 
 ## 3. Companion 硬件枚举
 
 | 设备 | 当前观察 |
 |---|---|
 | 主机 | NVIDIA Orin Nano Developer Kit，aarch64，kernel 5.10.104-tegra |
-| PX4 UART | `/dev/ttyTHS0`，Jetson 平台 UART；用户 `c` 在 `dialout` |
+| PX4 UART | `/dev/ttyTHS0:921600`，已验证为专用 XRCE-DDS transport；用户 `c` 在 `dialout` |
 | PX4 USB | 未发现 `/dev/ttyACM*` 或 PX4 USB 设备 |
 | RealSense | D435，USB3 5000M，serial `227323021826` |
 | USB Camera2 | VID:PID `0bda:5858`，serial `200901010001` |
@@ -130,14 +142,26 @@ PX4 v1.16.2 官方默认 `dds_topics.yaml` 已确认包含：
 上游来源：
 <https://raw.githubusercontent.com/PX4/PX4-Autopilot/v1.16.2/src/modules/uxrce_dds_client/dds_topics.yaml>。
 
+2026-07-25 实机只读 discovery 进一步确认：
+
+- `/fmu/out/battery_status`、`vehicle_land_detected`、`vehicle_odometry`、
+  `vehicle_command_ack` 等默认输出均存在；
+- `VehicleStatus.msg` 的 `MESSAGE_VERSION=1`，实机实际导出
+  `/fmu/out/vehicle_status_v1`；
+- discovery 当时锁定的 Offboard 仍订阅 `/fmu/out/vehicle_status`，因此收不到
+  实机状态；后续本地修复见第 5 节；
+- `/fmu/out/rc_channels` 仍不存在，`ros2 topic info` 返回 unknown topic；
+- `BatteryStatus` 已成功解码真实数据，例如 `connected=true`、4 cells、电压约 16 V。
+
 决策已冻结：
 
 - `/fmu/out/rc_channels` 保留为 Offboard 安全互锁的硬依赖；未来必须使用定制的
   PX4 v1.16.2 DDS firmware profile 导出该 topic。
 - baseline 不要求 `/fmu/in/landing_target_pose`；`vision_to_dds` 默认
   `enable_precland=false`，关闭时不创建该 publisher。精降使用独立 profile。
-Agent 配置无法凭空增加 firmware 未生成的 topic。
-本轮没有构建/刷写 firmware，也没有修改 PX4 参数。
+Agent 配置无法凭空增加 firmware 未生成的 topic。本次验证没有构建或刷写
+firmware，也没有由本工作区发送 PX4 参数写入或任何控制消息；参数调整由维护者
+在验证前完成。
 
 ## 5. Offboard / px4_msgs 兼容性
 
@@ -172,10 +196,18 @@ Summary: 8 tests, 0 errors, 0 failures, 0 skipped
 持久证据见
 [`evidence/OFFBOARD_PX4_MSGS_COMPAT_20260724.md`](evidence/OFFBOARD_PX4_MSGS_COMPAT_20260724.md)。
 
-发布状态：Offboard 提交 `0c41de3e` 已推送至
-`agent/px4-v116-rc-safety`，草稿 PR
-[BoomBoomFly/offboard_cpp#1](https://github.com/BoomBoomFly/offboard_cpp/pull/1)
-目标为 `DDS`。根 lock/docs 发布分支依赖该 PR，必须在 Offboard PR 合并后再合并。
+实机 DDS 验证发现的状态 topic 契约已修复并发布为草稿 PR #2：
+
+- `include/topics.hpp` 集中定义 `fmu/out/vehicle_status_v1`；
+- `src/node.cpp` 的生产订阅直接引用该常量；
+- `test/test_topic_contract.cpp` 检查精确 topic、生产引用和旧字面量回归；
+- 隔离构建 `px4_msgs`、`offboard_cpp` 成功，全量 CTest 2/2 executable、
+  共 9 个 gtest case 全部通过，`git diff --check` 通过。
+
+修复提交为 `73569b2db19b6178bfa0a30ac38911175517cc97`，分支
+`agent/px4-v116-status-contract`，草稿 PR [#2](https://github.com/BoomBoomFly/offboard_cpp/pull/2)
+目标为 `DDS`。根 lock 继续保持 `0c41de3e`，待 PR #2 合并后再更新。
+由于 `/fmu/out/rc_channels` 仍缺失，任何实机 Offboard 运行继续 fail-closed。
 
 ## 6. 仍有效的架构约束
 
@@ -191,21 +223,29 @@ Summary: 8 tests, 0 errors, 0 failures, 0 skipped
 
 ## 7. 下一步
 
-按顺序执行：
+Offboard 草稿 PR #2 已发布；根 lock 更新等待合并。下一阶段分为三条工作线；
+A、B 可离线并行，C 只准备模板：
 
-1. 先审阅并合并 Offboard PR #1，再合并依赖它的根 lock/docs PR；保留四个第三方 dirty checkout。
-2. 在隔离的 PX4-Autopilot v1.16.2 源码中为 DDS 输出加入 `rc_channels`，锁定
-   firmware source/submodule/toolchain 与 artifact SHA-256；先做静态生成和 SITL。
-3. 选择独立 DDS transport；当前 `/dev/ttyTHS0` 是 MAVLink TELEM2，禁止复用。
-4. 根据所选 transport 明确 domain/端口，并验证与单机根 namespace `/` 契约。
-5. 任何 PX4 参数写入、重启或刷固件前，必须取得维护者明确授权并准备回滚。
-6. firmware/SITL 通过后才做 Agent 只读链路；不启动 Offboard 或视觉注入。
-7. Offboard 继续经过 SITL、故障注入和 control-authority 安全门，再到拆桨台架。
+1. **A — 可复现源码与工具链**：在隔离目录取得 PX4-Autopilot
+   `v1.16.2@54f0455ffcd755534539a7cf33a09a20bf71d29d`，初始化并记录递归
+   submodule；锁定 OS/架构、容器 digest 或交叉编译器、CMake、Ninja 和 Python。
+2. **B — `rc_channels` firmware profile**：确认 PX4 源码与锁定 `px4_msgs`
+   的 `RcChannels.msg` 完全一致，只在 `dds_topics.yaml` publications 增加
+   `/fmu/out/rc_channels` / `px4_msgs::msg::RcChannels`，不加入精降 topic。
+3. 使用 PX4 自身构建流程完成静态生成，在生成物中确认对应 DataWriter；随后在
+   隔离 SITL + UDP Agent 中验证 topic type、QoS、唯一 PX4 publisher 和至少一帧
+   来自 PX4 的 payload，禁止用 mock publisher 作为验收证据。
+4. SITL 通过后构建 `px4_fmu-v3_default`，记录 flash/RAM 余量，并保存源码 patch、
+   submodule 清单、构建日志和最终 `.px4` SHA-256；本阶段不刷写。
+5. **C — transport 证据模板**：离线定义调整后参数、数字 DDS domain、Agent binary、
+   端口 owner、原始 transcript 和回滚表的采集格式。实际访问硬件、启动 Agent 或
+   读取调整后参数仍需新的明确授权；没有独立 MAVLink/NSH 通道时不得复用 TELEM2。
+6. 完成上述软件门后，再安排 Agent 只读复验；Offboard 仍需 SITL、故障注入、
+   control-authority 安全门和拆桨台架，production 继续禁用。
 
-当前硬阻塞：没有独立 DDS 物理 transport，实机仅暴露被 MAVLink 占用的 TELEM2；
-参数快照仅发现 `UXRCE_DDS_CFG=0`。因此不能安全地自行指定串口/domain 或启动 Agent。
-可继续的纯软件工作是准备 PX4 v1.16.2 topic patch、firmware 锁定证据和 SITL 测试；
-硬件参数、刷写和串口占用必须串行且另行授权。
+当前主阻塞是本机缺少隔离 PX4-Autopilot 源码、`arm-none-eabi-gcc/g++`、`gz-sim`
+和 PATH 中的 MicroXRCEAgent，以及 firmware 尚未导出 `rc_channels`。TELEM2 transport
+本身已只读验证通过，但精确参数、domain 与回滚值仍待另行授权采集。
 
 ## 8. 安全与操作边界
 
@@ -223,15 +263,15 @@ Summary: 8 tests, 0 errors, 0 failures, 0 skipped
 保留文档：
 
 - 本文件；
-- [`README.md`](README.md)；
 - [`CONTROL_AUTHORITY_MATRIX.md`](CONTROL_AUTHORITY_MATRIX.md)；
 - [`adr/0001-dds-only-control-authority.md`](adr/0001-dds-only-control-authority.md)；
 - 两份 `evidence/` 原始证据。
 
 已删除八份被本 handoff 取代的旧状态报告：架构、构建、硬件、阶段任务、PX4
-基线、仓库状态、风险清单、源码基线。旧 Offboard 备份也已永久删除。
+基线、仓库状态、风险清单、源码基线。旧 Offboard 备份也已永久删除。本轮另删除
+与根 README 文档索引重复的 `docs/README.md`。
 
-本次另删除被 `.gitignore` 明确排除的可再生 `build/`、`install/`、`log/`，约
+上一轮另删除被 `.gitignore` 明确排除的可再生 `build/`、`install/`、`log/`，约
 227 MB；验证结果已保存在 evidence，需要时可重新执行 colcon 生成这些目录。
 
 最终验证应包括：
@@ -243,4 +283,6 @@ git -C src/offboard_cpp status --short --branch
 git status --short --branch
 ```
 
-根基线 `3b296de0` 已在 `master`；Offboard `0c41de3e` 已推送并创建草稿 PR #1。本 lock/docs 更新在独立发布分支中。
+根基线 `cdc80ef` 已在 `master`；Offboard `vehicle_status_v1` 修复 `73569b2d`
+已推送并创建草稿 PR #2；本次状态与下一阶段文档位于
+`agent/update-p0-03-next-phase-docs`。
