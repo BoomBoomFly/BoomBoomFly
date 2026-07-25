@@ -136,9 +136,9 @@ normalized mapping.
   merged to `DDS` as `c4a95b95fc70cec2e807a4bdcf4c672961a3307a`
 - follow-up commit: `73569b2db19b6178bfa0a30ac38911175517cc97`
 - follow-up branch: `agent/px4-v116-status-contract`
-- draft PR: [BoomBoomFly/offboard_cpp#2](https://github.com/BoomBoomFly/offboard_cpp/pull/2),
-  targeting `DDS`
-- the companion BoomBoomFly lock remains at `0c41de3e` until PR #2 is merged
+- PR [BoomBoomFly/offboard_cpp#2](https://github.com/BoomBoomFly/offboard_cpp/pull/2)
+  merged to `DDS` as `cded3dc5b6906420db3767abd82b2df7ba6ea9f0`
+- the companion BoomBoomFly lock now pins that merge commit
 
 ## Topic decision
 

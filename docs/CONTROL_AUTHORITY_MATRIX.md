@@ -20,7 +20,7 @@
 - PX4 v1.16.2 默认 `dds_topics.yaml` 不导出 `/fmu/out/rc_channels`。Offboard
   保留该安全互锁，因此控制 profile 必须使用经过锁定和验证的定制 firmware。
 - PX4 v1.16.2 的 `VehicleStatus.msg` 为 `MESSAGE_VERSION=1`，实机导出
-  `/fmu/out/vehicle_status_v1`。Offboard 草稿 PR #2 已用集中常量修复订阅并通过
+  `/fmu/out/vehicle_status_v1`。Offboard 已通过 PR #2 合并集中常量修复并通过
   9 项 gtest；该修复没有放宽任何运行门禁，`rc_channels` profile 完成前仍必须
   fail-closed。
 - baseline 不要求 `/fmu/in/landing_target_pose`；`enable_precland=false` 时视觉节点

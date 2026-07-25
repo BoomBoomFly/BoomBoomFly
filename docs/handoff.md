@@ -1,6 +1,6 @@
 # BoomBoomFly 窗口交接
 
-> 更新时间：2026-07-25T21:56:46+08:00
+> 更新时间：2026-07-25T22:13:20+08:00
 > 工作区：`/home/c/BoomBoomFly`
 > 当前阶段：P0-03，**OFFBOARD CONTRACT PUBLISHED / FIRMWARE PROFILE BLOCKED / FAIL-CLOSED**
 > production：**DISABLED**
@@ -10,8 +10,9 @@
 ```text
 读取 /home/c/BoomBoomFly/docs/handoff.md。
 保留四个第三方 dirty checkout，不 reset/clean/覆盖。
-Offboard 对 `/fmu/out/vehicle_status_v1` 的修复已推送为 `73569b2d`，草稿 PR #2，
-9 项 gtest 已通过。从“下一步”开始：准备隔离 PX4-Autopilot v1.16.2 源码、
+Offboard 对 `/fmu/out/vehicle_status_v1` 的修复已通过 PR #2 合并到
+`DDS@cded3dc5`，根 lock 已同步，9 项 gtest 已通过。从“下一步”开始：准备隔离
+PX4-Autopilot v1.16.2 源码、
 锁定工具链和证据模板，再为 DDS 输出增加 `rc_channels` 并完成静态生成、SITL
 和 FMUv3 构建验证，但不刷写。TELEM2 是专用 DDS transport，
 不得与 MAVLink 复用。未经新授权，不访问硬件、不写 PX4 参数、不刷固件、不 arm、
@@ -23,11 +24,11 @@ Offboard 对 `/fmu/out/vehicle_status_v1` 的修复已推送为 `73569b2d`，草
 | 项目 | 当前值 |
 |---|---|
 | 根仓库 | `/home/c/BoomBoomFly` |
-| 根发布分支 / base | `agent/update-p0-03-next-phase-docs` / `master@cdc80ef` |
-| 根工作树 | 发布分支；更新 P0-03 状态、证据和下一阶段安排 |
+| 根发布分支 / base | `agent/follow-latest-offboard` / `master@16a0d8a` |
+| 根工作树 | 发布分支；同步 Offboard 合并提交与精确 lock |
 | Offboard origin | `https://github.com/BoomBoomFly/offboard_cpp.git` |
-| Offboard HEAD | `agent/px4-v116-status-contract@73569b2db19b6178bfa0a30ac38911175517cc97`，clean |
-| Offboard 对齐 | 根 lock 仍固定 `0c41de3e`；草稿 PR [#2](https://github.com/BoomBoomFly/offboard_cpp/pull/2) 待审阅至 `DDS` |
+| Offboard HEAD | `DDS@cded3dc5b6906420db3767abd82b2df7ba6ea9f0`，clean |
+| Offboard 对齐 | 根 lock 固定 `cded3dc5`；PR [#2](https://github.com/BoomBoomFly/offboard_cpp/pull/2) 已合并 |
 | 旧 Offboard 备份 | 已按维护者要求永久删除；不存在备份 |
 
 已仅恢复原先缺失的 exact checkout：
@@ -40,8 +41,8 @@ Offboard 对 `/fmu/out/vehicle_status_v1` 的修复已推送为 `73569b2d`，草
 
 全部 15 项经逐项只读核验，HEAD 与 origin 均匹配 lock。`librealsense`、
 `navigation_msgs`、`realsense-ros`、`vision_opencv` 是保留的既有 dirty 仓库；
-Offboard 的 RC 修复已随 PR #1 合并，`vehicle_status_v1` 契约修复已推送为
-`73569b2d` 并创建草稿 PR #2；其余 11 项 clean。
+Offboard 的 RC 修复已随 PR #1 合并，`vehicle_status_v1` 契约修复已随 PR #2
+合并到 `DDS@cded3dc5`，根 lock 已同步；其余 11 项 clean。
 
 正式检查仍会 fail-closed，但现在会先完成整个 manifest 的只读审计：
 
@@ -49,9 +50,9 @@ Offboard 的 RC 修复已随 PR #1 合并，`vehicle_status_v1` 契约修复已�
 bash Scripts/installation/uav_px4_dds_install.sh --verify-only --skip-package-check
 ```
 
-当前结果为 `planned=15 verified=14 blockers=5`，退出状态码 1。四个既有 blocker
+当前结果为 `planned=15 verified=15 blockers=4`，退出状态码 1。四个既有 blocker
 仍是按维护者要求暂不处理的 `librealsense`、`navigation_msgs`、`realsense-ros`
-和 `vision_opencv`；第五个是 Offboard 已前进到 PR #2 提交而根 lock 尚未更新。
+和 `vision_opencv`；Offboard HEAD、origin 与根 lock 已重新对齐。
 全部仓库 origin 仍匹配预期；审计保持 fail-closed。
 命令没有 clone、fetch、checkout、更新 submodule 或覆盖任何既有仓库。完整记录见
 [`evidence/OFFBOARD_PX4_MSGS_COMPAT_20260724.md`](evidence/OFFBOARD_PX4_MSGS_COMPAT_20260724.md)。
@@ -196,7 +197,7 @@ Summary: 8 tests, 0 errors, 0 failures, 0 skipped
 持久证据见
 [`evidence/OFFBOARD_PX4_MSGS_COMPAT_20260724.md`](evidence/OFFBOARD_PX4_MSGS_COMPAT_20260724.md)。
 
-实机 DDS 验证发现的状态 topic 契约已修复并发布为草稿 PR #2：
+实机 DDS 验证发现的状态 topic 契约已修复并通过 PR #2 合并：
 
 - `include/topics.hpp` 集中定义 `fmu/out/vehicle_status_v1`；
 - `src/node.cpp` 的生产订阅直接引用该常量；
@@ -205,8 +206,8 @@ Summary: 8 tests, 0 errors, 0 failures, 0 skipped
   共 9 个 gtest case 全部通过，`git diff --check` 通过。
 
 修复提交为 `73569b2db19b6178bfa0a30ac38911175517cc97`，分支
-`agent/px4-v116-status-contract`，草稿 PR [#2](https://github.com/BoomBoomFly/offboard_cpp/pull/2)
-目标为 `DDS`。根 lock 继续保持 `0c41de3e`，待 PR #2 合并后再更新。
+`agent/px4-v116-status-contract`，PR [#2](https://github.com/BoomBoomFly/offboard_cpp/pull/2)
+已合并为 `DDS@cded3dc5b6906420db3767abd82b2df7ba6ea9f0`；根 lock 已同步。
 由于 `/fmu/out/rc_channels` 仍缺失，任何实机 Offboard 运行继续 fail-closed。
 
 ## 6. 仍有效的架构约束
@@ -223,8 +224,8 @@ Summary: 8 tests, 0 errors, 0 failures, 0 skipped
 
 ## 7. 下一步
 
-Offboard 草稿 PR #2 已发布；根 lock 更新等待合并。下一阶段分为三条工作线；
-A、B 可离线并行，C 只准备模板：
+Offboard PR #2 与根文档 PR #2 已合并，根 lock 已跟随最新 `DDS@cded3dc5`。
+下一阶段分为三条工作线；A、B 可离线并行，C 只准备模板：
 
 1. **A — 可复现源码与工具链**：在隔离目录取得 PX4-Autopilot
    `v1.16.2@54f0455ffcd755534539a7cf33a09a20bf71d29d`，初始化并记录递归
@@ -283,6 +284,6 @@ git -C src/offboard_cpp status --short --branch
 git status --short --branch
 ```
 
-根基线 `cdc80ef` 已在 `master`；Offboard `vehicle_status_v1` 修复 `73569b2d`
-已推送并创建草稿 PR #2；本次状态与下一阶段文档位于
-`agent/update-p0-03-next-phase-docs`。
+根文档更新已通过 PR #2 合并为 `master@16a0d8a`；Offboard
+`vehicle_status_v1` 修复已通过 PR #2 合并为 `DDS@cded3dc5`。本次根 lock
+同步位于 `agent/follow-latest-offboard`。
