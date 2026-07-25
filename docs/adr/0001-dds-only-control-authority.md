@@ -179,7 +179,7 @@ MAVROS/MAVLink 不作为备用控制链，不进入 production、bench、SITL �
 - 本地旧源码仍可能被人工误启动，需 P1-03 的 profile 隔离和后续安全清理。
 - 单机根 namespace 暂不支持 swarm。
 - 默认 PX4 v1.16.2 DDS topic 集缺少 RC 安全互锁所需的 `rc_channels`。
-- PX4 v1.16.2 实机导出 `/fmu/out/vehicle_status_v1`；Offboard 草稿 PR #2 已修复
+- PX4 v1.16.2 实机导出 `/fmu/out/vehicle_status_v1`；Offboard PR #2 已合并修复
   订阅并通过 9 项 gtest，但这不替代 firmware、SITL 或运行安全门。
 - production 在 transport 参数/domain/回滚证据、定制 `rc_channels` firmware、
   P0-05、P1-03、P1-04 和 P1-09 完成前保持禁用。
