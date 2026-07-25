@@ -6,11 +6,15 @@ BoomBoomFly 是 Ubuntu 20.04 / ROS 2 Foxy / PX4 的无人机伴随计算机工�
 ## 当前状态
 
 - 工作区：`/home/c/BoomBoomFly`
-- Offboard：兼容修复 `0c41de3e` 已推送至 `agent/px4-v116-rc-safety`，草稿 PR [#1](https://github.com/BoomBoomFly/offboard_cpp/pull/1) 待合并至 `DDS`
+- Offboard：`vehicle_status_v1` 契约修复已推送为 `73569b2d`，草稿 PR
+  [#2](https://github.com/BoomBoomFly/offboard_cpp/pull/2)；与原 RC 测试合计
+  9/9 gtest 通过
 - 实机：PX4 v1.16.2、PX4_FMU_V3、Generic Quad X
-- P0-03：`SOFTWARE FIXED / HARDWARE BLOCKED / FAIL-CLOSED`
-- 构建：`px4_msgs`、`offboard_cpp` 通过；RC gtest 7/7 通过
-- 阻塞：缺少独立 DDS transport，默认 firmware 未导出 `rc_channels`
+- P0-03：`OFFBOARD CONTRACT PUBLISHED / FIRMWARE PROFILE BLOCKED / FAIL-CLOSED`
+- 构建：`px4_msgs`、`offboard_cpp` 隔离构建通过；gtest 9/9 通过
+- DDS：`/dev/ttyTHS0:921600` 已建立 XRCE session 并验证真实输出 payload
+- 下一阶段：隔离准备 PX4 v1.16.2 源码/工具链，为 firmware profile 导出
+  `/fmu/out/rc_channels`，依次完成静态生成、SITL 和 FMUv3 构建取证
 - production：禁用
 
 完整的当前状态、实机证据、验证结果和下一步只维护在
