@@ -25,7 +25,7 @@
     {"name": "vision_to_mavros", "path": "src/ros2_foxy_vision_to_mavros"},
     {"name": "px4_bringup", "path": "src/px4_bringup"},
     {"name": "serial", "path": "src/serial-ros2"},
-    {"name": "serial_driver", "path": "src/serial_driver_ros2"}
+    {"name": "serial_driver", "path": "src/serial_driver_ros"}
   ],
   "managed_nonproduction_packages": [
     {"name": "costmap_queue", "path": "src/navigation2/nav2_dwb_controller/costmap_queue"},
@@ -42,7 +42,9 @@
     {"name": "imu_complementary_filter", "path": "src/imu_tools/imu_complementary_filter"},
     {"name": "imu_filter_madgwick", "path": "src/imu_tools/imu_filter_madgwick"},
     {"name": "imu_tools", "path": "src/imu_tools/imu_tools"},
+    {"name": "image_geometry", "path": "src/vision_opencv/image_geometry"},
     {"name": "librealsense2", "path": "src/librealsense"},
+    {"name": "map_msgs", "path": "src/navigation_msgs/map_msgs"},
     {"name": "microxrcedds_agent", "path": "src/Micro-XRCE-DDS-Agent"},
     {"name": "move_base_msgs", "path": "src/navigation_msgs/move_base_msgs"},
     {"name": "nav2_amcl", "path": "src/navigation2/nav2_amcl"},
