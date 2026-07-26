@@ -80,6 +80,29 @@ def load_json(path: Path) -> Any:
         raise InventoryError("cannot read JSON file {}: {}".format(path, exc))
 
 
+def validate_json_schema(document: Any, schema: Any, label: str) -> None:
+    try:
+        import jsonschema
+    except ImportError:
+        raise InventoryError("jsonschema is required to validate {}".format(label))
+    try:
+        validator_class = jsonschema.validators.validator_for(schema)
+        validator_class.check_schema(schema)
+        errors = sorted(
+            validator_class(schema, format_checker=jsonschema.FormatChecker()).iter_errors(
+                document
+            ),
+            key=lambda item: list(item.absolute_path),
+        )
+    except jsonschema.exceptions.SchemaError as exc:
+        raise InventoryError("invalid {} schema: {}".format(label, exc.message))
+    if errors:
+        location = ".".join(str(item) for item in errors[0].absolute_path) or "<root>"
+        raise InventoryError(
+            "{} schema violation at {}: {}".format(label, location, errors[0].message)
+        )
+
+
 def require_keys(value: Dict[str, Any], keys: Sequence[str], context: str) -> None:
     missing = [key for key in keys if key not in value]
     if missing:
@@ -561,6 +584,15 @@ def capture_environment(root: Path, px4_source: Optional[str]) -> Dict[str, Any]
 
 def compare_current(expected: Dict[str, Any], actual: Dict[str, Any]) -> List[str]:
     errors = []
+    for field in ("origin", "branch", "head"):
+        if expected["repository"][field] != actual["repository"][field]:
+            errors.append(
+                "repository.{} expected {!r} but found {!r}".format(
+                    field,
+                    expected["repository"][field],
+                    actual["repository"][field],
+                )
+            )
     for section, names in (
         ("platform", ("os", "kernel", "architecture")),
     ):
@@ -586,8 +618,27 @@ def compare_current(expected: Dict[str, Any], actual: Dict[str, Any]) -> List[st
         actual["ros"]["distribution"]["version"],
     ):
         errors.append("ROS distribution differs from inventory")
+    expected_ros = {item["name"]: item for item in expected["ros"]["packages"]}
+    actual_ros = {item["name"]: item for item in actual["ros"]["packages"]}
+    if set(expected_ros) != set(actual_ros):
+        errors.append(
+            "ROS package probe set differs: expected {} found {}".format(
+                sorted(expected_ros), sorted(actual_ros)
+            )
+        )
+    for name in sorted(set(expected_ros) & set(actual_ros)):
+        left = expected_ros[name]
+        right = actual_ros[name]
+        if (left["status"], left["version"]) != (right["status"], right["version"]):
+            errors.append(
+                "ROS package {} expected {}/{} but found {}/{}".format(
+                    name, left["status"], left["version"], right["status"], right["version"]
+                )
+            )
     expected_tools = {item["name"]: item for item in expected["tools"]}
     actual_tools = {item["name"]: item for item in actual["tools"]}
+    if set(expected_tools) != set(actual_tools):
+        errors.append("tool probe set differs from inventory")
     for name, left in expected_tools.items():
         right = actual_tools.get(name)
         if right is None:
@@ -602,6 +653,17 @@ def compare_current(expected: Dict[str, Any], actual: Dict[str, Any]) -> List[st
                     right["version"],
                 )
             )
+    for name in ("managed_workspace", "submodules"):
+        left = expected["px4_source"][name]
+        right = actual["px4_source"][name]
+        if (left["status"], left["version"]) != (right["status"], right["version"]):
+            errors.append(
+                "px4_source.{} expected {}/{} but found {}/{}".format(
+                    name, left["status"], left["version"], right["status"], right["version"]
+                )
+            )
+    if expected["px4_source"]["host_search_status"] != actual["px4_source"]["host_search_status"]:
+        errors.append("PX4 host search status differs from inventory")
     return errors
 
 
@@ -666,12 +728,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             else root / "docs/evidence/schemas/px4_source_toolchain_lock.schema.json"
         )
 
-        # Schemas are loaded to fail clearly on missing or malformed files. The
-        # stdlib validator below enforces the safety-critical cross-field rules.
-        load_json(schema_path)
-        load_json(lock_schema_path)
+        environment_schema = load_json(schema_path)
+        lock_schema = load_json(lock_schema_path)
         inventory = load_json(inventory_path)
         lock = load_json(lock_path)
+        validate_json_schema(inventory, environment_schema, "environment inventory")
+        validate_json_schema(lock, lock_schema, "PX4 source/toolchain lock")
         validate_environment(inventory)
         validate_px4_lock(lock)
 
@@ -679,6 +741,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         captured = None
         if args.check_current or args.capture:
             captured = capture_environment(root, args.px4_source)
+            validate_json_schema(captured, environment_schema, "captured environment")
             validate_environment(captured)
         if args.check_current and captured is not None:
             errors.extend(compare_current(inventory, captured))
