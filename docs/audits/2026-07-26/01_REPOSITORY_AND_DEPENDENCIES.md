@@ -1,5 +1,12 @@
 # 01 — 仓库结构与依赖可复现性审查
 
+> 后续变更（2026-07-26T16:46:43+08:00）：归档 `src/px4_bringup` 已对齐上游
+> `DDS@0fbdcbf6`，并加入维护清单和精确 lock，但继续位于
+> `workspace.excluded_packages`。因此下文的 15/16 项统计以及“未受管”分类是审查
+> 执行时的历史快照；更新后的只读结果为 exact
+> `planned=16 verified=16 blockers=4`、moving
+> `planned=17 verified=16 blockers=5`。包发现/误启动风险结论仍然有效。
+
 ## 1. 审查基线与边界
 
 审查时间：2026-07-26（Asia/Shanghai）

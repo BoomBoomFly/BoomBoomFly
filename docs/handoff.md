@@ -1,6 +1,6 @@
 # BoomBoomFly 窗口交接
 
-> 更新时间：2026-07-25T22:13:20+08:00
+> 更新时间：2026-07-26T16:46:43+08:00
 > 工作区：`/home/c/BoomBoomFly`
 > 当前阶段：P0-03，**OFFBOARD CONTRACT PUBLISHED / FIRMWARE PROFILE BLOCKED / FAIL-CLOSED**
 > production：**DISABLED**
@@ -24,11 +24,13 @@ PX4-Autopilot v1.16.2 源码、
 | 项目 | 当前值 |
 |---|---|
 | 根仓库 | `/home/c/BoomBoomFly` |
-| 根发布分支 / base | `agent/follow-latest-offboard` / `master@16a0d8a` |
-| 根工作树 | 发布分支；同步 Offboard 合并提交与精确 lock |
+| 根发布分支 / base | `agent/follow-latest-px4-bringup` / `master@531c9b0` |
+| 根工作树 | 发布分支；同步归档 px4_bringup 的维护分支、精确 lock 与相关文档 |
 | Offboard origin | `https://github.com/BoomBoomFly/offboard_cpp.git` |
 | Offboard HEAD | `DDS@cded3dc5b6906420db3767abd82b2df7ba6ea9f0`，clean |
 | Offboard 对齐 | 根 lock 固定 `cded3dc5`；PR [#2](https://github.com/BoomBoomFly/offboard_cpp/pull/2) 已合并 |
+| px4_bringup HEAD | `DDS@0fbdcbf6ee53d6927de75af1d98f22cf5bd4f917`，clean |
+| px4_bringup 对齐 | 根维护清单跟随 `DDS`，根 lock 固定 `0fbdcbf6`；继续排除出 DDS-only build/launch |
 | 旧 Offboard 备份 | 已按维护者要求永久删除；不存在备份 |
 
 已仅恢复原先缺失的 exact checkout：
@@ -39,10 +41,15 @@ PX4-Autopilot v1.16.2 源码、
 - `src/vision_to_dds`，lock 为
   `0c3a00137f3c90a4051ac1bc1029ec56beb669b6`。
 
-全部 15 项经逐项只读核验，HEAD 与 origin 均匹配 lock。`librealsense`、
+全部 16 项经逐项只读核验，HEAD 与 origin 均匹配 lock。`librealsense`、
 `navigation_msgs`、`realsense-ros`、`vision_opencv` 是保留的既有 dirty 仓库；
 Offboard 的 RC 修复已随 PR #1 合并，`vehicle_status_v1` 契约修复已随 PR #2
-合并到 `DDS@cded3dc5`，根 lock 已同步；其余 11 项 clean。
+合并到 `DDS@cded3dc5`，根 lock 已同步；归档 `px4_bringup` 已对齐上游默认
+`DDS@0fbdcbf6` 并纳入精确 lock，其余 12 项 clean。
+
+`px4_bringup` 的 `DDS` 分支名称不代表其启动链已迁移到 uXRCE-DDS：当前源码仍会
+组合 MAVROS、旧视觉桥和串口节点，并可能争用 `/dev/ttyTHS0:921600`。该包继续位于
+`workspace.excluded_packages`，不得用于 production、默认构建或批准 launch。
 
 正式检查仍会 fail-closed，但现在会先完成整个 manifest 的只读审计：
 
@@ -50,7 +57,7 @@ Offboard 的 RC 修复已随 PR #1 合并，`vehicle_status_v1` 契约修复已�
 bash Scripts/installation/uav_px4_dds_install.sh --verify-only --skip-package-check
 ```
 
-当前结果为 `planned=15 verified=15 blockers=4`，退出状态码 1。四个既有 blocker
+当前结果为 `planned=16 verified=16 blockers=4`，退出状态码 1。四个既有 blocker
 仍是按维护者要求暂不处理的 `librealsense`、`navigation_msgs`、`realsense-ros`
 和 `vision_opencv`；Offboard HEAD、origin 与根 lock 已重新对齐。
 全部仓库 origin 仍匹配预期；审计保持 fail-closed。

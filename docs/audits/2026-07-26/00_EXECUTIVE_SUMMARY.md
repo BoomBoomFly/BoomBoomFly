@@ -1,5 +1,11 @@
 # BoomBoomFly 工程审查执行摘要
 
+> 后续变更（2026-07-26T16:46:43+08:00）：归档 `src/px4_bringup` 已对齐上游
+> `DDS@0fbdcbf6`，并加入维护清单和精确 lock，但继续排除出 DDS-only 构建与运行。
+> 本报告中的 15/16 项统计保留为审查执行时的历史结果；更新后的只读结果为 exact
+> `planned=16 verified=16 blockers=4`、moving
+> `planned=17 verified=16 blockers=5`。
+
 ## 审查对象与基线
 
 | 项目 | 值 |

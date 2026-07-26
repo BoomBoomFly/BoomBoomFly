@@ -22,8 +22,9 @@ BoomBoomFly 是 Ubuntu 20.04 / ROS 2 Foxy / PX4 的无人机伴随计算机工�
 
 ## 源码清单
 
-- `workspace.lock.repos`：15 项精确 SHA，用于可复现恢复。
-- `workspace.repos`：维护分支意图；Offboard 跟随 `DDS`。
+- `workspace.lock.repos`：16 项精确 SHA，用于可复现恢复；其中
+  `px4_bringup@0fbdcbf6` 仅作归档源码，仍被 DDS-only 构建排除。
+- `workspace.repos`：维护分支意图；Offboard 和归档 `px4_bringup` 均跟随 `DDS`。
 - `communication` 是独立 moving dependency，不进入精确 lock。
 
 ## 恢复与审计
@@ -47,17 +48,21 @@ HEAD。发现任何 blocker 时仍完成其余条目，最后返回状态码 1�
 当前工作区的预期结果是：
 
 ```text
-Summary: planned=15 cloned=0 updated=0 verified=15 blockers=4
+Summary: planned=16 cloned=0 updated=0 verified=16 blockers=4
 exit status: 1
 ```
 
-`verified=15` 表示全部 HEAD/origin 与 lock 匹配；`blockers=4` 表示其中四个第三方仓库
+`verified=16` 表示全部 HEAD/origin 与 lock 匹配；`blockers=4` 表示其中四个第三方仓库
 保留了本地修改，两者并不冲突：
 
 - `src/librealsense`
 - `src/navigation_msgs`
 - `src/realsense-ros`
 - `src/vision_opencv`
+
+`src/px4_bringup` 虽由清单跟随上游默认 `DDS` 分支并锁定精确提交，但其内容仍是
+MAVROS/旧串口启动链。它继续列在 `workspace.excluded_packages` 中，不属于
+production、默认 build 或批准 launch 路径。
 
 ### 恢复精确 lock
 

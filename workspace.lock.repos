@@ -1,4 +1,5 @@
-# Exact DDS-only source lock.
+# Exact source lock.
+# px4_bringup is retained only as an archived, build-excluded MAVROS source.
 # ../communication is intentionally omitted: workspace.repos tracks its latest main.
 repositories:
   src/px4_msgs:
@@ -33,6 +34,10 @@ repositories:
     type: git
     url: https://github.com/BoomBoomFly/offboard_cpp.git
     version: cded3dc5b6906420db3767abd82b2df7ba6ea9f0
+  src/px4_bringup:
+    type: git
+    url: https://github.com/AyasOwen/px4_bringup.git
+    version: 0fbdcbf6ee53d6927de75af1d98f22cf5bd4f917
   src/realsense-ros:
     type: git
     url: https://github.com/IntelRealSense/realsense-ros.git

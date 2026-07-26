@@ -31,6 +31,12 @@ repositories:
     type: git
     url: https://github.com/BoomBoomFly/offboard_cpp.git
     version: DDS
+  # Archived MAVROS bringup source. It is tracked for source provenance only
+  # and remains excluded from the DDS-only build by workspace.excluded_packages.
+  src/px4_bringup:
+    type: git
+    url: https://github.com/AyasOwen/px4_bringup.git
+    version: DDS
   src/realsense-ros:
     type: git
     url: https://github.com/IntelRealSense/realsense-ros.git
