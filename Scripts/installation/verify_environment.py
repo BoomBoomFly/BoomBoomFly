@@ -582,6 +582,58 @@ def capture_environment(root: Path, px4_source: Optional[str]) -> Dict[str, Any]
     }
 
 
+def _normalized_probe_command(name: str, command: Sequence[str]) -> Tuple[str, ...]:
+    """Normalize host paths while preserving the exact probe operation."""
+    normalized = list(command)
+    if name == "submodules" and len(normalized) >= 3 and normalized[1] == "-C":
+        normalized[2] = "<PX4_SOURCE>"
+    elif name == "managed_workspace" and normalized[:1] == ["managed-directory-scan"]:
+        normalized = ["managed-directory-scan"] + [
+            "<PX4_CANDIDATE_{}>".format(index)
+            for index, unused in enumerate(normalized[1:], start=1)
+        ]
+    return tuple(normalized)
+
+
+def _normalized_probe_stdout(name: str, stdout: str) -> Tuple[str, ...]:
+    """Return stable lines; recursive submodule output is a semantic list."""
+    lines = tuple(line.rstrip() for line in stdout.splitlines() if line.strip())
+    return tuple(sorted(lines)) if name == "submodules" else lines
+
+
+def compare_px4_probe(
+    name: str, expected: Dict[str, Any], actual: Dict[str, Any]
+) -> List[str]:
+    """Compare reproducibility-relevant PX4 probe provenance."""
+    errors = []
+    for field in ("status", "version", "exit_code"):
+        if expected[field] != actual[field]:
+            errors.append(
+                "px4_source.{}.{} expected {!r} but found {!r}".format(
+                    name, field, expected[field], actual[field]
+                )
+            )
+    left_command = _normalized_probe_command(name, expected["command"])
+    right_command = _normalized_probe_command(name, actual["command"])
+    if left_command != right_command:
+        errors.append(
+            "px4_source.{}.command expected {!r} but found {!r}".format(
+                name, list(left_command), list(right_command)
+            )
+        )
+    left_stdout = _normalized_probe_stdout(name, expected["stdout"])
+    right_stdout = _normalized_probe_stdout(name, actual["stdout"])
+    if left_stdout != right_stdout:
+        errors.append("px4_source.{}.stdout differs from inventory".format(name))
+    if expected["status"] in ("missing", "unverified") or actual["status"] in (
+        "missing",
+        "unverified",
+    ):
+        if expected["reason"].strip() != actual["reason"].strip():
+            errors.append("px4_source.{}.reason differs from inventory".format(name))
+    return errors
+
+
 def compare_current(expected: Dict[str, Any], actual: Dict[str, Any]) -> List[str]:
     errors = []
     for field in ("origin", "branch", "head"):
@@ -656,12 +708,7 @@ def compare_current(expected: Dict[str, Any], actual: Dict[str, Any]) -> List[st
     for name in ("managed_workspace", "submodules"):
         left = expected["px4_source"][name]
         right = actual["px4_source"][name]
-        if (left["status"], left["version"]) != (right["status"], right["version"]):
-            errors.append(
-                "px4_source.{} expected {}/{} but found {}/{}".format(
-                    name, left["status"], left["version"], right["status"], right["version"]
-                )
-            )
+        errors.extend(compare_px4_probe(name, left, right))
     if expected["px4_source"]["host_search_status"] != actual["px4_source"]["host_search_status"]:
         errors.append("PX4 host search status differs from inventory")
     return errors

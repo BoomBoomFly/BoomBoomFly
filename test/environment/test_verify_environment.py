@@ -61,6 +61,65 @@ class EnvironmentValidationTests(unittest.TestCase):
         self.assertTrue(any("repository.head" in issue for issue in issues), issues)
         self.assertTrue(any("ROS package" in issue for issue in issues), issues)
 
+    def test_current_compare_rejects_submodule_provenance_tampering(self):
+        mutations = (
+            ("stdout", " 0" * 20 + " modules/example\n", "stdout"),
+            (
+                "command",
+                ["git", "-C", "<PX4_SOURCE>", "submodule", "status"],
+                "command",
+            ),
+            ("exit_code", 9, "exit_code"),
+            ("reason", "unverified for a different reason", "reason"),
+        )
+        for field, value, expected_fragment in mutations:
+            with self.subTest(field=field):
+                current = copy.deepcopy(self.inventory)
+                current["px4_source"]["submodules"][field] = value
+                issues = VERIFY.compare_current(self.inventory, current)
+                self.assertTrue(
+                    any(
+                        "px4_source.submodules.{}".format(expected_fragment) in issue
+                        for issue in issues
+                    ),
+                    issues,
+                )
+
+    def test_current_compare_normalizes_only_host_specific_px4_paths(self):
+        expected = copy.deepcopy(self.inventory)
+        current = copy.deepcopy(self.inventory)
+        expected_probe = expected["px4_source"]["submodules"]
+        current_probe = current["px4_source"]["submodules"]
+        expected_probe.update(
+            {
+                "status": "present",
+                "version": "recursive-status-recorded",
+                "command": [
+                    "git",
+                    "-C",
+                    "/machine-a/PX4-Autopilot",
+                    "submodule",
+                    "status",
+                    "--recursive",
+                ],
+                "exit_code": 0,
+                "stdout": " 1111111111111111111111111111111111111111 modules/a\n"
+                " 2222222222222222222222222222222222222222 modules/b\n",
+                "stderr": "",
+                "reason": "",
+            }
+        )
+        current_probe.update(copy.deepcopy(expected_probe))
+        current_probe["command"][2] = "/machine-b/PX4-Autopilot"
+        current_probe["stdout"] = (
+            " 2222222222222222222222222222222222222222 modules/b\n"
+            " 1111111111111111111111111111111111111111 modules/a\n"
+        )
+        issues = VERIFY.compare_current(expected, current)
+        self.assertFalse(
+            any("px4_source.submodules" in issue for issue in issues), issues
+        )
+
     def test_missing_required_field_is_rejected(self):
         document = copy.deepcopy(self.inventory)
         del document["platform"]
