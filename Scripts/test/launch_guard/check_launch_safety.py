@@ -203,6 +203,14 @@ def matches_any(values: Iterable[str], patterns: Sequence[str]) -> List[str]:
     return findings
 
 
+def canonical_nodes(nodes: Sequence[Dict[str, str]]) -> List[Tuple[str, str, str]]:
+    """Return a deterministic multiset representation for exact allowlist checks."""
+    return sorted(
+        (node["package"], node["executable"], node["name"])
+        for node in nodes
+    )
+
+
 def package_file(
     source_root: Path, launch_path: Path, semantic: str
 ) -> Optional[Path]:
@@ -245,11 +253,17 @@ def analyze_python(
 ) -> Dict[str, Any]:
     findings: List[str] = []
     reviews: List[str] = []
+    nodes: List[Dict[str, str]] = []
     writers: Dict[str, int] = {}
     try:
         tree = ast.parse(path.read_text(encoding="utf-8", errors="strict"), filename=str(path))
     except (OSError, UnicodeError, SyntaxError) as error:
-        return {"findings": [], "reviews": ["cannot parse Python: {}".format(error)], "writers": {}}
+        return {
+            "findings": [],
+            "nodes": [],
+            "reviews": ["cannot parse Python: {}".format(error)],
+            "writers": {},
+        }
     assignments: Dict[str, ast.AST] = {}
     for node in ast.walk(tree):
         if isinstance(node, ast.Assign):
@@ -269,10 +283,14 @@ def analyze_python(
             package_values, package_dynamic = values.strings(keyword(node, "package"))
             executable_node = keyword(node, "executable") or keyword(node, "node_executable")
             executable_values, executable_dynamic = values.strings(executable_node)
+            name_node = keyword(node, "name") or keyword(node, "node_name")
+            name_values, name_dynamic = values.strings(name_node)
             if len(package_values) != 1 or package_dynamic:
                 reviews.append("dynamic Node package at line {}".format(node.lineno))
             if len(executable_values) != 1 or executable_dynamic:
                 reviews.append("dynamic Node executable at line {}".format(node.lineno))
+            if len(name_values) != 1 or name_dynamic:
+                reviews.append("dynamic or missing Node name at line {}".format(node.lineno))
             findings.extend(
                 "Node line {}: {}".format(node.lineno, item)
                 for item in matches_any(package_values, profile["forbidden_package_patterns"])
@@ -285,6 +303,19 @@ def analyze_python(
                 identity = package_values[0] + "/" + executable_values[0]
                 for topic in profile["writer_inventory"].get(identity, []):
                     writers[topic] = writers.get(topic, 0) + 1
+            if (
+                len(package_values) == 1
+                and not package_dynamic
+                and len(executable_values) == 1
+                and not executable_dynamic
+                and len(name_values) == 1
+                and not name_dynamic
+            ):
+                nodes.append({
+                    "package": package_values[0],
+                    "executable": executable_values[0],
+                    "name": name_values[0],
+                })
             safety_nodes = [
                 keyword(node, "arguments"),
                 keyword(node, "remappings"),
@@ -353,27 +384,41 @@ def analyze_python(
     for topic, count in sorted(writers.items()):
         if count > 1:
             findings.append("multiple writers for {}: {}".format(topic, count))
-    return {"findings": sorted(set(findings)), "reviews": sorted(set(reviews)), "writers": writers}
+    return {
+        "findings": sorted(set(findings)),
+        "nodes": nodes,
+        "reviews": sorted(set(reviews)),
+        "writers": writers,
+    }
 
 
 def analyze_xml(path: Path, profile: Dict[str, Any]) -> Dict[str, Any]:
     findings: List[str] = []
     reviews: List[str] = []
+    nodes: List[Dict[str, str]] = []
     writers: Dict[str, int] = {}
     try:
         root = ET.parse(str(path)).getroot()
     except (OSError, ET.ParseError) as error:
-        return {"findings": [], "reviews": ["cannot parse XML: {}".format(error)], "writers": {}}
+        return {
+            "findings": [],
+            "nodes": [],
+            "reviews": ["cannot parse XML: {}".format(error)],
+            "writers": {},
+        }
     for element in root.iter():
         tag = element.tag.split("}")[-1]
         values = list(element.attrib.values())
         if tag == "node":
             package = element.attrib.get("pkg", element.attrib.get("package", ""))
             executable = element.attrib.get("type", element.attrib.get("exec", ""))
+            name = element.attrib.get("name", "")
             if not package or "$(" in package:
                 reviews.append("dynamic XML node package")
             if not executable or "$(" in executable:
                 reviews.append("dynamic XML node executable")
+            if not name or "$(" in name:
+                reviews.append("dynamic or missing XML node name")
             findings.extend(
                 "XML node: " + item
                 for item in matches_any([package], profile["forbidden_package_patterns"])
@@ -385,6 +430,19 @@ def analyze_xml(path: Path, profile: Dict[str, Any]) -> Dict[str, Any]:
             identity = package + "/" + executable
             for topic in profile["writer_inventory"].get(identity, []):
                 writers[topic] = writers.get(topic, 0) + 1
+            if (
+                package
+                and "$(" not in package
+                and executable
+                and "$(" not in executable
+                and name
+                and "$(" not in name
+            ):
+                nodes.append({
+                    "package": package,
+                    "executable": executable,
+                    "name": name,
+                })
         if tag == "include":
             if any("$(" in value for value in values):
                 reviews.append("dynamic XML include")
@@ -408,7 +466,12 @@ def analyze_xml(path: Path, profile: Dict[str, Any]) -> Dict[str, Any]:
     for topic, count in sorted(writers.items()):
         if count > 1:
             findings.append("multiple writers for {}: {}".format(topic, count))
-    return {"findings": sorted(set(findings)), "reviews": sorted(set(reviews)), "writers": writers}
+    return {
+        "findings": sorted(set(findings)),
+        "nodes": nodes,
+        "reviews": sorted(set(reviews)),
+        "writers": writers,
+    }
 
 
 def analyze(path: Path, source_root: Path, profile: Dict[str, Any]) -> Dict[str, Any]:
@@ -489,6 +552,15 @@ def main(arguments: Optional[Sequence[str]] = None) -> int:
                 allowed_reports.append({"path": relative, **report})
                 errors.extend("{}: {}".format(relative, item) for item in report["findings"])
                 reviews.extend("{}: {}".format(relative, item) for item in report["reviews"])
+                expected_nodes = profile["production_allowlist"][relative]["nodes"]
+                if canonical_nodes(report["nodes"]) != canonical_nodes(expected_nodes):
+                    errors.append(
+                        "{}: exact Node allowlist mismatch; expected={} actual={}".format(
+                            relative,
+                            json.dumps(expected_nodes, sort_keys=True),
+                            json.dumps(report["nodes"], sort_keys=True),
+                        )
+                    )
             elif report["findings"]:
                 denied_with_findings += 1
         if missing:
