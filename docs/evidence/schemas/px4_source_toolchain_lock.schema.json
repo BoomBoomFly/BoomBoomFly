@@ -1,0 +1,139 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/BoomBoomFly/BoomBoomFly/docs/evidence/schemas/px4_source_toolchain_lock.schema.json",
+  "title": "BoomBoomFly PX4 source and toolchain lock placeholder",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "lock_id",
+    "template",
+    "status",
+    "source",
+    "submodules",
+    "toolchain",
+    "blockers"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "lock_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "template": {
+      "const": true
+    },
+    "status": {
+      "const": "unverified"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "origin",
+        "ref",
+        "commit"
+      ],
+      "properties": {
+        "origin": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ref": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "not": {
+            "const": "latest"
+          }
+        },
+        "commit": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "submodules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "origin",
+          "commit"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "origin": {
+            "type": "string",
+            "minLength": 1
+          },
+          "commit": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$"
+          }
+        }
+      }
+    },
+    "toolchain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "os",
+        "architecture",
+        "python",
+        "cmake",
+        "ninja",
+        "arm_none_eabi_gcc",
+        "arm_none_eabi_gxx",
+        "container_digest"
+      ],
+      "properties": {
+        "os": {
+          "type": "null"
+        },
+        "architecture": {
+          "type": "null"
+        },
+        "python": {
+          "type": "null"
+        },
+        "cmake": {
+          "type": "null"
+        },
+        "ninja": {
+          "type": "null"
+        },
+        "arm_none_eabi_gcc": {
+          "type": "null"
+        },
+        "arm_none_eabi_gxx": {
+          "type": "null"
+        },
+        "container_digest": {
+          "type": "null"
+        }
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

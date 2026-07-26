@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "lock_id": "bbf-px4-source-toolchain-lock-template",
+  "template": true,
+  "status": "unverified",
+  "source": {
+    "origin": null,
+    "ref": null,
+    "commit": null
+  },
+  "submodules": [],
+  "toolchain": {
+    "os": null,
+    "architecture": null,
+    "python": null,
+    "cmake": null,
+    "ninja": null,
+    "arm_none_eabi_gcc": null,
+    "arm_none_eabi_gxx": null,
+    "container_digest": null
+  },
+  "blockers": [
+    "PX4-Autopilot source origin and exact commit are not verified on this host.",
+    "Recursive PX4 submodule origins and commits are unavailable.",
+    "arm-none-eabi-gcc and arm-none-eabi-g++ are missing from PATH.",
+    "No immutable container digest or equivalent toolchain closure is selected.",
+    "Two isolated reproducibility builds and artifact hash comparison have not run."
+  ]
+}
