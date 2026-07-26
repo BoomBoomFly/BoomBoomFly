@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "scenario_id": "SITL-NORMAL-003",
+  "title": "Receive authoritative vehicle_status_v1",
+  "status": "BLOCKED",
+  "requirement_ids": ["BBF-DDS-001", "BBF-SAFE-006"],
+  "audit_ids": ["BBF-AUD-003"],
+  "milestone": "M5",
+  "profile": {"profile_id": "sitl_dds_baseline_v1", "environment": "SITL", "transport": "UDP", "ros_domain_isolated": true, "namespace": "/"},
+  "preconditions": ["DDS session and baseline graph are ready", "PX4 epoch and authoritative source identity are recorded"],
+  "forbidden_conditions": ["mock or replay publisher is present", "status source identity is unknown"],
+  "participants": [{"participant_id": "px4_sitl", "role": "authoritative_px4", "required": true, "expected_count": {"min": 1, "max": 1}}, {"participant_id": "offboard_control_node", "role": "status_consumer", "required": true, "expected_count": {"min": 1, "max": 1}}],
+  "source_identity": {"profile_ref": "sitl_dds_baseline_v1", "bindings": [{"source": "px4_sitl", "identity_kind": "locked_process_artifact", "expected": "profile.px4_sitl_identity", "mock": false}]},
+  "initial_state": "WAIT_INPUTS",
+  "stimuli": [{"stimulus_id": "N003-S01", "at": "0ms", "action": "BEGIN_STATUS_OBSERVATION", "source": "acceptance_runner", "target": "offboard_control_node", "payload_class": "observation_window", "correlation_id": "normal-003-status"}],
+  "expected_events": [
+    {"event_id": "N003-E01", "event_type": "PX4_FEEDBACK_RECEIVED", "source": "px4_sitl", "target": "offboard_control_node", "earliest": "0ms", "deadline": "1s", "count": {"min": 1, "max": 50}, "order_after": [], "order_before": ["N003-E02"], "correlation_id": "normal-003-status"},
+    {"event_id": "N003-E02", "event_type": "FEEDBACK_FRESHNESS_CONFIRMED", "source": "offboard_control_node", "target": "acceptance_runner", "earliest": "0ms", "deadline": "1500ms", "count": {"min": 1, "max": 1}, "order_after": ["N003-E01"], "order_before": ["N003-E03"], "correlation_id": "normal-003-status"},
+    {"event_id": "N003-E03", "event_type": "STATE_TRANSITION", "source": "offboard_control_node", "target": "offboard_control_node", "earliest": "0ms", "deadline": "1600ms", "count": {"min": 1, "max": 1}, "order_after": ["N003-E02"], "order_before": [], "correlation_id": "normal-003-status"}
+  ],
+  "forbidden_events": [
+    {"event_id": "N003-F01", "event_type": "MODE_CONFIRMED_FROM_STALE_STATUS", "source": "*", "target": "*", "earliest": "0ms", "deadline": "1600ms", "count": {"min": 0, "max": 0}, "order_after": [], "order_before": [], "correlation_id": "normal-003-status"},
+    {"event_id": "N003-F02", "event_type": "CONTROL_INPUT_PUBLISHED", "source": "offboard_control_node", "target": "px4_sitl", "earliest": "0ms", "deadline": "1600ms", "count": {"min": 0, "max": 0}, "order_after": [], "order_before": [], "correlation_id": "normal-003-status"}
+  ],
+  "timeouts": [{"timeout_id": "first_status", "duration": "1s", "starts_at": "N003-S01", "on_expiry": "FAIL_CLOSED"}, {"timeout_id": "status_freshness", "duration": "500ms", "starts_at": "N003-E01", "on_expiry": "FAIL_CLOSED"}],
+  "cleanup": {"actions": ["END_STATUS_OBSERVATION", "CLEAR_SCENARIO_STATUS_CACHE"], "deadline": "2s", "expected_absent_participants": []},
+  "evidence": {"required_artifacts": ["timeline.jsonl", "endpoint_contract.json", "source_identity.json"], "synthetic_fixture_allowed": false, "acceptance_level": "FORMAL_SITL"},
+  "dependencies": ["BLOCKED_BY_T00", "BLOCKED_BY_T01", "BLOCKED_BY_T03", "BLOCKED_BY_T08"],
+  "limitations": ["The contract does not claim the current implementation meets first-frame, epoch, and freshness requirements.", "No formal SITL run was performed."],
+  "assertions": {
+    "endpoint_contracts": [{"topic": "/fmu/out/vehicle_status_v1", "message_type": "px4_msgs/msg/VehicleStatus", "direction": "publisher", "qos": {"reliability": "best_effort", "durability": "volatile", "history": "keep_last", "depth": 1}, "publisher_count": {"min": 1, "max": 1}, "required_source": "px4_sitl"}],
+    "state_transitions": [{"from": "WAIT_INPUTS", "to": "STATUS_READY", "trigger": "N003-E02", "deadline": "1600ms"}],
+    "participant_cardinality": [{"participant_id": "px4_sitl", "count": {"min": 1, "max": 1}}]
+  }
+}

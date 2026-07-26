@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "scenario_id": "SITL-NORMAL-008",
+  "title": "Offboard readiness gate",
+  "status": "BLOCKED",
+  "requirement_ids": ["BBF-SAFE-003", "BBF-SAFE-004", "BBF-SAFE-006"],
+  "audit_ids": ["BBF-AUD-003", "BBF-AUD-005", "BBF-AUD-009"],
+  "milestone": "M2",
+  "profile": {"profile_id": "sitl_dds_control_v1", "environment": "SITL", "transport": "UDP", "ros_domain_isolated": true, "namespace": "/"},
+  "preconditions": ["all mandatory PX4 feedback contracts have fresh same-epoch samples", "a unique approved mission owner and control writer are established", "fault policy and manual authorization are available"],
+  "forbidden_conditions": ["readiness is inferred from discovery alone", "a mock source satisfies feedback readiness", "control input is published before readiness"],
+  "participants": [
+    {"participant_id": "px4_sitl", "role": "authoritative_px4", "required": true, "expected_count": {"min": 1, "max": 1}},
+    {"participant_id": "offboard_control_node", "role": "sole_control_writer", "required": true, "expected_count": {"min": 1, "max": 1}},
+    {"participant_id": "mission_owner", "role": "leased_test_owner", "required": true, "expected_count": {"min": 1, "max": 1}}
+  ],
+  "source_identity": {"profile_ref": "sitl_dds_control_v1", "bindings": [{"source": "px4_sitl", "identity_kind": "locked_process_artifact", "expected": "profile.px4_sitl_identity", "mock": false}, {"source": "offboard_control_node", "identity_kind": "approved_ros_executable", "expected": "profile.offboard_writer_identity", "mock": false}, {"source": "mission_owner", "identity_kind": "lease_identity", "expected": "profile.test_owner_identity", "mock": false}]},
+  "initial_state": "WAIT_INPUTS",
+  "stimuli": [
+    {"stimulus_id": "N008-S01", "at": "0ms", "action": "EVALUATE_READINESS", "source": "acceptance_runner", "target": "offboard_control_node", "payload_class": "same_epoch_feedback_set", "correlation_id": "normal-008-readiness"}
+  ],
+  "expected_events": [
+    {"event_id": "N008-E01", "event_type": "READINESS_CONFIRMED", "source": "offboard_control_node", "target": "acceptance_runner", "earliest": "0ms", "deadline": "500ms", "count": {"min": 1, "max": 1}, "order_after": [], "order_before": ["N008-E02"], "correlation_id": "normal-008-readiness"},
+    {"event_id": "N008-E02", "event_type": "STATE_TRANSITION", "source": "offboard_control_node", "target": "offboard_control_node", "earliest": "0ms", "deadline": "600ms", "count": {"min": 1, "max": 1}, "order_after": ["N008-E01"], "order_before": [], "correlation_id": "normal-008-readiness"}
+  ],
+  "forbidden_events": [
+    {"event_id": "N008-F01", "event_type": "CONTROL_INPUT_PUBLISHED", "source": "offboard_control_node", "target": "px4_sitl", "earliest": "0ms", "deadline": "600ms", "count": {"min": 0, "max": 0}, "order_after": [], "order_before": [], "correlation_id": "normal-008-readiness"},
+    {"event_id": "N008-F02", "event_type": "ACTIVE_ENTERED", "source": "offboard_control_node", "target": "offboard_control_node", "earliest": "0ms", "deadline": "600ms", "count": {"min": 0, "max": 0}, "order_after": [], "order_before": [], "correlation_id": "normal-008-readiness"}
+  ],
+  "timeouts": [{"timeout_id": "readiness_evaluation", "duration": "500ms", "starts_at": "N008-S01", "on_expiry": "FAIL_CLOSED"}],
+  "cleanup": {"actions": ["REVOKE_TEST_OWNER_LEASE", "CLEAR_READINESS_LATCH", "VERIFY_ZERO_CONTROL_INPUT_EVENTS"], "deadline": "3s", "expected_absent_participants": ["mission_owner"]},
+  "evidence": {"required_artifacts": ["timeline.jsonl", "endpoint_contract.json", "source_identity.json", "lease_identity.json"], "synthetic_fixture_allowed": false, "acceptance_level": "FORMAL_SITL"},
+  "dependencies": ["BLOCKED_BY_T00", "BLOCKED_BY_T01", "BLOCKED_BY_T02", "BLOCKED_BY_T03", "BLOCKED_BY_T04", "BLOCKED_BY_T05", "BLOCKED_BY_T08", "SAFETY_DECISION_REQUIRED"],
+  "limitations": ["Readiness is not authorization to arm, request mode, or enter ACTIVE.", "No formal SITL run was performed in this wave."],
+  "assertions": {
+    "endpoint_contracts": [
+      {"topic": "/fmu/out/vehicle_status_v1", "message_type": "px4_msgs/msg/VehicleStatus", "direction": "publisher", "qos": {"reliability": "best_effort", "durability": "volatile", "history": "keep_last", "depth": 1}, "publisher_count": {"min": 1, "max": 1}, "required_source": "px4_sitl"},
+      {"topic": "/fmu/out/rc_channels", "message_type": "px4_msgs/msg/RcChannels", "direction": "publisher", "qos": {"reliability": "best_effort", "durability": "volatile", "history": "keep_last", "depth": 1}, "publisher_count": {"min": 1, "max": 1}, "required_source": "px4_sitl"},
+      {"topic": "/fmu/out/battery_status", "message_type": "px4_msgs/msg/BatteryStatus", "direction": "publisher", "qos": {"reliability": "best_effort", "durability": "volatile", "history": "keep_last", "depth": 1}, "publisher_count": {"min": 1, "max": 1}, "required_source": "px4_sitl"},
+      {"topic": "/fmu/out/vehicle_odometry", "message_type": "px4_msgs/msg/VehicleOdometry", "direction": "publisher", "qos": {"reliability": "best_effort", "durability": "volatile", "history": "keep_last", "depth": 1}, "publisher_count": {"min": 1, "max": 1}, "required_source": "px4_sitl"},
+      {"topic": "/fmu/out/vehicle_land_detected", "message_type": "px4_msgs/msg/VehicleLandDetected", "direction": "publisher", "qos": {"reliability": "best_effort", "durability": "volatile", "history": "keep_last", "depth": 1}, "publisher_count": {"min": 1, "max": 1}, "required_source": "px4_sitl"}
+    ],
+    "state_transitions": [{"from": "WAIT_INPUTS", "to": "PRESTREAM", "trigger": "N008-E01", "deadline": "600ms"}],
+    "participant_cardinality": [{"participant_id": "px4_sitl", "count": {"min": 1, "max": 1}}, {"participant_id": "offboard_control_node", "count": {"min": 1, "max": 1}}, {"participant_id": "mission_owner", "count": {"min": 1, "max": 1}}]
+  }
+}

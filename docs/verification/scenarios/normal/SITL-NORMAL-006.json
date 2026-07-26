@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "scenario_id": "SITL-NORMAL-006",
+  "title": "Receive authoritative vehicle_land_detected",
+  "status": "BLOCKED",
+  "requirement_ids": ["BBF-DDS-001", "BBF-SAFE-006"],
+  "audit_ids": ["BBF-AUD-009"],
+  "milestone": "M5",
+  "profile": {"profile_id": "sitl_dds_baseline_v1", "environment": "SITL", "transport": "UDP", "ros_domain_isolated": true, "namespace": "/"},
+  "preconditions": ["DDS session and baseline graph are ready", "land-state first-frame, epoch, and freshness policy is frozen"],
+  "forbidden_conditions": ["mock or replay source is present", "completion can be inferred before a fresh land-state frame"],
+  "participants": [
+    {"participant_id": "px4_sitl", "role": "authoritative_px4", "required": true, "expected_count": {"min": 1, "max": 1}},
+    {"participant_id": "offboard_control_node", "role": "land_state_consumer", "required": true, "expected_count": {"min": 1, "max": 1}}
+  ],
+  "source_identity": {"profile_ref": "sitl_dds_baseline_v1", "bindings": [{"source": "px4_sitl", "identity_kind": "locked_process_artifact", "expected": "profile.px4_sitl_identity", "mock": false}]},
+  "initial_state": "WAIT_INPUTS",
+  "stimuli": [
+    {"stimulus_id": "N006-S01", "at": "0ms", "action": "BEGIN_LAND_STATE_OBSERVATION", "source": "acceptance_runner", "target": "offboard_control_node", "payload_class": "observation_window", "correlation_id": "normal-006-landed"}
+  ],
+  "expected_events": [
+    {"event_id": "N006-E01", "event_type": "PX4_FEEDBACK_RECEIVED", "source": "px4_sitl", "target": "offboard_control_node", "earliest": "0ms", "deadline": "1000ms", "count": {"min": 1, "max": 50}, "order_after": [], "order_before": ["N006-E02"], "correlation_id": "normal-006-landed"},
+    {"event_id": "N006-E02", "event_type": "FEEDBACK_FRESHNESS_CONFIRMED", "source": "offboard_control_node", "target": "acceptance_runner", "earliest": "0ms", "deadline": "1500ms", "count": {"min": 1, "max": 1}, "order_after": ["N006-E01"], "order_before": ["N006-E03"], "correlation_id": "normal-006-landed"},
+    {"event_id": "N006-E03", "event_type": "STATE_TRANSITION", "source": "offboard_control_node", "target": "offboard_control_node", "earliest": "0ms", "deadline": "1600ms", "count": {"min": 1, "max": 1}, "order_after": ["N006-E02"], "order_before": [], "correlation_id": "normal-006-landed"}
+  ],
+  "forbidden_events": [
+    {"event_id": "N006-F01", "event_type": "LAND_COMPLETION_FROM_UNINITIALIZED_VALUE", "source": "*", "target": "*", "earliest": "0ms", "deadline": "1600ms", "count": {"min": 0, "max": 0}, "order_after": [], "order_before": [], "correlation_id": "normal-006-landed"},
+    {"event_id": "N006-F02", "event_type": "CONTROL_INPUT_PUBLISHED", "source": "offboard_control_node", "target": "px4_sitl", "earliest": "0ms", "deadline": "1600ms", "count": {"min": 0, "max": 0}, "order_after": [], "order_before": [], "correlation_id": "normal-006-landed"}
+  ],
+  "timeouts": [
+    {"timeout_id": "first_land_state", "duration": "1s", "starts_at": "N006-S01", "on_expiry": "FAIL_CLOSED"},
+    {"timeout_id": "land_state_freshness", "duration": "500ms", "starts_at": "N006-E01", "on_expiry": "FAIL_CLOSED"}
+  ],
+  "cleanup": {"actions": ["END_LAND_STATE_OBSERVATION", "CLEAR_SCENARIO_LAND_STATE_CACHE"], "deadline": "2s", "expected_absent_participants": []},
+  "evidence": {"required_artifacts": ["timeline.jsonl", "endpoint_contract.json", "source_identity.json"], "synthetic_fixture_allowed": false, "acceptance_level": "FORMAL_SITL"},
+  "dependencies": ["BLOCKED_BY_T00", "BLOCKED_BY_T01", "BLOCKED_BY_T03", "BLOCKED_BY_T05", "BLOCKED_BY_T08", "SAFETY_DECISION_REQUIRED"],
+  "limitations": ["This scenario validates feedback readiness only and does not issue a landing command.", "No formal SITL run was performed in this wave."],
+  "assertions": {
+    "endpoint_contracts": [{"topic": "/fmu/out/vehicle_land_detected", "message_type": "px4_msgs/msg/VehicleLandDetected", "direction": "publisher", "qos": {"reliability": "best_effort", "durability": "volatile", "history": "keep_last", "depth": 1}, "publisher_count": {"min": 1, "max": 1}, "required_source": "px4_sitl"}],
+    "state_transitions": [{"from": "WAIT_INPUTS", "to": "LAND_STATE_READY", "trigger": "N006-E02", "deadline": "1600ms"}],
+    "participant_cardinality": [{"participant_id": "px4_sitl", "count": {"min": 1, "max": 1}}]
+  }
+}

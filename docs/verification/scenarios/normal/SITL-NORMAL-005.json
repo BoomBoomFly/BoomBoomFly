@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "scenario_id": "SITL-NORMAL-005",
+  "title": "Receive authoritative vehicle_odometry",
+  "status": "BLOCKED",
+  "requirement_ids": ["BBF-DDS-001", "BBF-SAFE-006"],
+  "audit_ids": ["BBF-AUD-009"],
+  "milestone": "M5",
+  "profile": {"profile_id": "sitl_dds_baseline_v1", "environment": "SITL", "transport": "UDP", "ros_domain_isolated": true, "namespace": "/"},
+  "preconditions": ["DDS session and baseline graph are ready", "odometry frame, finite-value, epoch, and freshness policy is frozen"],
+  "forbidden_conditions": ["mock or replay source is present", "source identity or frame contract is unknown"],
+  "participants": [
+    {"participant_id": "px4_sitl", "role": "authoritative_px4", "required": true, "expected_count": {"min": 1, "max": 1}},
+    {"participant_id": "offboard_control_node", "role": "odometry_consumer", "required": true, "expected_count": {"min": 1, "max": 1}}
+  ],
+  "source_identity": {"profile_ref": "sitl_dds_baseline_v1", "bindings": [{"source": "px4_sitl", "identity_kind": "locked_process_artifact", "expected": "profile.px4_sitl_identity", "mock": false}]},
+  "initial_state": "WAIT_INPUTS",
+  "stimuli": [
+    {"stimulus_id": "N005-S01", "at": "0ms", "action": "BEGIN_ODOMETRY_OBSERVATION", "source": "acceptance_runner", "target": "offboard_control_node", "payload_class": "observation_window", "correlation_id": "normal-005-odometry"}
+  ],
+  "expected_events": [
+    {"event_id": "N005-E01", "event_type": "PX4_FEEDBACK_RECEIVED", "source": "px4_sitl", "target": "offboard_control_node", "earliest": "0ms", "deadline": "1000ms", "count": {"min": 1, "max": 50}, "order_after": [], "order_before": ["N005-E02"], "correlation_id": "normal-005-odometry"},
+    {"event_id": "N005-E02", "event_type": "FEEDBACK_VALIDITY_CONFIRMED", "source": "offboard_control_node", "target": "acceptance_runner", "earliest": "0ms", "deadline": "1500ms", "count": {"min": 1, "max": 1}, "order_after": ["N005-E01"], "order_before": ["N005-E03"], "correlation_id": "normal-005-odometry"},
+    {"event_id": "N005-E03", "event_type": "STATE_TRANSITION", "source": "offboard_control_node", "target": "offboard_control_node", "earliest": "0ms", "deadline": "1600ms", "count": {"min": 1, "max": 1}, "order_after": ["N005-E02"], "order_before": [], "correlation_id": "normal-005-odometry"}
+  ],
+  "forbidden_events": [
+    {"event_id": "N005-F01", "event_type": "ODOMETRY_READY_FROM_INVALID_PAYLOAD", "source": "*", "target": "*", "earliest": "0ms", "deadline": "1600ms", "count": {"min": 0, "max": 0}, "order_after": [], "order_before": [], "correlation_id": "normal-005-odometry"},
+    {"event_id": "N005-F02", "event_type": "CONTROL_INPUT_PUBLISHED", "source": "offboard_control_node", "target": "px4_sitl", "earliest": "0ms", "deadline": "1600ms", "count": {"min": 0, "max": 0}, "order_after": [], "order_before": [], "correlation_id": "normal-005-odometry"}
+  ],
+  "timeouts": [
+    {"timeout_id": "first_odometry", "duration": "1s", "starts_at": "N005-S01", "on_expiry": "FAIL_CLOSED"},
+    {"timeout_id": "odometry_validity", "duration": "500ms", "starts_at": "N005-E01", "on_expiry": "FAIL_CLOSED"}
+  ],
+  "cleanup": {"actions": ["END_ODOMETRY_OBSERVATION", "CLEAR_SCENARIO_ODOMETRY_CACHE"], "deadline": "2s", "expected_absent_participants": []},
+  "evidence": {"required_artifacts": ["timeline.jsonl", "endpoint_contract.json", "source_identity.json"], "synthetic_fixture_allowed": false, "acceptance_level": "FORMAL_SITL"},
+  "dependencies": ["BLOCKED_BY_T00", "BLOCKED_BY_T01", "BLOCKED_BY_T03", "BLOCKED_BY_T05", "BLOCKED_BY_T08", "SAFETY_DECISION_REQUIRED"],
+  "limitations": ["The specification does not select a flight response for invalid odometry.", "No formal SITL run was performed in this wave."],
+  "assertions": {
+    "endpoint_contracts": [{"topic": "/fmu/out/vehicle_odometry", "message_type": "px4_msgs/msg/VehicleOdometry", "direction": "publisher", "qos": {"reliability": "best_effort", "durability": "volatile", "history": "keep_last", "depth": 1}, "publisher_count": {"min": 1, "max": 1}, "required_source": "px4_sitl"}],
+    "state_transitions": [{"from": "WAIT_INPUTS", "to": "ODOMETRY_READY", "trigger": "N005-E02", "deadline": "1600ms"}],
+    "participant_cardinality": [{"participant_id": "px4_sitl", "count": {"min": 1, "max": 1}}]
+  }
+}
