@@ -155,7 +155,9 @@ profile、命令、退出码、时间、结果、限制、artifact hash 和验�
 - 未经批准的原始飞行数据、位置和影像。
 
 角色占位符（例如 `@CONTROL-MAINTAINER`）不是实际账号，不得误作已启用的
-CODEOWNERS。
+CODEOWNERS。当前提议与启用门见
+[`docs/governance/CODEOWNERS_PROPOSAL.md`](docs/governance/CODEOWNERS_PROPOSAL.md)；
+仓库当前没有有效 CODEOWNERS enforcement。
 
 ## 许可证
 

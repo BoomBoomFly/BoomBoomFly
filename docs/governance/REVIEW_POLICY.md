@@ -137,6 +137,50 @@ reviewer 要求验证 schema、hash、source identity、命令/退出码、原�
 某测试因环境或授权无法执行时，PR 必须写 `BLOCKED` 或 `UNVERIFIED`，并且该测试
 若属于当前 promotion gate，PR 不得提升对应能力状态。
 
+## CI 与 required checks 实施提议
+
+当前 tree 不存在 `.github/`，没有可执行 workflow；下列 job 均为 `PLANNED`，
+required checks 和 branch protection 仍为 `BLOCKED`。本节定义落地目标，不创建
+workflow，也不表示任何检查已经由 GitHub 强制。
+
+### 提议 job graph
+
+| 稳定 job 名 | 内容 | 前置 / 依赖 |
+|---|---|---|
+| `governance-static` | `git diff --check`、Markdown 相对链接、状态枚举、旧入口、tracked 空文件、secret/PII 和 CODEOWNERS pattern 检查 | 无硬件；扫描规则和允许的历史记录分类需锁定 |
+| `python-unit` | `compileall` 与 `python3 -m unittest discover -s test -p 'test_*.py'` | 锁定 Python 和依赖 |
+| `dds-boundary` | DDS-only package allowlist 与 launch safety 正/负向测试 | `python-unit`；保留全部危险 fixture |
+| `evidence-integrity` | evidence/index/schema、release/rollback manifest 与 workspace receipt 验证器测试 | `python-unit` |
+| `sitl-spec-offline` | scenario/catalog/event/timeline/schema 的纯离线测试 | `python-unit`；不得启动 PX4、Agent 或 ROS graph |
+| `supply-chain-static` | manifest 解析、精确 ref、origin、excluded/profile 一致性和 moving dependency policy | `python-unit`；不得 fetch 或改 checkout |
+| `dds-build-test` | Ubuntu 20.04 / ROS 2 Foxy 环境中的隔离 DDS-only build/test | `dds-boundary`、`evidence-integrity`；输出仅在临时目录 |
+
+建议 required checks 使用上述稳定 job 名；若拆分矩阵，branch protection 只绑定
+不会随矩阵值漂移的聚合 job。`dds-build-test` 未具备锁定 runner/container、
+ROS dependency 和缓存完整性前必须 fail-closed，不能静默跳过。
+
+### Workflow 落地门
+
+创建 workflow 前必须：
+
+1. 锁定所有第三方 action 到完整 commit SHA，记录来源和更新流程。
+2. 默认 `permissions: contents: read`；单个 job 只能按必要范围增加权限。
+3. pull request 检查不使用 production secret，不执行来自不可信 fork 的 privileged
+   workflow，也不使用可写 self-hosted hardware runner。
+4. 禁止访问 `/dev/ttyTHS0`、`/dev/ttyACM*`、相机、雷达和其他真实硬件；禁止启动
+   Agent、MAVROS、Offboard、视觉节点或 hardware launch。
+5. build/test 输出写入隔离临时目录；不缓存 dirty source tree、credential、
+   evidence raw log 或未审查 artifact。
+6. 负向 fixture 必须验证预期非零和 fail-closed；不得为全绿而删除、放宽或标
+   `continue-on-error`。
+7. secret/PII 扫描对 dated audit/evidence 进行“检测并分类”，不得自动重写或删除
+   不可变历史 artifact。
+8. 先在测试分支验证 job 名、触发器、超时、取消、日志脱敏和 fork 行为，再由有
+   权限的维护者单独配置 required checks。
+
+CI 通过也不授权 SITL、hardware access、firmware flash、arm、flight 或
+production enable。
+
 ## 合并、风险接受与紧急变更
 
 - 未解决的 P0/P1 review comment 阻止合并。
