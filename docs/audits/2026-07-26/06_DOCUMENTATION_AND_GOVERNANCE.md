@@ -1,5 +1,10 @@
 # 文档、运维、安全与项目治理审查
 
+> 后续变更（2026-07-26T16:46:43+08:00）：归档 `src/px4_bringup` 已对齐上游
+> `DDS@0fbdcbf6`，并加入维护清单和精确 lock，但继续排除出 DDS-only 构建与运行。
+> 下文的 `planned=15 verified=15 blockers=4` 是审查执行时的历史结果；更新后的
+> exact-lock 只读审计为 `planned=16 verified=16 blockers=4`。
+
 ## 1. 审查基线与边界
 
 - 审查时间：2026-07-26（Asia/Shanghai）

@@ -1,5 +1,6 @@
 # ROS package names intentionally excluded from the T265 + D435 Offboard baseline.
-# Keep the source directories only as archived reference; do not restore or build them.
+# Keep these packages out of the DDS-only build. px4_bringup is the sole
+# provenance-locked archived source; the remaining historical packages are not restored.
 offboard_py
 cv_yolo_paddle_pkg
 opencv_cpp

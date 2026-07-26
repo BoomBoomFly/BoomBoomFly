@@ -97,9 +97,13 @@ At evidence-capture time, the official `--verify-only` command was deliberately
 fail-closed and stopped at the first pre-existing dirty checkout
 (`librealsense`). The installer was subsequently updated to audit every manifest
 entry before returning non-zero. After publishing the Offboard fix and updating
-the root lock, its current result is `planned=15`, `verified=15`,
-`blockers=4`; no existing dirty repository is reset, fetched, checked out,
-updated or otherwise changed.
+the root lock, its result at that update was `planned=15`, `verified=15`,
+`blockers=4`. On 2026-07-26, archived `px4_bringup` was aligned with its
+upstream default `DDS@0fbdcbf6`, added to the source manifests, and kept in
+`workspace.excluded_packages`. The subsequent read-only exact-lock audit
+reported `planned=16`, `verified=16`, `blockers=4`; no existing dirty
+repository was reset, fetched, checked out, updated or otherwise changed by
+either audit.
 
 The `offboard_cpp` fix now:
 

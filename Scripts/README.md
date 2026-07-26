@@ -24,7 +24,7 @@ Scripts/
 Scripts/installation/uav_px4_dds_install.sh
 ```
 
-该脚本只负责恢复源码仓库，不安装 ROS 2、系统依赖、udev 规则、PX4 固件或硬件配置。默认读取仓库根目录的 `workspace.lock.repos`，把其中 15 个 DDS-only 仓库恢复到精确 commit SHA。
+该脚本只负责恢复源码仓库，不安装 ROS 2、系统依赖、udev 规则、PX4 固件或硬件配置。默认读取仓库根目录的 `workspace.lock.repos`，把其中 16 个仓库恢复到精确 commit SHA；其中 15 个属于 DDS-only 源码基线，`px4_bringup` 仅作归档和来源追踪。
 
 恢复后的依赖仓库统一处于 detached HEAD；脚本不会创建本地开发分支，也不会执行 `git pull`。
 
@@ -34,7 +34,7 @@ Scripts/installation/uav_px4_dds_install.sh
 git clone https://github.com/wanone111/BoomBoomFly.git
 cd BoomBoomFly
 
-# 先确认 15 个仓库及精确 SHA，不创建文件
+# 先确认 16 个仓库及精确 SHA，不创建文件
 ./Scripts/installation/uav_px4_dds_install.sh \
   --dry-run \
   --skip-package-check \
@@ -78,8 +78,8 @@ cd BoomBoomFly
 
 #### Manifest 选择
 
-- 默认 `workspace.lock.repos`：15 个 DDS-only 仓库全部固定为 40 位 commit SHA，推荐用于部署、CI 和跨平台复现。
-- `workspace.repos`：16 个维护条目。其中 `offboard_cpp` 跟随 `DDS`，唯一外部路径 `../communication` 跟随 `main`；若使用它，必须同时传入 `--allow-moving-refs`。
+- 默认 `workspace.lock.repos`：16 个仓库全部固定为 40 位 commit SHA；15 个属于 DDS-only 源码基线，归档 `px4_bringup` 固定来源但不进入构建。
+- `workspace.repos`：17 个维护条目。其中 `offboard_cpp` 和归档 `px4_bringup` 跟随 `DDS`，唯一外部路径 `../communication` 跟随 `main`；若使用它，必须同时传入 `--allow-moving-refs`。
 - `communication` 按维护者决策不进入 lock。每次实验或发布必须单独记录它的实际 HEAD。
 
 ```bash
@@ -114,12 +114,15 @@ DDS-only 决策还移出了：
 
 - `mavlink`、`libmavconn`、`mavros`、`mavros_msgs`、`mavros_extras`
 - `vision_to_mavros`
-- MAVROS-only `px4_bringup`
+- MAVROS-only `px4_bringup`（仓库会按 lock 恢复以保留来源，但包不进入构建或运行）
 - 旧 `serial`、`serial_driver` 源仓库
 
 后续串口代码只从同级的 `../communication` 获取；该仓库是 moving dependency。
 
-机器可读清单为仓库根目录的 `workspace.excluded_packages`。安装脚本不会恢复这些包，M1 构建脚本也会显式传入 `--packages-skip`。如需重新纳入，必须先更新排除清单、仓库清单、依赖和验收计划。
+机器可读排除清单为仓库根目录的 `workspace.excluded_packages`。安装脚本只额外恢复
+归档 `px4_bringup` 的锁定源码，其余历史包不恢复；M1 构建脚本仍会显式传入
+`--packages-skip`。如需将任一排除包重新纳入构建或运行，必须先更新排除清单、
+依赖、安全边界和验收计划。
 
 #### 历史 M1 构建脚本
 
