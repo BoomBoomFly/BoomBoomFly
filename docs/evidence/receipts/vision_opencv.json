@@ -1,0 +1,232 @@
+{
+  "applicable_platform": {
+    "observed_context": "Audit documents associate this checkout with the Ubuntu 20.04, ROS 2 Foxy and aarch64 workspace; applicability is not confirmed.",
+    "status": "unverified",
+    "value": null
+  },
+  "baseline_status": "unverified",
+  "business_purpose": {
+    "observed_context": "The current differences are preserved observations. Their business necessity has not been confirmed by a maintainer.",
+    "status": "unverified",
+    "value": null
+  },
+  "checkout": {
+    "branch": "foxy",
+    "state": "branch"
+  },
+  "classifications": {
+    "configuration_modification": 0,
+    "deletion": 17,
+    "mode_change": 0,
+    "mode_only": 0,
+    "source_modification": 0,
+    "untracked": 0
+  },
+  "content": {
+    "algorithm": "workspace-content-manifest-sha256-v1",
+    "entry_count": 50,
+    "sha256": "a4fcf129afab03a8b8d13b8903ea538a5dbe2a1f3626e1e515f63558e46e4d26"
+  },
+  "file_mode_differences": {
+    "count": 0,
+    "entries": []
+  },
+  "maintainer_confirmation": {
+    "confirmed_at": null,
+    "notes": "No maintainer confirmation was present at capture time.",
+    "reviewer": null,
+    "status": "unapproved"
+  },
+  "observed_at": "2026-07-26T17:42:00+08:00",
+  "patch": {
+    "artifact_path": "docs/evidence/receipts/patches/vision_opencv.patch.b64",
+    "artifact_sha256": "9e7665eafe4a92d8ecc77ad41f220319521e3aae5b3b8b1705a93b651df68046",
+    "format": "git-diff-binary-v1+base64",
+    "includes": [
+      "tracked_diff",
+      "staged_diff",
+      "untracked_files"
+    ],
+    "sha256": "6c645c92e27afd9168b01bbcb0fbcf751472d623c64fabd7343b8680e0c0e162"
+  },
+  "receipt_id": "workspace-receipt-vision_opencv",
+  "replay_order": [
+    "verify_origin_and_head",
+    "apply_patch_artifact",
+    "verify_content_manifest_sha256",
+    "obtain_maintainer_confirmation"
+  ],
+  "repository": {
+    "base_sha": "72152d9d1d8edcfcafd707a1d0103810db8613ba",
+    "head": "72152d9d1d8edcfcafd707a1d0103810db8613ba",
+    "lock_manifest": "workspace.lock.repos",
+    "origin": "https://github.com/ros-perception/vision_opencv.git",
+    "path": "src/vision_opencv"
+  },
+  "schema_version": "1.0.0",
+  "staged_diff": {
+    "changed_file_count": 0,
+    "entries": [],
+    "patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "tracked_diff": {
+    "changed_file_count": 17,
+    "entries": [
+      {
+        "categories": [
+          "deletion"
+        ],
+        "git_status": "D",
+        "new_mode": null,
+        "old_mode": "100644",
+        "path": "image_geometry/CHANGELOG.rst"
+      },
+      {
+        "categories": [
+          "deletion"
+        ],
+        "git_status": "D",
+        "new_mode": null,
+        "old_mode": "100644",
+        "path": "image_geometry/CMakeLists.txt"
+      },
+      {
+        "categories": [
+          "deletion"
+        ],
+        "git_status": "D",
+        "new_mode": null,
+        "old_mode": "100644",
+        "path": "image_geometry/doc/conf.py"
+      },
+      {
+        "categories": [
+          "deletion"
+        ],
+        "git_status": "D",
+        "new_mode": null,
+        "old_mode": "100644",
+        "path": "image_geometry/doc/index.rst"
+      },
+      {
+        "categories": [
+          "deletion"
+        ],
+        "git_status": "D",
+        "new_mode": null,
+        "old_mode": "100644",
+        "path": "image_geometry/doc/mainpage.dox"
+      },
+      {
+        "categories": [
+          "deletion"
+        ],
+        "git_status": "D",
+        "new_mode": null,
+        "old_mode": "100644",
+        "path": "image_geometry/image_geometry/__init__.py"
+      },
+      {
+        "categories": [
+          "deletion"
+        ],
+        "git_status": "D",
+        "new_mode": null,
+        "old_mode": "100644",
+        "path": "image_geometry/image_geometry/cameramodels.py"
+      },
+      {
+        "categories": [
+          "deletion"
+        ],
+        "git_status": "D",
+        "new_mode": null,
+        "old_mode": "100644",
+        "path": "image_geometry/include/image_geometry/pinhole_camera_model.h"
+      },
+      {
+        "categories": [
+          "deletion"
+        ],
+        "git_status": "D",
+        "new_mode": null,
+        "old_mode": "100644",
+        "path": "image_geometry/include/image_geometry/stereo_camera_model.h"
+      },
+      {
+        "categories": [
+          "deletion"
+        ],
+        "git_status": "D",
+        "new_mode": null,
+        "old_mode": "100644",
+        "path": "image_geometry/include/image_geometry/visibility_control.hpp"
+      },
+      {
+        "categories": [
+          "deletion"
+        ],
+        "git_status": "D",
+        "new_mode": null,
+        "old_mode": "100644",
+        "path": "image_geometry/package.xml"
+      },
+      {
+        "categories": [
+          "deletion"
+        ],
+        "git_status": "D",
+        "new_mode": null,
+        "old_mode": "100644",
+        "path": "image_geometry/src/pinhole_camera_model.cpp"
+      },
+      {
+        "categories": [
+          "deletion"
+        ],
+        "git_status": "D",
+        "new_mode": null,
+        "old_mode": "100644",
+        "path": "image_geometry/src/stereo_camera_model.cpp"
+      },
+      {
+        "categories": [
+          "deletion"
+        ],
+        "git_status": "D",
+        "new_mode": null,
+        "old_mode": "100644",
+        "path": "image_geometry/test/CMakeLists.txt"
+      },
+      {
+        "categories": [
+          "deletion"
+        ],
+        "git_status": "D",
+        "new_mode": null,
+        "old_mode": "100644",
+        "path": "image_geometry/test/directed.py"
+      },
+      {
+        "categories": [
+          "deletion"
+        ],
+        "git_status": "D",
+        "new_mode": null,
+        "old_mode": "100644",
+        "path": "image_geometry/test/utest.cpp"
+      },
+      {
+        "categories": [
+          "deletion"
+        ],
+        "git_status": "D",
+        "new_mode": null,
+        "old_mode": "100644",
+        "path": "image_geometry/test/utest_equi.cpp"
+      }
+    ],
+    "patch_sha256": "6c645c92e27afd9168b01bbcb0fbcf751472d623c64fabd7343b8680e0c0e162"
+  },
+  "untracked_files": []
+}

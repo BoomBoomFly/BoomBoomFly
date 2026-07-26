@@ -1,0 +1,1464 @@
+{
+  "applicable_platform": {
+    "observed_context": "Audit documents associate this checkout with the Ubuntu 20.04, ROS 2 Foxy and aarch64 workspace; applicability is not confirmed.",
+    "status": "unverified",
+    "value": null
+  },
+  "baseline_status": "unverified",
+  "business_purpose": {
+    "observed_context": "The current differences are preserved observations. Their business necessity has not been confirmed by a maintainer.",
+    "status": "unverified",
+    "value": null
+  },
+  "checkout": {
+    "branch": null,
+    "state": "detached"
+  },
+  "classifications": {
+    "configuration_modification": 2,
+    "deletion": 0,
+    "mode_change": 1,
+    "mode_only": 97,
+    "source_modification": 0,
+    "untracked": 1
+  },
+  "content": {
+    "algorithm": "workspace-content-manifest-sha256-v1",
+    "entry_count": 103,
+    "sha256": "c5e3f971b0d0b4b162f18bd02e123eb3cccfe89724ae43fadfeaaec7bbdc1835"
+  },
+  "file_mode_differences": {
+    "count": 98,
+    "entries": [
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": ".github/workflows/main.yml"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": ".gitignore"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": ".travis.yml"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "LICENSE"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "NOTICE"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "README.md"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/.gitignore"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/CHANGELOG.rst"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/CMakeLists.txt"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/constants.h"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/dynamic_params.h"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/image_publisher.h"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/named_filter.h"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/profile_manager.h"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/ros_param_backend.h"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/ros_sensor.h"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/ros_utils.h"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/sensor_params.h"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/t265_realsense_node.h"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/launch/default.rviz"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/launch/rs_d400_and_t265_launch.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/launch/rs_intra_process_demo_launch.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/launch/rs_launch.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/launch/rs_multi_camera_launch.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/librealsense2_bionic.rdmanifest"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/librealsense2_xenial.rdmanifest"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/package.xml"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/echo_metadada.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/__init__.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/importRosbag.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/common.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/dvs_msgs_EventArray.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/esim_msgs_OpticFlow.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/geometry_msgs_PoseStamped.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/geometry_msgs_Transform.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/geometry_msgs_TransformStamped.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/geometry_msgs_TwistStamped.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/sensor_msgs_CameraInfo.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/sensor_msgs_Image.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/sensor_msgs_Imu.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/sensor_msgs_PointCloud2.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/tf_tfMessage.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/rs2_listener.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/rs2_test.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/set_cams_transforms.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/show_center_depth.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/topic_hz.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/dynamic_params.cpp"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/image_publisher.cpp"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/named_filter.cpp"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/parameters.cpp"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/profile_manager.cpp"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/realsense_node_factory.cpp"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/ros_param_backend_dashing.cpp"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/ros_param_backend_foxy.cpp"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/ros_sensor.cpp"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/ros_utils.cpp"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/sensor_params.cpp"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/t265_realsense_node.cpp"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/tools/frame_latency/frame_latency.cpp"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/tools/frame_latency/frame_latency.h"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera_msgs/CHANGELOG.rst"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera_msgs/CMakeLists.txt"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera_msgs/msg/Extrinsics.msg"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera_msgs/msg/IMUInfo.msg"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera_msgs/msg/Metadata.msg"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera_msgs/package.xml"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera_msgs/srv/DeviceInfo.srv"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/CHANGELOG.rst"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/CMakeLists.txt"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/launch/launch_utils.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/launch/view_model.launch.py"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/meshes/d415.stl"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/meshes/d435.dae"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/meshes/d455.stl"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/meshes/l515.dae"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/meshes/plug.stl"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/meshes/plug_collision.stl"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/package.xml"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/rviz/urdf.rviz"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_d415.urdf.xacro"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_d435.urdf.xacro"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_d435i.urdf.xacro"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_d435i_imu_modules.urdf.xacro"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_d455.urdf.xacro"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_l515.urdf.xacro"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_materials.urdf.xacro"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_r410.urdf.xacro"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_r430.urdf.xacro"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_usb_plug.urdf.xacro"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/test_d415_camera.urdf.xacro"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/test_d435_camera.urdf.xacro"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/test_d435_multiple_cameras.urdf.xacro"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/test_d435i_camera.urdf.xacro"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/test_d455_camera.urdf.xacro"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/test_l515_camera.urdf.xacro"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/test_r410_camera.urdf.xacro"
+      },
+      {
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/test_r430_camera.urdf.xacro"
+      }
+    ]
+  },
+  "maintainer_confirmation": {
+    "confirmed_at": null,
+    "notes": "No maintainer confirmation was present at capture time.",
+    "reviewer": null,
+    "status": "unapproved"
+  },
+  "observed_at": "2026-07-26T17:42:00+08:00",
+  "patch": {
+    "artifact_path": "docs/evidence/receipts/patches/realsense_ros.patch.b64",
+    "artifact_sha256": "56eca365a2bb1822a58ca6794ce909febd01be1b048e63462b89f4a5b6a9cf15",
+    "format": "git-diff-binary-v1+base64",
+    "includes": [
+      "tracked_diff",
+      "staged_diff",
+      "untracked_files"
+    ],
+    "sha256": "e01635d6d8854c7c9f45268a88dd358d2ec44c1978e5e63789fc356dbdfa25c4"
+  },
+  "receipt_id": "workspace-receipt-realsense_ros",
+  "replay_order": [
+    "verify_origin_and_head",
+    "apply_patch_artifact",
+    "verify_content_manifest_sha256",
+    "obtain_maintainer_confirmation"
+  ],
+  "repository": {
+    "base_sha": "8abb4657c0add15f87b0edbfb67eaba2c1c2c439",
+    "head": "8abb4657c0add15f87b0edbfb67eaba2c1c2c439",
+    "lock_manifest": "workspace.lock.repos",
+    "origin": "https://github.com/IntelRealSense/realsense-ros.git",
+    "path": "src/realsense-ros"
+  },
+  "schema_version": "1.0.0",
+  "staged_diff": {
+    "changed_file_count": 0,
+    "entries": [],
+    "patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "tracked_diff": {
+    "changed_file_count": 98,
+    "entries": [
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": ".github/workflows/main.yml"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": ".gitignore"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": ".travis.yml"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "LICENSE"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "NOTICE"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "README.md"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/.gitignore"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/CHANGELOG.rst"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/CMakeLists.txt"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/constants.h"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/dynamic_params.h"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/image_publisher.h"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/named_filter.h"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/profile_manager.h"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/ros_param_backend.h"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/ros_sensor.h"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/ros_utils.h"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/sensor_params.h"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/include/t265_realsense_node.h"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/launch/default.rviz"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/launch/rs_d400_and_t265_launch.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/launch/rs_intra_process_demo_launch.py"
+      },
+      {
+        "categories": [
+          "mode_change",
+          "configuration_modification"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/launch/rs_launch.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/launch/rs_multi_camera_launch.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/librealsense2_bionic.rdmanifest"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/librealsense2_xenial.rdmanifest"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/package.xml"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/echo_metadada.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/__init__.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/importRosbag.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/common.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/dvs_msgs_EventArray.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/esim_msgs_OpticFlow.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/geometry_msgs_PoseStamped.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/geometry_msgs_Transform.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/geometry_msgs_TransformStamped.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/geometry_msgs_TwistStamped.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/sensor_msgs_CameraInfo.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/sensor_msgs_Image.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/sensor_msgs_Imu.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/sensor_msgs_PointCloud2.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/importRosbag/messageTypes/tf_tfMessage.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/rs2_listener.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/rs2_test.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/set_cams_transforms.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/show_center_depth.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/scripts/topic_hz.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/dynamic_params.cpp"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/image_publisher.cpp"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/named_filter.cpp"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/parameters.cpp"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/profile_manager.cpp"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/realsense_node_factory.cpp"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/ros_param_backend_dashing.cpp"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/ros_param_backend_foxy.cpp"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/ros_sensor.cpp"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/ros_utils.cpp"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/sensor_params.cpp"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/src/t265_realsense_node.cpp"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/tools/frame_latency/frame_latency.cpp"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera/tools/frame_latency/frame_latency.h"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera_msgs/CHANGELOG.rst"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera_msgs/CMakeLists.txt"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera_msgs/msg/Extrinsics.msg"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera_msgs/msg/IMUInfo.msg"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera_msgs/msg/Metadata.msg"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera_msgs/package.xml"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_camera_msgs/srv/DeviceInfo.srv"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/CHANGELOG.rst"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/CMakeLists.txt"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/launch/launch_utils.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/launch/view_model.launch.py"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/meshes/d415.stl"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/meshes/d435.dae"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/meshes/d455.stl"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/meshes/l515.dae"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/meshes/plug.stl"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/meshes/plug_collision.stl"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/package.xml"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/rviz/urdf.rviz"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_d415.urdf.xacro"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_d435.urdf.xacro"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_d435i.urdf.xacro"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_d435i_imu_modules.urdf.xacro"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_d455.urdf.xacro"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_l515.urdf.xacro"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_materials.urdf.xacro"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_r410.urdf.xacro"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_r430.urdf.xacro"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/_usb_plug.urdf.xacro"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/test_d415_camera.urdf.xacro"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/test_d435_camera.urdf.xacro"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/test_d435_multiple_cameras.urdf.xacro"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/test_d435i_camera.urdf.xacro"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/test_d455_camera.urdf.xacro"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/test_l515_camera.urdf.xacro"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/test_r410_camera.urdf.xacro"
+      },
+      {
+        "categories": [
+          "mode_only"
+        ],
+        "git_status": "M",
+        "new_mode": "100755",
+        "old_mode": "100644",
+        "path": "realsense2_description/urdf/test_r430_camera.urdf.xacro"
+      }
+    ],
+    "patch_sha256": "67f4514c9e834e1160b321e5431ac9eb287606588d829b0f829db26a3b378908"
+  },
+  "untracked_files": [
+    {
+      "categories": [
+        "untracked",
+        "configuration_modification"
+      ],
+      "mode": "100644",
+      "path": "realsense2_camera/launch/rs_t265_launch.py",
+      "sha256": "3aafdc4f7020f166052ae4e9c312c9172c1e8cce97f10ca6449a7dbafc623ebb",
+      "type": "regular"
+    }
+  ]
+}

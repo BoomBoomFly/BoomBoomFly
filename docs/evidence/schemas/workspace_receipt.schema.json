@@ -1,0 +1,449 @@
+{
+  "$id": "https://github.com/BoomBoomFly/BoomBoomFly/docs/evidence/schemas/workspace_receipt.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "applicable_platform": {
+      "$ref": "#/$defs/unverifiedClaim"
+    },
+    "baseline_status": {
+      "description": "Receipt-local claim only. Approval requires a separately signed workspace receipt approval artifact.",
+      "enum": [
+        "unverified",
+        "approved"
+      ]
+    },
+    "business_purpose": {
+      "$ref": "#/$defs/unverifiedClaim"
+    },
+    "checkout": {
+      "additionalProperties": false,
+      "properties": {
+        "branch": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "state": {
+          "enum": [
+            "branch",
+            "detached"
+          ]
+        }
+      },
+      "required": [
+        "state",
+        "branch"
+      ],
+      "type": "object"
+    },
+    "classifications": {
+      "additionalProperties": false,
+      "properties": {
+        "configuration_modification": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "deletion": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "mode_change": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "mode_only": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "source_modification": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "untracked": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "mode_only",
+        "mode_change",
+        "deletion",
+        "source_modification",
+        "configuration_modification",
+        "untracked"
+      ],
+      "type": "object"
+    },
+    "content": {
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "const": "workspace-content-manifest-sha256-v1"
+        },
+        "entry_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "algorithm",
+        "entry_count",
+        "sha256"
+      ],
+      "type": "object"
+    },
+    "file_mode_differences": {
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "entries": {
+          "items": {
+            "$ref": "#/$defs/modeEntry"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "count",
+        "entries"
+      ],
+      "type": "object"
+    },
+    "maintainer_confirmation": {
+      "description": "Receipt-local confirmation claim only; it is not trusted without a separately signed approval artifact.",
+      "additionalProperties": false,
+      "properties": {
+        "confirmed_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "notes": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "reviewer": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "enum": [
+            "approved",
+            "unapproved"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "reviewer",
+        "confirmed_at",
+        "notes"
+      ],
+      "type": "object"
+    },
+    "observed_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "patch": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "artifact_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "format": {
+          "const": "git-diff-binary-v1+base64"
+        },
+        "includes": {
+          "const": [
+            "tracked_diff",
+            "staged_diff",
+            "untracked_files"
+          ]
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "format",
+        "artifact_path",
+        "artifact_sha256",
+        "sha256",
+        "includes"
+      ],
+      "type": "object"
+    },
+    "receipt_id": {
+      "pattern": "^workspace-receipt-[a-z0-9_]+$",
+      "type": "string"
+    },
+    "replay_order": {
+      "const": [
+        "verify_origin_and_head",
+        "apply_patch_artifact",
+        "verify_content_manifest_sha256",
+        "obtain_maintainer_confirmation"
+      ]
+    },
+    "repository": {
+      "additionalProperties": false,
+      "properties": {
+        "base_sha": {
+          "$ref": "#/$defs/gitSha"
+        },
+        "head": {
+          "$ref": "#/$defs/gitSha"
+        },
+        "lock_manifest": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "origin": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "origin",
+        "lock_manifest",
+        "base_sha",
+        "head"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "staged_diff": {
+      "$ref": "#/$defs/diff"
+    },
+    "tracked_diff": {
+      "$ref": "#/$defs/diff"
+    },
+    "untracked_files": {
+      "items": {
+        "$ref": "#/$defs/untrackedEntry"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "baseline_status",
+    "observed_at",
+    "repository",
+    "checkout",
+    "tracked_diff",
+    "staged_diff",
+    "untracked_files",
+    "file_mode_differences",
+    "classifications",
+    "patch",
+    "content",
+    "applicable_platform",
+    "business_purpose",
+    "replay_order",
+    "maintainer_confirmation"
+  ],
+  "title": "BoomBoomFly preserved workspace checkout receipt",
+  "type": "object",
+  "$defs": {
+    "diff": {
+      "additionalProperties": false,
+      "properties": {
+        "changed_file_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "entries": {
+          "items": {
+            "$ref": "#/$defs/diffEntry"
+          },
+          "type": "array"
+        },
+        "patch_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "changed_file_count",
+        "patch_sha256",
+        "entries"
+      ],
+      "type": "object"
+    },
+    "diffEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "categories": {
+          "items": {
+            "enum": [
+              "mode_only",
+              "mode_change",
+              "deletion",
+              "source_modification",
+              "configuration_modification"
+            ]
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "git_status": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "new_mode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "old_mode": {
+          "type": "string"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "git_status",
+        "old_mode",
+        "new_mode",
+        "categories"
+      ],
+      "type": "object"
+    },
+    "gitSha": {
+      "pattern": "^[0-9a-f]{40}$",
+      "type": "string"
+    },
+    "modeEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "new_mode": {
+          "type": "string"
+        },
+        "old_mode": {
+          "type": "string"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "old_mode",
+        "new_mode"
+      ],
+      "type": "object"
+    },
+    "relativePath": {
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          {
+            "pattern": "^/"
+          },
+          {
+            "pattern": "(^|/)\\.\\.(/|$)"
+          }
+        ]
+      },
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "untrackedEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "categories": {
+          "contains": {
+            "const": "untracked"
+          },
+          "items": {
+            "enum": [
+              "untracked",
+              "source_modification",
+              "configuration_modification"
+            ]
+          },
+          "type": "array"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "type": {
+          "enum": [
+            "regular",
+            "symlink",
+            "directory"
+          ]
+        }
+      },
+      "required": [
+        "path",
+        "type",
+        "mode",
+        "sha256",
+        "categories"
+      ],
+      "type": "object"
+    },
+    "unverifiedClaim": {
+      "additionalProperties": false,
+      "properties": {
+        "observed_context": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "unverified",
+            "verified",
+            "approved"
+          ]
+        },
+        "value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "value",
+        "observed_context"
+      ],
+      "type": "object"
+    }
+  }
+}

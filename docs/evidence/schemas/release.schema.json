@@ -1,0 +1,236 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/BoomBoomFly/BoomBoomFly/docs/evidence/schemas/release.schema.json",
+  "title": "BoomBoomFly release manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "release_id",
+    "lifecycle",
+    "created_at",
+    "repository",
+    "dependency_shas",
+    "environment_id",
+    "artifacts",
+    "acceptance_evidence_ids",
+    "rollback_manifest",
+    "promotion_command",
+    "approvals",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "release_id": {
+      "type": "string",
+      "pattern": "^BBF-REL-[A-Z0-9][A-Z0-9._-]{2,127}$"
+    },
+    "lifecycle": {
+      "enum": [
+        "template",
+        "draft",
+        "candidate",
+        "approved",
+        "rejected",
+        "rolled_back"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "repository": {
+      "$ref": "#/definitions/repository"
+    },
+    "dependency_shas": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/dependency"
+      }
+    },
+    "environment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/artifact"
+      }
+    },
+    "acceptance_evidence_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^BBF-EVID-[A-Z0-9][A-Z0-9._-]{2,127}$"
+      },
+      "uniqueItems": true
+    },
+    "rollback_manifest": {
+      "$ref": "#/definitions/artifact"
+    },
+    "promotion_command": {
+      "$ref": "#/definitions/command"
+    },
+    "approvals": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/approval"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "definitions": {
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "origin",
+        "root_branch",
+        "root_head"
+      ],
+      "properties": {
+        "origin": {
+          "type": "string",
+          "minLength": 1
+        },
+        "root_branch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "root_head": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "dependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "sha"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "origin": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "argv",
+        "cwd"
+      ],
+      "properties": {
+        "argv": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "cwd": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "identity",
+        "approved_at"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approved_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "lifecycle": {
+            "const": "template"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "approvals": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "lifecycle": {
+            "const": "approved"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "approvals": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

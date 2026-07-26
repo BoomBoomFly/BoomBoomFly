@@ -1,0 +1,107 @@
+{
+  "$id": "https://github.com/BoomBoomFly/BoomBoomFly/docs/evidence/schemas/workspace_receipt_approval.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BoomBoomFly workspace receipt maintainer approval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "signed_payload", "signature"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "signed_payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "approval_id",
+        "decision",
+        "approved_at",
+        "signer_identity",
+        "signer_public_key_fingerprint",
+        "receipt",
+        "checkout_binding",
+        "approved_claims"
+      ],
+      "properties": {
+        "approval_id": {
+          "type": "string",
+          "pattern": "^workspace-receipt-approval-[a-z0-9_.-]+$"
+        },
+        "decision": {"const": "approved"},
+        "approved_at": {"type": "string", "format": "date-time"},
+        "signer_identity": {"type": "string", "minLength": 1},
+        "signer_public_key_fingerprint": {
+          "type": "string",
+          "pattern": "^SHA256:[A-Za-z0-9+/]+$"
+        },
+        "receipt": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["receipt_id", "path", "sha256"],
+          "properties": {
+            "receipt_id": {
+              "type": "string",
+              "pattern": "^workspace-receipt-[a-z0-9_]+$"
+            },
+            "path": {"$ref": "#/$defs/relativePath"},
+            "sha256": {"$ref": "#/$defs/sha256"}
+          }
+        },
+        "checkout_binding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "origin",
+            "base_sha",
+            "head",
+            "patch_sha256",
+            "content_sha256"
+          ],
+          "properties": {
+            "path": {"$ref": "#/$defs/relativePath"},
+            "origin": {"type": "string", "minLength": 1},
+            "base_sha": {"$ref": "#/$defs/gitSha"},
+            "head": {"$ref": "#/$defs/gitSha"},
+            "patch_sha256": {"$ref": "#/$defs/sha256"},
+            "content_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        },
+        "approved_claims": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["applicable_platform", "business_purpose"],
+          "properties": {
+            "applicable_platform": {"type": "string", "minLength": 1},
+            "business_purpose": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "namespace", "artifact_path", "sha256"],
+      "properties": {
+        "algorithm": {"const": "openssh-sshsig-v1"},
+        "namespace": {
+          "const": "boomboomfly-workspace-receipt-approval-v1"
+        },
+        "artifact_path": {"$ref": "#/$defs/relativePath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  },
+  "$defs": {
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          {"pattern": "^/"},
+          {"pattern": "(^|/)\\.\\.(/|$)"}
+        ]
+      }
+    },
+    "gitSha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

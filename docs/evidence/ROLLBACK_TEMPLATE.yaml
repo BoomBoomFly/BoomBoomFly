@@ -1,0 +1,35 @@
+schema_version: "1.0"
+rollback_id: "BBF-RBK-REPLACE_ME"
+rollback_type: "software"
+manifest_state: "template"
+created_at: "2026-07-26T00:00:00+08:00"
+pre_state_hash: "0000000000000000000000000000000000000000000000000000000000000000"
+pre_state_artifact: null
+target_state_hash: "0000000000000000000000000000000000000000000000000000000000000000"
+target_state_artifact: null
+exact_artifact:
+  path: "artifacts/REPLACE_WITH_EXACT_ROLLBACK_ARTIFACT"
+  sha256: "0000000000000000000000000000000000000000000000000000000000000000"
+# A verified manifest must reference separately validated, current rollback evidence.
+# The evidence command and artifact list must bind this manifest's command and artifacts.
+execution_evidence: null
+exact_command:
+  argv:
+    - "REPLACE_WITH_EXACT_ROLLBACK_COMMAND"
+  cwd: "."
+stop_condition: "REPLACE_WITH_AN_OBJECTIVE_STOP_CONDITION"
+verification:
+  - command:
+      argv:
+        - "REPLACE_WITH_EXACT_READ_ONLY_VERIFICATION_COMMAND"
+      cwd: "."
+    expected: "REPLACE_WITH_EXACT_EXPECTED_RESULT"
+operator:
+  identity: null
+  recorded_at: null
+observer:
+  identity: null
+  recorded_at: null
+result: "not_run"
+limitations:
+  - "Template only. No rollback has been executed or verified."
