@@ -1,0 +1,253 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/BoomBoomFly/BoomBoomFly/docs/evidence/schemas/rollback.schema.json",
+  "title": "BoomBoomFly rollback manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "rollback_id",
+    "rollback_type",
+    "manifest_state",
+    "created_at",
+    "pre_state_hash",
+    "target_state_hash",
+    "exact_artifact",
+    "exact_command",
+    "stop_condition",
+    "verification",
+    "operator",
+    "observer",
+    "result",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "rollback_id": {
+      "type": "string",
+      "pattern": "^BBF-RBK-[A-Z0-9][A-Z0-9._-]{2,127}$"
+    },
+    "rollback_type": {
+      "enum": [
+        "firmware",
+        "software",
+        "parameter",
+        "configuration"
+      ]
+    },
+    "manifest_state": {
+      "enum": [
+        "template",
+        "planned",
+        "executed",
+        "verified"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "pre_state_hash": {
+      "$ref": "#/definitions/sha256"
+    },
+    "target_state_hash": {
+      "$ref": "#/definitions/sha256"
+    },
+    "exact_artifact": {
+      "$ref": "#/definitions/artifact"
+    },
+    "exact_command": {
+      "$ref": "#/definitions/command"
+    },
+    "stop_condition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "verification": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "command",
+          "expected"
+        ],
+        "properties": {
+          "command": {
+            "$ref": "#/definitions/command"
+          },
+          "expected": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "operator": {
+      "$ref": "#/definitions/person"
+    },
+    "observer": {
+      "$ref": "#/definitions/person"
+    },
+    "result": {
+      "enum": [
+        "not_run",
+        "passed",
+        "failed",
+        "aborted"
+      ]
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "definitions": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/definitions/sha256"
+        }
+      }
+    },
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "argv",
+        "cwd"
+      ],
+      "properties": {
+        "argv": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "cwd": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "person": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity",
+        "recorded_at"
+      ],
+      "properties": {
+        "identity": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "recorded_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "manifest_state": {
+            "const": "template"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "result": {
+            "const": "not_run"
+          },
+          "operator": {
+            "properties": {
+              "identity": {
+                "type": "null"
+              },
+              "recorded_at": {
+                "type": "null"
+              }
+            }
+          },
+          "observer": {
+            "properties": {
+              "identity": {
+                "type": "null"
+              },
+              "recorded_at": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "manifest_state": {
+            "const": "verified"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "result": {
+            "const": "passed"
+          },
+          "operator": {
+            "properties": {
+              "identity": {
+                "type": "string"
+              },
+              "recorded_at": {
+                "type": "string"
+              }
+            }
+          },
+          "observer": {
+            "properties": {
+              "identity": {
+                "type": "string"
+              },
+              "recorded_at": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
