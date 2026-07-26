@@ -85,6 +85,10 @@ mkdir -p -- "$OUTPUT_ROOT"/{artifacts,build,install,log,test-results}
 SELECTION="$OUTPUT_ROOT/artifacts/package-selection.tsv"
 
 set +u
+# Do not inherit packages from an unrelated ROS workspace. The only underlay
+# permitted by this authoritative entry point is the explicitly selected ROS
+# distribution setup below.
+unset AMENT_PREFIX_PATH COLCON_PREFIX_PATH CMAKE_PREFIX_PATH ROS_PACKAGE_PATH PYTHONPATH LD_LIBRARY_PATH PKG_CONFIG_PATH
 # shellcheck disable=SC1090
 source "$ROS_SETUP"
 set -u

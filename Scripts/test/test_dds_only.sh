@@ -80,6 +80,9 @@ bash "$WORKSPACE_ROOT/Scripts/build/build_dds_only.sh" \
   --ros-setup "$ROS_SETUP"
 
 set +u
+# Match the build entry point clean underlay boundary before loading the
+# isolated install space.
+unset AMENT_PREFIX_PATH COLCON_PREFIX_PATH CMAKE_PREFIX_PATH ROS_PACKAGE_PATH PYTHONPATH LD_LIBRARY_PATH PKG_CONFIG_PATH
 # shellcheck disable=SC1090
 source "$ROS_SETUP"
 # shellcheck disable=SC1090
