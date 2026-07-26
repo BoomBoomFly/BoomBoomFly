@@ -39,6 +39,13 @@
     "^/fmu/in/"
   ],
   "historical_denied_inventory": [
+    "test/launch_guard/fixtures/dangerous_include.launch.py",
+    "test/launch_guard/fixtures/dangerous_node.launch.py",
+    "test/launch_guard/fixtures/dangerous_process.launch.py",
+    "test/launch_guard/fixtures/dangerous_xml.launch.xml",
+    "test/launch_guard/fixtures/duplicate_writer.launch.py",
+    "test/launch_guard/fixtures/dynamic_requires_review.launch.py",
+    "test/launch_guard/fixtures/safe_one_writer.launch.py",
     "src/cv_yolo_paddle_pkg/launch/yolo_node.launch.py",
     "src/gazebo_ros_pkgs/.ros1_unported/gazebo_plugins/test/bumper_test/test_bumper.launch",
     "src/gazebo_ros_pkgs/.ros1_unported/gazebo_plugins/test/multi_robot_scenario/launch/multi_robot_scenario.launch",
