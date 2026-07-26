@@ -57,6 +57,17 @@ class WorkspaceReceiptTest(unittest.TestCase):
             PROJECT_ROOT / "docs/evidence/schemas/workspace_receipt.schema.json",
             schema_dir / "workspace_receipt.schema.json",
         )
+        shutil.copy2(
+            PROJECT_ROOT
+            / "docs/evidence/schemas/workspace_receipt_approval.schema.json",
+            schema_dir / "workspace_receipt_approval.schema.json",
+        )
+        approvals_dir = self.root / "docs/evidence/receipts/approvals"
+        approvals_dir.mkdir(parents=True)
+        (approvals_dir / "trusted_maintainers.json").write_text(
+            "{\"schema_version\":\"1.0.0\",\"signers\":[]}\n",
+            encoding="utf-8",
+        )
 
         self.repo = self.root / "src/example"
         self.repo.mkdir(parents=True)
@@ -225,7 +236,7 @@ class WorkspaceReceiptTest(unittest.TestCase):
                 errors, _, _ = RECEIPTS.validate_receipt(self.root, path)
                 self.assertTrue(any(expected in error for error in errors), errors)
 
-    def test_approved_receipt_requires_verified_claims_and_identity(self):
+    def test_receipt_self_claim_cannot_approve(self):
         approved = copy.deepcopy(self.receipt())
         approved["baseline_status"] = "approved"
         approved["maintainer_confirmation"].update({
@@ -234,9 +245,10 @@ class WorkspaceReceiptTest(unittest.TestCase):
             "confirmed_at": "2026-07-26T01:00:00+00:00",
         })
         path = self.write_variant("approved-missing-claims.json", approved)
-        errors, _, _ = RECEIPTS.validate_receipt(self.root, path)
-        self.assertTrue(any("applicable_platform" in error for error in errors))
-        self.assertTrue(any("business_purpose" in error for error in errors))
+        errors, warnings, _ = RECEIPTS.validate_receipt(self.root, path)
+        self.assertEqual([], errors)
+        self.assertEqual(1, len(warnings))
+        self.assertIn("independently signed", warnings[0])
 
         approved["applicable_platform"].update({
             "status": "verified",
@@ -257,7 +269,20 @@ class WorkspaceReceiptTest(unittest.TestCase):
             self.root, path, schema_document=schema
         )
         self.assertEqual([], errors)
-        self.assertEqual([], warnings)
+        self.assertEqual(1, len(warnings))
+        self.assertIn("independently signed", warnings[0])
+        stdout = io.StringIO()
+        stderr = io.StringIO()
+        with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+            exit_code = RECEIPTS.main([
+                "--repository-root",
+                str(self.root),
+                "--receipt",
+                str(path),
+            ])
+        self.assertEqual(RECEIPTS.EXIT_UNAPPROVED, exit_code)
+        self.assertIn("\"result\": \"UNAPPROVED\"", stdout.getvalue())
+        self.assertNotIn("\"result\": \"PASS\"", stdout.getvalue())
 
         missing_identity = copy.deepcopy(approved)
         missing_identity["maintainer_confirmation"]["reviewer"] = None
@@ -266,6 +291,139 @@ class WorkspaceReceiptTest(unittest.TestCase):
         errors, _, _ = RECEIPTS.validate_receipt(self.root, path)
         self.assertTrue(any("reviewer and confirmed_at" in error for error in errors))
 
+
+    def test_detached_allowlisted_signature_is_required_and_bound(self):
+        if shutil.which("ssh-keygen") is None:
+            self.skipTest("ssh-keygen unavailable")
+        approved = copy.deepcopy(self.receipt())
+        approved["baseline_status"] = "approved"
+        approved["applicable_platform"].update({
+            "status": "verified",
+            "value": "Ubuntu 20.04 / ROS 2 Foxy / aarch64",
+        })
+        approved["business_purpose"].update({
+            "status": "approved",
+            "value": "Maintainer-approved compatibility delta",
+        })
+        identity = "maintainer@example.invalid"
+        approved_at = "2026-07-26T01:00:00+00:00"
+        approved["maintainer_confirmation"].update({
+            "status": "approved",
+            "reviewer": identity,
+            "confirmed_at": approved_at,
+        })
+        receipt_path = self.write_variant("signed.json", approved)
+
+        key_path = Path(self.temporary.name) / "approval_key"
+        command(
+            ["ssh-keygen", "-q", "-t", "ed25519", "-N", "", "-f", str(key_path)],
+            self.root,
+        )
+        public_key = " ".join(
+            (key_path.with_suffix(".pub"))
+            .read_text(encoding="utf-8")
+            .split()[:2]
+        )
+        fingerprint = command(
+            [
+                "ssh-keygen",
+                "-lf",
+                str(key_path.with_suffix(".pub")),
+                "-E",
+                "sha256",
+            ],
+            self.root,
+        ).decode("utf-8").split()[1]
+        payload = {
+            "approval_id": "workspace-receipt-approval-example",
+            "decision": "approved",
+            "approved_at": approved_at,
+            "signer_identity": identity,
+            "signer_public_key_fingerprint": fingerprint,
+            "receipt": {
+                "receipt_id": approved["receipt_id"],
+                "path": receipt_path.relative_to(self.root).as_posix(),
+                "sha256": RECEIPTS.sha256_file(receipt_path),
+            },
+            "checkout_binding": {
+                "path": approved["repository"]["path"],
+                "origin": approved["repository"]["origin"],
+                "base_sha": approved["repository"]["base_sha"],
+                "head": approved["repository"]["head"],
+                "patch_sha256": approved["patch"]["sha256"],
+                "content_sha256": approved["content"]["sha256"],
+            },
+            "approved_claims": {
+                "applicable_platform": approved["applicable_platform"]["value"],
+                "business_purpose": approved["business_purpose"]["value"],
+            },
+        }
+        payload_path = Path(self.temporary.name) / "approval_payload.json"
+        payload_path.write_bytes(RECEIPTS.canonical_json_bytes(payload))
+        command(
+            [
+                "ssh-keygen",
+                "-Y",
+                "sign",
+                "-f",
+                str(key_path),
+                "-n",
+                RECEIPTS.APPROVAL_NAMESPACE,
+                str(payload_path),
+            ],
+            self.root,
+        )
+        approvals_dir = self.root / "docs/evidence/receipts/approvals"
+        signature_path = approvals_dir / "signed.sig"
+        shutil.copy2(Path(str(payload_path) + ".sig"), signature_path)
+        approval = {
+            "schema_version": "1.0.0",
+            "signed_payload": payload,
+            "signature": {
+                "algorithm": "openssh-sshsig-v1",
+                "namespace": RECEIPTS.APPROVAL_NAMESPACE,
+                "artifact_path": signature_path.relative_to(self.root).as_posix(),
+                "sha256": RECEIPTS.sha256_file(signature_path),
+            },
+        }
+        approval_path = approvals_dir / "signed.approval.json"
+        approval_path.write_text(json.dumps(approval), encoding="utf-8")
+        approval_schema = json.loads(
+            (
+                PROJECT_ROOT
+                / "docs/evidence/schemas/workspace_receipt_approval.schema.json"
+            ).read_text(encoding="utf-8")
+        )
+        trusted = {
+            identity: {
+                "identity": identity,
+                "public_key": public_key,
+                "fingerprint": fingerprint,
+            }
+        }
+        errors, warnings, _ = RECEIPTS.validate_receipt(
+            self.root,
+            receipt_path,
+            approval_path=approval_path,
+            approval_schema_document=approval_schema,
+            trusted_signers=trusted,
+        )
+        self.assertEqual([], errors)
+        self.assertEqual([], warnings)
+
+        tampered = copy.deepcopy(approved)
+        tampered["business_purpose"]["value"] = "Self-claimed replacement purpose"
+        receipt_path.write_text(json.dumps(tampered), encoding="utf-8")
+        errors, warnings, _ = RECEIPTS.validate_receipt(
+            self.root,
+            receipt_path,
+            approval_path=approval_path,
+            approval_schema_document=approval_schema,
+            trusted_signers=trusted,
+        )
+        self.assertTrue(any("receipt binding mismatch" in error for error in errors))
+        self.assertTrue(any("claim binding mismatch" in error for error in errors))
+        self.assertTrue(warnings)
 
 if __name__ == "__main__":
     unittest.main()

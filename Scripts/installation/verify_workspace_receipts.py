@@ -21,6 +21,7 @@ EXIT_OK = 0
 EXIT_INVALID = 1
 EXIT_UNAPPROVED = 2
 HEX64 = set("0123456789abcdef")
+APPROVAL_NAMESPACE = "boomboomfly-workspace-receipt-approval-v1"
 REQUIRED_RECEIPT_KEYS = {
     "schema_version",
     "receipt_id",
@@ -56,6 +57,12 @@ def sha256_file(path: Path) -> str:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def canonical_json_bytes(value: Any) -> bytes:
+    return json.dumps(
+        value, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
 
 
 def is_sha256(value: Any) -> bool:
@@ -663,25 +670,222 @@ def compare_inventory(
 def validate_approval(
     receipt: Dict[str, Any], errors: List[str], warnings: List[str]
 ) -> None:
-    confirmation = receipt["maintainer_confirmation"]
-    approved = confirmation["status"] == "approved"
-    if not approved:
-        warnings.append("UNAPPROVED: maintainer confirmation is absent")
-        if receipt["baseline_status"] == "approved":
-            errors.append("baseline_status=approved requires maintainer approval")
-        return
-    if receipt["baseline_status"] != "approved":
-        errors.append("approved confirmation requires baseline_status=approved")
-    for label in ("applicable_platform", "business_purpose"):
-        claim = receipt[label]
-        if claim.get("status") not in ("verified", "approved"):
-            errors.append(
-                "approved receipt requires {} status verified/approved".format(label)
-            )
-        value = claim.get("value")
-        if not isinstance(value, str) or not value.strip():
-            errors.append("approved receipt requires non-empty {} value".format(label))
+    warnings.append(
+        "UNAPPROVED: no independently signed maintainer approval was verified"
+    )
 
+
+def load_trusted_signers(path: Path) -> Dict[str, Dict[str, str]]:
+    try:
+        document = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        raise ReceiptError("cannot read trusted maintainer list: {}".format(error))
+    if not isinstance(document, dict) or document.get("schema_version") != "1.0.0":
+        raise ReceiptError("trusted maintainer list has unsupported schema")
+    raw_signers = document.get("signers")
+    if not isinstance(raw_signers, list):
+        raise ReceiptError("trusted maintainer list signers must be an array")
+    signers: Dict[str, Dict[str, str]] = {}
+    for index, raw in enumerate(raw_signers):
+        if not isinstance(raw, dict) or set(raw) != {
+            "identity",
+            "public_key",
+            "fingerprint",
+        }:
+            raise ReceiptError(
+                "trusted maintainer entry {} has invalid fields".format(index)
+            )
+        identity = raw.get("identity")
+        public_key = raw.get("public_key")
+        fingerprint = raw.get("fingerprint")
+        if not all(isinstance(item, str) and item.strip() for item in (
+            identity,
+            public_key,
+            fingerprint,
+        )):
+            raise ReceiptError(
+                "trusted maintainer entry {} has empty values".format(index)
+            )
+        if any(character.isspace() for character in identity):
+            raise ReceiptError(
+                "trusted maintainer identity must not contain whitespace"
+            )
+        if not public_key.startswith("ssh-ed25519 "):
+            raise ReceiptError(
+                "trusted maintainer {} must use an ssh-ed25519 key".format(identity)
+            )
+        key_fields = public_key.split()
+        if (
+            len(key_fields) != 2
+            or public_key != "{} {}".format(*key_fields)
+        ):
+            raise ReceiptError(
+                "trusted maintainer {} public key must omit comments".format(identity)
+            )
+        try:
+            key_blob = base64.b64decode(key_fields[1], validate=True)
+        except (ValueError, binascii.Error):
+            raise ReceiptError(
+                "trusted maintainer {} public key is invalid".format(identity)
+            )
+        computed_fingerprint = "SHA256:" + base64.b64encode(
+            hashlib.sha256(key_blob).digest()
+        ).decode("ascii").rstrip("=")
+        if fingerprint != computed_fingerprint:
+            raise ReceiptError(
+                "trusted maintainer {} fingerprint does not match public key".format(
+                    identity
+                )
+            )
+        if identity in signers:
+            raise ReceiptError("duplicate trusted maintainer: {}".format(identity))
+        signers[identity] = {
+            "identity": identity,
+            "public_key": public_key,
+            "fingerprint": fingerprint,
+        }
+    return signers
+
+
+def verify_approval_signature(
+    root: Path,
+    approval: Dict[str, Any],
+    trusted_signers: Dict[str, Dict[str, str]],
+) -> List[str]:
+    errors: List[str] = []
+    payload = approval["signed_payload"]
+    signature = approval["signature"]
+    identity = payload["signer_identity"]
+    signer = trusted_signers.get(identity)
+    if signer is None:
+        return ["approval signer is not in the trusted maintainer allowlist"]
+    if payload["signer_public_key_fingerprint"] != signer["fingerprint"]:
+        errors.append("approval signer fingerprint does not match trust allowlist")
+    try:
+        signature_path = within(
+            root, signature["artifact_path"], "approval signature artifact"
+        )
+        if not signature_path.is_file():
+            errors.append("approval signature artifact is missing")
+        elif sha256_file(signature_path) != signature["sha256"]:
+            errors.append("approval signature artifact hash mismatch")
+    except (OSError, ReceiptError) as error:
+        errors.append(str(error))
+        return errors
+    if errors:
+        return errors
+    ssh_keygen = shutil.which("ssh-keygen")
+    if ssh_keygen is None:
+        return ["ssh-keygen is required to verify receipt approval signatures"]
+    with tempfile.TemporaryDirectory(
+        prefix="boomboomfly_receipt_approval_", dir=tempfile.gettempdir()
+    ) as temporary:
+        allowed_signers = Path(temporary) / "allowed_signers"
+        allowed_signers.write_text(
+            "{} {}\n".format(identity, signer["public_key"]), encoding="utf-8"
+        )
+        completed = subprocess.run(
+            [
+                ssh_keygen,
+                "-Y",
+                "verify",
+                "-f",
+                str(allowed_signers),
+                "-I",
+                identity,
+                "-n",
+                APPROVAL_NAMESPACE,
+                "-s",
+                str(signature_path),
+            ],
+            input=canonical_json_bytes(payload),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+        if completed.returncode != 0:
+            detail = completed.stderr.decode("utf-8", "replace").strip()
+            errors.append(
+                "approval signature verification failed (exit {}): {}".format(
+                    completed.returncode, detail
+                )
+            )
+    return errors
+
+
+def validate_external_approval(
+    root: Path,
+    receipt_path: Path,
+    receipt: Dict[str, Any],
+    approval_path: Optional[Path],
+    approval_schema: Optional[Dict[str, Any]],
+    trusted_signers: Optional[Dict[str, Dict[str, str]]],
+) -> Tuple[List[str], bool]:
+    if approval_path is None or not approval_path.is_file():
+        return [], False
+    errors: List[str] = []
+    try:
+        approval = json.loads(approval_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        return ["cannot read approval artifact: {}".format(error)], False
+    if not isinstance(approval, dict):
+        return ["approval artifact root must be an object"], False
+    if approval_schema is None:
+        errors.append("approval schema is required when an approval artifact exists")
+    else:
+        errors.extend(json_schema_errors(approval, approval_schema))
+    if errors:
+        return errors, False
+    payload = approval["signed_payload"]
+    receipt_binding = payload["receipt"]
+    checkout_binding = payload["checkout_binding"]
+    claims = payload["approved_claims"]
+    try:
+        relative_receipt = receipt_path.resolve().relative_to(root.resolve()).as_posix()
+    except ValueError:
+        return ["receipt path is outside repository root"], False
+    expected_receipt = {
+        "receipt_id": receipt["receipt_id"],
+        "path": relative_receipt,
+        "sha256": sha256_file(receipt_path),
+    }
+    if receipt_binding != expected_receipt:
+        errors.append("approval receipt binding mismatch")
+    expected_checkout = {
+        "path": receipt["repository"]["path"],
+        "origin": receipt["repository"]["origin"],
+        "base_sha": receipt["repository"]["base_sha"],
+        "head": receipt["repository"]["head"],
+        "patch_sha256": receipt["patch"]["sha256"],
+        "content_sha256": receipt["content"]["sha256"],
+    }
+    if checkout_binding != expected_checkout:
+        errors.append("approval checkout binding mismatch")
+    expected_claims = {
+        "applicable_platform": receipt["applicable_platform"].get("value"),
+        "business_purpose": receipt["business_purpose"].get("value"),
+    }
+    if claims != expected_claims:
+        errors.append("approval claim binding mismatch")
+    confirmation = receipt["maintainer_confirmation"]
+    if receipt["baseline_status"] != "approved":
+        errors.append("signed approval requires baseline_status=approved")
+    if confirmation.get("status") != "approved":
+        errors.append("signed approval requires maintainer_confirmation.status=approved")
+    if confirmation.get("reviewer") != payload["signer_identity"]:
+        errors.append("receipt reviewer does not match signed approval identity")
+    if confirmation.get("confirmed_at") != payload["approved_at"]:
+        errors.append("receipt confirmation time does not match signed approval")
+    for label in ("applicable_platform", "business_purpose"):
+        if receipt[label].get("status") not in ("verified", "approved"):
+            errors.append(
+                "signed approval requires {} status verified/approved".format(label)
+            )
+    if trusted_signers is None:
+        errors.append("trusted maintainer allowlist is required")
+    else:
+        errors.extend(verify_approval_signature(root, approval, trusted_signers))
+    return errors, not errors
 
 def patch_paths_are_safe(patch: bytes) -> bool:
     for raw_line in patch.splitlines():
@@ -719,6 +923,9 @@ def validate_receipt(
     receipt_path: Path,
     source_root: Optional[Path] = None,
     schema_document: Optional[Dict[str, Any]] = None,
+    approval_path: Optional[Path] = None,
+    approval_schema_document: Optional[Dict[str, Any]] = None,
+    trusted_signers: Optional[Dict[str, Dict[str, str]]] = None,
 ) -> Tuple[List[str], List[str], Optional[Dict[str, Any]]]:
     errors: List[str] = []
     warnings: List[str] = []
@@ -812,6 +1019,20 @@ def validate_receipt(
         errors.append(str(error))
 
     validate_approval(receipt, errors, warnings)
+    approval_errors, approved = validate_external_approval(
+        root,
+        receipt_path,
+        receipt,
+        approval_path,
+        approval_schema_document,
+        trusted_signers,
+    )
+    errors.extend(approval_errors)
+    if approved:
+        warnings = [
+            warning for warning in warnings
+            if "independently signed maintainer approval" not in warning
+        ]
     return errors, warnings, receipt
 
 
@@ -963,6 +1184,30 @@ def parser() -> argparse.ArgumentParser:
         help="Schema path to require (default: docs/evidence/schemas/workspace_receipt.schema.json)",
     )
     argument_parser.add_argument(
+        "--approval-schema",
+        type=Path,
+        help=(
+            "Independent approval schema path (default: "
+            "docs/evidence/schemas/workspace_receipt_approval.schema.json)"
+        ),
+    )
+    argument_parser.add_argument(
+        "--approvals-dir",
+        type=Path,
+        help=(
+            "Detached approval directory (default: "
+            "docs/evidence/receipts/approvals)"
+        ),
+    )
+    argument_parser.add_argument(
+        "--trusted-maintainers",
+        type=Path,
+        help=(
+            "Explicit trusted signer allowlist (default: "
+            "approvals/trusted_maintainers.json)"
+        ),
+    )
+    argument_parser.add_argument(
         "--receipt",
         action="append",
         type=Path,
@@ -1029,6 +1274,35 @@ def main(arguments: Optional[Sequence[str]] = None) -> int:
             raise ReceiptError(
                 "invalid workspace receipt schema: {}".format(error.message)
             )
+        approval_schema_path = (
+            options.approval_schema
+            if options.approval_schema is not None
+            else root / "docs/evidence/schemas/workspace_receipt_approval.schema.json"
+        )
+        if not approval_schema_path.is_file():
+            raise ReceiptError(
+                "approval schema not found: {}".format(approval_schema_path)
+            )
+        approval_schema_document = json.loads(
+            approval_schema_path.read_text(encoding="utf-8")
+        )
+        try:
+            jsonschema.Draft202012Validator.check_schema(approval_schema_document)
+        except jsonschema.exceptions.SchemaError as error:
+            raise ReceiptError(
+                "invalid workspace receipt approval schema: {}".format(error.message)
+            )
+        approvals_dir = (
+            options.approvals_dir
+            if options.approvals_dir is not None
+            else root / "docs/evidence/receipts/approvals"
+        )
+        trusted_maintainers_path = (
+            options.trusted_maintainers
+            if options.trusted_maintainers is not None
+            else approvals_dir / "trusted_maintainers.json"
+        )
+        trusted_signers = load_trusted_signers(trusted_maintainers_path)
 
         if options.capture:
             if not options.capture_repository or not options.receipt_name:
@@ -1084,11 +1358,17 @@ def main(arguments: Optional[Sequence[str]] = None) -> int:
         unapproved_count = 0
         for receipt_path in receipt_paths:
             path = receipt_path if receipt_path.is_absolute() else root / receipt_path
+            approval_path = approvals_dir / (path.stem + ".approval.json")
             errors, warnings, receipt = validate_receipt(
                 root,
                 path,
                 source_root=verification_source_root,
                 schema_document=schema_document,
+                approval_path=(
+                    approval_path if approval_path.is_file() else None
+                ),
+                approval_schema_document=approval_schema_document,
+                trusted_signers=trusted_signers,
             )
             if options.check_replay and receipt is not None and not errors:
                 errors.extend(

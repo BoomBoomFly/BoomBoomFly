@@ -7,6 +7,7 @@
       "$ref": "#/$defs/unverifiedClaim"
     },
     "baseline_status": {
+      "description": "Receipt-local claim only. Approval requires a separately signed workspace receipt approval artifact.",
       "enum": [
         "unverified",
         "approved"
@@ -117,6 +118,7 @@
       "type": "object"
     },
     "maintainer_confirmation": {
+      "description": "Receipt-local confirmation claim only; it is not trusted without a separately signed approval artifact.",
       "additionalProperties": false,
       "properties": {
         "confirmed_at": {
