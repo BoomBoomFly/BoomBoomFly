@@ -2,12 +2,9 @@
 
 ## 目的
 
-本文规定 BoomBoomFly 文档分别回答什么问题，以及历史、当前和计划如何区分。
-它不改变 accepted ADR，也不把本轮文档工作提升为运行验证。
-
-本文起草所依据的 checkout 是
-`master@5a0e6edd4930474506a1046d414425893ebd800f`。该 identity 只说明本轮文档
-核对基线；后续 checkout 必须重新记录自己的 branch、HEAD 和工作树。
+本文规定 BoomBoomFly 文档分别回答什么问题，以及决策、当前规范、临时交接、
+计划和不可变历史记录之间的权威边界。文档类型不能自行授予 production、硬件、
+刷写或飞行权限。
 
 ## 状态词汇
 
@@ -27,122 +24,101 @@ BLOCKED
 UNVERIFIED
 ```
 
-ADR 自身可以使用 `Proposed`、`Accepted`、`Deprecated`、`Superseded` 表示决策
-生命周期；这不等于能力实现或测试状态。
+ADR 可使用 `Proposed`、`Accepted`、`Deprecated`、`Superseded` 表示决策生命
+周期；这不等于能力实现或验证状态。
 
 ## 文档类型与权威范围
 
-| 文档类型 | 权威回答 | 不回答 |
+| 文档类型 | 权威范围 | 边界 |
 |---|---|---|
-| ADR | 为什么选择某架构、边界及后果 | 当前进程、当前参数或某次测试是否通过 |
-| Control authority matrix | 谁允许写哪些控制/视觉 topic、profile 基数与禁止组件 | 运行时是否已强制、publisher 当前数量 |
-| Machine-readable profile | 某受管运行/构建 profile 的精确配置和 allowlist | 决策理由、某次运行事实 |
-| Evidence/receipt | 某 source/profile/time 下实际执行了什么及结果 | 普遍架构规则、未来计划 |
-| Handoff | 当前导航、最近状态入口和下一步指针 | 长期决策或不可变事实数据库 |
-| Roadmap/planning | 未完成工作、顺序、依赖和目标 | 已实现或已验证事实 |
-| Audit | 某 checkout、某时间点的审查发现 | 当前 checkout 的自动真相 |
-| Runbook | 经批准操作应如何逐步执行及何时停止/回滚 | 操作是否已执行或通过 |
+| Accepted ADR | 架构决策、理由、禁止边界与后果 | 不证明当前实现或运行状态 |
+| Architecture / control matrix | 当前系统规范、writer/owner、数据流、部署和故障边界 | 不得违反 Accepted ADR；不证明运行时已强制 |
+| Machine-readable profile | 受管 build/runtime 的精确配置与 allowlist | 不替代决策理由或执行 evidence |
+| Handoff | 临时交接、导航和 freshness 提示 | 不是长期事实库，不覆盖 ADR、规范或 evidence |
+| Planning | 待办、顺序、依赖、owner 和验收门 | 计划不等于实现或通过 |
+| Runbook | 经批准操作的步骤、go/no-go、停止与回滚 | 文档存在不表示步骤已执行 |
+| Dated audit | 绑定日期与 checkout 的审查发现 | 不自动代表当前 tree |
+| Dated evidence / receipt | 绑定 source/profile/artifact/time 的实际记录 | 不自动推广为普遍规则或当前状态 |
+| Correction / supersedes record | 修正历史引用、解释限制或以新记录替代旧结论 | 保留原历史正文和原始 artifact |
 
-## 约束优先级
+## 权威层级
 
-不存在对所有问题都适用的单一文档排名；先按问题类型选择权威来源：
+应先按问题类型选取权威来源，再处理冲突：
 
-1. 架构与禁止边界：accepted ADR。
-2. 控制 writer/owner：control authority matrix，但不得违反 ADR。
-3. 实际运行配置：批准的 machine-readable profile，但不得违反 ADR/matrix。
-4. 某次验证事实：对应 evidence/receipt，且必须匹配 source/profile/artifact。
-5. 操作方法：当前批准 runbook，且必须消费上述配置和证据门。
-6. 当前导航：handoff，只链接权威材料并标记 freshness。
-7. 未来工作：roadmap/planning。
-8. 历史审查：audit，作为线索和风险记录。
+1. 架构决策由 Accepted ADR 决定。
+2. 当前系统规范由 architecture 文档和 control matrix 决定，但不得违反 ADR。
+3. 精确运行或构建配置由获批 machine-readable profile 决定，但不得违反 ADR
+   或当前规范。
+4. 操作方法由当前获批 runbook 决定，并必须消费上述配置与门禁。
+5. 某次执行事实只由匹配 source/profile/artifact identity 的 evidence/receipt
+   证明。
+6. handoff 只提供临时导航；planning 只描述未来工作。
+7. dated audit/evidence 是不可变历史记录，通过 correction 或 superseding
+   record 解释，不原地改写。
 
-法律、许可证、生产启用和硬件授权需要维护者及适用责任人的显式决策；任何文档
-类型都不能自行推定这些权限。
+法律、许可证、production enable 和硬件授权仍需维护者及适用责任人的显式决策。
+
+## 历史勘误与 supersession
+
+历史审计、原始 evidence、receipt、schema 和参数快照不得为了匹配当前 tree 而
+重写或删除。
+
+发现错误或后续变化时：
+
+1. 保留原文件和 artifact。
+2. 在同一日期审计目录的 `CORRECTIONS.md` 或新的 dated correction record 中记录
+   原文件、错误位置、错误内容、正确目标或“当前 tree 不存在”。
+3. 如果新记录取代旧结论，双方通过 `supersedes` / `superseded_by` 建立可追溯
+   关系；原记录保持 `HISTORICAL_EVIDENCE`。
+4. evidence 的 supersession 必须符合
+   [evidence schema](../evidence/SCHEMA.md) 和机器可读索引。
+5. correction 只修正解释和引用，不把未执行项目提升为通过。
+
+2026-07-26 历史引用的已知修正见
+[CORRECTIONS](../audits/2026-07-26/CORRECTIONS.md)。
 
 ## 冲突处理
 
-发现冲突时：
-
-1. 停止提升状态；安全相关冲突默认标 `BLOCKED`。
-2. 记录双方文件、精确段落、checkout HEAD、更新时间和冲突类别。
-3. 按“权威范围”确认谁应回答该问题，而不是简单选择更新时间较新的文件。
-4. profile 违反 ADR/matrix 时，不运行 profile；通过 ADR 变更或修复 profile 解决。
-5. runbook 违反 profile/安全边界时，停止操作并修订 runbook。
-6. evidence 与描述不符时，保留原 evidence，创建更正/superseding record；不得覆盖。
-7. handoff、roadmap 或 audit 与当前 checkout 不符时，标为历史/过期并修订导航；
-   不据此改写 ADR。
-8. 安全动作有 Land、Position、停止输出等争议时，提交安全评审，不由文档作者
-   选择行为。
-
-冲突关闭必须链接到审查记录或 ADR/profile/evidence 的具体修正，并说明未验证项。
+1. 停止状态提升；安全相关冲突默认标为 `BLOCKED`。
+2. 记录冲突文件、段落、checkout HEAD、时间和问题类型。
+3. 按本文的权威范围确定应回答该问题的来源。
+4. profile 违反 ADR/matrix 时不得运行；runbook 违反 profile 或安全边界时停止。
+5. evidence 与描述不符时保留原 evidence，创建 correction 或 superseding record。
+6. handoff、planning 或 audit 过期时只修订导航或追加勘误，不据此改写 ADR。
 
 ## 当前、历史与计划
 
-### 当前事实
+当前事实必须绑定 canonical repository、完整 HEAD、工作树、适用 dependency、
+profile/artifact identity、采集时间和方法。identity 改变后不得默认继承旧结论。
 
-当前事实必须绑定：
+dated audit、旧参数快照、过去 session 和旧硬件盘点均为
+`HISTORICAL_EVIDENCE`。它们能证明某时发生过，不能证明现在仍成立。
 
-- canonical repository、branch、完整 HEAD 和工作树；
-- dependency/profile/artifact identity（适用时）；
-- 采集时间、方法和有效范围；
-- 明确的状态枚举。
-
-若上述 identity 改变，事实不会自动延续。运行态、参数和硬件枚举尤其不能仅凭旧
-handoff 继承。
-
-### 历史事实
-
-审查报告、旧 HEAD、旧参数快照、过去 DDS session 和旧硬件盘点都标
-`HISTORICAL_EVIDENCE`。它们可以证明“在某时发生过”，不能证明当前仍成立。
-历史文件不得为了显得当前而覆写；通过索引或 supersession 关联新记录。
-
-### 计划
-
-roadmap、backlog、草案 runbook、future node 和未执行测试都标 `PLANNED`、
-`BLOCKED` 或 `UNVERIFIED`。计划中的 control-authority node 不得写成已实现。
-台架/有限实机 runbook 草案不能写成 `BENCH_VERIFIED` 或 `FLIGHT_VERIFIED`。
-
-## 文档元数据建议
-
-新建状态敏感文档建议包含：
-
-```text
-Document owner role:
-Authority type:
-Applies to repository/branch/HEAD:
-Updated at:
-Capability status:
-Supersedes:
-Superseded by:
-Evidence references:
-Known limitations:
-```
-
-禁止把个人主目录或真实硬件唯一标识用作 identity。owner 使用角色；public
-evidence 使用匿名设备 ID。
+planning、draft runbook 和未执行测试只能标为 `PLANNED`、`BLOCKED` 或
+`UNVERIFIED`。mock、parser 或静态检查不得提升为 SITL、台架、飞行或 production
+证据。
 
 ## 维护规则
 
-- ADR 变更必须有决策 review 和 supersession 关系。
-- Matrix 变更必须与 ADR、topic inventory 和 profile 同步审查。
-- Machine-readable profile 是运行配置唯一输入；Markdown 示例不得成为隐式配置。
-- Evidence 一次验证一个 identity，不原地追加不同 source 的新结论。
-- Handoff 保持短小，只做导航并标记链接 freshness。
-- Roadmap/backlog 的 `completed` 必须链接验收 evidence，不能只链接实现 PR。
-- Audit 保留原始基线；后续变化写勘误或新报告。
-- Runbook 每次使用前核对版本、角色、go/no-go、停止和 rollback 条件。
-- 本地相对链接和 Mermaid 应进入文档质量门；外链未检查时标 `UNVERIFIED`。
+- ADR 变更必须经过 decision review，并维护 supersession 关系。
+- Matrix 与 architecture 变更必须和 ADR、topic inventory、profile 同步审查。
+- Machine-readable profile 是配置唯一输入；Markdown 示例不是隐式配置。
+- Evidence 一次只绑定一个 identity，不在原记录中追加不同 source 的结论。
+- Handoff 保持短小，只做导航并提示重新获取动态状态。
+- Planning 的完成状态必须链接对应验收 evidence。
+- Audit 保留原始基线；错误和后续变化使用 correction 或新报告。
+- Runbook 使用前必须核对版本、角色、go/no-go、停止和 rollback 条件。
+- 本地相对链接、schema、索引和 Mermaid 应进入文档质量门。
 
 ## 当前已知权威结论
 
 - production：`BLOCKED`。
 - production transport：PX4 uXRCE-DDS-only。
 - MAVROS production fallback：禁止。
-- DDS transport 设备：只允许 DDS owner 独占，不与 MAVLink 复用。
-- namespace：当前单机根 namespace；多机为 `PLANNED`。
+- 当前单机根 namespace；多机为 `PLANNED`。
 - `/fmu/out/rc_channels` firmware profile：`BLOCKED`。
-- graph guard、owner/lease、VehicleCommand ACK、PRESTREAM、fault lattice：
+- graph guard、owner/lease、VehicleCommand ACK、PRESTREAM 和 fault lattice：
   `PLANNED`。
 - baseline precision landing：不默认启用。
-- 拆桨台架：`UNVERIFIED`，所有 P0 关闭前不得进入。
-- 有限实机控制：`BLOCKED`，必须另行授权。
+- SITL：`BLOCKED`。
+- 拆桨台架、hardware access、firmware flash 和 flight：未授权。

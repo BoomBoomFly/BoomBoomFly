@@ -1,113 +1,41 @@
 # BoomBoomFly
 
-BoomBoomFly 是 Ubuntu 20.04 / ROS 2 Foxy / PX4 的无人机伴随计算机工作区。
-当前受管飞控路径仅允许 PX4 uXRCE-DDS；MAVROS 不属于 production 基线。
+BoomBoomFly 是面向无人机伴随计算机的 ROS 2 工作区。受管基线为
+Ubuntu 20.04、ROS 2 Foxy 与 PX4 v1.16.2。
 
-## 当前状态
+production 控制链只允许 PX4 uXRCE-DDS；MAVROS、历史串口链和旧 bringup
+不是 production fallback。production 当前禁用。
 
-- 工作区：`/home/c/BoomBoomFly`
-- Offboard：`vehicle_status_v1` 契约修复已通过
-  [#2](https://github.com/BoomBoomFly/offboard_cpp/pull/2) 合并到 `DDS@cded3dc5`；
-  根 lock 已同步，与原 RC 测试合计 9/9 gtest 通过
-- 实机：PX4 v1.16.2、PX4_FMU_V3、Generic Quad X
-- P0-03：`OFFBOARD CONTRACT PUBLISHED / FIRMWARE PROFILE BLOCKED / FAIL-CLOSED`
-- 构建：`px4_msgs`、`offboard_cpp` 隔离构建通过；gtest 9/9 通过
-- DDS：`/dev/ttyTHS0:921600` 已建立 XRCE session 并验证真实输出 payload
-- 下一阶段：隔离准备 PX4 v1.16.2 源码/工具链，为 firmware profile 导出
-  `/fmu/out/rc_channels`，依次完成静态生成、SITL 和 FMUv3 构建取证
-- production：禁用
+## 权威入口
 
-完整的当前状态、实机证据、验证结果和下一步只维护在
-[窗口交接](docs/handoff.md)。
+- 构建：[DDS-only 构建入口](Scripts/build/build_dds_only.sh)
+- 测试：[DDS-only 测试入口](Scripts/test/test_dds_only.sh) 与
+  [离线测试目录](test/)
+- 验证层级与 runbook：[分级验证门](docs/runbooks/VALIDATION_LEVELS.md)、
+  [SITL 验收](docs/runbooks/SITL_ACCEPTANCE.md)
+- 当前规范：[控制权矩阵](docs/CONTROL_AUTHORITY_MATRIX.md) 与
+  [architecture](docs/architecture/)
+- 计划：[下一批并行任务](docs/planning/NEXT_PARALLEL_TASKS.md)
+- evidence：[evidence 索引](docs/evidence/index.yaml) 与
+  [schema 说明](docs/evidence/SCHEMA.md)
+- 文档权威规则：[Document Authority](docs/governance/DOCUMENT_AUTHORITY.md)
+- 临时交接：[handoff](docs/handoff.md)
 
-## 源码清单
+依赖恢复、验证器和脚本目录说明见 [Scripts README](Scripts/README.md)。
 
-- `workspace.lock.repos`：16 项精确 SHA，用于可复现恢复；其中
-  `px4_bringup@0fbdcbf6` 仅作归档源码，仍被 DDS-only 构建排除。
-- `workspace.repos`：维护分支意图；Offboard 和归档 `px4_bringup` 均跟随 `DDS`。
-- `communication` 是独立 moving dependency，不进入精确 lock。
+## 安全边界
 
-## 恢复与审计
+除非另有明确授权：
 
-安装脚本只管理源码仓库，不安装 ROS、系统包、udev 规则或 PX4 firmware，
-也不启动 Agent、ROS 节点或硬件链路。
-
-### 只读审计现有工作区
-
-先检查全部 lock 条目，不执行 clone、fetch、checkout 或 submodule 更新：
-
-```bash
-bash Scripts/installation/uav_px4_dds_install.sh \
-  --verify-only \
-  --skip-package-check
-```
-
-`--verify-only` 会遍历整个 manifest，检查路径、Git 仓库、origin、dirty 状态和
-HEAD。发现任何 blocker 时仍完成其余条目，最后返回状态码 1，且不修改仓库。
-
-当前工作区的预期结果是：
+- 不访问真实飞控、串口、相机、雷达或其他硬件；
+- 不启动 Micro XRCE-DDS Agent、MAVROS、Offboard、视觉节点或 hardware launch；
+- 不写 PX4 参数、不刷 firmware、不 arm、不切 mode；
+- 不发布 `/fmu/in/*`、vehicle command 或 trajectory setpoint；
+- 不把 mock、离线测试或历史 evidence 提升为 SITL、台架、飞行或 production 证据。
 
 ```text
-Summary: planned=16 cloned=0 updated=0 verified=16 blockers=4
-exit status: 1
+PRODUCTION: BLOCKED
+HARDWARE ACCESS: NOT AUTHORIZED
+FIRMWARE FLASH: NOT AUTHORIZED
+FLIGHT: NOT AUTHORIZED
 ```
-
-`verified=16` 表示全部 HEAD/origin 与 lock 匹配；`blockers=4` 表示其中四个第三方仓库
-保留了本地修改，两者并不冲突：
-
-- `src/librealsense`
-- `src/navigation_msgs`
-- `src/realsense-ros`
-- `src/vision_opencv`
-
-`src/px4_bringup` 虽由清单跟随上游默认 `DDS` 分支并锁定精确提交，但其内容仍是
-MAVROS/旧串口启动链。它继续列在 `workspace.excluded_packages` 中，不属于
-production、默认 build 或批准 launch 路径。
-
-### 恢复精确 lock
-
-建议恢复到新的 `src` 目录。先 dry-run，确认后再执行恢复：
-
-```bash
-bash Scripts/installation/uav_px4_dds_install.sh \
-  --src-dir /path/to/new_ros2_ws/src \
-  --dry-run \
-  --skip-package-check
-
-bash Scripts/installation/uav_px4_dds_install.sh \
-  --src-dir /path/to/new_ros2_ws/src
-```
-
-默认使用 `workspace.lock.repos`，恢复出的依赖为 detached HEAD。已有 dirty 仓库、
-origin 不匹配和错误 HEAD 都会 fail-closed；只有已确认干净的仓库才可配合
-`--update` 切换到 manifest ref。脚本从不执行 `git pull` 或 `reset`。
-
-### 审计维护清单
-
-`workspace.repos` 包含 tag/branch 以及外部 moving dependency `../communication`，
-必须显式允许 moving refs：
-
-```bash
-bash Scripts/installation/uav_px4_dds_install.sh \
-  --manifest workspace.repos \
-  --allow-moving-refs \
-  --dry-run \
-  --skip-package-check
-```
-
-dry-run 同样会完整汇总 blocker 并以非零状态退出；它只打印计划，不创建目录、
-不 fetch，也不改变 Git ref。完整参数见脚本的 `--help` 和
-[Scripts 说明](Scripts/README.md)。
-
-`build/`、`install/`、`log/` 是可再生输出，不作为源码或验证证据保存。
-
-## 文档
-
-- [窗口交接](docs/handoff.md)
-- [控制权矩阵](docs/CONTROL_AUTHORITY_MATRIX.md)
-- [ADR-0001：DDS-only 控制权](docs/adr/0001-dds-only-control-authority.md)
-- [兼容性证据](docs/evidence/OFFBOARD_PX4_MSGS_COMPAT_20260724.md)
-- [实机参数快照](docs/evidence/PX4_PARAMS_20260724T203458+0800.json)
-
-未经明确授权，不写飞控参数、不刷固件、不 arm、不切 mode、不发送控制命令，
-也不启动 Agent、Offboard 或视觉注入链路。
