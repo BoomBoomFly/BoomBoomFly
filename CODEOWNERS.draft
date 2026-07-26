@@ -1,0 +1,35 @@
+# DRAFT ONLY — DO NOT ENABLE
+#
+# 本文件是 CODEOWNERS 建议稿，不是 GitHub 可直接启用的配置。
+# @CONTROL-MAINTAINER、@PX4-MAINTAINER、@PERCEPTION-MAINTAINER 和
+# @RELEASE-MAINTAINER 都是角色占位符，不是真实 GitHub 用户或 team。
+# 维护者必须逐一替换为真实、存在且拥有仓库 read 权限的账号/team，复核路径，
+# 将完成稿放入 GitHub 支持的位置，并通过测试 PR 验证自动请求和 required approval。
+# 在此之前，CODEOWNERS enforcement 状态为 BLOCKED。
+#
+# 建议的兜底 owner；启用前必须替换占位符。
+* @RELEASE-MAINTAINER
+
+# PX4 control writer、FSM、authority 和控制契约
+/src/offboard_cpp/** @CONTROL-MAINTAINER @PX4-MAINTAINER
+
+# 感知到 DDS 的坐标、时间和健康契约
+/src/vision_to_dds/** @PERCEPTION-MAINTAINER @CONTROL-MAINTAINER
+
+# 依赖 identity、lock 与 moving intent
+/workspace*.repos @RELEASE-MAINTAINER @PX4-MAINTAINER
+
+# 安装、恢复与供应链入口
+/Scripts/installation/** @RELEASE-MAINTAINER
+
+# 架构决策
+/docs/adr/** @CONTROL-MAINTAINER @PX4-MAINTAINER @PERCEPTION-MAINTAINER @RELEASE-MAINTAINER
+
+# 分级操作与安全验收
+/docs/runbooks/** @CONTROL-MAINTAINER @PX4-MAINTAINER @RELEASE-MAINTAINER
+
+# CI、required checks 与发布门
+/.github/workflows/** @RELEASE-MAINTAINER @CONTROL-MAINTAINER
+
+# PX4 firmware profile 的建议路径；真实 profile 路径确定后必须更新本行。
+/profiles/px4-firmware/** @PX4-MAINTAINER @CONTROL-MAINTAINER @RELEASE-MAINTAINER
