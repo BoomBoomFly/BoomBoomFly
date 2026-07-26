@@ -154,6 +154,12 @@ ros2 topic info -v /offboard/takeoff_land
 
 每个场景都必须有 initial state、injection、expected event、deadline、actual timeline 和 reviewer result。具体安全动作只有经过 safety review 后才能填入；不得由本文预设 Land、Position 或停止输出。
 
+本节的人工可读矩阵由机器可读 catalog 细化。正式执行器必须读取
+[`../verification/scenarios/catalog.json`](../verification/scenarios/catalog.json)，
+按 catalog 中的相对路径加载场景，并使用 schema version `1.0.0` 校验。人工表格与
+catalog 冲突、场景未登记、schema 校验失败或 dependency 未解析时均为 `no-go`。
+完整索引见 [SITL 场景目录](SITL_SCENARIO_CATALOG.md)。
+
 ### 9.1 正常场景
 
 | ID | 场景 | 预期结果 |
@@ -247,3 +253,75 @@ ros2 topic info -v /offboard/takeoff_land
 5. 已获得硬件、刷写、参数和任何 control action 的单独书面授权。
 
 任一条件缺失，Level 2 保持 `BLOCKED`。
+
+## 14. 机器可读场景与离线验证
+
+本节只授权离线读取 JSON/JSONL，不授权启动 PX4 SITL、Agent、ROS 节点或任何
+launch。当前场景与 synthetic fixture 的最高结论是 `STATICALLY_VERIFIED` 或
+`UNIT_TESTED`；它们不构成 `SITL_VERIFIED`。
+
+### 14.1 规范入口
+
+| 项目 | 路径 / 版本 |
+|---|---|
+| scenario catalog | `docs/verification/scenarios/catalog.json` |
+| scenario schema | `docs/verification/schemas/scenario.schema.json`, `1.0.0` |
+| event schema | `docs/verification/schemas/event.schema.json`, `1.0.0` |
+| result schema | `docs/verification/schemas/result.schema.json`, `1.0.0` |
+| timeline encoding | UTF-8 JSONL，每行一个完整 event object |
+| requirement/audit mapping | `result.scenario_id` → catalog entry → 场景的 `requirement_ids` / `audit_ids` |
+
+场景状态只允许 `PLANNED`、`STATICALLY_VERIFIED`、`UNIT_TESTED`、`BLOCKED` 和
+`UNVERIFIED`。`BLOCKED` 场景必须列出至少一个 blocker；依赖未满足时不得通过
+跳过场景来关闭验收门。
+
+### 14.2 离线命令
+
+从仓库根目录运行：
+
+```bash
+python3 tools/sitl_acceptance/validate_catalog.py \
+  --catalog docs/verification/scenarios/catalog.json
+
+python3 tools/sitl_acceptance/validate_scenario.py \
+  --scenario docs/verification/scenarios/normal/SITL-NORMAL-001.json
+
+python3 tools/sitl_acceptance/validate_event.py \
+  --input test/sitl_acceptance/fixtures/valid/timeline.jsonl
+
+python3 tools/sitl_acceptance/parse_timeline.py \
+  --input test/sitl_acceptance/fixtures/valid/timeline.jsonl \
+  --output /tmp/bbf-sitl-parsed.json
+
+python3 tools/sitl_acceptance/assert_timeline.py \
+  --scenario docs/verification/scenarios/normal/SITL-NORMAL-001.json \
+  --timeline test/sitl_acceptance/fixtures/valid/timeline.jsonl
+```
+
+这些工具只验证文件结构和合成时间线断言。fixture 必须显式标为 synthetic；工具返回
+0 只说明对应离线输入满足规范，不能关闭 PX4 source contract、QoS delivery 或正式
+SITL 门。
+
+### 14.3 正式 SITL 前置依赖
+
+- `BLOCKED_BY_T00`：工作区、dirty receipt、PX4 source/submodule/toolchain identity。
+- `BLOCKED_BY_T01`：DDS-only package/launch boundary。
+- `BLOCKED_BY_T02`：`rc_channels` firmware endpoint manifest 与 PX4-source payload。
+- `BLOCKED_BY_T03`：ACK/freshness/PRESTREAM 接口和稳定事件。
+- `BLOCKED_BY_T04`：owner/lease/continuous graph guard。
+- `BLOCKED_BY_T05`：经 Safety Reviewer 批准的 fault code、动作、deadline 与恢复策略。
+- `BLOCKED_BY_T06`：required CI 和隔离 SITL job。
+- `BLOCKED_BY_T08`：正式 evidence、release 与 rollback schema。
+
+依赖字段用于 fail-closed 调度，不是 waiver。涉及 Land、Position、保持 PX4 failsafe
+或停止输出选择而尚未批准的场景必须再列 `SAFETY_DECISION_REQUIRED`。
+
+### 14.4 source identity 与 mock 门
+
+正式结果必须把事件中的 source identity 绑定到本次 PX4 source、SITL binary、
+profile、Agent、domain、client key 和 endpoint identity。mock、bag、手工 publisher
+或 synthetic fixture 即使 topic/type/QoS 相同，也不能满足 PX4 contract；发现 mock
+污染时必须产生失败结果且 PX4 contract 门保持未关闭。
+
+本文件仍未授权正式运行。获得 T00–T06/T08 输入、冻结接口并完成独立安全评审后，
+应另行批准受管 orchestration 和精确场景集合。

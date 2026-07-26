@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "scenario_id": "SITL-NORMAL-001",
+  "title": "DDS session establishment",
+  "status": "BLOCKED",
+  "requirement_ids": ["BBF-DDS-001", "BBF-SAFE-003"],
+  "audit_ids": ["BBF-AUD-003", "BBF-AUD-012"],
+  "milestone": "M5",
+  "profile": {"profile_id": "sitl_dds_baseline_v1", "environment": "SITL", "transport": "UDP", "ros_domain_isolated": true, "namespace": "/"},
+  "preconditions": ["locked PX4 SITL, Agent, domain, client-key, and transport identities are available", "the isolated profile contains no pre-existing participant"],
+  "forbidden_conditions": ["hardware transport is configured", "a mock source claims PX4 identity", "more than one PX4 client or Agent is present"],
+  "participants": [
+    {"participant_id": "px4_sitl", "role": "authoritative_px4", "required": true, "expected_count": {"min": 1, "max": 1}},
+    {"participant_id": "xrce_agent", "role": "transport_only", "required": true, "expected_count": {"min": 1, "max": 1}},
+    {"participant_id": "timeline_recorder", "role": "observer", "required": true, "expected_count": {"min": 1, "max": 1}}
+  ],
+  "source_identity": {"profile_ref": "sitl_dds_baseline_v1", "bindings": [{"source": "px4_sitl", "identity_kind": "locked_process_artifact", "expected": "profile.px4_sitl_identity", "mock": false}, {"source": "xrce_agent", "identity_kind": "locked_process_artifact", "expected": "profile.xrce_agent_identity", "mock": false}]},
+  "initial_state": "BOOT",
+  "stimuli": [{"stimulus_id": "N001-S01", "at": "0ms", "action": "REQUEST_SESSION_ESTABLISHMENT", "source": "approved_orchestrator", "target": "xrce_agent", "payload_class": "session_profile_reference", "correlation_id": "normal-001-session"}],
+  "expected_events": [
+    {"event_id": "N001-E01", "event_type": "DDS_SESSION_ESTABLISHED", "source": "xrce_agent", "target": "px4_sitl", "earliest": "0ms", "deadline": "5s", "count": {"min": 1, "max": 1}, "order_after": [], "order_before": ["N001-E02"], "correlation_id": "normal-001-session"},
+    {"event_id": "N001-E02", "event_type": "PROFILE_IDENTITY_CONFIRMED", "source": "timeline_recorder", "target": "acceptance_runner", "earliest": "0ms", "deadline": "5500ms", "count": {"min": 1, "max": 1}, "order_after": ["N001-E01"], "order_before": ["N001-E03"], "correlation_id": "normal-001-session"},
+    {"event_id": "N001-E03", "event_type": "STATE_TRANSITION", "source": "acceptance_runner", "target": "acceptance_runner", "earliest": "0ms", "deadline": "6s", "count": {"min": 1, "max": 1}, "order_after": ["N001-E02"], "order_before": [], "correlation_id": "normal-001-session"}
+  ],
+  "forbidden_events": [
+    {"event_id": "N001-F01", "event_type": "HARDWARE_TRANSPORT_OPENED", "source": "*", "target": "*", "earliest": "0ms", "deadline": "6s", "count": {"min": 0, "max": 0}, "order_after": [], "order_before": [], "correlation_id": "normal-001-session"},
+    {"event_id": "N001-F02", "event_type": "DUPLICATE_PARTICIPANT_DETECTED", "source": "*", "target": "*", "earliest": "0ms", "deadline": "6s", "count": {"min": 0, "max": 0}, "order_after": [], "order_before": [], "correlation_id": "normal-001-session"},
+    {"event_id": "N001-F03", "event_type": "CONTROL_INPUT_PUBLISHED", "source": "*", "target": "px4_sitl", "earliest": "0ms", "deadline": "6s", "count": {"min": 0, "max": 0}, "order_after": [], "order_before": [], "correlation_id": "normal-001-session"}
+  ],
+  "timeouts": [{"timeout_id": "session_establishment", "duration": "5s", "starts_at": "N001-S01", "on_expiry": "FAIL_CLOSED"}],
+  "cleanup": {"actions": ["REQUEST_BOUNDED_SHUTDOWN", "VERIFY_ZERO_REMAINING_PARTICIPANTS"], "deadline": "5s", "expected_absent_participants": ["px4_sitl", "xrce_agent", "timeline_recorder"]},
+  "evidence": {"required_artifacts": ["timeline.jsonl", "identity_manifest.json", "process_exit_codes.json"], "synthetic_fixture_allowed": false, "acceptance_level": "FORMAL_SITL"},
+  "dependencies": ["BLOCKED_BY_T00", "BLOCKED_BY_T01", "BLOCKED_BY_T08"],
+  "limitations": ["This is an offline specification; no session was executed.", "A synthetic fixture cannot satisfy authoritative PX4 identity."],
+  "assertions": {
+    "endpoint_contracts": [],
+    "state_transitions": [{"from": "BOOT", "to": "SESSION_READY", "trigger": "N001-E01", "deadline": "6s"}],
+    "participant_cardinality": [{"participant_id": "px4_sitl", "count": {"min": 1, "max": 1}}, {"participant_id": "xrce_agent", "count": {"min": 1, "max": 1}}]
+  }
+}

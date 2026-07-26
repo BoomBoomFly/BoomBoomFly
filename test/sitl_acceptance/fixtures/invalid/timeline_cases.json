@@ -1,0 +1,57 @@
+[
+  {
+    "case_id": "SYNTHETIC-WALL-TIMESTAMP-ROLLBACK",
+    "operation": "wall_timestamp_rollback",
+    "expected_assertion": "timeline.wall_timestamp_order"
+  },
+  {
+    "case_id": "SYNTHETIC-MONOTONIC-ROLLBACK",
+    "operation": "monotonic_rollback",
+    "expected_assertion": "timeline.monotonic_order"
+  },
+  {
+    "case_id": "SYNTHETIC-CORRELATION-MISMATCH",
+    "operation": "correlation_mismatch",
+    "expected_assertion": "timeline.correlation_closed"
+  },
+  {
+    "case_id": "SYNTHETIC-DEADLINE-EXCEEDED",
+    "operation": "deadline_exceeded",
+    "expected_assertion": "expected.SYN-E02.deadline"
+  },
+  {
+    "case_id": "SYNTHETIC-FORBIDDEN-EVENT",
+    "operation": "forbidden_event",
+    "expected_assertion": "forbidden.SYN-F01.count"
+  },
+  {
+    "case_id": "SYNTHETIC-MISSING-CLEANUP",
+    "operation": "missing_cleanup",
+    "expected_assertion": "cleanup.participants_absent"
+  },
+  {
+    "case_id": "SYNTHETIC-PUBLISHER-COUNT",
+    "operation": "publisher_count",
+    "expected_assertion_prefix": "endpoint."
+  },
+  {
+    "case_id": "SYNTHETIC-SOURCE-IDENTITY",
+    "operation": "source_identity",
+    "expected_assertion": "source_identity.synthetic_harness"
+  },
+  {
+    "case_id": "SYNTHETIC-EXPECTED-EVENT-SOURCE",
+    "operation": "expected_event_source",
+    "expected_assertion": "expected.SYN-E02.count"
+  },
+  {
+    "case_id": "SYNTHETIC-STATE-TRANSITION-ORDER",
+    "operation": "state_transition_order",
+    "expected_assertion": "state_transition.001"
+  },
+  {
+    "case_id": "SYNTHETIC-DUPLICATE-EVENT-OVER-COUNT",
+    "operation": "duplicate_expected_event",
+    "expected_assertion": "expected.SYN-E02.count"
+  }
+]

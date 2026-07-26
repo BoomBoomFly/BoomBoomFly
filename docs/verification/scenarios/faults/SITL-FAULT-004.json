@@ -1,0 +1,270 @@
+{
+  "schema_version": "1.0.0",
+  "scenario_id": "SITL-FAULT-004",
+  "title": "VehicleCommand ACK timeout",
+  "status": "BLOCKED",
+  "requirement_ids": [
+    "BBF-SAFE-004"
+  ],
+  "audit_ids": [
+    "BBF-AUD-004",
+    "BBF-AUD-007",
+    "BBF-AUD-014"
+  ],
+  "milestone": "M3",
+  "profile": {
+    "profile_id": "sitl-dds-baseline-v1",
+    "environment": "SITL",
+    "transport": "UDP",
+    "ros_domain_isolated": true,
+    "namespace": "/"
+  },
+  "preconditions": [
+    "WAIT_INPUTS complete",
+    "PRESTREAM complete",
+    "one command transaction is pending"
+  ],
+  "forbidden_conditions": [
+    "mock PX4 feedback source",
+    "unbounded waiting"
+  ],
+  "participants": [
+    {
+      "participant_id": "px4_sitl",
+      "role": "authoritative_px4",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "offboard_control",
+      "role": "command_requester",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "fault_injector",
+      "role": "approved_ack_drop_filter",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "source_identity": {
+    "profile_ref": "sitl-dds-baseline-v1",
+    "bindings": [
+      {
+        "source": "px4_sitl",
+        "identity_kind": "profile_identity",
+        "expected": "px4-sitl-instance",
+        "mock": false
+      },
+      {
+        "source": "offboard_control",
+        "identity_kind": "profile_identity",
+        "expected": "offboard-control-dut",
+        "mock": false
+      }
+    ]
+  },
+  "initial_state": "MODE_PENDING",
+  "stimuli": [
+    {
+      "at": "2s",
+      "action": "drop_correlated_ack",
+      "source": "fault_injector",
+      "target": "ack_observation_path",
+      "payload_class": "transport_filter_rule",
+      "correlation_id": "fault-004-command",
+      "stimulus_id": "drop_correlated_ack"
+    }
+  ],
+  "expected_events": [
+    {
+      "event_type": "ack_deadline_expired",
+      "source": "offboard_control",
+      "target": "pending_transaction",
+      "earliest": "2500ms",
+      "deadline": "2600ms",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [],
+      "order_before": [
+        "fault_latched"
+      ],
+      "correlation_id": "fault-004-command",
+      "event_id": "ack_deadline_expired"
+    },
+    {
+      "event_type": "fault_latched",
+      "source": "offboard_control",
+      "target": "authority_state",
+      "earliest": "2500ms",
+      "deadline": "2750ms",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [
+        "ack_deadline_expired"
+      ],
+      "order_before": [],
+      "correlation_id": "fault-004-command",
+      "event_id": "fault_latched"
+    }
+  ],
+  "forbidden_events": [
+    {
+      "event_type": "state_entered",
+      "source": "offboard_control",
+      "target": "ACTIVE",
+      "count": {
+        "min": 0,
+        "max": 0
+      },
+      "correlation_id": "fault-004-command",
+      "event_id": "forbidden-state_entered",
+      "earliest": "0s",
+      "deadline": "750ms",
+      "order_after": [],
+      "order_before": []
+    },
+    {
+      "event_type": "vehicle_command_ack",
+      "source": "px4_sitl",
+      "target": "offboard_control",
+      "count": {
+        "min": 0,
+        "max": 0
+      },
+      "correlation_id": "fault-004-command",
+      "event_id": "forbidden-vehicle_command_ack",
+      "earliest": "0s",
+      "deadline": "750ms",
+      "order_after": [],
+      "order_before": []
+    }
+  ],
+  "timeouts": [
+    {
+      "timeout_id": "ack_response",
+      "duration": "500ms",
+      "starts_at": "command_sent",
+      "on_expiry": "fail_closed_and_emit_fault"
+    },
+    {
+      "timeout_id": "fault_detection",
+      "duration": "750ms",
+      "starts_at": "drop_correlated_ack",
+      "on_expiry": "fail_closed_and_emit_fault"
+    }
+  ],
+  "cleanup": {
+    "actions": [
+      "remove ACK drop rule",
+      "cancel pending command",
+      "revoke active lease",
+      "verify participant count is zero after shutdown"
+    ],
+    "deadline": "2s",
+    "expected_absent_participants": [
+      "px4_sitl",
+      "offboard_control",
+      "fault_injector"
+    ]
+  },
+  "evidence": {
+    "required_artifacts": [
+      "raw JSONL timeline",
+      "command and timeout correlation",
+      "absence of matching ACK",
+      "cleanup participant inventory"
+    ],
+    "synthetic_fixture_allowed": false,
+    "acceptance_level": "FORMAL_SITL"
+  },
+  "dependencies": [
+    "BLOCKED_BY_T00",
+    "BLOCKED_BY_T01",
+    "BLOCKED_BY_T03",
+    "BLOCKED_BY_T05",
+    "BLOCKED_BY_T06",
+    "BLOCKED_BY_T08"
+  ],
+  "limitations": [
+    "Offline specification only; no PX4 SITL result exists.",
+    "Final post-fault flight action is not selected."
+  ],
+  "fault_injection": {
+    "at": "2s",
+    "duration": "750ms",
+    "expected_fault_code": "ACK_TIMEOUT",
+    "detection_deadline": "750ms",
+    "expected_state": "FAULT_LATCHED",
+    "forbidden_states": [
+      "ACTIVE"
+    ],
+    "automatic_recovery": false,
+    "reset_conditions": [
+      "approved operator reset",
+      "new transaction identity",
+      "fresh feedback from the same PX4 epoch"
+    ],
+    "cleanup": [
+      "remove filter rule",
+      "clear pending transaction"
+    ],
+    "unimplemented_dependencies": [
+      "BLOCKED_BY_T03",
+      "BLOCKED_BY_T05",
+      "BLOCKED_BY_T06"
+    ],
+    "injection_point": "ACK observation path for one correlated command"
+  },
+  "assertions": {
+    "state_transitions": [
+      {
+        "from": "MODE_PENDING",
+        "to": "FAULT_LATCHED",
+        "trigger": "ack_deadline_expired",
+        "deadline": "750ms"
+      }
+    ],
+    "endpoint_contracts": [
+      {
+        "topic": "/fmu/out/vehicle_command_ack",
+        "message_type": "px4_msgs/msg/VehicleCommandAck",
+        "direction": "publisher",
+        "qos": {
+          "reliability": "best_effort",
+          "durability": "volatile",
+          "history": "keep_last",
+          "depth": 1
+        },
+        "publisher_count": {
+          "min": 1,
+          "max": 1
+        },
+        "required_source": "px4_sitl"
+      }
+    ],
+    "participant_cardinality": [
+      {
+        "participant_id": "px4_sitl",
+        "count": {
+          "min": 1,
+          "max": 1
+        }
+      }
+    ]
+  }
+}

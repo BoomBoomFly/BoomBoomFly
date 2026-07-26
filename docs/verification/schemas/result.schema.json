@@ -1,0 +1,126 @@
+{
+  "$id": "https://boomboomfly.example/schemas/sitl/result-1.0.0.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Offline validation/assertion result. PASS only describes the named offline checks.",
+  "properties": {
+    "assertions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "assertion_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "details": {
+            "type": "object"
+          },
+          "status": {
+            "enum": [
+              "PASS",
+              "FAIL",
+              "BLOCKED"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "assertion_id",
+          "status",
+          "details"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "errors": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "path",
+          "message"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "scenario_id": {
+      "pattern": "^SITL-(NORMAL|FAULT)-[0-9]{3}$",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0.0",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "BLOCKED"
+      ],
+      "type": "string"
+    },
+    "summary": {
+      "additionalProperties": false,
+      "properties": {
+        "assertions_blocked": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "assertions_failed": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "assertions_passed": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "events_read": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "events_read",
+        "assertions_passed",
+        "assertions_failed",
+        "assertions_blocked"
+      ],
+      "type": "object"
+    },
+    "tool": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "tool",
+    "status",
+    "scenario_id",
+    "input_sha256",
+    "summary",
+    "assertions",
+    "errors"
+  ],
+  "title": "BoomBoomFly offline SITL assertion result",
+  "type": "object"
+}

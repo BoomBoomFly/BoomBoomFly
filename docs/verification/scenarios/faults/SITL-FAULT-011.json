@@ -1,0 +1,276 @@
+{
+  "schema_version": "1.0.0",
+  "scenario_id": "SITL-FAULT-011",
+  "title": "DDS Agent loss",
+  "status": "BLOCKED",
+  "requirement_ids": [
+    "BBF-SAFE-007",
+    "BBF-DDS-009"
+  ],
+  "audit_ids": [
+    "BBF-AUD-007",
+    "BBF-AUD-014",
+    "BBF-AUD-018"
+  ],
+  "milestone": "M3",
+  "profile": {
+    "profile_id": "sitl-dds-baseline-v1",
+    "environment": "SITL",
+    "transport": "UDP",
+    "ros_domain_isolated": true,
+    "namespace": "/"
+  },
+  "preconditions": [
+    "one DDS Agent session established",
+    "PX4 epoch and owner lease active"
+  ],
+  "forbidden_conditions": [
+    "serial transport",
+    "automatic replay of old control transaction"
+  ],
+  "participants": [
+    {
+      "participant_id": "px4_sitl",
+      "role": "authoritative_px4",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "dds_agent",
+      "role": "single_udp_transport",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "offboard_control",
+      "role": "control_dut",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "fault_injector",
+      "role": "approved_agent_lifecycle_controller",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "source_identity": {
+    "profile_ref": "sitl-dds-baseline-v1",
+    "bindings": [
+      {
+        "source": "px4_sitl",
+        "identity_kind": "profile_identity",
+        "expected": "px4-sitl-instance",
+        "mock": false
+      },
+      {
+        "source": "dds_agent",
+        "identity_kind": "profile_identity",
+        "expected": "xrce-agent-binary-and-command-hash",
+        "mock": false
+      }
+    ]
+  },
+  "initial_state": "ACTIVE",
+  "stimuli": [
+    {
+      "at": "2s",
+      "action": "terminate_agent_session",
+      "source": "fault_injector",
+      "target": "dds_agent",
+      "payload_class": "bounded_lifecycle_directive",
+      "correlation_id": "fault-011-dds",
+      "stimulus_id": "terminate_agent_session"
+    }
+  ],
+  "expected_events": [
+    {
+      "event_type": "dds_session_lost",
+      "source": "transport_guard",
+      "target": "authority_state",
+      "earliest": "2s",
+      "deadline": "2500ms",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [],
+      "order_before": [
+        "fault_latched"
+      ],
+      "correlation_id": "fault-011-dds",
+      "event_id": "dds_session_lost"
+    },
+    {
+      "event_type": "fault_latched",
+      "source": "transport_guard",
+      "target": "authority_state",
+      "earliest": "2s",
+      "deadline": "2750ms",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [
+        "dds_session_lost"
+      ],
+      "order_before": [],
+      "correlation_id": "fault-011-dds",
+      "event_id": "fault_latched"
+    }
+  ],
+  "forbidden_events": [
+    {
+      "event_type": "authority_auto_recovered",
+      "source": "transport_guard",
+      "target": "ACTIVE",
+      "count": {
+        "min": 0,
+        "max": 0
+      },
+      "correlation_id": "fault-011-dds",
+      "event_id": "forbidden-authority_auto_recovered",
+      "earliest": "0s",
+      "deadline": "750ms",
+      "order_after": [],
+      "order_before": []
+    },
+    {
+      "event_type": "old_transaction_replayed",
+      "source": "offboard_control",
+      "target": "px4_sitl",
+      "count": {
+        "min": 0,
+        "max": 0
+      },
+      "correlation_id": "fault-011-dds",
+      "event_id": "forbidden-old_transaction_replayed",
+      "earliest": "0s",
+      "deadline": "750ms",
+      "order_after": [],
+      "order_before": []
+    }
+  ],
+  "timeouts": [
+    {
+      "timeout_id": "dds_loss_detection",
+      "duration": "750ms",
+      "starts_at": "terminate_agent_session",
+      "on_expiry": "fail_closed_and_emit_fault"
+    }
+  ],
+  "cleanup": {
+    "actions": [
+      "invalidate PX4 feedback epoch, lease, PRESTREAM, and pending ACK",
+      "do not restart Agent automatically",
+      "verify all managed participants absent"
+    ],
+    "deadline": "2s",
+    "expected_absent_participants": [
+      "px4_sitl",
+      "dds_agent",
+      "offboard_control",
+      "fault_injector"
+    ]
+  },
+  "evidence": {
+    "required_artifacts": [
+      "raw JSONL timeline",
+      "Agent identity and lifecycle result",
+      "epoch invalidation event",
+      "cleanup participant inventory"
+    ],
+    "synthetic_fixture_allowed": false,
+    "acceptance_level": "FORMAL_SITL"
+  },
+  "dependencies": [
+    "BLOCKED_BY_T00",
+    "BLOCKED_BY_T01",
+    "BLOCKED_BY_T04",
+    "BLOCKED_BY_T05",
+    "BLOCKED_BY_T06",
+    "BLOCKED_BY_T08",
+    "SAFETY_DECISION_REQUIRED"
+  ],
+  "limitations": [
+    "Offline specification only.",
+    "Final flight action on transport loss is not selected."
+  ],
+  "fault_injection": {
+    "at": "2s",
+    "duration": "1s",
+    "expected_fault_code": "DDS_AGENT_LOST",
+    "detection_deadline": "750ms",
+    "expected_state": "FAULT_LATCHED",
+    "forbidden_states": [
+      "ACTIVE"
+    ],
+    "automatic_recovery": false,
+    "reset_conditions": [
+      "approved operator reset",
+      "new Agent session epoch",
+      "new PX4 feedback epoch",
+      "new owner lease"
+    ],
+    "cleanup": [
+      "invalidate old session",
+      "remove lifecycle injection"
+    ],
+    "unimplemented_dependencies": [
+      "BLOCKED_BY_T04",
+      "BLOCKED_BY_T05",
+      "BLOCKED_BY_T06",
+      "SAFETY_DECISION_REQUIRED"
+    ],
+    "injection_point": "single UDP DDS Agent session"
+  },
+  "assertions": {
+    "state_transitions": [
+      {
+        "from": "ACTIVE",
+        "to": "FAULT_LATCHED",
+        "trigger": "dds_session_lost",
+        "deadline": "750ms"
+      }
+    ],
+    "endpoint_contracts": [
+      {
+        "topic": "/fmu/out/vehicle_status_v1",
+        "message_type": "px4_msgs/msg/VehicleStatus",
+        "direction": "publisher",
+        "qos": {
+          "reliability": "best_effort",
+          "durability": "volatile",
+          "history": "keep_last",
+          "depth": 1
+        },
+        "publisher_count": {
+          "min": 0,
+          "max": 0
+        },
+        "required_source": "px4_sitl"
+      }
+    ],
+    "participant_cardinality": [
+      {
+        "participant_id": "dds_agent",
+        "count": {
+          "min": 0,
+          "max": 0
+        }
+      }
+    ]
+  }
+}
