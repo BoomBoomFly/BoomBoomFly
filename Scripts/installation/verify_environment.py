@@ -625,12 +625,8 @@ def compare_px4_probe(
     right_stdout = _normalized_probe_stdout(name, actual["stdout"])
     if left_stdout != right_stdout:
         errors.append("px4_source.{}.stdout differs from inventory".format(name))
-    if expected["status"] in ("missing", "unverified") or actual["status"] in (
-        "missing",
-        "unverified",
-    ):
-        if expected["reason"].strip() != actual["reason"].strip():
-            errors.append("px4_source.{}.reason differs from inventory".format(name))
+    if expected["reason"].strip() != actual["reason"].strip():
+        errors.append("px4_source.{}.reason differs from inventory".format(name))
     return errors
 
 

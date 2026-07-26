@@ -120,6 +120,28 @@ class EnvironmentValidationTests(unittest.TestCase):
             any("px4_source.submodules" in issue for issue in issues), issues
         )
 
+    def test_current_compare_rejects_present_submodule_reason_tampering(self):
+        expected = copy.deepcopy(self.inventory)
+        current = copy.deepcopy(self.inventory)
+        for document in (expected, current):
+            document["px4_source"]["submodules"].update(
+                {
+                    "status": "present",
+                    "version": "recursive-status-recorded",
+                    "exit_code": 0,
+                    "stdout": (
+                        " 1111111111111111111111111111111111111111 modules/a\n"
+                    ),
+                    "stderr": "",
+                    "reason": "",
+                }
+            )
+        current["px4_source"]["submodules"]["reason"] = "tampered"
+        issues = VERIFY.compare_current(expected, current)
+        self.assertTrue(
+            any("px4_source.submodules.reason" in issue for issue in issues), issues
+        )
+
     def test_missing_required_field_is_rejected(self):
         document = copy.deepcopy(self.inventory)
         del document["platform"]
