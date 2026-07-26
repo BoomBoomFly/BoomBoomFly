@@ -184,6 +184,88 @@ class WorkspaceReceiptTest(unittest.TestCase):
         self.assertEqual(1, counts["untracked"])
         self.assertEqual(0, receipt["staged_diff"]["changed_file_count"])
 
+    def test_reviewer_inventory_tampering_fails(self):
+        mutations = []
+        tracked_entry = copy.deepcopy(self.receipt())
+        tracked_entry["tracked_diff"]["entries"][0]["categories"] = [
+            "source_modification"
+        ]
+        mutations.append(
+            ("tracked-entry.json", tracked_entry, "tracked_diff entries")
+        )
+
+        tracked_count = copy.deepcopy(self.receipt())
+        tracked_count["tracked_diff"]["changed_file_count"] += 1
+        mutations.append(("tracked-count.json", tracked_count, "tracked_diff count"))
+
+        staged = copy.deepcopy(self.receipt())
+        staged["staged_diff"]["entries"] = [
+            copy.deepcopy(staged["tracked_diff"]["entries"][0])
+        ]
+        staged["staged_diff"]["changed_file_count"] = 1
+        mutations.append(("staged-entry.json", staged, "staged_diff entries"))
+
+        modes = copy.deepcopy(self.receipt())
+        modes["file_mode_differences"]["entries"][0]["new_mode"] = "100644"
+        mutations.append(("mode-entry.json", modes, "file_mode_differences entries"))
+
+        mode_count = copy.deepcopy(self.receipt())
+        mode_count["file_mode_differences"]["count"] += 1
+        mutations.append(("mode-count.json", mode_count, "count does not match"))
+
+        classifications = copy.deepcopy(self.receipt())
+        classifications["classifications"]["mode_only"] = 999
+        mutations.append(
+            ("classifications.json", classifications, "classifications mismatch")
+        )
+
+        for name, receipt, expected in mutations:
+            with self.subTest(name=name):
+                path = self.write_variant(name, receipt)
+                errors, _, _ = RECEIPTS.validate_receipt(self.root, path)
+                self.assertTrue(any(expected in error for error in errors), errors)
+
+    def test_approved_receipt_requires_verified_claims_and_identity(self):
+        approved = copy.deepcopy(self.receipt())
+        approved["baseline_status"] = "approved"
+        approved["maintainer_confirmation"].update({
+            "status": "approved",
+            "reviewer": "Maintainer Name",
+            "confirmed_at": "2026-07-26T01:00:00+00:00",
+        })
+        path = self.write_variant("approved-missing-claims.json", approved)
+        errors, _, _ = RECEIPTS.validate_receipt(self.root, path)
+        self.assertTrue(any("applicable_platform" in error for error in errors))
+        self.assertTrue(any("business_purpose" in error for error in errors))
+
+        approved["applicable_platform"].update({
+            "status": "verified",
+            "value": "Ubuntu 20.04 / ROS 2 Foxy / aarch64",
+        })
+        approved["business_purpose"].update({
+            "status": "approved",
+            "value": "Maintainer-approved compatibility delta",
+        })
+        path = self.write_variant("approved-complete.json", approved)
+        schema = json.loads(
+            (
+                PROJECT_ROOT
+                / "docs/evidence/schemas/workspace_receipt.schema.json"
+            ).read_text(encoding="utf-8")
+        )
+        errors, warnings, _ = RECEIPTS.validate_receipt(
+            self.root, path, schema_document=schema
+        )
+        self.assertEqual([], errors)
+        self.assertEqual([], warnings)
+
+        missing_identity = copy.deepcopy(approved)
+        missing_identity["maintainer_confirmation"]["reviewer"] = None
+        missing_identity["maintainer_confirmation"]["confirmed_at"] = None
+        path = self.write_variant("approved-missing-identity.json", missing_identity)
+        errors, _, _ = RECEIPTS.validate_receipt(self.root, path)
+        self.assertTrue(any("reviewer and confirmed_at" in error for error in errors))
+
 
 if __name__ == "__main__":
     unittest.main()

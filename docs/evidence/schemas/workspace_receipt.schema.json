@@ -425,7 +425,8 @@
         "status": {
           "enum": [
             "unverified",
-            "verified"
+            "verified",
+            "approved"
           ]
         },
         "value": {

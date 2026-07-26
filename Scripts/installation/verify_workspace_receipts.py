@@ -246,6 +246,20 @@ def worktree_blob(repo: Path, relative: str) -> Optional[str]:
     ).decode("ascii").strip()
 
 
+def index_entry(repo: Path, relative: str) -> Tuple[Optional[str], Optional[str]]:
+    output = git(repo, ["ls-files", "--stage", "--", relative]).decode(
+        "utf-8", "surrogateescape"
+    )
+    if not output.strip():
+        return None, None
+    first = output.splitlines()[0].split(None, 3)
+    if len(first) < 3 or first[2] != "0":
+        raise ReceiptError(
+            "unexpected index entry for changed path: {}".format(relative)
+        )
+    return first[0], first[1]
+
+
 def modification_category(relative: str) -> str:
     lowered = relative.lower()
     config_markers = (
@@ -285,8 +299,11 @@ def changed_entries(repo: Path, cached: bool = False) -> List[Dict[str, Any]]:
     entries: List[Dict[str, Any]] = []
     for status_value, relative in changed_paths(repo, cached=cached):
         old_mode, old_blob = head_entry(repo, relative)
-        new_mode = git_mode(repo / relative)
-        new_blob = worktree_blob(repo, relative)
+        if cached:
+            new_mode, new_blob = index_entry(repo, relative)
+        else:
+            new_mode = git_mode(repo / relative)
+            new_blob = worktree_blob(repo, relative)
         categories: List[str] = []
         if status_value.startswith("D") or new_mode is None:
             categories.append("deletion")
@@ -457,15 +474,7 @@ def capture_receipt(
     tracked = changed_entries(source_repo)
     staged = changed_entries(source_repo, cached=True)
     untracked = untracked_entries(source_repo)
-    mode_entries = [
-        {
-            "path": entry["path"],
-            "old_mode": entry["old_mode"],
-            "new_mode": entry["new_mode"],
-        }
-        for entry in tracked
-        if entry["old_mode"] != entry["new_mode"] and entry["new_mode"] is not None
-    ]
+    mode_entries = expected_mode_differences(tracked)
     tree_hash, tree_count = content_manifest(source_repo)
 
     patch_relative = Path("docs/evidence/receipts/patches") / (
@@ -617,6 +626,63 @@ def validate_structure(receipt: Dict[str, Any]) -> List[str]:
     return errors
 
 
+def expected_mode_differences(
+    tracked: Sequence[Dict[str, Any]]
+) -> List[Dict[str, Any]]:
+    return [
+        {
+            "path": entry["path"],
+            "old_mode": entry["old_mode"],
+            "new_mode": entry["new_mode"],
+        }
+        for entry in tracked
+        if entry["old_mode"] != entry["new_mode"]
+        and entry["new_mode"] is not None
+    ]
+
+
+def compare_inventory(
+    label: str,
+    recorded: Dict[str, Any],
+    actual_entries: Sequence[Dict[str, Any]],
+    errors: List[str],
+) -> None:
+    recorded_entries = recorded.get("entries")
+    recorded_count = recorded.get("changed_file_count")
+    if not isinstance(recorded_entries, list):
+        errors.append("{}.entries must be an array".format(label))
+        return
+    if recorded_count != len(recorded_entries):
+        errors.append("{} count does not match entries length".format(label))
+    if list(actual_entries) != recorded_entries:
+        errors.append("{} entries mismatch".format(label))
+    if recorded_count != len(actual_entries):
+        errors.append("{} changed_file_count mismatch".format(label))
+
+
+def validate_approval(
+    receipt: Dict[str, Any], errors: List[str], warnings: List[str]
+) -> None:
+    confirmation = receipt["maintainer_confirmation"]
+    approved = confirmation["status"] == "approved"
+    if not approved:
+        warnings.append("UNAPPROVED: maintainer confirmation is absent")
+        if receipt["baseline_status"] == "approved":
+            errors.append("baseline_status=approved requires maintainer approval")
+        return
+    if receipt["baseline_status"] != "approved":
+        errors.append("approved confirmation requires baseline_status=approved")
+    for label in ("applicable_platform", "business_purpose"):
+        claim = receipt[label]
+        if claim.get("status") not in ("verified", "approved"):
+            errors.append(
+                "approved receipt requires {} status verified/approved".format(label)
+            )
+        value = claim.get("value")
+        if not isinstance(value, str) or not value.strip():
+            errors.append("approved receipt requires non-empty {} value".format(label))
+
+
 def patch_paths_are_safe(patch: bytes) -> bool:
     for raw_line in patch.splitlines():
         if not raw_line.startswith((b"diff --git ", b"--- ", b"+++ ")):
@@ -700,6 +766,14 @@ def validate_receipt(
 
         tracked_bytes, combined_bytes = canonical_patch(repo)
         staged_bytes = staged_patch(repo)
+        actual_tracked = changed_entries(repo)
+        actual_staged = changed_entries(repo, cached=True)
+        compare_inventory(
+            "tracked_diff", receipt["tracked_diff"], actual_tracked, errors
+        )
+        compare_inventory(
+            "staged_diff", receipt["staged_diff"], actual_staged, errors
+        )
         if sha256_bytes(tracked_bytes) != receipt["tracked_diff"]["patch_sha256"]:
             errors.append("tracked patch hash mismatch")
         if sha256_bytes(staged_bytes) != receipt["staged_diff"]["patch_sha256"]:
@@ -718,6 +792,17 @@ def validate_receipt(
         actual_untracked = untracked_entries(repo)
         if actual_untracked != receipt["untracked_files"]:
             errors.append("untracked file inventory mismatch")
+        recorded_modes = receipt["file_mode_differences"]
+        actual_modes = expected_mode_differences(actual_tracked)
+        if recorded_modes.get("count") != len(recorded_modes.get("entries", [])):
+            errors.append("file_mode_differences count does not match entries length")
+        if recorded_modes.get("entries") != actual_modes:
+            errors.append("file_mode_differences entries mismatch")
+        if recorded_modes.get("count") != len(actual_modes):
+            errors.append("file_mode_differences count mismatch")
+        actual_classifications = count_categories(actual_tracked, actual_untracked)
+        if receipt["classifications"] != actual_classifications:
+            errors.append("classifications mismatch")
         content_hash, entry_count = content_manifest(repo)
         if content_hash != receipt["content"]["sha256"]:
             errors.append("content hash mismatch")
@@ -726,11 +811,7 @@ def validate_receipt(
     except (OSError, ReceiptError, KeyError, TypeError) as error:
         errors.append(str(error))
 
-    confirmation = receipt["maintainer_confirmation"]
-    if confirmation["status"] != "approved":
-        warnings.append("UNAPPROVED: maintainer confirmation is absent")
-    elif receipt["baseline_status"] != "approved":
-        errors.append("approved confirmation requires baseline_status=approved")
+    validate_approval(receipt, errors, warnings)
     return errors, warnings, receipt
 
 
