@@ -242,7 +242,15 @@ def verify(root, profile_path, excluded_path, colcon, log_base):
     workspace_packages = set(discovered)
     for name in sorted(expected_production):
         package_xml = root / inventory[name]["path"] / "package.xml"
-        workspace_dependencies = package_dependencies(package_xml) & workspace_packages
+        dependencies = package_dependencies(package_xml)
+        forbidden_dependencies = sorted(dependencies & forbidden)
+        if forbidden_dependencies:
+            raise BoundaryError(
+                "allowlisted package {} has forbidden dependencies: {}".format(
+                    name, forbidden_dependencies
+                )
+            )
+        workspace_dependencies = dependencies & workspace_packages
         disallowed = sorted(workspace_dependencies - expected_production)
         if disallowed:
             raise BoundaryError(

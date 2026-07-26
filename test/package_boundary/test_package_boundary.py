@@ -124,9 +124,18 @@ class PackageBoundaryTests(unittest.TestCase):
     def test_indirect_forbidden_dependency_fails(self):
         self._write_package("core_b", ["mavros"])
         with self.assertRaisesRegex(
-            BOUNDARY.BoundaryError, "non-allowlisted workspace dependencies"
+            BOUNDARY.BoundaryError, "forbidden dependencies"
         ):
             self._verify()
+
+    def test_undiscovered_direct_forbidden_dependency_fails(self):
+        self._write_package("core_a", ["mavros"])
+        discovered = self._discovered()
+        del discovered["mavros"]
+        with self.assertRaisesRegex(
+            BOUNDARY.BoundaryError, "forbidden dependencies"
+        ):
+            self._verify(full=discovered)
 
     def test_missing_allowlisted_package_fails(self):
         self.profile["production_packages"].append(
