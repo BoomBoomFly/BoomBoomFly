@@ -1,6 +1,8 @@
 build/
 install/
 log/
+__pycache__/
+*.py[cod]
 
 Micro-XRCE-DDS-Agent/
 px4_msgs/
@@ -22,15 +24,12 @@ opencv_cpp/
 ros2_foxy_vision_to_mavros/
 rtabmap/
 rtabmap_ros/
-serial_driver_ros2/
+serial_driver_ros/
 serial-ros2/
 slam_toolbox/
 vision_opencv/
 
-# Keep the reviewed M1 reproducibility assets even though their parent names
-# match the broad workspace build/repository ignore rules above.
+# Keep the current DDS-only build entrypoint even though its parent directory
+# matches the broad workspace build ignore rule above.
 !Scripts/build/
-!Scripts/build/m1_build.sh
-!patches/
-!patches/mavros/
-!patches/mavros/foxy_tf2_eigen_h.patch
+!Scripts/build/build_dds_only.sh
