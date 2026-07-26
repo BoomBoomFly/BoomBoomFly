@@ -17,6 +17,7 @@ from validate_evidence import (
     normalized_origin,
     schema_issues,
     sha256_file,
+    validate_record,
 )
 
 
@@ -119,6 +120,105 @@ def release_issues(
     return issues
 
 
+def verified_execution_issues(
+    manifest: Dict[str, Any], repo_root: Path
+) -> List[ValidationIssue]:
+    """Bind a verified rollback to independently valid execution metadata."""
+
+    issues = []
+    for field, hash_field in (
+        ("pre_state_artifact", "pre_state_hash"),
+        ("target_state_artifact", "target_state_hash"),
+    ):
+        artifact = manifest[field]
+        if artifact is None:
+            issues.append(
+                ValidationIssue("policy", "verified rollback requires {0}".format(field))
+            )
+            continue
+        issues.extend(artifact_issues(repo_root, artifact, field))
+        if artifact["sha256"] != manifest[hash_field]:
+            issues.append(
+                ValidationIssue(
+                    "policy",
+                    "{0}.sha256 must equal {1}".format(field, hash_field),
+                )
+            )
+
+    reference = manifest["execution_evidence"]
+    if reference is None:
+        issues.append(
+            ValidationIssue("policy", "verified rollback requires execution_evidence")
+        )
+        return issues
+    metadata_artifact = {
+        "path": reference["metadata_path"],
+        "sha256": reference["sha256"],
+    }
+    integrity = artifact_issues(
+        repo_root, metadata_artifact, "execution_evidence.metadata_path"
+    )
+    issues.extend(integrity)
+    if integrity:
+        return issues
+
+    metadata_path, path_error = contained_path(repo_root, reference["metadata_path"])
+    if path_error or metadata_path is None:
+        return issues
+    try:
+        metadata = load_document(metadata_path)
+        expected_head = git_value(repo_root, ["rev-parse", "HEAD"])
+        evidence_schema = repo_root / "docs/evidence/schemas/evidence.schema.json"
+        evidence_issues = validate_record(
+            metadata, evidence_schema, repo_root, expected_head, verify_artifacts=True
+        )
+    except RuntimeError as exc:
+        return [
+            ValidationIssue(
+                "environment", "cannot validate execution evidence: {0}".format(exc)
+            )
+        ]
+    issues.extend(
+        ValidationIssue(
+            issue.category,
+            "execution_evidence: {0}".format(issue.message),
+        )
+        for issue in evidence_issues
+    )
+    if evidence_issues or not isinstance(metadata, dict):
+        return issues
+
+    if metadata["evidence_id"] != reference["evidence_id"]:
+        issues.append(ValidationIssue("policy", "execution evidence ID mismatch"))
+    if metadata["evidence_type"] != "rollback":
+        issues.append(
+            ValidationIssue("policy", "execution evidence must have evidence_type=rollback")
+        )
+    if metadata["status"] != "current":
+        issues.append(ValidationIssue("policy", "execution evidence must be current"))
+    if metadata["exit_code"] != 0 or metadata["test_result"]["outcome"] != "passed":
+        issues.append(ValidationIssue("policy", "execution evidence must record a passing run"))
+    if metadata["reviewer"]["state"] != "approved":
+        issues.append(ValidationIssue("policy", "execution evidence must be reviewer-approved"))
+    if metadata["command"] != manifest["exact_command"]:
+        issues.append(
+            ValidationIssue("policy", "execution evidence command differs from exact_command")
+        )
+
+    recorded_artifacts = {
+        (item["path"], item["sha256"]) for item in metadata["artifacts"]
+    }
+    for label in ("pre_state_artifact", "target_state_artifact", "exact_artifact"):
+        artifact = manifest[label]
+        if artifact is not None and (artifact["path"], artifact["sha256"]) not in recorded_artifacts:
+            issues.append(
+                ValidationIssue(
+                    "policy", "execution evidence does not bind {0}".format(label)
+                )
+            )
+    return issues
+
+
 def rollback_issues(manifest: Dict[str, Any], repo_root: Path) -> List[ValidationIssue]:
     issues = []
     is_template = manifest["manifest_state"] == "template"
@@ -169,6 +269,8 @@ def rollback_issues(manifest: Dict[str, Any], repo_root: Path) -> List[Validatio
                 )
     if manifest["manifest_state"] == "verified" and manifest["result"] != "passed":
         issues.append(ValidationIssue("policy", "verified rollback must have result=passed"))
+    if manifest["manifest_state"] == "verified":
+        issues.extend(verified_execution_issues(manifest, repo_root))
     return issues
 
 

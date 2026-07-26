@@ -4,10 +4,15 @@ rollback_type: "software"
 manifest_state: "template"
 created_at: "2026-07-26T00:00:00+08:00"
 pre_state_hash: "0000000000000000000000000000000000000000000000000000000000000000"
+pre_state_artifact: null
 target_state_hash: "0000000000000000000000000000000000000000000000000000000000000000"
+target_state_artifact: null
 exact_artifact:
   path: "artifacts/REPLACE_WITH_EXACT_ROLLBACK_ARTIFACT"
   sha256: "0000000000000000000000000000000000000000000000000000000000000000"
+# A verified manifest must reference separately validated, current rollback evidence.
+# The evidence command and artifact list must bind this manifest's command and artifacts.
+execution_evidence: null
 exact_command:
   argv:
     - "REPLACE_WITH_EXACT_ROLLBACK_COMMAND"

@@ -314,6 +314,19 @@ class EvidenceValidationTest(unittest.TestCase):
         )
         template["manifest_state"] = "verified"
         template["result"] = "passed"
+        template["pre_state_hash"] = sha256(self.stdout_path)
+        template["pre_state_artifact"] = self._artifact(self.stdout_path)
+        template["target_state_hash"] = sha256(self.result_path)
+        template["target_state_artifact"] = self._artifact(self.result_path)
+        template["exact_artifact"] = self._artifact(self.stderr_path)
+        template["exact_command"] = {"argv": ["true"], "cwd": "."}
+        template["stop_condition"] = "Stop if read-only verification fails."
+        template["verification"] = [
+            {
+                "command": {"argv": ["true"], "cwd": "."},
+                "expected": "exit code zero",
+            }
+        ]
         template["operator"] = {
             "identity": "operator",
             "recorded_at": "2026-07-26T09:00:00Z",
@@ -335,7 +348,7 @@ class EvidenceValidationTest(unittest.TestCase):
                 path,
             ]
         )
-        self.assertEqual(result.returncode, 5, result.stdout + result.stderr)
+        self.assertEqual(result.returncode, 3, result.stdout + result.stderr)
 
     def test_release_missing_rollback_manifest_fails(self) -> None:
         import yaml

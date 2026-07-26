@@ -11,8 +11,11 @@
     "manifest_state",
     "created_at",
     "pre_state_hash",
+    "pre_state_artifact",
     "target_state_hash",
+    "target_state_artifact",
     "exact_artifact",
+    "execution_evidence",
     "exact_command",
     "stop_condition",
     "verification",
@@ -52,11 +55,41 @@
     "pre_state_hash": {
       "$ref": "#/definitions/sha256"
     },
+    "pre_state_artifact": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/artifact"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
     "target_state_hash": {
       "$ref": "#/definitions/sha256"
     },
+    "target_state_artifact": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/artifact"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
     "exact_artifact": {
       "$ref": "#/definitions/artifact"
+    },
+    "execution_evidence": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/execution_evidence"
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "exact_command": {
       "$ref": "#/definitions/command"
@@ -130,6 +163,28 @@
         }
       }
     },
+    "execution_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_id",
+        "metadata_path",
+        "sha256"
+      ],
+      "properties": {
+        "evidence_id": {
+          "type": "string",
+          "pattern": "^BBF-EVID-[A-Z0-9][A-Z0-9._-]{2,127}$"
+        },
+        "metadata_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/definitions/sha256"
+        }
+      }
+    },
     "command": {
       "type": "object",
       "additionalProperties": false,
@@ -190,6 +245,15 @@
           "result": {
             "const": "not_run"
           },
+          "pre_state_artifact": {
+            "type": "null"
+          },
+          "target_state_artifact": {
+            "type": "null"
+          },
+          "execution_evidence": {
+            "type": "null"
+          },
           "operator": {
             "properties": {
               "identity": {
@@ -225,6 +289,15 @@
         "properties": {
           "result": {
             "const": "passed"
+          },
+          "pre_state_artifact": {
+            "$ref": "#/definitions/artifact"
+          },
+          "target_state_artifact": {
+            "$ref": "#/definitions/artifact"
+          },
+          "execution_evidence": {
+            "$ref": "#/definitions/execution_evidence"
           },
           "operator": {
             "properties": {

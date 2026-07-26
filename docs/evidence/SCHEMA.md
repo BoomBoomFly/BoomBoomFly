@@ -105,3 +105,9 @@ hashes, and `result: not_run`. The schema prevents a template from claiming a
 verified result, and the semantic validator rejects template placeholders in
 any planned, executed, or verified manifest. Validators never execute commands,
 touch hardware, change PX4 parameters, or flash firmware.
+
+A `verified` rollback additionally requires hashed pre-state and target-state
+artifacts plus an `execution_evidence` reference. That reference must resolve to
+hash-valid, `current`, reviewer-approved rollback evidence for the repository's
+current HEAD. Its command must equal `exact_command`, and its artifact list must
+bind the pre-state, target-state, and exact rollback artifacts. Populating a
