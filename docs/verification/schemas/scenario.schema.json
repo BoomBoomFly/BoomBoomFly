@@ -1,0 +1,709 @@
+{
+  "$id": "https://boomboomfly.example/schemas/sitl/scenario-1.0.0.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "BLOCKED"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "dependencies": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "scenario_id": {
+            "pattern": "^SITL-FAULT-"
+          }
+        },
+        "required": [
+          "scenario_id"
+        ]
+      },
+      "then": {
+        "required": [
+          "fault_injection"
+        ]
+      }
+    }
+  ],
+  "description": "BoomBoomFly offline SITL acceptance scenario contract. Validation does not execute SITL.",
+  "properties": {
+    "assertions": {
+      "$ref": "#/$defs/assertions"
+    },
+    "audit_ids": {
+      "$ref": "#/$defs/nonEmptyStringArray"
+    },
+    "cleanup": {
+      "$ref": "#/$defs/cleanup"
+    },
+    "dependencies": {
+      "items": {
+        "$ref": "#/$defs/blocker"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "evidence": {
+      "$ref": "#/$defs/evidence"
+    },
+    "expected_events": {
+      "items": {
+        "$ref": "#/$defs/expectedEvent"
+      },
+      "type": "array"
+    },
+    "extensions": {
+      "description": "Namespaced, machine-readable extension fields. Core validators still reject unsafe content.",
+      "type": "object"
+    },
+    "fault_injection": {
+      "$ref": "#/$defs/faultInjection"
+    },
+    "forbidden_conditions": {
+      "$ref": "#/$defs/nonEmptyStringArray"
+    },
+    "forbidden_events": {
+      "items": {
+        "$ref": "#/$defs/forbiddenEvent"
+      },
+      "type": "array"
+    },
+    "initial_state": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "limitations": {
+      "$ref": "#/$defs/nonEmptyStringArray"
+    },
+    "milestone": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "participants": {
+      "items": {
+        "$ref": "#/$defs/participant"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "preconditions": {
+      "$ref": "#/$defs/nonEmptyStringArray"
+    },
+    "profile": {
+      "$ref": "#/$defs/profile"
+    },
+    "requirement_ids": {
+      "$ref": "#/$defs/nonEmptyStringArray"
+    },
+    "scenario_id": {
+      "pattern": "^SITL-(NORMAL|FAULT)-[0-9]{3}$",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0.0",
+      "type": "string"
+    },
+    "source_identity": {
+      "$ref": "#/$defs/sourceIdentity"
+    },
+    "status": {
+      "enum": [
+        "PLANNED",
+        "STATICALLY_VERIFIED",
+        "UNIT_TESTED",
+        "BLOCKED",
+        "UNVERIFIED"
+      ],
+      "type": "string"
+    },
+    "stimuli": {
+      "items": {
+        "$ref": "#/$defs/stimulus"
+      },
+      "type": "array"
+    },
+    "timeouts": {
+      "items": {
+        "$ref": "#/$defs/timeout"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "title": {
+      "$ref": "#/$defs/nonEmptyString"
+    }
+  },
+  "required": [
+    "schema_version",
+    "scenario_id",
+    "title",
+    "status",
+    "requirement_ids",
+    "audit_ids",
+    "milestone",
+    "profile",
+    "preconditions",
+    "forbidden_conditions",
+    "participants",
+    "source_identity",
+    "initial_state",
+    "stimuli",
+    "expected_events",
+    "forbidden_events",
+    "timeouts",
+    "cleanup",
+    "evidence",
+    "dependencies",
+    "limitations",
+    "assertions"
+  ],
+  "title": "BoomBoomFly SITL scenario",
+  "type": "object",
+  "$defs": {
+    "assertions": {
+      "additionalProperties": false,
+      "properties": {
+        "endpoint_contracts": {
+          "items": {
+            "$ref": "#/$defs/endpointContract"
+          },
+          "type": "array"
+        },
+        "participant_cardinality": {
+          "items": {
+            "$ref": "#/$defs/participantCardinality"
+          },
+          "type": "array"
+        },
+        "state_transitions": {
+          "items": {
+            "$ref": "#/$defs/stateTransition"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "endpoint_contracts",
+        "state_transitions",
+        "participant_cardinality"
+      ],
+      "type": "object"
+    },
+    "blocker": {
+      "enum": [
+        "BLOCKED_BY_T00",
+        "BLOCKED_BY_T01",
+        "BLOCKED_BY_T02",
+        "BLOCKED_BY_T03",
+        "BLOCKED_BY_T04",
+        "BLOCKED_BY_T05",
+        "BLOCKED_BY_T06",
+        "BLOCKED_BY_T08",
+        "SAFETY_DECISION_REQUIRED"
+      ],
+      "type": "string"
+    },
+    "cleanup": {
+      "additionalProperties": false,
+      "properties": {
+        "actions": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "deadline": {
+          "$ref": "#/$defs/duration"
+        },
+        "expected_absent_participants": {
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "actions",
+        "deadline",
+        "expected_absent_participants"
+      ],
+      "type": "object"
+    },
+    "countRange": {
+      "additionalProperties": false,
+      "properties": {
+        "max": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "min": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "min",
+        "max"
+      ],
+      "type": "object"
+    },
+    "duration": {
+      "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?(ns|us|ms|s|min)$",
+      "type": "string"
+    },
+    "endpointContract": {
+      "additionalProperties": false,
+      "properties": {
+        "direction": {
+          "enum": [
+            "publisher",
+            "subscriber"
+          ],
+          "type": "string"
+        },
+        "message_type": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "publisher_count": {
+          "$ref": "#/$defs/countRange"
+        },
+        "qos": {
+          "$ref": "#/$defs/qos"
+        },
+        "required_source": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "topic": {
+          "pattern": "^/",
+          "type": "string"
+        }
+      },
+      "required": [
+        "topic",
+        "message_type",
+        "direction",
+        "qos",
+        "publisher_count",
+        "required_source"
+      ],
+      "type": "object"
+    },
+    "evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "acceptance_level": {
+          "enum": [
+            "OFFLINE_SPEC",
+            "FORMAL_SITL"
+          ],
+          "type": "string"
+        },
+        "required_artifacts": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "synthetic_fixture_allowed": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "required_artifacts",
+        "synthetic_fixture_allowed",
+        "acceptance_level"
+      ],
+      "type": "object"
+    },
+    "expectedEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "correlation_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "count": {
+          "$ref": "#/$defs/countRange"
+        },
+        "deadline": {
+          "$ref": "#/$defs/duration"
+        },
+        "earliest": {
+          "$ref": "#/$defs/duration"
+        },
+        "event_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "event_type": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "order_after": {
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "order_before": {
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "source": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "target": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      },
+      "required": [
+        "event_id",
+        "event_type",
+        "source",
+        "target",
+        "earliest",
+        "deadline",
+        "count",
+        "order_after",
+        "order_before",
+        "correlation_id"
+      ],
+      "type": "object"
+    },
+    "faultInjection": {
+      "additionalProperties": false,
+      "properties": {
+        "at": {
+          "$ref": "#/$defs/duration"
+        },
+        "automatic_recovery": {
+          "type": "boolean"
+        },
+        "cleanup": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "detection_deadline": {
+          "$ref": "#/$defs/duration"
+        },
+        "duration": {
+          "$ref": "#/$defs/duration"
+        },
+        "expected_fault_code": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "expected_state": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "forbidden_states": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "injection_point": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "reset_conditions": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "unimplemented_dependencies": {
+          "items": {
+            "$ref": "#/$defs/blocker"
+          },
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "injection_point",
+        "at",
+        "duration",
+        "expected_fault_code",
+        "detection_deadline",
+        "expected_state",
+        "forbidden_states",
+        "automatic_recovery",
+        "reset_conditions",
+        "cleanup",
+        "unimplemented_dependencies"
+      ],
+      "type": "object"
+    },
+    "forbiddenEvent": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/expectedEvent"
+        },
+        {
+          "properties": {
+            "count": {
+              "properties": {
+                "max": {
+                  "const": 0
+                },
+                "min": {
+                  "const": 0
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "nonEmptyString": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "nonEmptyStringArray": {
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "participant": {
+      "additionalProperties": false,
+      "properties": {
+        "expected_count": {
+          "$ref": "#/$defs/countRange"
+        },
+        "participant_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "role": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      },
+      "required": [
+        "participant_id",
+        "role",
+        "required",
+        "expected_count"
+      ],
+      "type": "object"
+    },
+    "participantCardinality": {
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "$ref": "#/$defs/countRange"
+        },
+        "participant_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      },
+      "required": [
+        "participant_id",
+        "count"
+      ],
+      "type": "object"
+    },
+    "profile": {
+      "additionalProperties": false,
+      "properties": {
+        "environment": {
+          "const": "SITL",
+          "type": "string"
+        },
+        "namespace": {
+          "const": "/",
+          "type": "string"
+        },
+        "profile_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "ros_domain_isolated": {
+          "const": true,
+          "type": "boolean"
+        },
+        "transport": {
+          "const": "UDP",
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile_id",
+        "environment",
+        "transport",
+        "ros_domain_isolated",
+        "namespace"
+      ],
+      "type": "object"
+    },
+    "qos": {
+      "additionalProperties": false,
+      "properties": {
+        "depth": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "durability": {
+          "enum": [
+            "volatile",
+            "transient_local"
+          ],
+          "type": "string"
+        },
+        "history": {
+          "enum": [
+            "keep_last",
+            "keep_all"
+          ],
+          "type": "string"
+        },
+        "reliability": {
+          "enum": [
+            "best_effort",
+            "reliable"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "reliability",
+        "durability",
+        "history",
+        "depth"
+      ],
+      "type": "object"
+    },
+    "sourceBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "expected": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "identity_kind": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "mock": {
+          "type": "boolean"
+        },
+        "source": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      },
+      "required": [
+        "source",
+        "identity_kind",
+        "expected",
+        "mock"
+      ],
+      "type": "object"
+    },
+    "sourceIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "bindings": {
+          "items": {
+            "$ref": "#/$defs/sourceBinding"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "profile_ref": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      },
+      "required": [
+        "profile_ref",
+        "bindings"
+      ],
+      "type": "object"
+    },
+    "stateTransition": {
+      "additionalProperties": false,
+      "properties": {
+        "deadline": {
+          "$ref": "#/$defs/duration"
+        },
+        "from": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "to": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "trigger": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "trigger",
+        "deadline"
+      ],
+      "type": "object"
+    },
+    "stimulus": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "at": {
+          "$ref": "#/$defs/duration"
+        },
+        "correlation_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "payload_class": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "source": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "stimulus_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "target": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      },
+      "required": [
+        "stimulus_id",
+        "at",
+        "action",
+        "source",
+        "target",
+        "payload_class",
+        "correlation_id"
+      ],
+      "type": "object"
+    },
+    "timeout": {
+      "additionalProperties": false,
+      "properties": {
+        "duration": {
+          "$ref": "#/$defs/duration"
+        },
+        "on_expiry": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "starts_at": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "timeout_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      },
+      "required": [
+        "timeout_id",
+        "duration",
+        "starts_at",
+        "on_expiry"
+      ],
+      "type": "object"
+    }
+  }
+}
