@@ -1,0 +1,260 @@
+{
+  "schema_version": "1.0.0",
+  "scenario_id": "SITL-NORMAL-900",
+  "title": "Synthetic offline assertion harness",
+  "status": "UNIT_TESTED",
+  "requirement_ids": [
+    "SYNTHETIC-REQ-001"
+  ],
+  "audit_ids": [
+    "SYNTHETIC-AUDIT-001"
+  ],
+  "milestone": "SYNTHETIC_ONLY",
+  "profile": {
+    "profile_id": "synthetic_offline_v1",
+    "environment": "SITL",
+    "transport": "UDP",
+    "ros_domain_isolated": true,
+    "namespace": "/"
+  },
+  "preconditions": [
+    "Only deterministic synthetic JSON records are loaded."
+  ],
+  "forbidden_conditions": [
+    "No live ROS graph or vehicle identity may be used."
+  ],
+  "participants": [
+    {
+      "participant_id": "synthetic_harness",
+      "role": "fixture_source",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "source_identity": {
+    "profile_ref": "synthetic_offline_v1",
+    "bindings": [
+      {
+        "source": "synthetic_harness",
+        "identity_kind": "fixture_identity",
+        "expected": "SYNTHETIC_ONLY",
+        "mock": true
+      }
+    ]
+  },
+  "initial_state": "BOOT",
+  "stimuli": [
+    {
+      "stimulus_id": "SYN-S01",
+      "at": "0ms",
+      "action": "LOAD_SYNTHETIC_RECORDS",
+      "source": "synthetic_harness",
+      "target": "offline_assertion_runner",
+      "payload_class": "synthetic_jsonl",
+      "correlation_id": "synthetic-flow"
+    }
+  ],
+  "expected_events": [
+    {
+      "event_id": "SYN-E01",
+      "event_type": "SOURCE_IDENTITY_OBSERVED",
+      "source": "synthetic_harness",
+      "target": "offline_assertion_runner",
+      "earliest": "0ms",
+      "deadline": "5s",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [],
+      "order_before": [
+        "SYN-E02"
+      ],
+      "correlation_id": "synthetic-flow"
+    },
+    {
+      "event_id": "SYN-E02",
+      "event_type": "ENDPOINT_OBSERVED",
+      "source": "synthetic_harness",
+      "target": "offline_assertion_runner",
+      "earliest": "0ms",
+      "deadline": "5s",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [
+        "SYN-E01"
+      ],
+      "order_before": [
+        "SYN-E03"
+      ],
+      "correlation_id": "synthetic-flow"
+    },
+    {
+      "event_id": "SYN-E03",
+      "event_type": "STATE_TRANSITION",
+      "source": "synthetic_harness",
+      "target": "offline_assertion_runner",
+      "earliest": "0ms",
+      "deadline": "5s",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [
+        "SYN-E02"
+      ],
+      "order_before": [
+        "SYN-E04"
+      ],
+      "correlation_id": "synthetic-flow"
+    },
+    {
+      "event_id": "SYN-E04",
+      "event_type": "STATE_TRANSITION",
+      "source": "synthetic_harness",
+      "target": "offline_assertion_runner",
+      "earliest": "0ms",
+      "deadline": "5s",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [
+        "SYN-E03"
+      ],
+      "order_before": [
+        "SYN-E05"
+      ],
+      "correlation_id": "synthetic-flow"
+    },
+    {
+      "event_id": "SYN-E05",
+      "event_type": "PARTICIPANT_SNAPSHOT",
+      "source": "synthetic_harness",
+      "target": "offline_assertion_runner",
+      "earliest": "0ms",
+      "deadline": "5s",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [
+        "SYN-E04"
+      ],
+      "order_before": [
+        "SYN-E06"
+      ],
+      "correlation_id": "synthetic-flow"
+    },
+    {
+      "event_id": "SYN-E06",
+      "event_type": "CLEANUP_COMPLETE",
+      "source": "synthetic_harness",
+      "target": "offline_assertion_runner",
+      "earliest": "0ms",
+      "deadline": "5s",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [
+        "SYN-E05"
+      ],
+      "order_before": [],
+      "correlation_id": "synthetic-flow"
+    }
+  ],
+  "forbidden_events": [
+    {
+      "event_id": "SYN-F01",
+      "event_type": "SYNTHETIC_FORBIDDEN_EVENT",
+      "source": "*",
+      "target": "*",
+      "earliest": "0ms",
+      "deadline": "5s",
+      "count": {
+        "min": 0,
+        "max": 0
+      },
+      "order_after": [],
+      "order_before": [],
+      "correlation_id": "synthetic-flow"
+    }
+  ],
+  "timeouts": [
+    {
+      "timeout_id": "synthetic_bounded_window",
+      "duration": "5s",
+      "starts_at": "SYN-S01",
+      "on_expiry": "FAIL_CLOSED"
+    }
+  ],
+  "cleanup": {
+    "actions": [
+      "DROP_IN_MEMORY_SYNTHETIC_RECORDS"
+    ],
+    "deadline": "5s",
+    "expected_absent_participants": [
+      "synthetic_harness"
+    ]
+  },
+  "evidence": {
+    "required_artifacts": [
+      "synthetic_timeline.jsonl"
+    ],
+    "synthetic_fixture_allowed": true,
+    "acceptance_level": "OFFLINE_SPEC"
+  },
+  "dependencies": [],
+  "limitations": [
+    "SYNTHETIC_OFFLINE_FIXTURE; never evidence of a live PX4 contract."
+  ],
+  "assertions": {
+    "endpoint_contracts": [
+      {
+        "topic": "/synthetic/topic",
+        "message_type": "synthetic_msgs/msg/Synthetic",
+        "direction": "publisher",
+        "qos": {
+          "reliability": "best_effort",
+          "durability": "volatile",
+          "history": "keep_last",
+          "depth": 1
+        },
+        "publisher_count": {
+          "min": 1,
+          "max": 1
+        },
+        "required_source": "synthetic_harness"
+      }
+    ],
+    "state_transitions": [
+      {
+        "from": "BOOT",
+        "to": "READY",
+        "trigger": "SYN-E02",
+        "deadline": "5s"
+      },
+      {
+        "from": "READY",
+        "to": "DONE",
+        "trigger": "SYN-E03",
+        "deadline": "5s"
+      }
+    ],
+    "participant_cardinality": [
+      {
+        "participant_id": "synthetic_harness",
+        "count": {
+          "min": 1,
+          "max": 1
+        }
+      }
+    ]
+  }
+}
