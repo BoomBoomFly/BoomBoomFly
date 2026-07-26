@@ -1,0 +1,271 @@
+{
+  "schema_version": "1.0.0",
+  "scenario_id": "SITL-FAULT-022",
+  "title": "mock publisher contamination",
+  "status": "BLOCKED",
+  "requirement_ids": [
+    "BBF-SAFE-001",
+    "BBF-SAFE-005",
+    "BBF-DDS-009"
+  ],
+  "audit_ids": [
+    "BBF-AUD-001",
+    "BBF-AUD-005",
+    "BBF-AUD-014",
+    "BBF-AUD-018"
+  ],
+  "milestone": "M3",
+  "profile": {
+    "profile_id": "sitl-dds-baseline-v1",
+    "environment": "SITL",
+    "transport": "UDP",
+    "ros_domain_isolated": true,
+    "namespace": "/"
+  },
+  "preconditions": [
+    "PX4 source identity bound",
+    "continuous graph and source guards active"
+  ],
+  "forbidden_conditions": [
+    "mock source treated as authoritative PX4",
+    "mock closes any PX4 contract gate"
+  ],
+  "participants": [
+    {
+      "participant_id": "px4_sitl",
+      "role": "authoritative_px4",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "source_guard",
+      "role": "source_identity_guard",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "contaminating_publisher",
+      "role": "unauthorized_synthetic_source",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "fault_injector",
+      "role": "approved_contamination_controller",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "source_identity": {
+    "profile_ref": "sitl-dds-baseline-v1",
+    "bindings": [
+      {
+        "source": "px4_sitl",
+        "identity_kind": "process_and_endpoint",
+        "expected": "px4-sitl-instance",
+        "mock": false
+      },
+      {
+        "source": "contaminating_publisher",
+        "identity_kind": "process_and_endpoint",
+        "expected": "unauthorized-synthetic-source",
+        "mock": true
+      }
+    ]
+  },
+  "initial_state": "WAIT_INPUTS",
+  "stimuli": [
+    {
+      "stimulus_id": "introduce_mock_feedback_publisher",
+      "at": "2s",
+      "action": "introduce_mock_feedback_publisher",
+      "source": "fault_injector",
+      "target": "ros_graph",
+      "payload_class": "participant_lifecycle_directive",
+      "correlation_id": "fault-022-source"
+    }
+  ],
+  "expected_events": [
+    {
+      "event_id": "mock_source_detected",
+      "event_type": "mock_source_detected",
+      "source": "source_guard",
+      "target": "authority_state",
+      "earliest": "2s",
+      "deadline": "2.25s",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [],
+      "order_before": [
+        "fault_latched"
+      ],
+      "correlation_id": "fault-022-source"
+    },
+    {
+      "event_id": "fault_latched",
+      "event_type": "fault_latched",
+      "source": "source_guard",
+      "target": "authority_state",
+      "earliest": "2s",
+      "deadline": "2.5s",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [
+        "mock_source_detected"
+      ],
+      "order_before": [],
+      "correlation_id": "fault-022-source"
+    }
+  ],
+  "forbidden_events": [
+    {
+      "event_id": "forbidden-contract-closed",
+      "event_type": "px4_contract_gate_closed",
+      "source": "source_guard",
+      "target": "acceptance_result",
+      "earliest": "0s",
+      "deadline": "2.5s",
+      "count": {
+        "min": 0,
+        "max": 0
+      },
+      "order_after": [],
+      "order_before": [],
+      "correlation_id": "fault-022-source"
+    }
+  ],
+  "timeouts": [
+    {
+      "timeout_id": "mock_source_detection",
+      "duration": "500ms",
+      "starts_at": "introduce_mock_feedback_publisher",
+      "on_expiry": "fail_closed_and_emit_fault"
+    }
+  ],
+  "cleanup": {
+    "actions": [
+      "terminate contaminating publisher",
+      "invalidate contaminated samples",
+      "keep PX4 contract gate open"
+    ],
+    "deadline": "2s",
+    "expected_absent_participants": [
+      "px4_sitl",
+      "source_guard",
+      "contaminating_publisher",
+      "fault_injector"
+    ]
+  },
+  "evidence": {
+    "required_artifacts": [
+      "raw JSONL timeline",
+      "publisher identity inventory",
+      "zero contract-gate closure count",
+      "cleanup inventory"
+    ],
+    "synthetic_fixture_allowed": true,
+    "acceptance_level": "FORMAL_SITL"
+  },
+  "dependencies": [
+    "BLOCKED_BY_T00",
+    "BLOCKED_BY_T01",
+    "BLOCKED_BY_T02",
+    "BLOCKED_BY_T04",
+    "BLOCKED_BY_T05",
+    "BLOCKED_BY_T06",
+    "BLOCKED_BY_T08"
+  ],
+  "limitations": [
+    "Synthetic contamination is solely a negative guard test.",
+    "This scenario can never prove PX4 contract acceptance."
+  ],
+  "fault_injection": {
+    "injection_point": "ROS feedback graph beside an authoritative PX4 endpoint",
+    "at": "2s",
+    "duration": "1s",
+    "expected_fault_code": "MOCK_SOURCE_DETECTED",
+    "detection_deadline": "500ms",
+    "expected_state": "FAULT_LATCHED",
+    "forbidden_states": [
+      "PRESTREAM",
+      "ACTIVE",
+      "CONTRACT_ACCEPTED"
+    ],
+    "automatic_recovery": false,
+    "reset_conditions": [
+      "contaminating publisher absent for bounded health window",
+      "contaminated cache invalidated",
+      "approved operator reset"
+    ],
+    "cleanup": [
+      "terminate synthetic publisher",
+      "invalidate contaminated samples"
+    ],
+    "unimplemented_dependencies": [
+      "BLOCKED_BY_T02",
+      "BLOCKED_BY_T04",
+      "BLOCKED_BY_T05",
+      "BLOCKED_BY_T06"
+    ]
+  },
+  "assertions": {
+    "endpoint_contracts": [
+      {
+        "topic": "/fmu/out/rc_channels",
+        "message_type": "px4_msgs/msg/RcChannels",
+        "direction": "publisher",
+        "qos": {
+          "reliability": "best_effort",
+          "durability": "volatile",
+          "history": "keep_last",
+          "depth": 1
+        },
+        "publisher_count": {
+          "min": 2,
+          "max": 2
+        },
+        "required_source": "px4_sitl"
+      }
+    ],
+    "state_transitions": [
+      {
+        "from": "WAIT_INPUTS",
+        "to": "FAULT_LATCHED",
+        "trigger": "mock_source_detected",
+        "deadline": "500ms"
+      }
+    ],
+    "participant_cardinality": [
+      {
+        "participant_id": "px4_sitl",
+        "count": {
+          "min": 1,
+          "max": 1
+        }
+      },
+      {
+        "participant_id": "contaminating_publisher",
+        "count": {
+          "min": 1,
+          "max": 1
+        }
+      }
+    ]
+  }
+}

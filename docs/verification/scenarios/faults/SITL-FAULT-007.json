@@ -1,0 +1,301 @@
+{
+  "schema_version": "1.0.0",
+  "scenario_id": "SITL-FAULT-007",
+  "title": "RC never received",
+  "status": "BLOCKED",
+  "requirement_ids": [
+    "BBF-SAFE-003",
+    "BBF-SAFE-005"
+  ],
+  "audit_ids": [
+    "BBF-AUD-003",
+    "BBF-AUD-005",
+    "BBF-AUD-007",
+    "BBF-AUD-014"
+  ],
+  "milestone": "M3",
+  "profile": {
+    "profile_id": "sitl-dds-rc-v1",
+    "environment": "SITL",
+    "transport": "UDP",
+    "ros_domain_isolated": true,
+    "namespace": "/"
+  },
+  "preconditions": [
+    "new PX4 epoch",
+    "no RC sample received",
+    "authority state is WAIT_INPUTS"
+  ],
+  "forbidden_conditions": [
+    "mock RC source",
+    "RC override",
+    "automatic bypass of RC readiness"
+  ],
+  "participants": [
+    {
+      "participant_id": "px4_sitl",
+      "role": "authoritative_px4",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "offboard_control",
+      "role": "rc_consumer",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "fault_injector",
+      "role": "approved_rc_suppression",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "source_identity": {
+    "profile_ref": "sitl-dds-rc-v1",
+    "bindings": [
+      {
+        "source": "px4_sitl",
+        "identity_kind": "profile_identity",
+        "expected": "px4-sitl-rc-enabled-instance",
+        "mock": false
+      },
+      {
+        "source": "offboard_control",
+        "identity_kind": "profile_identity",
+        "expected": "offboard-control-dut",
+        "mock": false
+      }
+    ]
+  },
+  "initial_state": "WAIT_INPUTS",
+  "stimuli": [
+    {
+      "at": "0s",
+      "action": "suppress_all_rc_samples",
+      "source": "fault_injector",
+      "target": "rc_channels_observation_path",
+      "payload_class": "transport_filter_rule",
+      "correlation_id": "fault-007-rc",
+      "stimulus_id": "suppress_all_rc_samples"
+    }
+  ],
+  "expected_events": [
+    {
+      "event_type": "readiness_deadline_expired",
+      "source": "offboard_control",
+      "target": "/fmu/out/rc_channels",
+      "earliest": "1s",
+      "deadline": "1100ms",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [],
+      "order_before": [
+        "fault_latched"
+      ],
+      "correlation_id": "fault-007-rc",
+      "event_id": "readiness_deadline_expired"
+    },
+    {
+      "event_type": "fault_latched",
+      "source": "offboard_control",
+      "target": "authority_state",
+      "earliest": "1s",
+      "deadline": "1250ms",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [
+        "readiness_deadline_expired"
+      ],
+      "order_before": [],
+      "correlation_id": "fault-007-rc",
+      "event_id": "fault_latched"
+    }
+  ],
+  "forbidden_events": [
+    {
+      "event_type": "vehicle_command_sent",
+      "source": "offboard_control",
+      "target": "px4_sitl",
+      "count": {
+        "min": 0,
+        "max": 0
+      },
+      "correlation_id": "fault-007-rc",
+      "event_id": "forbidden-vehicle_command_sent",
+      "earliest": "0s",
+      "deadline": "1250ms",
+      "order_after": [],
+      "order_before": []
+    },
+    {
+      "event_type": "state_entered",
+      "source": "offboard_control",
+      "target": "PRESTREAM",
+      "count": {
+        "min": 0,
+        "max": 0
+      },
+      "correlation_id": "fault-007-rc",
+      "event_id": "forbidden-state_entered",
+      "earliest": "0s",
+      "deadline": "1250ms",
+      "order_after": [],
+      "order_before": []
+    }
+  ],
+  "timeouts": [
+    {
+      "timeout_id": "rc_first_sample",
+      "duration": "1s",
+      "starts_at": "scenario_started",
+      "on_expiry": "fail_closed_and_emit_fault"
+    },
+    {
+      "timeout_id": "fault_detection",
+      "duration": "1250ms",
+      "starts_at": "scenario_started",
+      "on_expiry": "fail_closed_and_emit_fault"
+    }
+  ],
+  "cleanup": {
+    "actions": [
+      "remove RC suppression",
+      "clear readiness and lease state",
+      "verify command publication count is zero",
+      "verify participant count is zero after shutdown"
+    ],
+    "deadline": "2s",
+    "expected_absent_participants": [
+      "px4_sitl",
+      "offboard_control",
+      "fault_injector"
+    ]
+  },
+  "evidence": {
+    "required_artifacts": [
+      "raw JSONL timeline",
+      "absence of RC sample",
+      "zero command count",
+      "PX4 source/profile identity",
+      "cleanup participant inventory"
+    ],
+    "synthetic_fixture_allowed": false,
+    "acceptance_level": "FORMAL_SITL"
+  },
+  "dependencies": [
+    "BLOCKED_BY_T00",
+    "BLOCKED_BY_T01",
+    "BLOCKED_BY_T02",
+    "BLOCKED_BY_T03",
+    "BLOCKED_BY_T05",
+    "BLOCKED_BY_T06",
+    "BLOCKED_BY_T08"
+  ],
+  "limitations": [
+    "Offline specification only; rc_channels firmware profile is missing.",
+    "Mock RC cannot close this contract."
+  ],
+  "fault_injection": {
+    "at": "0s",
+    "duration": "1250ms",
+    "expected_fault_code": "RC_NEVER_RECEIVED",
+    "detection_deadline": "1250ms",
+    "expected_state": "FAULT_LATCHED",
+    "forbidden_states": [
+      "PRESTREAM",
+      "MODE_PENDING",
+      "ACTIVE"
+    ],
+    "automatic_recovery": false,
+    "reset_conditions": [
+      "approved operator reset",
+      "authoritative first RC sample from current PX4 epoch",
+      "bounded healthy RC window"
+    ],
+    "cleanup": [
+      "remove filter",
+      "clear RC cache and readiness"
+    ],
+    "unimplemented_dependencies": [
+      "BLOCKED_BY_T02",
+      "BLOCKED_BY_T03",
+      "BLOCKED_BY_T05",
+      "BLOCKED_BY_T06"
+    ],
+    "injection_point": "/fmu/out/rc_channels before first valid sample"
+  },
+  "assertions": {
+    "state_transitions": [
+      {
+        "from": "WAIT_INPUTS",
+        "to": "FAULT_LATCHED",
+        "trigger": "readiness_deadline_expired",
+        "deadline": "1250ms"
+      }
+    ],
+    "endpoint_contracts": [
+      {
+        "topic": "/fmu/out/rc_channels",
+        "message_type": "px4_msgs/msg/RcChannels",
+        "direction": "publisher",
+        "qos": {
+          "reliability": "best_effort",
+          "durability": "volatile",
+          "history": "keep_last",
+          "depth": 1
+        },
+        "publisher_count": {
+          "min": 1,
+          "max": 1
+        },
+        "required_source": "px4_sitl"
+      },
+      {
+        "topic": "/fmu/in/vehicle_command",
+        "message_type": "px4_msgs/msg/VehicleCommand",
+        "direction": "publisher",
+        "qos": {
+          "reliability": "best_effort",
+          "durability": "volatile",
+          "history": "keep_last",
+          "depth": 1
+        },
+        "publisher_count": {
+          "min": 1,
+          "max": 1
+        },
+        "required_source": "offboard_control"
+      }
+    ],
+    "participant_cardinality": [
+      {
+        "participant_id": "px4_sitl",
+        "count": {
+          "min": 1,
+          "max": 1
+        }
+      },
+      {
+        "participant_id": "offboard_control",
+        "count": {
+          "min": 1,
+          "max": 1
+        }
+      }
+    ]
+  }
+}

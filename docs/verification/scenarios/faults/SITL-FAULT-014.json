@@ -1,0 +1,282 @@
+{
+  "schema_version": "1.0.0",
+  "scenario_id": "SITL-FAULT-014",
+  "title": "mission owner loss",
+  "status": "BLOCKED",
+  "requirement_ids": [
+    "BBF-SAFE-002",
+    "BBF-DDS-008"
+  ],
+  "audit_ids": [
+    "BBF-AUD-002",
+    "BBF-AUD-007",
+    "BBF-AUD-014",
+    "BBF-AUD-017"
+  ],
+  "milestone": "M3",
+  "profile": {
+    "profile_id": "sitl-dds-baseline-v1",
+    "environment": "SITL",
+    "transport": "UDP",
+    "ros_domain_isolated": true,
+    "namespace": "/"
+  },
+  "preconditions": [
+    "one valid owner lease active",
+    "authority state is ACTIVE"
+  ],
+  "forbidden_conditions": [
+    "lease without bounded expiry",
+    "automatic owner replacement"
+  ],
+  "participants": [
+    {
+      "participant_id": "px4_sitl",
+      "role": "authoritative_px4",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "control_authority",
+      "role": "lease_arbiter",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "mission_owner",
+      "role": "current_lease_owner",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "fault_injector",
+      "role": "approved_owner_lifecycle_controller",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "source_identity": {
+    "profile_ref": "sitl-dds-baseline-v1",
+    "bindings": [
+      {
+        "source": "mission_owner",
+        "identity_kind": "profile_identity",
+        "expected": "owner-id-and-lease-id",
+        "mock": false
+      },
+      {
+        "source": "control_authority",
+        "identity_kind": "profile_identity",
+        "expected": "authority-dut",
+        "mock": false
+      }
+    ]
+  },
+  "initial_state": "ACTIVE",
+  "stimuli": [
+    {
+      "at": "2s",
+      "action": "terminate_owner_heartbeat",
+      "source": "fault_injector",
+      "target": "mission_owner",
+      "payload_class": "bounded_lifecycle_directive",
+      "correlation_id": "fault-014-owner",
+      "stimulus_id": "terminate_owner_heartbeat"
+    }
+  ],
+  "expected_events": [
+    {
+      "event_type": "owner_lease_expired",
+      "source": "control_authority",
+      "target": "mission_owner",
+      "earliest": "2500ms",
+      "deadline": "2600ms",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [],
+      "order_before": [
+        "fault_latched"
+      ],
+      "correlation_id": "fault-014-owner",
+      "event_id": "owner_lease_expired"
+    },
+    {
+      "event_type": "fault_latched",
+      "source": "control_authority",
+      "target": "authority_state",
+      "earliest": "2500ms",
+      "deadline": "2750ms",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [
+        "owner_lease_expired"
+      ],
+      "order_before": [],
+      "correlation_id": "fault-014-owner",
+      "event_id": "fault_latched"
+    }
+  ],
+  "forbidden_events": [
+    {
+      "event_type": "old_owner_command_forwarded",
+      "source": "control_authority",
+      "target": "offboard_control",
+      "count": {
+        "min": 0,
+        "max": 0
+      },
+      "correlation_id": "fault-014-owner",
+      "event_id": "forbidden-old_owner_command_forwarded",
+      "earliest": "0s",
+      "deadline": "750ms",
+      "order_after": [],
+      "order_before": []
+    },
+    {
+      "event_type": "authority_auto_recovered",
+      "source": "control_authority",
+      "target": "ACTIVE",
+      "count": {
+        "min": 0,
+        "max": 0
+      },
+      "correlation_id": "fault-014-owner",
+      "event_id": "forbidden-authority_auto_recovered",
+      "earliest": "0s",
+      "deadline": "750ms",
+      "order_after": [],
+      "order_before": []
+    }
+  ],
+  "timeouts": [
+    {
+      "timeout_id": "owner_lease_expiry",
+      "duration": "500ms",
+      "starts_at": "last_owner_heartbeat",
+      "on_expiry": "fail_closed_and_emit_fault"
+    },
+    {
+      "timeout_id": "fault_detection",
+      "duration": "750ms",
+      "starts_at": "terminate_owner_heartbeat",
+      "on_expiry": "fail_closed_and_emit_fault"
+    }
+  ],
+  "cleanup": {
+    "actions": [
+      "remove owner lifecycle injection",
+      "revoke lease and clear atomic command envelope",
+      "verify all managed participants absent"
+    ],
+    "deadline": "2s",
+    "expected_absent_participants": [
+      "px4_sitl",
+      "control_authority",
+      "mission_owner",
+      "fault_injector"
+    ]
+  },
+  "evidence": {
+    "required_artifacts": [
+      "raw JSONL timeline",
+      "owner/lease identity",
+      "zero old-owner forwarding count",
+      "cleanup participant inventory"
+    ],
+    "synthetic_fixture_allowed": false,
+    "acceptance_level": "FORMAL_SITL"
+  },
+  "dependencies": [
+    "BLOCKED_BY_T00",
+    "BLOCKED_BY_T01",
+    "BLOCKED_BY_T04",
+    "BLOCKED_BY_T05",
+    "BLOCKED_BY_T06",
+    "BLOCKED_BY_T08",
+    "SAFETY_DECISION_REQUIRED"
+  ],
+  "limitations": [
+    "Offline specification only.",
+    "Post-owner-loss flight action is not selected."
+  ],
+  "fault_injection": {
+    "at": "2s",
+    "duration": "1s",
+    "expected_fault_code": "OWNER_LOST",
+    "detection_deadline": "750ms",
+    "expected_state": "FAULT_LATCHED",
+    "forbidden_states": [
+      "ACTIVE"
+    ],
+    "automatic_recovery": false,
+    "reset_conditions": [
+      "approved operator reset",
+      "explicit new owner acquire",
+      "new lease and atomic command sequence"
+    ],
+    "cleanup": [
+      "terminate stale owner",
+      "clear lease and envelope"
+    ],
+    "unimplemented_dependencies": [
+      "BLOCKED_BY_T04",
+      "BLOCKED_BY_T05",
+      "BLOCKED_BY_T06",
+      "SAFETY_DECISION_REQUIRED"
+    ],
+    "injection_point": "current mission owner heartbeat/lease renewal"
+  },
+  "assertions": {
+    "state_transitions": [
+      {
+        "from": "ACTIVE",
+        "to": "FAULT_LATCHED",
+        "trigger": "owner_lease_expired",
+        "deadline": "750ms"
+      }
+    ],
+    "endpoint_contracts": [
+      {
+        "topic": "/offboard/cmd",
+        "message_type": "px4_msgs/msg/TrajectorySetpoint",
+        "direction": "publisher",
+        "qos": {
+          "reliability": "reliable",
+          "durability": "volatile",
+          "history": "keep_last",
+          "depth": 10
+        },
+        "publisher_count": {
+          "min": 1,
+          "max": 1
+        },
+        "required_source": "mission_owner"
+      }
+    ],
+    "participant_cardinality": [
+      {
+        "participant_id": "mission_owner",
+        "count": {
+          "min": 0,
+          "max": 0
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,281 @@
+{
+  "schema_version": "1.0.0",
+  "scenario_id": "SITL-FAULT-015",
+  "title": "duplicate mission owner",
+  "status": "BLOCKED",
+  "requirement_ids": [
+    "BBF-SAFE-001",
+    "BBF-SAFE-002"
+  ],
+  "audit_ids": [
+    "BBF-AUD-001",
+    "BBF-AUD-002",
+    "BBF-AUD-014"
+  ],
+  "milestone": "M3",
+  "profile": {
+    "profile_id": "sitl-dds-baseline-v1",
+    "environment": "SITL",
+    "transport": "UDP",
+    "ros_domain_isolated": true,
+    "namespace": "/"
+  },
+  "preconditions": [
+    "one current owner lease active",
+    "continuous graph guard active"
+  ],
+  "forbidden_conditions": [
+    "two valid owner leases",
+    "last-writer-wins owner selection"
+  ],
+  "participants": [
+    {
+      "participant_id": "control_authority",
+      "role": "lease_arbiter",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "mission_owner",
+      "role": "current_lease_owner",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "duplicate_owner",
+      "role": "unauthorized_owner_candidate",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "fault_injector",
+      "role": "approved_duplicate_owner_controller",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "source_identity": {
+    "profile_ref": "sitl-dds-baseline-v1",
+    "bindings": [
+      {
+        "source": "mission_owner",
+        "identity_kind": "profile_identity",
+        "expected": "approved-owner-and-lease",
+        "mock": false
+      },
+      {
+        "source": "duplicate_owner",
+        "identity_kind": "profile_identity",
+        "expected": "different-owner-without-lease",
+        "mock": false
+      }
+    ]
+  },
+  "initial_state": "ACTIVE",
+  "stimuli": [
+    {
+      "at": "2s",
+      "action": "introduce_second_owner",
+      "source": "fault_injector",
+      "target": "authority_graph",
+      "payload_class": "participant_lifecycle_directive",
+      "correlation_id": "fault-015-owner",
+      "stimulus_id": "introduce_second_owner"
+    }
+  ],
+  "expected_events": [
+    {
+      "event_type": "duplicate_owner_detected",
+      "source": "control_authority",
+      "target": "authority_state",
+      "earliest": "2s",
+      "deadline": "2250ms",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [],
+      "order_before": [
+        "fault_latched"
+      ],
+      "correlation_id": "fault-015-owner",
+      "event_id": "duplicate_owner_detected"
+    },
+    {
+      "event_type": "fault_latched",
+      "source": "control_authority",
+      "target": "authority_state",
+      "earliest": "2s",
+      "deadline": "2500ms",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [
+        "duplicate_owner_detected"
+      ],
+      "order_before": [],
+      "correlation_id": "fault-015-owner",
+      "event_id": "fault_latched"
+    }
+  ],
+  "forbidden_events": [
+    {
+      "event_type": "duplicate_owner_command_forwarded",
+      "source": "control_authority",
+      "target": "offboard_control",
+      "count": {
+        "min": 0,
+        "max": 0
+      },
+      "correlation_id": "fault-015-owner",
+      "event_id": "forbidden-duplicate_owner_command_forwarded",
+      "earliest": "0s",
+      "deadline": "500ms",
+      "order_after": [],
+      "order_before": []
+    },
+    {
+      "event_type": "second_lease_granted",
+      "source": "control_authority",
+      "target": "duplicate_owner",
+      "count": {
+        "min": 0,
+        "max": 0
+      },
+      "correlation_id": "fault-015-owner",
+      "event_id": "forbidden-second_lease_granted",
+      "earliest": "0s",
+      "deadline": "500ms",
+      "order_after": [],
+      "order_before": []
+    }
+  ],
+  "timeouts": [
+    {
+      "timeout_id": "duplicate_owner_detection",
+      "duration": "500ms",
+      "starts_at": "introduce_second_owner",
+      "on_expiry": "fail_closed_and_emit_fault"
+    }
+  ],
+  "cleanup": {
+    "actions": [
+      "terminate duplicate owner",
+      "revoke current lease and clear command envelope",
+      "verify all managed participants absent"
+    ],
+    "deadline": "2s",
+    "expected_absent_participants": [
+      "control_authority",
+      "mission_owner",
+      "duplicate_owner",
+      "fault_injector"
+    ]
+  },
+  "evidence": {
+    "required_artifacts": [
+      "raw JSONL timeline",
+      "owner graph and identity inventory",
+      "zero unauthorized forward count",
+      "cleanup participant inventory"
+    ],
+    "synthetic_fixture_allowed": false,
+    "acceptance_level": "FORMAL_SITL"
+  },
+  "dependencies": [
+    "BLOCKED_BY_T00",
+    "BLOCKED_BY_T01",
+    "BLOCKED_BY_T04",
+    "BLOCKED_BY_T05",
+    "BLOCKED_BY_T06",
+    "BLOCKED_BY_T08"
+  ],
+  "limitations": [
+    "Offline specification only.",
+    "Detection never grants authority to either contender automatically."
+  ],
+  "fault_injection": {
+    "at": "2s",
+    "duration": "1s",
+    "expected_fault_code": "DUPLICATE_MISSION_OWNER",
+    "detection_deadline": "500ms",
+    "expected_state": "FAULT_LATCHED",
+    "forbidden_states": [
+      "ACTIVE",
+      "SECOND_LEASE_GRANTED"
+    ],
+    "automatic_recovery": false,
+    "reset_conditions": [
+      "duplicate owner absent for bounded health window",
+      "approved operator reset",
+      "explicit single-owner acquire"
+    ],
+    "cleanup": [
+      "terminate duplicate owner",
+      "clear all leases"
+    ],
+    "unimplemented_dependencies": [
+      "BLOCKED_BY_T04",
+      "BLOCKED_BY_T05",
+      "BLOCKED_BY_T06"
+    ],
+    "injection_point": "mission owner graph and lease acquisition path"
+  },
+  "assertions": {
+    "state_transitions": [
+      {
+        "from": "ACTIVE",
+        "to": "FAULT_LATCHED",
+        "trigger": "duplicate_owner_detected",
+        "deadline": "500ms"
+      }
+    ],
+    "endpoint_contracts": [
+      {
+        "topic": "/offboard/cmd",
+        "message_type": "px4_msgs/msg/TrajectorySetpoint",
+        "direction": "publisher",
+        "qos": {
+          "reliability": "reliable",
+          "durability": "volatile",
+          "history": "keep_last",
+          "depth": 10
+        },
+        "publisher_count": {
+          "min": 2,
+          "max": 2
+        },
+        "required_source": "mission_owner"
+      }
+    ],
+    "participant_cardinality": [
+      {
+        "participant_id": "mission_owner",
+        "count": {
+          "min": 1,
+          "max": 1
+        }
+      },
+      {
+        "participant_id": "duplicate_owner",
+        "count": {
+          "min": 1,
+          "max": 1
+        }
+      }
+    ]
+  }
+}

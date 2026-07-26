@@ -1,0 +1,263 @@
+{
+  "schema_version": "1.0.0",
+  "scenario_id": "SITL-FAULT-017",
+  "title": "wrong ROS domain",
+  "status": "BLOCKED",
+  "requirement_ids": [
+    "BBF-DDS-009"
+  ],
+  "audit_ids": [
+    "BBF-AUD-001",
+    "BBF-AUD-014",
+    "BBF-AUD-018"
+  ],
+  "milestone": "M3",
+  "profile": {
+    "profile_id": "sitl-dds-baseline-v1",
+    "environment": "SITL",
+    "transport": "UDP",
+    "ros_domain_isolated": true,
+    "namespace": "/"
+  },
+  "preconditions": [
+    "isolated profile domain frozen",
+    "transport and graph guards active"
+  ],
+  "forbidden_conditions": [
+    "fallback to discovered foreign domain",
+    "cross-domain control traffic"
+  ],
+  "participants": [
+    {
+      "participant_id": "profile_guard",
+      "role": "domain_identity_guard",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "offboard_control",
+      "role": "control_dut",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "participant_id": "fault_injector",
+      "role": "approved_environment_mutator",
+      "required": true,
+      "expected_count": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  ],
+  "source_identity": {
+    "profile_ref": "sitl-dds-baseline-v1",
+    "bindings": [
+      {
+        "source": "profile_guard",
+        "identity_kind": "profile_identity",
+        "expected": "frozen-sitl-domain-profile",
+        "mock": false
+      },
+      {
+        "source": "offboard_control",
+        "identity_kind": "profile_identity",
+        "expected": "offboard-control-dut",
+        "mock": false
+      }
+    ]
+  },
+  "initial_state": "WAIT_INPUTS",
+  "stimuli": [
+    {
+      "at": "0s",
+      "action": "provide_mismatched_ros_domain",
+      "source": "fault_injector",
+      "target": "profile_guard",
+      "payload_class": "invalid_profile_binding",
+      "correlation_id": "fault-017-domain",
+      "stimulus_id": "provide_mismatched_ros_domain"
+    }
+  ],
+  "expected_events": [
+    {
+      "event_type": "profile_rejected",
+      "source": "profile_guard",
+      "target": "authority_state",
+      "earliest": "0s",
+      "deadline": "250ms",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [],
+      "order_before": [
+        "fault_latched"
+      ],
+      "correlation_id": "fault-017-domain",
+      "event_id": "profile_rejected"
+    },
+    {
+      "event_type": "fault_latched",
+      "source": "profile_guard",
+      "target": "authority_state",
+      "earliest": "0s",
+      "deadline": "500ms",
+      "count": {
+        "min": 1,
+        "max": 1
+      },
+      "order_after": [
+        "profile_rejected"
+      ],
+      "order_before": [],
+      "correlation_id": "fault-017-domain",
+      "event_id": "fault_latched"
+    }
+  ],
+  "forbidden_events": [
+    {
+      "event_type": "control_participant_created",
+      "source": "offboard_control",
+      "target": "ros_graph",
+      "count": {
+        "min": 0,
+        "max": 0
+      },
+      "correlation_id": "fault-017-domain",
+      "event_id": "forbidden-control_participant_created",
+      "earliest": "0s",
+      "deadline": "500ms",
+      "order_after": [],
+      "order_before": []
+    },
+    {
+      "event_type": "px4_input_published",
+      "source": "offboard_control",
+      "target": "px4_sitl",
+      "count": {
+        "min": 0,
+        "max": 0
+      },
+      "correlation_id": "fault-017-domain",
+      "event_id": "forbidden-px4_input_published",
+      "earliest": "0s",
+      "deadline": "500ms",
+      "order_after": [],
+      "order_before": []
+    }
+  ],
+  "timeouts": [
+    {
+      "timeout_id": "profile_domain_validation",
+      "duration": "500ms",
+      "starts_at": "scenario_started",
+      "on_expiry": "fail_closed_and_emit_fault"
+    }
+  ],
+  "cleanup": {
+    "actions": [
+      "discard invalid environment",
+      "create no ROS participant",
+      "verify all managed participants absent"
+    ],
+    "deadline": "2s",
+    "expected_absent_participants": [
+      "profile_guard",
+      "offboard_control",
+      "fault_injector"
+    ]
+  },
+  "evidence": {
+    "required_artifacts": [
+      "raw JSONL timeline",
+      "expected and observed domain IDs",
+      "zero participant creation count",
+      "cleanup inventory"
+    ],
+    "synthetic_fixture_allowed": false,
+    "acceptance_level": "FORMAL_SITL"
+  },
+  "dependencies": [
+    "BLOCKED_BY_T00",
+    "BLOCKED_BY_T01",
+    "BLOCKED_BY_T04",
+    "BLOCKED_BY_T05",
+    "BLOCKED_BY_T06",
+    "BLOCKED_BY_T08"
+  ],
+  "limitations": [
+    "Offline specification only.",
+    "No foreign graph is contacted by this definition."
+  ],
+  "fault_injection": {
+    "at": "0s",
+    "duration": "500ms",
+    "expected_fault_code": "ROS_DOMAIN_MISMATCH",
+    "detection_deadline": "500ms",
+    "expected_state": "FAULT_LATCHED",
+    "forbidden_states": [
+      "PRESTREAM",
+      "ACTIVE"
+    ],
+    "automatic_recovery": false,
+    "reset_conditions": [
+      "process restart with reviewed matching profile",
+      "approved operator reset"
+    ],
+    "cleanup": [
+      "discard invalid environment",
+      "preserve rejection evidence"
+    ],
+    "unimplemented_dependencies": [
+      "BLOCKED_BY_T04",
+      "BLOCKED_BY_T05",
+      "BLOCKED_BY_T06",
+      "BLOCKED_BY_T08"
+    ],
+    "injection_point": "pre-participant ROS domain profile validation"
+  },
+  "assertions": {
+    "state_transitions": [
+      {
+        "from": "WAIT_INPUTS",
+        "to": "FAULT_LATCHED",
+        "trigger": "profile_rejected",
+        "deadline": "500ms"
+      }
+    ],
+    "endpoint_contracts": [
+      {
+        "topic": "/fmu/in/vehicle_command",
+        "message_type": "px4_msgs/msg/VehicleCommand",
+        "direction": "publisher",
+        "qos": {
+          "reliability": "best_effort",
+          "durability": "volatile",
+          "history": "keep_last",
+          "depth": 1
+        },
+        "publisher_count": {
+          "min": 0,
+          "max": 0
+        },
+        "required_source": "offboard_control"
+      }
+    ],
+    "participant_cardinality": [
+      {
+        "participant_id": "offboard_control",
+        "count": {
+          "min": 0,
+          "max": 0
+        }
+      }
+    ]
+  }
+}
