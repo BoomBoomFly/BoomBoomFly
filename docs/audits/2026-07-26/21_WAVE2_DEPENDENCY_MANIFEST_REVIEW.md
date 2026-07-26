@@ -1,9 +1,9 @@
 # Repository Cleanup Wave 2：依赖与 manifest 审查
 
-日期：2026-07-26  
+日期：2026-07-26
 范围：`workspace.lock.repos`、`workspace.repos`、
 `workspace.excluded_packages`、`config/profiles/dds_only_packages.yaml` 与
-`src/serial_driver_ros` gitlink。  
+`src/serial_driver_ros` gitlink。
 操作边界：本报告不修改、清理、stash 或 checkout 任何嵌套 dirty 仓库，也不执行
 archive manifest 迁移。
 

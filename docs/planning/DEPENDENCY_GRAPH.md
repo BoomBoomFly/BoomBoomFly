@@ -1,179 +1,128 @@
-# BoomBoomFly Task Dependency Graph
+# BoomBoomFly 工作线依赖图
 
 > 文档状态：`PLANNED`
 >
-> 图中节点是本地 backlog 项或既有工作线，不代表真实 GitHub Issue。箭头 `A --> B`
-> 表示 B 的集成/验收依赖 A；纯设计或失败测试可以在接口冻结后提前并行。
+> 调度基线：Repository Cleanup Wave 2 起始
+> `master@0a7f90dad0942843c989a9bed6333a88f9b31ca5`。箭头 `X --> Y`
+> 表示 Y 的集成或验收依赖 X；纯只读审查、ADR、schema 和失败测试只有在不写共享
+> 文件时才可提前。
 
-## P0/P1 依赖图
+## A–G 工作线
 
 ```mermaid
 flowchart LR
-    T00["T00<br/>workspace and toolchain baseline"]
-    T01["T01<br/>DDS-only package and launch boundary"]
-    T08["T08<br/>evidence and rollback schema"]
+    A1["A1<br/>PX4 source/message/profile<br/>read-only alignment"]
+    B1["B1<br/>Offboard freshness/ACK<br/>failure tests"]
+    C1["C1<br/>authority envelope<br/>ADR + schema"]
+    D1["D1<br/>CI job graph<br/>negative fixtures"]
+    E1["E1<br/>vision frame/time/health<br/>contract"]
+    F1["F1<br/>SITL schema/parser"]
+    FRun["F-RUN<br/>formal PX4 DDS SITL"]
+    G1["G1<br/>archive manifest<br/>source profiles"]
+    G2["G2<br/>moving receipt"]
+    G3["G3<br/>CODEOWNERS activation"]
+    G4["G4<br/>required checks"]
+    G5["G5<br/>release/rollback evidence"]
+    Bench["M5<br/>prop-off bench"]
+    Flight["M6<br/>limited flight"]
 
-    A010["TASK-010<br/>DDS-only boundary"]
-    A011["TASK-011<br/>dirty receipts"]
-    A012["TASK-012<br/>PX4 rc_channels profile"]
-    A013["TASK-013<br/>required CI"]
-    A018["TASK-018<br/>transport identity"]
+    C1 --> E1
+    A1 --> FRun
+    B1 --> FRun
+    C1 --> FRun
+    D1 --> FRun
+    F1 --> FRun
 
-    A006["TASK-006<br/>input validity"]
-    A004["TASK-004<br/>ACK and fresh status"]
-    A003["TASK-003<br/>PRESTREAM"]
-    A001["TASK-001<br/>graph guard"]
-    A002["TASK-002<br/>owner and lease"]
-    A017["TASK-017<br/>atomic input"]
-    A005["TASK-005<br/>RC and kill"]
-    A019["TASK-019<br/>safety config"]
-    A007["TASK-007<br/>fault lattice"]
-    A014["TASK-014<br/>safety tests"]
+    G1 --> G5
+    G2 --> G5
+    D1 --> G4
+    G3 --> G5
+    G4 --> G5
 
-    A015["TASK-015<br/>PX4 DDS SITL"]
-    A016["TASK-016<br/>endpoint contract"]
-
-    A008["TASK-008<br/>vision frames"]
-    A009["TASK-009<br/>vision time and health"]
-    A022["TASK-022<br/>perception and EKF2 profile"]
-    A023["TASK-023<br/>sensor identity"]
-    A024["TASK-024<br/>precision landing"]
-
-    A020["TASK-020<br/>license decision"]
-    A021["TASK-021<br/>staged runbook"]
-
-    T00 --> A011
-    T01 --> A010
-    T08 --> A012
-    T08 --> A021
-
-    A011 --> A012
-    A010 --> A013
-    A010 --> A018
-    A010 --> A001
-
-    A006 --> A004
-    A006 --> A003
-    A004 --> A003
-    A018 --> A001
-    A001 --> A002
-    A002 --> A017
-    A003 --> A005
-    A012 --> A005
-    A005 --> A019
-    A004 --> A007
-    A005 --> A007
-    A014 --> A007
-
-    A012 --> A015
-    A018 --> A015
-    A014 --> A015
-    A012 --> A016
-    A015 --> A016
-
-    A018 --> A022
-    A008 --> A009
-    A008 --> A022
-    A009 --> A022
-    A022 --> A023
-    A012 --> A024
-    A008 --> A024
-    A009 --> A024
-    A022 --> A024
-
-    A003 --> A014
-    A004 --> A014
-    A002 --> A014
-    A017 --> A014
-    A019 --> A014
-
-    A012 --> A021
-    A015 --> A021
-    A007 --> A021
-
-    P0G["ALL_P0_CLOSED<br/>AUD-001 through AUD-009"]
-    A001 --> P0G
-    A002 --> P0G
-    A003 --> P0G
-    A004 --> P0G
-    A005 --> P0G
-    A006 --> P0G
-    A007 --> P0G
-    A008 --> P0G
-    A009 --> P0G
-    P0G --> A021
+    FRun --> Bench
+    G5 --> Bench
+    E1 -. "only vision-enabled profile" .-> Bench
+    Bench --> Flight
 ```
 
-## 里程碑依赖图
+立即推荐启动 A1、B1、C1、D1、G1。E1 必须等待 C1 的 authority/profile
+接口冻结。F1 的 schema、catalog、parser 和离线负向测试可以继续，但 F-RUN 正式
+SITL 必须等待 A、B、C、D 的适用门通过；F1 完成不等于 `SITL_VERIFIED`。
 
-```mermaid
-flowchart TD
-    M0["M0<br/>可复现基线"]
-    M1["M1<br/>PX4 DDS firmware profile"]
-    M2["M2<br/>Offboard 安全闭环"]
-    M3["M3<br/>SITL 验收"]
-    M4["M4<br/>感知状态估计"]
-    M5["M5<br/>拆桨台架"]
-    M6["M6<br/>有限实机"]
-    P0G["ALL_P0_CLOSED<br/>AUD-001 through AUD-009"]
+## 与 backlog 的映射
 
-    M0 --> M1
-    M0 --> M2
-    M1 --> M2
-    M1 --> M3
-    M2 --> M3
-    M2 --> M4
-    M3 --> M4
-    M3 --> M5
-    M4 -. "仅带视觉 profile" .-> M5
-    P0G --> M5
-    M5 --> M6
-```
-
-虚线表示 M4 只阻塞启用外部视觉的台架/实机 profile；它不授权绕过 M2/M3，也不让
-纯 telemetry 台架自动获批。`ALL_P0_CLOSED` 是独立聚合门，覆盖 AUD-001 至 AUD-009，
-不能由 M3/M4 的阶段箭头替代。对“启用视觉前”的条件 P0，关闭方式必须是完成验收，
-或以静态和运行负向测试证明对应视觉 profile 被机械禁用；仅写“本次不用视觉”不能
-满足该门。
-
-## 可并行矩阵
-
-| 波次 | 可并行工作 | 并行前冻结项 | 汇合门 |
-|---|---|---|---|
-| Wave 0 | T00、T01、T08 | 各自文件所有权 | M0 baseline review |
-| Wave 1 | TASK-012 静态生成；TASK-006 validity；TASK-004 ACK 测试；TASK-002 协议；TASK-013 CI 骨架 | endpoint、epoch、authority schema | M1/M2 interface review |
-| Wave 2 | TASK-003 PRESTREAM；TASK-001 graph guard；TASK-017 atomic input；TASK-008 frame；TASK-009 time tests | Offboard envelope、profile identity、frame/time ADR | M2 unit gate |
-| Wave 3 | TASK-005 RC/kill；TASK-019 safety config；TASK-014 fault tests；TASK-022 perception profile | M1 RC source、M2 interfaces | fault table approval |
-| Wave 4 | TASK-015 normal/fault scenarios/reader assertions；TASK-016 endpoint verification | orchestration and event taxonomy | M3 SITL gate |
-| Wave 5 | TASK-023 sensor degradation；TASK-024 precision-landing design only；TASK-021 bench checklist preparation | M3 results、M4 ordinary vision status | M4/M5 go/no-go |
-
-“可并行”只表示不同文件或已冻结接口上的工作可以并行；同一实现文件的最终集成仍由
-单一 owner 串行完成。
-
-## 禁止并行的关系
-
-| 先行任务 | 禁止并行/提前的后续任务 | 原因 |
+| 工作线 | 主任务 | 依赖的 backlog |
 |---|---|---|
-| T00/T01/T08 | 其他工作线修改其 scripts/schema/receipt/allowlist/evidence 基础设施 | 文件所有权冲突和事实源分叉 |
-| TASK-002 / TASK-017 | Offboard 输入接口的两个独立实现 | owner/lease 与 atomic envelope 必须是同一事务协议 |
-| TASK-003 / TASK-004 / TASK-006 | 同时改动同一 FSM/input 文件而未冻结接口 | 高概率覆盖 freshness、ACK 和 PRESTREAM 安全条件 |
-| TASK-007 | 未经 Safety Reviewer 批准就实现 Land/Position/停止输出策略 | 危险故障动作不可由实现者单独决定 |
-| TASK-012 | TASK-015 的 RC/PX4 endpoint 正式验收 | 没有 PX4 source/profile 时 mock 不能代替 |
-| TASK-014 | TASK-015 全量故障注入 | 测试 hook、事件码和 bounded timeout 尚未形成 |
-| TASK-008 / TASK-009 | TASK-022 的视觉 publisher enable | frame/time 任一未闭合都会产生危险视觉输入 |
-| TASK-022 | TASK-023 真实设备验收、TASK-024 精降实现 | 普通视觉 profile 和健康门必须先完成 |
-| M3 | M5 实际拆桨台架 | SITL 未过不得 promotion |
-| M5 | M6 有限实机 | 台架与实际 rollback 未通过，且实机需另行授权 |
+| A | PX4 v1.16.2 `rc_channels` firmware profile | `BBF-TASK-012`、`016`、`018` |
+| B | Offboard ACK、freshness、PRESTREAM | `BBF-TASK-003`、`004`、`006` |
+| C | owner、lease、graph guard | `BBF-TASK-001`、`002`、`017`、`018` |
+| D | CI 与质量门 | `BBF-TASK-013` |
+| E | 视觉坐标、时间和 health contract | `BBF-TASK-008`、`009`、`022`、`023` |
+| F | SITL acceptance framework | `BBF-TASK-014`、`015`、`016` |
+| G | repository dependency/release hygiene | `BBF-TASK-025`–`029` |
+
+## 硬依赖
+
+| 后续门 | 必须先完成 |
+|---|---|
+| A 的生成/build/SITL/FMUV3 artifact | approved PX4 v1.16.2 exact source、recursive submodule、toolchain lock |
+| B 的 FSM 集成 | ACK/epoch/freshness 契约和 C 的 consumer boundary 冻结 |
+| C 的 Offboard adapter | authority ADR/envelope schema 通过，B/C 唯一 writer 协调完成 |
+| D 的可复现 CI promotion | runner/toolchain 固定，T00/T01/T08 现有门如实运行 |
+| E 的 publisher/profile 集成 | C 的 authority/profile 接口冻结；frame/time ADR 通过 |
+| F-RUN | A firmware/profile、B/C 软件门、D CI gate 全部通过 |
+| G archive 实施 | 维护者批准 manifest 迁移；active/archive/optional profile 负向测试先通过 |
+| G moving receipt | 维护者确认 `../communication` dirty/untracked 内容归属与签名身份 |
+| G CODEOWNERS | 真实 GitHub user/team；当前 proposal 不可直接启用 |
+| G required checks | D jobs 稳定通过和仓库管理员授权 |
+| M5 拆桨台架 | 全部适用 P0/P1、F-RUN、release/rollback evidence 和单独硬件授权 |
+| M6 有限飞行 | M5 通过、独立风险评估和飞行授权 |
+
+## 禁止并行写入
+
+| 冲突组 | 唯一 writer 规则 |
+|---|---|
+| PX4 `dds_topics.yaml`、source/profile lock、generator output | A 独占；F 只消费 endpoint manifest |
+| `src/offboard_cpp` FSM/node/input/topic/config | B 独占核心事务文件；C 先写独立 ADR/schema，adapter 串行合并 |
+| authority schema、arbiter、graph guard、production launcher | C 独占；E/F 只消费冻结接口 |
+| `.github/workflows/**` 与 CI scripts/config | D 独占；G 只管理获批后的 remote required-check 设置/evidence |
+| `src/vision_to_dds` 转换、time/health、sensor profile | E 独占；precision landing 另行串行 |
+| SITL scenarios/catalog/parser/orchestration | F 独占；不得反向修改 A–E 实现以迁就测试 |
+| `workspace*.repos`、manifest/source-profile validator | G 独占；不得修改任何 nested dependency checkout |
+| evidence/receipt/schema 基础设施 | 遵守 T08/G 的单一 owner；既有 dated evidence 不回写 |
 
 ## 关键路径
 
 ```text
-T00/T08 -> TASK-011 -> TASK-012 -> TASK-015 -> TASK-021 -> M5 -> M6
-T01 -> TASK-010 -> TASK-018 -> TASK-001 -> TASK-002 -> TASK-017
-TASK-006 -> TASK-004 -> TASK-003 -> TASK-005 -> TASK-007
-上述控制链 -> TASK-014 -> TASK-015
-TASK-008 -> TASK-009 -> TASK-022 -> TASK-023
+A1 + B1 + C1 + D1 + F1 -> F-RUN -> M5 -> M6
+C1 -> E1 -> vision-enabled M5
+G1 + G2 + G3 + (D1 -> G4) -> G5 -> M5
 ```
 
-最长安全关键路径是 firmware 权威 RC source、Offboard 安全闭环和 SITL 验收三条链的
-汇合；排期不得用文档完成或 mock 测试替代其中任一运行门。
+工作线 G 是 release hygiene 聚合门，不替代 A–F 的技术验收。反过来，A–F 的软件
+通过也不能绕过 provenance、review ownership、required checks 和 rollback evidence。
+
+## 当前状态
+
+| 节点 | 状态 | 当前允许动作 |
+|---|---|---|
+| A1 | `PLANNED` | 只读 source/message/profile inventory；无 PX4 source 时记录 blocker |
+| B1 | `PLANNED` | 纯软件失败测试；不得运行 PX4/Agent/硬件 |
+| C1 | `PLANNED` | ADR/schema/synthetic fixtures |
+| D1 | `PLANNED` | job graph 和负向 fixture 设计；不得改远端 rules |
+| E1 | `BLOCKED` | 等待 C1 接口冻结 |
+| F1 | `PARTIALLY_IMPLEMENTED` | schema/parser 离线测试可继续 |
+| F-RUN | `BLOCKED` | 等待 A–D |
+| G1 | `PLANNED` | 设计可开始；迁移需批准 |
+| G2 | `BLOCKED` | 等待 moving dirty source 决策 |
+| G3 | `BLOCKED` | 等待真实 owner |
+| G4 | `BLOCKED` | 等待 D1 与管理员授权 |
+| G5 | `BLOCKED` | 等待 G1–G4 |
+| M5/M6 | `BLOCKED` | 当前无硬件/飞行授权 |
+
+```text
+PRODUCTION: BLOCKED
+HARDWARE ACCESS: NOT AUTHORIZED
+FIRMWARE FLASH: NOT AUTHORIZED
+FLIGHT: NOT AUTHORIZED
+```

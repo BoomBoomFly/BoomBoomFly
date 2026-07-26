@@ -2,8 +2,10 @@
 
 > 文档状态：`PLANNED`
 >
-> 基线：`master@5a0e6edd4930474506a1046d414425893ebd800f`。这些是仓库内规划，
-> 不是已创建的 GitHub Milestone，也不代表阶段已经通过。
+> 调度基线：Repository Cleanup Wave 2 起始
+> `master@0a7f90dad0942843c989a9bed6333a88f9b31ca5`；当前执行分支
+> `agent/repository-cleanup-wave2`。这些是仓库内规划，不是已创建的 GitHub
+> Milestone，也不代表阶段已经通过。
 
 ## 共同 promotion 规则
 
@@ -20,15 +22,20 @@
 - **目标状态：** `STATICALLY_VERIFIED`
 - **入口条件：** 当前 checkout identity 已记录；保留既有 dirty checkout；T00/T01/T08
   文件所有权明确；不执行 reset/clean。
-- **范围：** `BBF-TASK-010`、`011`、`013` 的基础部分，以及 T08 evidence schema；
-  为 `BBF-TASK-020` 建立维护者决策门。
+- **范围：** `BBF-TASK-010`、`011`、`013`、`025`–`029` 的基础部分，以及
+  T08 evidence schema；为 `BBF-TASK-020` 建立维护者决策门。
 - **完成条件：**
   - DDS-only package/launch 边界技术强制，禁止路径负向测试通过；
   - lock+receipt 可在隔离目录重建有效文件树，第二次执行幂等；
   - OS/ROS/toolchain/dependency identity 可机器核验；
   - evidence schema 可区分 current、historical、superseded、unverified；
+  - archive/default/optional/moving source profile 互斥且可机器验证；
+  - moving dependency 有 exact-HEAD/dirty/approval receipt；
+  - CODEOWNERS 和 remote required checks 只在真实 owner/管理员批准后启用；
   - CI 骨架执行无硬件静态/build/test 门，远端 required 设置由管理员另行确认。
-- **阻塞项：** T00 receipt、T01 allowlist、T08 schema 任一未完成；未知许可证决定不阻塞
+- **阻塞项：** archive/source profile 尚未实施；`src/serial_driver_ros` 为
+  `REQUIRES_MAINTAINER_DECISION`；`../communication` dirty/untracked 替代来源未固化；
+  CODEOWNERS 无有效 owner；required checks 未获管理员授权。未知许可证决定不阻塞
   离线开发，但继续阻塞 release。
 - **禁止提前执行：** PX4 firmware patch 集成、SITL promotion、任何 hardware、
   firmware flash、参数写入或 production enable。
@@ -156,10 +163,17 @@
 
 | Milestone | 当前状态 | 允许的最强声明 |
 |---|---|---|
-| M0 | `PARTIALLY_IMPLEMENTED` | 多工作线正在建立基线；尚未在本文件中验证完成 |
+| M0 | `PARTIALLY_IMPLEMENTED` | 旧入口和当前文档已进入清理；G 的 release hygiene 门未完成 |
 | M1 | `BLOCKED` | 规划已定义，未取得可追溯 firmware profile |
 | M2 | `BLOCKED` | P0 控制闭环未实现 |
-| M3 | `UNVERIFIED` | 项目级 PX4 DDS SITL 未执行 |
-| M4 | `UNVERIFIED` | 视觉坐标/时间/EKF2 未验证 |
-| M5 | `UNVERIFIED` | runbook 草案不等于拆桨台架验证 |
-| M6 | `UNVERIFIED` | 未授权、未执行有限实机 |
+| M3 | `BLOCKED` | schema/parser 可离线推进；正式 PX4 DDS SITL 等待 A–D |
+| M4 | `BLOCKED` | E 等待 C authority/profile 接口冻结 |
+| M5 | `BLOCKED` | 拆桨台架未授权；软件门与正式 SITL 未关闭 |
+| M6 | `BLOCKED` | 飞行未授权；M5 未通过 |
+
+```text
+PRODUCTION: BLOCKED
+HARDWARE ACCESS: NOT AUTHORIZED
+FIRMWARE FLASH: NOT AUTHORIZED
+FLIGHT: NOT AUTHORIZED
+```

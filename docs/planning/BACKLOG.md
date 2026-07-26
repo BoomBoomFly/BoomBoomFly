@@ -2,7 +2,10 @@
 
 > 文档状态：`PLANNED`
 >
-> 事实基线：`master@5a0e6edd4930474506a1046d414425893ebd800f`
+> 调度事实基线：Repository Cleanup Wave 2 起始
+> `master@0a7f90dad0942843c989a9bed6333a88f9b31ca5`；执行分支
+> `agent/repository-cleanup-wave2`。旧审计中的 branch/HEAD 只属于
+> `HISTORICAL_EVIDENCE`。
 >
 > 来源：`docs/audits/2026-07-26/07_FINDINGS_REGISTER.md` 的 44 个统一发现。
 > 本文件完整拆分其中 9 个 P0 与 15 个 P1，共 24 项；不创建或代表真实 GitHub
@@ -655,13 +658,120 @@
 - **建议负责人角色：** Perception Maintainer；PX4 与 Safety Reviewer
 - **状态：** `BLOCKED`
 
+## 工作线 G：仓库依赖与 release hygiene
+
+Wave 2 增加工作线 G，不改变 `BBF-TASK-001`–`024` 的安全验收含义。G 负责把
+依赖恢复、moving source、review ownership、required checks 和 release/rollback
+evidence 变成可机器验证的 release 门。
+
+### BBF-TASK-025 — archive manifest 与 source profile
+
+- **Task ID：** `BBF-TASK-025`
+- **工作线：** G
+- **优先级：** P1
+- **目标：** 将 build-excluded `px4_bringup` provenance 从默认恢复范围移入显式
+  archive manifest，并把 production、build/test、optional perception/navigation、
+  archive 和 moving source 分层。
+- **唯一写入范围：** 后续获批任务中的 `workspace*.repos`、manifest validator 及其
+  tests、对应当前文档；不得修改任何 nested checkout。
+- **前置依赖：** 维护者批准
+  [`21_WAVE2_DEPENDENCY_MANIFEST_REVIEW.md`](../audits/2026-07-26/21_WAVE2_DEPENDENCY_MANIFEST_REVIEW.md)
+  的最小迁移方案。
+- **是否可立即开始：** 是，只做 schema/参数/负向测试设计；实际迁移需维护者批准。
+- **验收门：** 默认 restore 不计划 archive/optional source；显式 archive 只接受精确
+  SHA；active/archive 重复、moving archive 或 URL 不一致均 fail closed；
+  `px4_bringup` 仍是 forbidden package。
+- **状态：** `PLANNED`
+- **硬件授权：** 不需要；禁止硬件。
+
+### BBF-TASK-026 — moving dependency receipt
+
+- **Task ID：** `BBF-TASK-026`
+- **工作线：** G
+- **优先级：** P1
+- **目标：** 为 `../communication` 建立 root HEAD、origin、exact HEAD、dirty
+  content、时间、用途、批准人和 replay 结果的 fail-closed receipt。
+- **唯一写入范围：** 后续获批的 receipt schema/validator/tests 与新 dated receipt；
+  不修改、清理或提交 `../communication`。
+- **前置依赖：** 维护者决定当前 dirty/untracked 串口实现的归属及签名身份。
+- **是否可立即开始：** receipt schema 与负向测试可开始；签署 current receipt
+  `BLOCKED` 于维护者确认。
+- **验收门：** 缺 checkout、错误 origin/HEAD、未解释 dirty、缺签名或 replay hash
+  不一致均阻止相关 profile/release。
+- **状态：** `PARTIALLY_IMPLEMENTED`
+- **硬件授权：** 不需要；不得启动串口链。
+
+### BBF-TASK-027 — CODEOWNERS 落地
+
+- **Task ID：** `BBF-TASK-027`
+- **工作线：** G
+- **优先级：** P1
+- **目标：** 在真实 GitHub user/team 和路径经过维护者确认后，把不可启用的 proposal
+  转成有效 `.github/CODEOWNERS`。
+- **唯一写入范围：** 后续获批的 `.github/CODEOWNERS` 和 governance approval
+  evidence；不虚构 owner。
+- **前置依赖：** 维护者提供有效账号/team；proposal 路径检查通过。
+- **是否可立即开始：** 否。
+- **验收门：** GitHub 能解析所有 owner；关键路径有真实 reviewer；proposal 的
+  “不可启用”警告只在批准后解除。
+- **状态：** `BLOCKED`
+- **硬件授权：** 不需要。
+
+### BBF-TASK-028 — CI required checks
+
+- **Task ID：** `BBF-TASK-028`
+- **工作线：** G，与工作线 D 共同验收
+- **优先级：** P1
+- **目标：** 将 D 的已通过 job graph 绑定为默认分支 required checks，并保存远端
+  ruleset 只读证据。
+- **唯一写入范围：** GitHub ruleset/branch-protection 配置及其 evidence；workflow
+  文件仍由 D 独占。
+- **前置依赖：** `BBF-TASK-013` 的 jobs 在固定环境通过；仓库管理员明确授权。
+- **是否可立即开始：** 否；当前只能设计 required job 名称。
+- **验收门：** 任一 required job 失败阻止合并；只读 API 快照与 job 名称一致；没有
+  bypass 或弱化安全负向测试。
+- **状态：** `BLOCKED`
+- **硬件授权：** 不需要；需要远端管理员授权。
+
+### BBF-TASK-029 — release 与 rollback evidence
+
+- **Task ID：** `BBF-TASK-029`
+- **工作线：** G
+- **优先级：** P1
+- **目标：** 每个 release 候选绑定 source/dependency/toolchain/profile/artifact、
+  approval、已知 blocker 和可演练 rollback。
+- **唯一写入范围：** release/rollback manifest、dated evidence/index 条目和对应
+  validator tests；不改历史 evidence。
+- **前置依赖：** `BBF-TASK-025`、`026`、`028`；T08 schema 仍是格式权威。
+- **是否可立即开始：** 负向 fixture 可开始；release promotion `BLOCKED`。
+- **验收门：** 缺任一 identity/approval/rollback artifact 非零；rollback 在隔离软件
+  环境可重放；台架/飞行 rollback 仍需另行授权。
+- **状态：** `BLOCKED`
+- **硬件授权：** 离线不需要；台架/飞行演练需要且当前未授权。
+
+## Wave 2 调度状态
+
+| 工作线 | 当前可启动项 | 状态 |
+|---|---|---|
+| A | A1 PX4 source/message/profile 只读对齐 | `PLANNED`；只读部分可立即开始 |
+| B | B1 Offboard freshness/ACK 失败测试 | `PLANNED`；纯软件可立即开始 |
+| C | C1 authority envelope ADR/schema | `PLANNED`；可立即开始 |
+| D | D1 CI job graph/负向 fixture | `PLANNED`；可立即开始 |
+| E | E1 vision frame/time/health contract | `BLOCKED` 于 C1 接口冻结 |
+| F | F1 schema/parser 离线完善 | `PARTIALLY_IMPLEMENTED`；正式 SITL `BLOCKED` 于 A–D |
+| G | G1 archive manifest/source profile 设计 | `PLANNED`；可立即开始，迁移需批准 |
+
+精确 owner、写入范围、输入、输出和并行冲突以
+[`NEXT_PARALLEL_TASKS.md`](NEXT_PARALLEL_TASKS.md) 为 canonical 调度表。
+
 ## 覆盖检查
 
 | 优先级 | Audit ID 范围 | Backlog 数量 | 覆盖状态 |
 |---|---|---:|---|
 | P0 | `BBF-AUD-001`–`009` | 9 | `STATICALLY_VERIFIED` |
 | P1 | `BBF-AUD-010`–`024` | 15 | `STATICALLY_VERIFIED` |
-| 合计 | 24 项 | 24 | `STATICALLY_VERIFIED` |
+| Wave 2 release hygiene | `BBF-TASK-025`–`029` | 5 | `STATICALLY_PLANNED` |
+| 合计 | 29 项 | 29 | mapping 完整；实现状态见各任务 |
 
 这里的 `STATICALLY_VERIFIED` 仅表示文档映射完整，不表示任一实现、SITL、台架或
 实机能力已通过。
