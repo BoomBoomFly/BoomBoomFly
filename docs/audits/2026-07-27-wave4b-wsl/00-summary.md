@@ -27,4 +27,3 @@ The required Offboard candidate `976d6217d73a28b72e64300e2dd04bcbeeee30d7` is **
 Serial has no uniquely provable canonical origin/path/immutable receipt.  It remains blocked and must not participate in discovery, build, launch, or production control.  The prior Wave 4A statement that `COLCON_IGNORE` quarantined it is not current: the marker is absent at `87f3907...`.
 
 Historical reports were read as historical evidence only; their root `0ed9...`/Offboard `976...` claims were not promoted to current state.
-

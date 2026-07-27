@@ -17,4 +17,3 @@ Shortest dependency order:
 3. Repair root source mapping and create exact locks/receipts including PX4 profile identity.
 4. Implement and fault-test the single Offboard gate and disabled/health-gated vision on that exact candidate.
 5. Run fresh `/tmp` H1 and full H2; then isolated H3 and separately approved H4.
-

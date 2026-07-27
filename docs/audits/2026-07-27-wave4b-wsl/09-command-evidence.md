@@ -14,4 +14,3 @@ Executed only: environment identity; local Git branch/HEAD/remote/status/lock ha
 Explicitly not run: `colcon build/test/test-result`, `ros2 run/launch`, PX4/SITL, Agent, MAVROS, serial/camera/lidar access, `/fmu/in/*` publishing, arming/mode/actuator commands, parameter writes, flash, package installation, fetch/pull/push/merge/rebase/reset/clean.
 
 Historical Wave 4A logs are not this candidate's evidence, especially its statement about a serial `COLCON_IGNORE` marker; that marker is absent at the currently inspected serial SHA.
-

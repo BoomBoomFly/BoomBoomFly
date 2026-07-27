@@ -9,4 +9,3 @@ No H0 item is closed.  All items below are current static observations, not test
 5. **P1 / vision is active by code, not demonstrably disabled.** `vision_to_dds.cpp:79-84` creates `/fmu/in/vehicle_visual_odometry`; `:262-345` can publish with no frame/time/epoch/quality/device-health fail-closed gate. It has no test seam or unit suite.
 
 Required next evidence: maintainer-provided immutable Offboard `976d...` source bundle/receipt; written serial disposition; repaired `.gitmodules`/lock/receipt; then source changes and tests on one exact candidate.
-

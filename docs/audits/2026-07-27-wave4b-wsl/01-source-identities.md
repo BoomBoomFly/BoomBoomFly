@@ -17,4 +17,3 @@ All values below were locally re-verified. `origin/master` is a local tracking r
 Root contains gitlink `src/communication@df256c...` but no `.gitmodules`; `git submodule status --recursive` fails with `no submodule mapping found`.  `workspace.repos` points instead to a workspace-external `../communication`, remote `wanone111/communication.git`, moving `main`.  Existing lock hash: `workspace.lock.repos` SHA256 `365e8ecb681ee98b9c8511c7fc565362a0abc446371d893a3b8f4e87d23d2235`.
 
 The user-specified native dirty `.gitignore` was not present in this WSL checkout.  WSL did not copy, stage, amend, or delete any native dirty content.
-
