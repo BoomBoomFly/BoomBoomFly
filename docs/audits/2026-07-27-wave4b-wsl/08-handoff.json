@@ -1,0 +1,40 @@
+{
+  "schema_version": "wave4b-wsl-handoff-v1",
+  "environment": "WSL",
+  "captured_at": "2026-07-27T23:24:45+08:00",
+  "root": {
+    "baseline_sha": "de3c3104074c5b851d944cb4c757cbfa7d6ede20",
+    "branch": "wsl/wave4b-20260727",
+    "worktree_clean_before_evidence": true,
+    "origin_master_local_ref": "de3c3104074c5b851d944cb4c757cbfa7d6ede20"
+  },
+  "nested": {
+    "communication": {"sha": "df256c180dbd4167f879b697e38d547521f1f8e2", "branch": "main", "state": "dirty; blocked"},
+    "serial": {"sha": "87f3907f0b3b906d474a8d1e1dc9677ab0c4298f", "branch": "master", "state": "clean; canonical origin/path blocked"},
+    "offboard_required": {"sha": "976d6217d73a28b72e64300e2dd04bcbeeee30d7", "state": "not present in local object database"},
+    "offboard_actual": {"sha": "cded3dc5b6906420db3767abd82b2df7ba6ea9f0", "branch": "DDS", "state": "clean; not substituted"},
+    "px4_msgs": {"sha": "392e831c1f659429ca83902e66820d7094591410", "state": "clean"},
+    "px4": {"sha": "54f0455ffcd755534539a7cf33a09a20bf71d29d", "state": "three nested gitlink dirties; ungoverned"},
+    "vision": {"sha": "0c3a00137f3c90a4051ac1bc1029ec56beb669b6", "state": "clean"}
+  },
+  "hashes": {
+    "workspace_lock_repos_sha256": "365e8ecb681ee98b9c8511c7fc565362a0abc446371d893a3b8f4e87d23d2235",
+    "source_patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "host": {"hostname": "rog", "user": "aa", "architecture": "x86_64", "ros_distribution": "foxy"},
+  "commands": [
+    {"id": "identity", "command": "git rev-parse/status/remote on target repositories", "exit_code": 0},
+    {"id": "root_submodule_status", "command": "git submodule status --recursive", "exit_code": 128, "result": "missing .gitmodules mapping for src/communication"},
+    {"id": "offboard_required_object", "command": "git cat-file -e 976d...^{commit}", "exit_code": 128, "result": "object unavailable"}
+  ],
+  "package_boundary": null,
+  "test_cases": [],
+  "artifact_hashes": {},
+  "open_p0": ["WSL-IDENT-001", "WSL-OFFBOARD-001", "WSL-SERIAL-001"],
+  "open_h5_relevant_p1": ["WSL-GOV-001", "WSL-SERIAL-002", "WSL-VISION-001", "WSL-PX4-001"],
+  "HARDWARE_ACCESSED": false,
+  "REAL_FMU_GRAPH_USED": false,
+  "FORMAL_SITL_RUN": false,
+  "WSL_READY_FOR_NATIVE_REBUILD": false
+}
+
