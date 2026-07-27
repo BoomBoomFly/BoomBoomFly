@@ -1,9 +1,9 @@
 # Wave 3B G2 — manifest migration and serial decision
 
-> Capture date: 2026-07-27 (Asia/Shanghai)  
+> Capture date: 2026-07-27 (Asia/Shanghai)
 > Execution boundary: offline/static/verify-only; no clone, fetch, checkout,
-> build, DDS wrapper, ROS launch, SITL, hardware, or nested-repository change  
-> Archive/optional migration: **PASS**  
+> build, DDS wrapper, ROS launch, SITL, hardware, or nested-repository change
+> Archive/optional migration: **PASS**
 > Serial conclusion: **REQUIRES_MAINTAINER_DECISION**
 
 ## 1. Read-only serial and alternate-source audit

@@ -1,8 +1,8 @@
 # Wave 3B canonical validation ledger
 
-Date: 2026-07-27  
-Root baseline: `afb4fdcecb22596056432492d1ad284919b065cd`  
-Offboard final: `976d6217d73a28b72e64300e2dd04bcbeeee30d7`  
+Date: 2026-07-27
+Root baseline: `afb4fdcecb22596056432492d1ad284919b065cd`
+Offboard final: `976d6217d73a28b72e64300e2dd04bcbeeee30d7`
 Execution class: offline/static/pure software only
 
 ## Canonical PASS results

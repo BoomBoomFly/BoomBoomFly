@@ -1,6 +1,6 @@
 # Wave 3B F2 — offline acceptance integration
 
-Date: 2026-07-27  
+Date: 2026-07-27
 Result: **PASS — OFFLINE_SYNTHETIC ONLY**
 
 ## Scope and non-claims

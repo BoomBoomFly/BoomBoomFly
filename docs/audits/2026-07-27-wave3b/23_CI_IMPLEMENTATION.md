@@ -1,6 +1,6 @@
 # Wave 3B D2 — local offline CI implementation
 
-Date: 2026-07-27  
+Date: 2026-07-27
 Status: **IMPLEMENTATION PASS; EXECUTION BLOCKED; NON-REQUIRED**
 
 ## Scope and safety boundary

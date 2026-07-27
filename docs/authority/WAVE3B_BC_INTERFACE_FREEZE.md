@@ -1,7 +1,7 @@
 # Wave 3B B/C runtime interface freeze
 
-Freeze date: 2026-07-27  
-Interface version: `boom-boom-fly.authority-envelope/1.0.0`  
+Freeze date: 2026-07-27
+Interface version: `boom-boom-fly.authority-envelope/1.0.0`
 Coordinator decision: **FROZEN FOR WAVE 3B B2 CONSUMPTION**
 
 This record freezes the pure-software boundary between the C2 authority

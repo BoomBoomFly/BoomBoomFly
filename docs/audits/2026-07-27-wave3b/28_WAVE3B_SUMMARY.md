@@ -1,8 +1,8 @@
 # Wave 3B summary and gate decision
 
-Date: 2026-07-27  
-Root start: `agent/wave3a-software-gates@afb4fdcecb22596056432492d1ad284919b065cd`  
-Root work branch: `agent/wave3b-integration-gates`  
+Date: 2026-07-27
+Root start: `agent/wave3a-software-gates@afb4fdcecb22596056432492d1ad284919b065cd`
+Root work branch: `agent/wave3b-integration-gates`
 Offboard: `agent/wave3b-offboard-integration@976d6217d73a28b72e64300e2dd04bcbeeee30d7`
 
 ## Outcome

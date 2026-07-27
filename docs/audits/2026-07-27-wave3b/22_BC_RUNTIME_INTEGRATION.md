@@ -1,6 +1,6 @@
 # Wave 3B B2/C2 runtime integration
 
-Date: 2026-07-27  
+Date: 2026-07-27
 Scope: pure-software authority and Offboard integration only
 
 ## Interface freeze

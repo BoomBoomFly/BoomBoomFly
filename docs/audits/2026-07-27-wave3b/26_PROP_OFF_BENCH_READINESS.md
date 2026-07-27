@@ -1,7 +1,7 @@
 # Wave 3B prop-off bench readiness
 
-Date: 2026-07-27  
-Current phase: software integration gates  
+Date: 2026-07-27
+Current phase: software integration gates
 Hardware access performed: **NO**
 
 ## Authorization boundary

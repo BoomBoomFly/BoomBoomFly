@@ -1,6 +1,6 @@
 # Wave 3B baseline and ownership
 
-Date: 2026-07-27  
+Date: 2026-07-27
 Repository root: `/home/c/BoomBoomFly`, resolved with
 `git rev-parse --show-toplevel`
 
