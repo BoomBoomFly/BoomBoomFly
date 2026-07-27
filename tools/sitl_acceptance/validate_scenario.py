@@ -63,6 +63,23 @@ CORE_FIELDS = {
     "fault_injection",
     "extensions",
 }
+WAVE3B_INTERFACE_VERSION = "boom-boom-fly.authority-envelope/1.0.0"
+WAVE3B_FIXTURE_SCOPE = "OFFLINE_SYNTHETIC"
+WAVE3B_REQUIRED_CASES = {
+    "ACK_TIMEOUT": ("B2_ACK_TIMEOUT", "TIMEOUT", "500ms"),
+    "ACK_REJECTION": ("B2_ACK_RESULT_DENIED", "REJECTED", "500ms"),
+    "ACK_CORRELATION": ("B2_ACK_CORRELATION_MISMATCH", "REJECTED", "500ms"),
+    "CLOCK_STALE": ("B2_STATUS_STALE", "REJECTED", "200ms"),
+    "CLOCK_FUTURE": ("B2_STATUS_FUTURE", "REJECTED", "200ms"),
+    "CLOCK_BACKWARD": ("B2_CLOCK_BACKWARD", "REJECTED", "200ms"),
+    "OWNER_NOT_CURRENT": ("AUTH_OWNER_NOT_CURRENT", "REJECTED", "100ms"),
+    "LEASE_EXPIRED": ("AUTH_LEASE_EXPIRED", "REJECTED", "100ms"),
+    "DUPLICATE_WRITER": ("AUTH_DUPLICATE_WRITER", "REJECTED", "100ms"),
+    "GRAPH_EPOCH_CHANGED": ("AUTH_GRAPH_EPOCH_CHANGED", "REJECTED", "100ms"),
+    "PROCESS_RESTART": ("AUTH_RESTART_SAFE", "OBSERVED", "100ms"),
+    "OFFBOARD_HEARTBEAT_LOSS": ("B2_STATUS_STALE_OR_NOT_OFFBOARD", "REJECTED", "200ms"),
+    "SOURCE_IDENTITY_MISMATCH": ("AUTH_SOURCE_EPOCH_CHANGED", "REJECTED", "100ms"),
+}
 
 
 def _error(errors: List[Dict[str, str]], code: str, path: str, message: str) -> None:
@@ -513,6 +530,62 @@ def _validate_fault(value: Any, dependencies: Set[str], errors: List[Dict[str, s
                 _error(errors, "DEPENDENCY", path, "fault blocker must also appear in top-level dependencies")
 
 
+def _validate_wave3b_extension(value: Any, document: Dict[str, Any], errors: List[Dict[str, str]]) -> None:
+    """Fail closed on changes to the frozen Wave 3B synthetic matrix."""
+    if not isinstance(value, dict):
+        if document.get("scenario_id") == "SITL-FAULT-025":
+            _error(errors, "WAVE3B_CONTRACT", "$.extensions", "Wave 3B runtime contract is required")
+        return
+    contract = value.get("wave3b_runtime_contract")
+    if contract is None:
+        if document.get("scenario_id") == "SITL-FAULT-025":
+            _error(errors, "WAVE3B_CONTRACT", "$.extensions.wave3b_runtime_contract", "contract is required")
+        return
+    fields = {"fixture_scope", "interface_version", "px4_source_identity", "formal_sitl_evidence", "cases"}
+    path = "$.extensions.wave3b_runtime_contract"
+    if not _require_fields(contract, path, fields, fields, errors):
+        return
+    expected_header = {
+        "fixture_scope": WAVE3B_FIXTURE_SCOPE,
+        "interface_version": WAVE3B_INTERFACE_VERSION,
+        "px4_source_identity": "BLOCKED",
+        "formal_sitl_evidence": False,
+    }
+    for field, expected in expected_header.items():
+        if contract.get(field) != expected:
+            _error(errors, "WAVE3B_CONTRACT", path + "." + field, "must equal %r" % expected)
+    cases = contract.get("cases")
+    if not isinstance(cases, list):
+        _error(errors, "TYPE", path + ".cases", "must be an array")
+        return
+    case_fields = {"case_id", "event_id", "event_code", "result", "timeout"}
+    seen: Set[str] = set()
+    for index, case in enumerate(cases):
+        case_path = "%s.cases[%d]" % (path, index)
+        if not _require_fields(case, case_path, case_fields, case_fields, errors):
+            continue
+        case_id = case.get("case_id")
+        if case_id in seen:
+            _error(errors, "DUPLICATE_ID", case_path + ".case_id", "case ID must be unique")
+        if isinstance(case_id, str):
+            seen.add(case_id)
+        frozen = WAVE3B_REQUIRED_CASES.get(case_id)
+        if frozen is None:
+            _error(errors, "WAVE3B_CASE", case_path + ".case_id", "unsupported case")
+            continue
+        for field, expected in zip(("event_code", "result", "timeout"), frozen):
+            if case.get(field) != expected:
+                _error(errors, "WAVE3B_CASE", case_path + "." + field, "must equal %r" % expected)
+        _validate_duration(case.get("timeout"), case_path + ".timeout", errors)
+    for case_id in sorted(set(WAVE3B_REQUIRED_CASES) - seen):
+        _error(errors, "WAVE3B_CASE_MISSING", path + ".cases", case_id)
+    evidence = document.get("evidence", {})
+    if evidence.get("acceptance_level") != "OFFLINE_SPEC" or evidence.get("synthetic_fixture_allowed") is not True:
+        _error(errors, "WAVE3B_EVIDENCE", "$.evidence", "must remain synthetic OFFLINE_SPEC")
+    if not any("OFFLINE_SYNTHETIC" in item for item in document.get("limitations", []) if isinstance(item, str)):
+        _error(errors, "WAVE3B_SCOPE", "$.limitations", "OFFLINE_SYNTHETIC label is required")
+
+
 def validate_scenario(document: Any, source_path: str = "<memory>") -> List[Dict[str, str]]:
     """Return stable validation errors; an empty list means offline validation passed."""
     errors: List[Dict[str, str]] = []
@@ -592,6 +665,7 @@ def validate_scenario(document: Any, source_path: str = "<memory>") -> List[Dict
         _error(errors, "FAULT_ONLY_FIELD", "$.fault_injection", "only fault scenarios may define fault injection")
     if "extensions" in document and not isinstance(document.get("extensions"), dict):
         _error(errors, "TYPE", "$.extensions", "must be an object")
+    _validate_wave3b_extension(document.get("extensions"), document, errors)
     _walk_forbidden_keys(document, "$", errors)
     _walk_safety_strings(document, "$", errors)
     return sorted(errors, key=lambda item: (item["path"], item["code"], item["message"]))

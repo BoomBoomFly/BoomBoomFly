@@ -26,7 +26,7 @@ ALLOWED_STATUS = {
 }
 EXPECTED_IDS = {
     *{"SITL-NORMAL-%03d" % index for index in range(1, 13)},
-    *{"SITL-FAULT-%03d" % index for index in range(1, 25)},
+    *{"SITL-FAULT-%03d" % index for index in range(1, 26)},
 }
 
 

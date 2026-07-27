@@ -23,8 +23,8 @@ class CatalogIntegrityTests(unittest.TestCase):
         self.assertEqual([], summary["errors"], summary["errors"])
         self.assertEqual("PASS", summary["status"])
         self.assertEqual(12, summary["counts"]["normal"])
-        self.assertEqual(24, summary["counts"]["fault"])
-        self.assertEqual(36, summary["counts"]["total"])
+        self.assertEqual(25, summary["counts"]["fault"])
+        self.assertEqual(37, summary["counts"]["total"])
         self.assertEqual(
             EXPECTED_IDS,
             {entry["scenario_id"] for entry in document["scenarios"]},

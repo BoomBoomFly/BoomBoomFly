@@ -38,6 +38,7 @@
     {"scenario_id": "SITL-FAULT-021", "kind": "fault", "path": "faults/SITL-FAULT-021.json"},
     {"scenario_id": "SITL-FAULT-022", "kind": "fault", "path": "faults/SITL-FAULT-022.json"},
     {"scenario_id": "SITL-FAULT-023", "kind": "fault", "path": "faults/SITL-FAULT-023.json"},
-    {"scenario_id": "SITL-FAULT-024", "kind": "fault", "path": "faults/SITL-FAULT-024.json"}
+    {"scenario_id": "SITL-FAULT-024", "kind": "fault", "path": "faults/SITL-FAULT-024.json"},
+    {"scenario_id": "SITL-FAULT-025", "kind": "fault", "path": "faults/SITL-FAULT-025.json"}
   ]
 }

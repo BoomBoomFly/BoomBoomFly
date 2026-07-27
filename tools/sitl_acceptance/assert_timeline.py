@@ -13,10 +13,10 @@ from typing import Any, Dict, Iterable, List, Optional, Sequence
 
 if __package__:
     from .parse_timeline import parse_timeline
-    from .validate_scenario import SCENARIO_ID_RE, SCHEMA_VERSION, validate_scenario
+    from .validate_scenario import SCENARIO_ID_RE, SCHEMA_VERSION, WAVE3B_FIXTURE_SCOPE, WAVE3B_INTERFACE_VERSION, validate_scenario
 else:
     from parse_timeline import parse_timeline
-    from validate_scenario import SCENARIO_ID_RE, SCHEMA_VERSION, validate_scenario
+    from validate_scenario import SCENARIO_ID_RE, SCHEMA_VERSION, WAVE3B_FIXTURE_SCOPE, WAVE3B_INTERFACE_VERSION, validate_scenario
 
 
 DURATION_RE = re.compile(r"^(0|[1-9][0-9]*)(\.[0-9]+)?(ns|us|ms|s|min)$")
@@ -575,6 +575,52 @@ def _participant_assertions(
     return assertions
 
 
+def _wave3b_contract_assertions(scenario: Dict[str, Any], events: Sequence[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    contract = scenario.get("extensions", {}).get("wave3b_runtime_contract")
+    if not isinstance(contract, dict):
+        return []
+    assertions: List[Dict[str, Any]] = []
+    boundary_ok = all(
+        event.get("metadata", {}).get("fixture_scope") == WAVE3B_FIXTURE_SCOPE
+        and event.get("metadata", {}).get("synthetic") is True
+        and event.get("metadata", {}).get("formal_sitl_evidence") is False
+        and event.get("metadata", {}).get("px4_source_identity") == "BLOCKED"
+        for event in events
+    )
+    assertions.append(_assertion("wave3b.fixture_boundary", boundary_ok, {"events_checked": len(events)}))
+    for case in contract["cases"]:
+        case_id = case["case_id"]
+        observed = [event for event in events if event.get("metadata", {}).get("contract_case_id") == case_id]
+        problems: List[str] = []
+        elapsed: Optional[float] = None
+        if len(observed) != 1:
+            problems.append("expected exactly one event")
+        else:
+            event = observed[0]
+            metadata = event["metadata"]
+            started = metadata.get("observation_started_monotonic")
+            if not isinstance(started, (int, float)) or isinstance(started, bool):
+                problems.append("invalid observation start")
+            else:
+                elapsed = float(event["monotonic_timestamp"]) - float(started)
+                if elapsed < 0 or elapsed > _duration_seconds(case["timeout"]):
+                    problems.append("bounded timeout exceeded")
+            checks = {
+                "accepted": False,
+                "event_code": case["event_code"],
+                "interface_version": WAVE3B_INTERFACE_VERSION,
+                "synthetic_publish_delta": 0,
+                "synthetic_publish_count": 0,
+            }
+            for field, expected in checks.items():
+                if metadata.get(field) != expected:
+                    problems.append(field + " mismatch")
+            if event.get("result") != case["result"]:
+                problems.append("result mismatch")
+        assertions.append(_assertion("wave3b.%s.contract" % case_id.lower(), not problems, {"elapsed_seconds": elapsed, "problems": problems}))
+    return assertions
+
+
 def run_assertions(
     scenario: Any,
     events: Sequence[Dict[str, Any]],
@@ -612,6 +658,7 @@ def run_assertions(
         assertions.extend(_source_identity_assertions(scenario, events))
         assertions.extend(_state_assertions(scenario, events, origin))
         assertions.extend(_participant_assertions(scenario, events, origin))
+        assertions.extend(_wave3b_contract_assertions(scenario, events))
     failed = sum(item["status"] == "FAIL" for item in assertions)
     passed = sum(item["status"] == "PASS" for item in assertions)
     errors = sorted(errors, key=lambda item: (item["path"], item["code"], item["message"]))
