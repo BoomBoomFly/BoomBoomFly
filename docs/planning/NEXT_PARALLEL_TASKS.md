@@ -1,12 +1,37 @@
 # 下一波并行任务
 
 > Canonical planning document
-> 当前调度基线：Wave 3A 起始
-> `agent/wave3a-software-gates@f34f5e647846cf20bbe8003b52c21035831b4fe1`。
+> 当前调度基线：Wave 3B 起始
+> `agent/wave3a-software-gates@afb4fdcecb22596056432492d1ad284919b065cd`；
+> root 工作分支 `agent/wave3b-integration-gates`，nested Offboard 已固定为
+> `agent/wave3b-offboard-integration@976d6217d73a28b72e64300e2dd04bcbeeee30d7`。
 
 本文件直接替代旧调度内容；不创建重复的 `NEXT_PARALLEL_TASKS_V2.md`。任务授权只限
 各自明确写入范围。任何 task 的 `PLANNED`、schema、mock 或离线测试结果都不能提升为
 SITL、台架、飞行或 production 证据。
+
+## Wave 3B authoritative refresh
+
+Wave 3B dated audit 位于
+[`2026-07-27-wave3b`](../audits/2026-07-27-wave3b/)。本节在冲突处取代下方
+Wave 3A 任务快照；下方保留为历史分工和 ownership 参考。
+
+- A2：`BLOCKED`，缺 exact PX4-Autopilot source、recursive submodules、DDS
+  generator/profile、immutable ARM toolchain 和 board lock。
+- B2/C2：冻结 `boom-boom-fly.authority-envelope/1.0.0` 后，纯软件 authority 与
+  Offboard runtime contract `PASS`；live node/publisher wiring 尚未验证。
+- D2：本地 manual/non-required workflow 与 7 个稳定 job 静态 `PASS`；8 个 immutable
+  lock 未闭合，runner execution exit 78 fail closed。
+- G2：active/archive/optional migration 与 15 tests `PASS`；serial canonical path
+  仍 `REQUIRES_MAINTAINER_DECISION`，DDS wrapper 在受保护 path conflict exit 2。
+- F2：37-scenario catalog、27 tests、16-record/29-assertion synthetic timeline
+  `PASS`；不能提升为 formal SITL。
+- H0/H1：软件门未全通过，当前 checklist 为 `NO-GO`，没有请求或收到人工 GO。
+
+下一波只允许关闭以下软件 blocker：导入获批 exact PX4/toolchain、发布并锁定可恢复的
+Offboard commit、把已测 gate 串入 live node/publisher、维护者决定 serial canonical
+source/path、提供 immutable CI dependency bundle。完成后先重跑完整离线门；不得直接
+进入 formal SITL、armed bench 或 flight。
 
 ## Wave 3A 状态刷新
 
@@ -243,9 +268,9 @@ E1 在 C1 的 authority/profile 接口冻结后开始。F1 可继续离线工作
 
 | 波次 | 可并行任务 | 退出门 |
 |---|---|---|
-| Wave 3A | A1、B1、C1、D1、G1 | **未退出**：A1 `BLOCKED`；B/C/D/G 离线测试通过但仍需评审、共享接口与 writer 冻结 |
-| Wave 3B | B integration、C synthetic guard、E1、F1、G2 schema | B/C consumer interface 通过；F1 offline gate；moving-source 决策 |
-| Wave 3C | A implementation/build、B/C integration、D jobs、G1 implementation | M1/M2 unit gates；default/archive/optional source profiles 通过 |
+| Wave 3A | A1、B1、C1、D1、G1 | 已形成 Wave 3B 起点；A blocker 结转，禁止提升为 SITL |
+| Wave 3B | A2、B2、C2、D2、F2、G2 | **未退出**：A2/D2 execution/serial package boundary/DDS build 仍 blocked；B/C/F/G static runtime/profile 实现通过 |
+| Wave 3C | exact A import、live B/C wiring、immutable D locks、serial maintainer decision | 全量离线门、reproducible restore 和 DDS build 全 PASS |
 | Wave 3D | F-RUN、E ordinary-vision SITL（适用时） | M3/M4 `SITL_VERIFIED`；G5 release gate |
 | Hardware | M5 拆桨台架、M6 有限飞行 | 当前全部 `BLOCKED`，必须新授权 |
 
@@ -262,7 +287,8 @@ E1 在 C1 的 authority/profile 接口冻结后开始。F1 可继续离线工作
 
 ```text
 PRODUCTION: BLOCKED
-HARDWARE ACCESS: NOT AUTHORIZED
-FIRMWARE FLASH: NOT AUTHORIZED
+PROP-OFF DISARMED BENCH: HUMAN-GATED; CURRENT DECISION NO-GO
+PROP-OFF ARMED BENCH: NOT AUTHORIZED
+FIRMWARE FLASH: REQUIRES PER-ARTIFACT HUMAN CONFIRMATION
 FLIGHT: NOT AUTHORIZED
 ```

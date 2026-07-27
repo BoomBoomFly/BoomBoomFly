@@ -1,14 +1,13 @@
-# BoomBoomFly Wave 3A 临时交接
+# BoomBoomFly Wave 3B handoff
 
-> 更新日期：2026-07-27
->
-> 用途：当前窗口导航；不替代 ADR、规范、planning 或 evidence。
->
-> production：`BLOCKED`
+> Updated: 2026-07-27
+> Purpose: current workspace navigation; ADRs, machine-readable profiles, and
+> dated audit records remain authoritative.
+> Production: `BLOCKED`
 
-## 打开工作区
+## Open the workspace
 
-不要依赖个人主目录或固定 checkout 路径。在仓库内动态解析根目录：
+Never assume a personal checkout path:
 
 ```bash
 REPO_ROOT="$(git rev-parse --show-toplevel)"
@@ -17,52 +16,78 @@ git status --short --branch
 git rev-parse HEAD
 ```
 
-保留所有既有 dirty checkout；不要 reset、clean、强制 checkout 或覆盖本地改动。
+Preserve every existing dirty checkout. Do not reset, clean, stash, force
+checkout, move, rename, or overwrite `src/serial_driver_ros2/` or another
+protected nested repository.
 
-## 当前 Wave 3A 导航
+## Wave 3B identities
 
-- root 基线：`agent/wave3a-software-gates` 从
-  `f34f5e647846cf20bbe8003b52c21035831b4fe1` 开始；接手时仍须重新读取实际
-  branch、HEAD 和 dirty state。
-- A1 alignment：已完成只读报告，但 PX4-Autopilot source/submodule/toolchain
-  identity 缺失，保持 `BLOCKED`。
-- B1：`src/offboard_cpp` 中只有 test-only ACK/freshness/PRESTREAM contract
-  oracle；12 tests 通过，production FSM integration 未实施。
-- C1/D1/G1：schema/semantic、CI design、dependency profile 的 synthetic/offline
-  tests 通过；分别不代表 runtime guard、executable CI 或 manifest migration。
-- H：只有 preliminary OS inventory；H0 identity 和 H2 bench 未完成。
-- canonical 结果和 blockers：
-  [Wave 3A audit](audits/2026-07-27-wave3a/)。
+- root start:
+  `agent/wave3a-software-gates@afb4fdcecb22596056432492d1ad284919b065cd`;
+- root work branch: `agent/wave3b-integration-gates`;
+- nested Offboard start:
+  `DDS@c744757a2df467807af240e34188869af65c603e`;
+- nested Offboard final:
+  `agent/wave3b-offboard-integration@976d6217d73a28b72e64300e2dd04bcbeeee30d7`,
+  clean;
+- protected serial checkout:
+  `src/serial_driver_ros2 main@8614989c8b9e60176a83d5d32a058801fafdb8d6`,
+  four modified plus one untracked, untouched.
 
-## 当前不变量
+Resolve the final root commit with `git rev-parse HEAD`; the Wave 3B summary
+commit contains this handoff and therefore cannot self-record its own hash.
 
-- 软件基线：Ubuntu 20.04、ROS 2 Foxy、PX4 v1.16.2。
-- production transport：PX4 uXRCE-DDS-only；MAVROS 不是 fallback。
-- production 当前禁用。
-- SITL orchestration 尚未获准，不能声称 `SITL_VERIFIED`。
-- 台架、硬件访问、firmware 刷写和飞行均未授权。
+## Gate status
 
-## 从这里继续
+- A2: `BLOCKED`; exact PX4-Autopilot source/submodules/DDS generator/toolchain
+  and board identity are absent. Exact `px4_msgs@392e831c...` alone is not a
+  source lock.
+- B2/C2: pure-software runtime contract `PASS`; frozen interface is
+  `boom-boom-fly.authority-envelope/1.0.0`. Live node/publisher routing remains
+  unverified.
+- D2: manual non-required workflow/static validation `PASS`; execution remains
+  `BLOCKED_BY_DEPENDENCY_LOCK` (exit 78).
+- G2: active/archive/optional migration `PASS`; serial remains
+  `REQUIRES_MAINTAINER_DECISION`.
+- F2: `OFFLINE_SYNTHETIC` acceptance `PASS`; it is not formal SITL evidence.
+- package boundary and DDS wrapper: exit 2 on the protected serial path
+  conflict; no DDS build occurred.
+- H0/H1: not executed; software gates did not all pass, so no human GO was
+  requested or received.
 
-- 权威层级：[Document Authority](governance/DOCUMENT_AUTHORITY.md)
-- 架构决策：[ADR-0001](adr/0001-dds-only-control-authority.md)
-- 当前规范：[控制权矩阵](CONTROL_AUTHORITY_MATRIX.md) 与
-  [architecture](architecture/)
-- 构建和测试：[Scripts README](../Scripts/README.md)
-- 验证 runbook：[分级验证门](runbooks/VALIDATION_LEVELS.md) 与
-  [SITL 验收](runbooks/SITL_ACCEPTANCE.md)
-- canonical planning：[下一批并行任务](planning/NEXT_PARALLEL_TASKS.md)
-- Wave 3A validation：[canonical validation ledger](audits/2026-07-27-wave3a/10_CANONICAL_VALIDATION.md)
-- Wave 3A summary：[summary](audits/2026-07-27-wave3a/11_WAVE3A_SUMMARY.md)
-- evidence：[索引](evidence/index.yaml) 与 [schema](evidence/SCHEMA.md)
-- 本日期审计的勘误：[CORRECTIONS](audits/2026-07-26/CORRECTIONS.md)
+Canonical results:
 
-具体 branch、HEAD、dependency 状态、blocker 和任务进度应在接手时从 Git、
-machine-readable profile、planning 与对应 evidence 重新获取，不在本文件复制。
+- [Wave 3B baseline and ownership](audits/2026-07-27-wave3b/20_BASELINE_AND_OWNERSHIP.md)
+- [Wave 3B validation ledger](audits/2026-07-27-wave3b/27_WAVE3B_VALIDATION.md)
+- [Wave 3B summary](audits/2026-07-27-wave3b/28_WAVE3B_SUMMARY.md)
+- [B/C interface freeze](authority/WAVE3B_BC_INTERFACE_FREEZE.md)
+- [source profiles](dependencies/SOURCE_PROFILES.md)
+- [canonical planning](planning/NEXT_PARALLEL_TASKS.md)
+
+## Next authorized work
+
+Only software-blocker closure is ready to schedule:
+
+1. import an approved offline exact PX4 v1.16.2 source/submodule/toolchain set;
+2. publish or otherwise make the Offboard B2 commit reproducibly restorable,
+   then update its exact root lock;
+3. integrate the tested B/C gates into the live node/publisher path;
+4. obtain the maintainer serial canonical-source/path decision without touching
+   the protected checkout;
+5. provide immutable CI runner/dependency locks and rerun the complete offline
+   and DDS-only gates.
+
+Formal SITL, hardware access without the human checklist, an armed bench,
+firmware flashing without per-artifact confirmation, propeller installation,
+and flight are outside the current handoff authorization.
 
 ```text
+FORMAL SITL: BLOCKED UNTIL A/B/C/D/G SOFTWARE GATES PASS
+PROP-OFF DISARMED BENCH: HUMAN-GATED; CURRENT DECISION NO-GO
+PROP-OFF ARMED BENCH: NOT AUTHORIZED
+FIRMWARE FLASH: REQUIRES PER-ARTIFACT HUMAN CONFIRMATION
+PROPELLER INSTALLATION: NOT AUTHORIZED
+INDOOR FLIGHT: BLOCKED
+ARM / MODE / TAKEOFF / ABORT AUTHORITY: HUMAN ONLY
 PRODUCTION: BLOCKED
-HARDWARE ACCESS: NOT AUTHORIZED
-FIRMWARE FLASH: NOT AUTHORIZED
-FLIGHT: NOT AUTHORIZED
 ```
