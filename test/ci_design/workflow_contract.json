@@ -1,0 +1,51 @@
+{
+  "document_kind": "wave3b-local-ci-workflow-contract",
+  "schema_version": 1,
+  "workflow_path": ".github/workflows/wave3b-offline-gates.yml",
+  "workflow_required_remotely": false,
+  "expected_job_ids": [
+    "governance-static",
+    "python-unit",
+    "dds-boundary",
+    "evidence-integrity",
+    "sitl-spec-offline",
+    "supply-chain-static",
+    "dds-build-test"
+  ],
+  "platform": {
+    "runner_label": "ubuntu-20.04",
+    "architecture": "x86_64",
+    "os_release": "20.04",
+    "python_version": "3.8.10",
+    "jsonschema_version": "4.19.2",
+    "jsonschema_capability": "Draft202012Validator",
+    "ros_distro": "foxy"
+  },
+  "execution": {
+    "bwrap_path": "/usr/bin/bwrap",
+    "bwrap_version": "bubblewrap 0.4.0",
+    "allow_network_in_gate": false,
+    "allow_device_paths": false,
+    "allow_hardware": false,
+    "allow_ros_launch": false
+  },
+  "actions": {
+    "checkout": "11bd71901bbe5b1630ceea73d27597364c9af683",
+    "upload_artifact": "ea165f8d65b6e75b540449e92b4886f43607fa02"
+  },
+  "artifact_retention_days": {
+    "summary": 14,
+    "diagnostics": 30,
+    "ledger": 90
+  },
+  "toolchain_lock": {
+    "runner_image_digest": null,
+    "ros_apt_snapshot": null,
+    "ros_package_set_sha256": null,
+    "python_runtime_sha256": null,
+    "python_requirements_sha256": null,
+    "colcon_bundle_sha256": null,
+    "compiler_bundle_sha256": null,
+    "offline_dependency_bundle_sha256": null
+  }
+}

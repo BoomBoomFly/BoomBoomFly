@@ -76,7 +76,8 @@
       "artifact_class": "supply-chain-static",
       "commands": [
         "python3 Scripts/installation/verify_workspace_receipts.py",
-        "python3 test/ci_design/validate_ci_design.py --config test/ci_design/job_graph.json"
+        "python3 test/ci_design/validate_ci_design.py --config test/ci_design/job_graph.json",
+        "python3 -m unittest discover -s test/ci_design -p 'test_*.py'"
       ],
       "fail_closed": true,
       "id": "supply-chain-static",
