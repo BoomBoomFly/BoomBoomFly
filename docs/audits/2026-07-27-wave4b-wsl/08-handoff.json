@@ -7,34 +7,36 @@
     "branch": "wsl/wave4b-20260727",
     "worktree_clean_before_evidence": true,
     "worktree_clean_at_handoff": true,
-    "evidence_content_commit_sha1": "5c63683fd1fd6c368f2b6ca2e2849e2e7d7ce87c",
+    "evidence_content_commit_sha1": "5e6941ee897a4427583d776edc3797114ec428a9",
     "origin_master_local_ref": "de3c3104074c5b851d944cb4c757cbfa7d6ede20"
   },
   "nested": {
     "communication": {"sha": "df256c180dbd4167f879b697e38d547521f1f8e2", "branch": "main", "state": "dirty; blocked"},
-    "serial": {"sha": "87f3907f0b3b906d474a8d1e1dc9677ab0c4298f", "branch": "master", "state": "clean; canonical origin/path blocked"},
-    "offboard_required": {"sha": "976d6217d73a28b72e64300e2dd04bcbeeee30d7", "state": "not present in local object database"},
-    "offboard_actual": {"sha": "cded3dc5b6906420db3767abd82b2df7ba6ea9f0", "branch": "DDS", "state": "clean; not substituted"},
+    "serial_upstream": {"sha": "87f3907f0b3b906d474a8d1e1dc9677ab0c4298f", "branch": "master", "state": "latest origin/master after approved fetch"},
+    "serial_quarantine": {"sha": "9d8c07814ad0f64f76c5fd8fe12072aebcbef431", "branch": "wsl/wave4b-serial-quarantine", "state": "COLCON_IGNORE; discovery count 0; runtime P0 remains open"},
+    "offboard_latest": {"sha": "cded3dc5b6906420db3767abd82b2df7ba6ea9f0", "branch": "wsl/wave4b-offboard-latest tracking origin/DDS", "state": "latest default branch after approved fetch; H0 P0 remains open"},
     "px4_msgs": {"sha": "392e831c1f659429ca83902e66820d7094591410", "state": "clean"},
     "px4": {"sha": "54f0455ffcd755534539a7cf33a09a20bf71d29d", "state": "three nested gitlink dirties; ungoverned"},
     "vision": {"sha": "0c3a00137f3c90a4051ac1bc1029ec56beb669b6", "state": "clean"}
   },
   "hashes": {
     "workspace_lock_repos_sha256": "365e8ecb681ee98b9c8511c7fc565362a0abc446371d893a3b8f4e87d23d2235",
-    "source_patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "evidence_content_patch_sha256": "8f72fb3a08dee51dca931a296d0db8b16e2012162e62d7625f85fb462faab9db",
-    "evidence_content_commit_object_sha256": "6de2ce34c44e9cc2ce0d86d3758415f4ed08ff5a59cea2f81738c420d07e8278"
+    "root_source_patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "serial_quarantine_patch_sha256": "f733c6ddaef81c02c276bb70c3c5347495ac872e5fc7d6f66f2d7f0799ca27c2",
+    "serial_colcon_ignore_sha256": "37bcea51021e7b206f471e78419ab6fd4b38a95f2a35d4fd36e0cba9c31b289e",
+    "serial_generated_logger_sha256": "31ab58b7c0f018670ed91a7df1ce289891d9504b358aeb6f29041a58c0037a96"
   },
   "host": {"hostname": "rog", "user": "aa", "architecture": "x86_64", "ros_distribution": "foxy"},
   "commands": [
     {"id": "identity", "command": "git rev-parse/status/remote on target repositories", "exit_code": 0},
     {"id": "root_submodule_status", "command": "git submodule status --recursive", "exit_code": 128, "result": "missing .gitmodules mapping for src/communication"},
-    {"id": "offboard_required_object", "command": "git cat-file -e 976d...^{commit}", "exit_code": 128, "result": "object unavailable"}
+    {"id": "upstream_fetch", "command": "git fetch --prune origin in Offboard and serial", "exit_code": 0, "result": "Offboard HEAD DDS@cded3dc; serial HEAD master@87f3907"},
+    {"id": "serial_discovery_quarantine", "command": "colcon list --base-paths serial_driver_ros-wave4b --log-base /tmp/...", "exit_code": 0, "result": "discovery_count=0; generated workspace log moved to /tmp and hashed"}
   ],
   "package_boundary": null,
-  "test_cases": [],
-  "artifact_hashes": {},
-  "open_p0": ["WSL-IDENT-001", "WSL-OFFBOARD-001", "WSL-SERIAL-001"],
+  "test_cases": [{"id": "serial-discovery-quarantine", "result": "PASS: colcon list exit 0 and stdout empty"}],
+  "artifact_hashes": {"serial_colcon_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "serial_generated_logger_sha256": "31ab58b7c0f018670ed91a7df1ce289891d9504b358aeb6f29041a58c0037a96"},
+  "open_p0": ["WSL-OFFBOARD-001", "WSL-SERIAL-001"],
   "open_h5_relevant_p1": ["WSL-GOV-001", "WSL-SERIAL-002", "WSL-VISION-001", "WSL-PX4-001"],
   "HARDWARE_ACCESSED": false,
   "REAL_FMU_GRAPH_USED": false,
