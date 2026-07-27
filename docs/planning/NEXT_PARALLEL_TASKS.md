@@ -1,15 +1,27 @@
 # 下一波并行任务
 
 > Canonical planning document
-> 调度基线：Repository Cleanup Wave 2 起始
-> `master@0a7f90dad0942843c989a9bed6333a88f9b31ca5`；当前执行分支
-> `agent/repository-cleanup-wave2`。
+> 当前调度基线：Wave 3A 起始
+> `agent/wave3a-software-gates@f34f5e647846cf20bbe8003b52c21035831b4fe1`。
 
 本文件直接替代旧调度内容；不创建重复的 `NEXT_PARALLEL_TASKS_V2.md`。任务授权只限
 各自明确写入范围。任何 task 的 `PLANNED`、schema、mock 或离线测试结果都不能提升为
 SITL、台架、飞行或 production 证据。
 
-## 立即启动顺序
+## Wave 3A 状态刷新
+
+2026-07-27 的 canonical 离线验证在上述 root 基线和受保护 dirty checkout 上执行：
+root 115 tests 与 B1 嵌套仓库 12 tests 全部通过。A1 的只读 alignment 已完成但因
+PX4-Autopilot source/toolchain 缺失保持 `BLOCKED`；B1、C1、D1、G1 仅达到各自
+test-only/schema/design oracle 的 `UNIT_TESTED`。对应 dated audit 位于
+[`2026-07-27-wave3a`](../audits/2026-07-27-wave3a/)。
+
+Wave 3A 尚未退出：A1 blocker 未关闭，B/C 的 production runtime integration 尚未
+实施，D1 executable workflow 和 G1 manifest migration 均未授权，且 ADR-0002 仍为
+`Proposed`。下一步是维护者评审/冻结共享接口，并为 A1 提供获批的 exact
+PX4 source/submodule/toolchain identity；不得自动进入 formal SITL 或 hardware。
+
+## 执行顺序
 
 下一波立即启动 A1、B1、C1、D1、G1，且必须使用互斥 writer：
 
@@ -48,7 +60,7 @@ E1 在 C1 的 authority/profile 接口冻结后开始。F1 可继续离线工作
 | 输入 | `px4_msgs/RcChannels.msg`、PX4 v1.16.2 message/profile（若可用）、现有 endpoint/profile 文档、环境 blocker |
 | 输出 | 字段级对照、topic/type/QoS 预期、最小 `rc_channels` profile diff 设计、缺失 source/toolchain 清单 |
 | 验收门 | exact source/message identity 可追溯；差异逐字段解释；baseline 不引入 precision-landing topic；无 source 时诚实 `BLOCKED` |
-| 状态 | `PLANNED`；只读阶段可开始，实施/运行阶段 `BLOCKED` |
+| 状态 | `BLOCKED`；只读 alignment 已完成，实施/运行等待 exact PX4 source/submodule/toolchain identity |
 | 是否需要硬件授权 | 否；硬件、串口、刷写和参数操作禁止 |
 
 ## B1 — Offboard freshness/ACK 失败测试
@@ -64,7 +76,7 @@ E1 在 C1 的 authority/profile 接口冻结后开始。F1 可继续离线工作
 | 输入 | `VehicleCommandAck`/`VehicleStatus` 消息契约、现有 Offboard FSM、DDS-only package profile |
 | 输出 | ACK 全 result/timeout/correlation 失败测试，首帧/stale/reboot/clock 测试，PRESTREAM 连续性断言 |
 | 验收门 | readiness 前 `/fmu/in/*` publish count 为 0；至少 1 s 且 20 个有效样本；只有正确 ACCEPTED ACK + fresh status 才迁移；拒绝/迟到/错 target/旧 epoch 均 fail closed |
-| 状态 | `PLANNED`；纯软件可立即开始，SITL `BLOCKED` |
+| 状态 | `UNIT_TESTED`（test-only contract oracle，12 tests）；production FSM integration 与 SITL `BLOCKED` |
 | 是否需要硬件授权 | 否；不得启动 Agent/PX4/hardware launch |
 
 ## C1 — authority envelope ADR 与 schema
@@ -80,7 +92,7 @@ E1 在 C1 的 authority/profile 接口冻结后开始。F1 可继续离线工作
 | 输入 | control authority matrix、owner/lease/sequence/deadline/epoch 需求、ROS graph transient 风险 |
 | 输出 | 原子 command envelope、lease lifecycle、持续 graph cardinality/identity contract、稳定拒绝事件码、人工恢复规则 |
 | 验收门 | 非当前/旧/重复/乱序/过期 envelope 到 PX4 publish count 为 0；重复 writer/owner、重连和 graph epoch 变化锁存 fail closed；恢复不自动 ACTIVE |
-| 状态 | `PLANNED`；可立即开始 |
+| 状态 | `UNIT_TESTED`（schema/semantic synthetic oracle，19 tests）；ADR `Proposed`，runtime integration `BLOCKED` |
 | 是否需要硬件授权 | 否；只允许 ADR/schema/synthetic tests |
 
 ## D1 — CI job graph 与负向 fixture 设计
@@ -96,7 +108,7 @@ E1 在 C1 的 authority/profile 接口冻结后开始。F1 可继续离线工作
 | 输入 | 当前离线 test/validator 入口、runner/Foxy/aarch64 约束、已知 dirty/approval blockers |
 | 输出 | manifest/schema、unit/static、DDS-only build/test、docs/link、secret/license jobs；负向 fixture 和 artifact retention 设计 |
 | 验收门 | 故意破坏 manifest/profile/topic/link/schema/test/secret fixture 均非零；依赖固定；当前 blocker 可见；不通过放宽测试换绿 |
-| 状态 | `PLANNED`；设计可立即开始，required-check 启用 `BLOCKED` 于 G4 |
+| 状态 | `UNIT_TESTED`（design-only oracle/negative fixtures，8 tests）；workflow 与 required-check 启用 `BLOCKED` |
 | 是否需要硬件授权 | 否；runner 不得连接硬件；远端 required checks 另需管理员授权 |
 
 ## E1 — 视觉坐标、时间与 health contract
@@ -160,7 +172,7 @@ E1 在 C1 的 authority/profile 接口冻结后开始。F1 可继续离线工作
 | 输入 | 当前 16-entry exact lock、17-entry moving manifest、DDS-only package profile、`px4_bringup@0fbdcbf…` |
 | 输出 | `workspace.archive.repos` 设计、optional perception/navigation source profile、显式 archive installer 参数和 fail-closed validator/test plan |
 | 验收门 | default restore 不含 archive/optional；archive 只接受 exact SHA；active/archive 重复、moving archive、URL 不一致非零；package forbidden set 不变 |
-| 状态 | `PLANNED`；设计可立即开始，迁移尚未授权 |
+| 状态 | `UNIT_TESTED`（synthetic profile oracle，10 tests）；实际 manifest/installer 迁移尚未授权 |
 | 是否需要硬件授权 | 否；禁止修改/运行任何 dependency hardware path |
 
 ## G2 — moving dependency receipt
@@ -231,7 +243,7 @@ E1 在 C1 的 authority/profile 接口冻结后开始。F1 可继续离线工作
 
 | 波次 | 可并行任务 | 退出门 |
 |---|---|---|
-| Wave 3A | A1、B1、C1、D1、G1 | 五项报告/schema/failure tests 评审；共享接口和 writer 冻结 |
+| Wave 3A | A1、B1、C1、D1、G1 | **未退出**：A1 `BLOCKED`；B/C/D/G 离线测试通过但仍需评审、共享接口与 writer 冻结 |
 | Wave 3B | B integration、C synthetic guard、E1、F1、G2 schema | B/C consumer interface 通过；F1 offline gate；moving-source 决策 |
 | Wave 3C | A implementation/build、B/C integration、D jobs、G1 implementation | M1/M2 unit gates；default/archive/optional source profiles 通过 |
 | Wave 3D | F-RUN、E ordinary-vision SITL（适用时） | M3/M4 `SITL_VERIFIED`；G5 release gate |

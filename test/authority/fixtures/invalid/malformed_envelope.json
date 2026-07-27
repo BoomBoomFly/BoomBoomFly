@@ -1,0 +1,5 @@
+{
+  "schema_version": "1.0.0",
+  "envelope_id": "env-malformed",
+  "permit_publish": true
+}

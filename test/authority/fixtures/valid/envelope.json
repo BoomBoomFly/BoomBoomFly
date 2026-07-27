@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "envelope_id": "env-000042",
+  "owner": {
+    "principal_id": "mission.primary",
+    "instance_id": "instance.boot-7"
+  },
+  "lease": {
+    "lease_id": "lease-20260727-001",
+    "lifecycle": "ACTIVE",
+    "issued_monotonic_ns": 9000000000,
+    "expires_monotonic_ns": 12000000000
+  },
+  "sequence": 42,
+  "created_monotonic_ns": 10000000000,
+  "deadline_monotonic_ns": 10500000000,
+  "source_epoch": "epoch:source-7",
+  "graph_epoch": "epoch:graph-12",
+  "command": {
+    "correlation_id": "cmd-000042",
+    "kind": "CONTROL_TRANSACTION",
+    "payload": {
+      "control_mode": "position",
+      "position_m": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "yaw_rad": 0.0
+    }
+  }
+}

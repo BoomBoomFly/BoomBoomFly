@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "default_restore": [
+    "active"
+  ],
+  "canonical_urls": {
+    "navigation2": "https://github.com/ros-navigation/navigation2.git",
+    "px4_bringup": "https://github.com/AyasOwen/px4_bringup.git",
+    "px4_msgs": "https://github.com/PX4/px4_msgs.git",
+    "vision_opencv": "https://github.com/ros-perception/vision_opencv.git"
+  },
+  "profiles": {
+    "active": {
+      "kind": "active",
+      "repositories": [
+        {
+          "repository_id": "px4_msgs",
+          "path": "src/px4_msgs",
+          "type": "git",
+          "url": "https://github.com/PX4/px4_msgs.git",
+          "version": "392e831c1f659429ca83902e66820d7094591410"
+        }
+      ]
+    },
+    "archive": {
+      "kind": "archive",
+      "repositories": [
+        {
+          "repository_id": "px4_bringup",
+          "path": "src/px4_msgs",
+          "type": "git",
+          "url": "https://github.com/AyasOwen/px4_bringup.git",
+          "version": "0fbdcbf6ee53d6927de75af1d98f22cf5bd4f917"
+        }
+      ]
+    },
+    "optional-perception": {
+      "kind": "optional",
+      "repositories": [
+        {
+          "repository_id": "vision_opencv",
+          "path": "src/vision_opencv",
+          "type": "git",
+          "url": "https://github.com/ros-perception/vision_opencv.git",
+          "version": "72152d9d1d8edcfcafd707a1d0103810db8613ba"
+        }
+      ]
+    },
+    "optional-navigation": {
+      "kind": "optional",
+      "repositories": [
+        {
+          "repository_id": "navigation2",
+          "path": "src/navigation2",
+          "type": "git",
+          "url": "https://github.com/ros-navigation/navigation2.git",
+          "version": "ca482808a7a7c52ce01ae3c662dc2b980968fc16"
+        }
+      ]
+    }
+  },
+  "maintainer_decisions": [
+    {
+      "path": "src/serial_driver_ros",
+      "status": "REQUIRES_MAINTAINER_DECISION"
+    }
+  ]
+}

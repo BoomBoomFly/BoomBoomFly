@@ -1,0 +1,19 @@
+{
+  "kind": "profile",
+  "payload": {
+    "active_paths": [
+      "src/offboard_cpp"
+    ],
+    "archive_paths": [
+      "src/px4_bringup"
+    ],
+    "forbidden_packages": [
+      "mavros"
+    ],
+    "optional_paths": [],
+    "production_packages": [
+      "offboard_cpp",
+      "mavros"
+    ]
+  }
+}

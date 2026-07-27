@@ -1,0 +1,10 @@
+{
+  "kind": "topic",
+  "payload": {
+    "actual_topic": "/fmu/out/vehicle_status",
+    "actual_type": "px4_msgs/msg/VehicleStatus",
+    "expected_topic": "/fmu/out/vehicle_status_v1",
+    "expected_type": "px4_msgs/msg/VehicleStatus",
+    "writer_count": 2
+  }
+}

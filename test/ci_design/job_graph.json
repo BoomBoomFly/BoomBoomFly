@@ -1,0 +1,165 @@
+{
+  "artifact_policy": {
+    "failure_diagnostics_days": 30,
+    "machine_readable_ledger_days": 90,
+    "success_summary_days": 14
+  },
+  "document_kind": "wave3a-ci-design-only",
+  "jobs": [
+    {
+      "artifact_class": "governance-static",
+      "commands": [
+        "git diff --check",
+        "python3 Scripts/test/launch_guard/check_launch_safety.py",
+        "python3 test/ci_design/validate_ci_design.py --config test/ci_design/job_graph.json"
+      ],
+      "fail_closed": true,
+      "id": "governance-static",
+      "needs": [],
+      "network": "disabled",
+      "timeout_minutes": 10
+    },
+    {
+      "artifact_class": "python-unit",
+      "commands": [
+        "python3 -m compileall Scripts tools test",
+        "python3 -m unittest discover -s test -p 'test_*.py'"
+      ],
+      "fail_closed": true,
+      "id": "python-unit",
+      "needs": [],
+      "network": "disabled",
+      "timeout_minutes": 15
+    },
+    {
+      "artifact_class": "dds-boundary",
+      "commands": [
+        "python3 Scripts/test/verify_package_boundary.py"
+      ],
+      "fail_closed": true,
+      "id": "dds-boundary",
+      "needs": [
+        "governance-static"
+      ],
+      "network": "disabled",
+      "timeout_minutes": 10
+    },
+    {
+      "artifact_class": "evidence-integrity",
+      "commands": [
+        "python3 Scripts/evidence/validate_index.py",
+        "python3 Scripts/installation/verify_workspace_receipts.py"
+      ],
+      "fail_closed": true,
+      "id": "evidence-integrity",
+      "needs": [
+        "governance-static"
+      ],
+      "network": "disabled",
+      "timeout_minutes": 15
+    },
+    {
+      "artifact_class": "sitl-spec-offline",
+      "commands": [
+        "python3 tools/sitl_acceptance/validate_catalog.py --catalog docs/verification/scenarios/catalog.json",
+        "python3 -m unittest discover -s test/sitl_acceptance -p 'test_*.py'"
+      ],
+      "fail_closed": true,
+      "id": "sitl-spec-offline",
+      "needs": [
+        "python-unit"
+      ],
+      "network": "disabled",
+      "timeout_minutes": 15
+    },
+    {
+      "artifact_class": "supply-chain-static",
+      "commands": [
+        "python3 Scripts/installation/verify_workspace_receipts.py",
+        "python3 test/ci_design/validate_ci_design.py --config test/ci_design/job_graph.json"
+      ],
+      "fail_closed": true,
+      "id": "supply-chain-static",
+      "needs": [
+        "governance-static"
+      ],
+      "network": "disabled",
+      "timeout_minutes": 15
+    },
+    {
+      "artifact_class": "dds-build-test",
+      "commands": [
+        "bash Scripts/test/test_dds_only.sh"
+      ],
+      "fail_closed": true,
+      "id": "dds-build-test",
+      "needs": [
+        "dds-boundary",
+        "evidence-integrity",
+        "supply-chain-static"
+      ],
+      "network": "disabled",
+      "timeout_minutes": 45
+    }
+  ],
+  "known_blockers": [
+    {
+      "classification": "dependency-lock",
+      "id": "D1-RUNNER-LOCK",
+      "visible_as": "blocked annotation and non-required design check"
+    },
+    {
+      "classification": "environment",
+      "id": "D1-JSONSCHEMA-RUNTIME",
+      "visible_as": "version/capability preflight failure"
+    },
+    {
+      "classification": "environment",
+      "id": "D1-NINJA-PATH",
+      "visible_as": "raw PATH failure plus minimal POSIX PATH comparison"
+    },
+    {
+      "classification": "sandbox",
+      "id": "D1-DDS-PROBE",
+      "visible_as": "separate sandbox/network-probe classification"
+    },
+    {
+      "classification": "upstream-existing",
+      "id": "D1-VISION-LINT",
+      "visible_as": "named failing test list, never allowlisted"
+    }
+  ],
+  "negative_fixture_kinds": [
+    "manifest",
+    "profile",
+    "topic",
+    "link",
+    "schema",
+    "secret",
+    "license"
+  ],
+  "platform_contract": {
+    "jsonschema_capability": "Draft202012Validator",
+    "local_probe_jsonschema": "4.19.2",
+    "local_probe_python": "3.8.10",
+    "os": "ubuntu-20.04",
+    "python_series": "3.8",
+    "ros_distro": "foxy"
+  },
+  "schema_version": 1,
+  "toolchain_lock": {
+    "colcon_bundle": null,
+    "compiler_bundle": null,
+    "python_runtime": null,
+    "ros_apt_snapshot": null,
+    "runner_image_digest": null
+  },
+  "unresolved_workflow_locks": [
+    "runner_image_digest",
+    "ros_apt_snapshot",
+    "python_runtime",
+    "colcon_bundle",
+    "compiler_bundle"
+  ],
+  "workflow_enabled": false
+}

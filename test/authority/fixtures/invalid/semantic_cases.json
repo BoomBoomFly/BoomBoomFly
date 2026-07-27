@@ -1,0 +1,149 @@
+[
+  {
+    "id": "non-current-owner",
+    "envelope": {
+      "owner.principal_id": "mission.intruder"
+    },
+    "context": {},
+    "expected_code": "AUTH_OWNER_NOT_CURRENT",
+    "expected_latch": "CLEAR"
+  },
+  {
+    "id": "old-owner-instance",
+    "envelope": {
+      "owner.instance_id": "instance.boot-6"
+    },
+    "context": {},
+    "expected_code": "AUTH_OWNER_INSTANCE_NOT_CURRENT",
+    "expected_latch": "CLEAR"
+  },
+  {
+    "id": "non-current-lease",
+    "envelope": {
+      "lease.lease_id": "lease-old"
+    },
+    "context": {},
+    "expected_code": "AUTH_LEASE_NOT_CURRENT",
+    "expected_latch": "CLEAR"
+  },
+  {
+    "id": "lease-not-active",
+    "envelope": {
+      "lease.lifecycle": "RENEWING"
+    },
+    "context": {},
+    "expected_code": "AUTH_LEASE_NOT_ACTIVE",
+    "expected_latch": "CLEAR"
+  },
+  {
+    "id": "lease-expired",
+    "envelope": {
+      "lease.expires_monotonic_ns": 10100000000,
+      "deadline_monotonic_ns": 10100000000
+    },
+    "context": {},
+    "expected_code": "AUTH_LEASE_EXPIRED",
+    "expected_latch": "CLEAR"
+  },
+  {
+    "id": "duplicate-sequence",
+    "envelope": {
+      "sequence": 41
+    },
+    "context": {},
+    "expected_code": "AUTH_SEQUENCE_DUPLICATE",
+    "expected_latch": "CLEAR"
+  },
+  {
+    "id": "out-of-order-sequence",
+    "envelope": {
+      "sequence": 40
+    },
+    "context": {},
+    "expected_code": "AUTH_SEQUENCE_OUT_OF_ORDER",
+    "expected_latch": "CLEAR"
+  },
+  {
+    "id": "deadline-expired",
+    "envelope": {
+      "deadline_monotonic_ns": 10100000000
+    },
+    "context": {},
+    "expected_code": "AUTH_DEADLINE_EXPIRED",
+    "expected_latch": "CLEAR"
+  },
+  {
+    "id": "created-in-future",
+    "envelope": {
+      "created_monotonic_ns": 10200000000
+    },
+    "context": {},
+    "expected_code": "AUTH_CREATED_IN_FUTURE",
+    "expected_latch": "CLEAR"
+  },
+  {
+    "id": "deadline-outside-lease",
+    "envelope": {
+      "deadline_monotonic_ns": 12000000001
+    },
+    "context": {},
+    "expected_code": "AUTH_DEADLINE_OUTSIDE_LEASE",
+    "expected_latch": "CLEAR"
+  },
+  {
+    "id": "correlation-replay",
+    "envelope": {},
+    "context": {
+      "seen_correlations": [
+        "cmd-000042"
+      ]
+    },
+    "expected_code": "AUTH_CORRELATION_REPLAY",
+    "expected_latch": "CLEAR"
+  },
+  {
+    "id": "duplicate-writer",
+    "envelope": {},
+    "context": {
+      "writer_count": 2
+    },
+    "expected_code": "AUTH_DUPLICATE_WRITER",
+    "expected_latch": "FAULT_LATCHED"
+  },
+  {
+    "id": "duplicate-owner",
+    "envelope": {},
+    "context": {
+      "owner_count": 2
+    },
+    "expected_code": "AUTH_DUPLICATE_OWNER",
+    "expected_latch": "FAULT_LATCHED"
+  },
+  {
+    "id": "source-reconnect",
+    "envelope": {
+      "source_epoch": "epoch:source-8"
+    },
+    "context": {},
+    "expected_code": "AUTH_SOURCE_EPOCH_CHANGED",
+    "expected_latch": "FAULT_LATCHED"
+  },
+  {
+    "id": "old-source-epoch",
+    "envelope": {
+      "source_epoch": "epoch:source-6"
+    },
+    "context": {},
+    "expected_code": "AUTH_SOURCE_EPOCH_CHANGED",
+    "expected_latch": "FAULT_LATCHED"
+  },
+  {
+    "id": "graph-epoch-changed",
+    "envelope": {
+      "graph_epoch": "epoch:graph-13"
+    },
+    "context": {},
+    "expected_code": "AUTH_GRAPH_EPOCH_CHANGED",
+    "expected_latch": "FAULT_LATCHED"
+  }
+]
