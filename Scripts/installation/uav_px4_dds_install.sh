@@ -6,7 +6,14 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
 SRC_DIR="${PROJECT_ROOT}/src"
-MANIFEST="${PROJECT_ROOT}/workspace.lock.repos"
+DEFAULT_MANIFEST="${PROJECT_ROOT}/workspace.lock.repos"
+ARCHIVE_MANIFEST="${PROJECT_ROOT}/workspace.archive.repos"
+PERCEPTION_MANIFEST="${PROJECT_ROOT}/workspace.optional-perception.repos"
+NAVIGATION_MANIFEST="${PROJECT_ROOT}/workspace.optional-navigation.repos"
+MANIFEST="${DEFAULT_MANIFEST}"
+MANIFEST_EXPLICIT=0
+WITH_ARCHIVE=0
+WITH_OPTIONAL=()
 DO_UPDATE=0
 DRY_RUN=0
 VERIFY_ONLY=0
@@ -26,28 +33,35 @@ usage() {
 Usage:
   ${SCRIPT_NAME} [options]
 
-Restore the repository set declared by workspace.lock.repos. Locked commits are
-checked out in detached-HEAD state; this script never creates dependency branches
-and never runs git pull.
+Restore the active exact-SHA profile declared by workspace.lock.repos. Archive
+and optional sources are composed only when their explicit flags are present.
+Locked commits are checked out in detached-HEAD state; this script never creates
+dependency branches and never runs git pull.
 
 workspace.repos may additionally declare ../communication as the one approved
 moving external repository. It is intentionally absent from workspace.lock.repos.
 
 Options:
   --src-dir <path>       Target ROS 2 src directory. Default: ${SRC_DIR}
-  --manifest <path>      Repositories manifest. Default: ${MANIFEST}
+  --manifest <path>      One custom manifest; mutually exclusive with profile flags.
+                         Default active manifest: ${DEFAULT_MANIFEST}
+  --with-archive         Add ${ARCHIVE_MANIFEST}
+  --with-optional <name> Add an optional exact profile: perception or navigation.
+                         Repeat to select both profiles.
   --update               Sync existing clean repositories to the manifest ref.
   --verify-only          Audit all repositories without cloning/updating.
   --dry-run              Audit and print planned actions without changing files or Git refs.
   --skip-submodules      Do not initialize recursive Git submodules.
   --skip-package-check   Do not run colcon package discovery.
   --require-colcon       Fail if colcon is unavailable or package discovery fails.
-  --allow-moving-refs    Permit tags/branches in a non-lock manifest.
+  --allow-moving-refs    Permit tags/branches only with explicit --manifest.
   -h, --help             Show this help message.
 
 Safety:
   * Existing dirty repositories are never checked out or updated.
   * Existing repositories with a different origin URL are rejected.
+  * Active/archive/optional target paths must be globally unique.
+  * Governed profile manifests accept exact commit SHAs only.
   * Without --update, a repository at the wrong commit is rejected.
   * Exact lock SHAs are verified after checkout.
   * Audit modes inspect every entry, summarize all blockers, then exit non-zero.
@@ -113,7 +127,7 @@ normalize_repo_url() {
 }
 
 is_locked_sha() {
-	[[ "$1" =~ ^[0-9a-fA-F]{40}$ ]]
+	[[ "$1" =~ ^[0-9a-f]{40}$ ]]
 }
 
 repo_is_dirty() {
@@ -130,6 +144,23 @@ while [[ $# -gt 0 ]]; do
 		--manifest)
 			[[ $# -ge 2 ]] || die "--manifest requires a path"
 			MANIFEST="$2"
+			MANIFEST_EXPLICIT=1
+			shift 2
+			;;
+		--with-archive)
+			WITH_ARCHIVE=1
+			shift
+			;;
+		--with-optional)
+			[[ $# -ge 2 ]] || die "--with-optional requires perception or navigation"
+			case "$2" in
+				perception | navigation)
+					WITH_OPTIONAL+=("$2")
+					;;
+			*)
+				die "Unknown optional profile: $2 (expected perception or navigation)"
+				;;
+			esac
 			shift 2
 			;;
 		--update)
@@ -172,15 +203,50 @@ done
 
 [[ ${DO_UPDATE} -eq 0 || ${VERIFY_ONLY} -eq 0 ]] || die "--update and --verify-only cannot be combined"
 [[ ${SKIP_PACKAGE_CHECK} -eq 0 || ${REQUIRE_COLCON} -eq 0 ]] || die "--skip-package-check and --require-colcon cannot be combined"
+if [[ ${MANIFEST_EXPLICIT} -eq 1 && (${WITH_ARCHIVE} -eq 1 || ${#WITH_OPTIONAL[@]} -gt 0) ]]; then
+	die "--manifest cannot be combined with --with-archive or --with-optional"
+fi
+if [[ ${MANIFEST_EXPLICIT} -eq 0 && ${ALLOW_MOVING_REFS} -eq 1 ]]; then
+	die "--allow-moving-refs requires an explicit --manifest"
+fi
 
 require_command git
 require_command awk
 
 SRC_DIR="$(absolute_path "${SRC_DIR}")"
-MANIFEST="$(absolute_path "${MANIFEST}")"
-[[ -f "${MANIFEST}" ]] || die "Manifest not found: ${MANIFEST}"
+MANIFESTS=()
+SELECTED_PROFILES=()
+if [[ ${MANIFEST_EXPLICIT} -eq 1 ]]; then
+	MANIFESTS+=("$(absolute_path "${MANIFEST}")")
+	SELECTED_PROFILES+=("custom")
+else
+	MANIFESTS+=("${DEFAULT_MANIFEST}")
+	SELECTED_PROFILES+=("active")
+	if [[ ${WITH_ARCHIVE} -eq 1 ]]; then
+		MANIFESTS+=("${ARCHIVE_MANIFEST}")
+		SELECTED_PROFILES+=("archive")
+	fi
+	declare -A SELECTED_OPTIONAL=()
+	for optional_profile in "${WITH_OPTIONAL[@]}"; do
+		[[ -z "${SELECTED_OPTIONAL[${optional_profile}]:-}" ]] || continue
+		SELECTED_OPTIONAL[${optional_profile}]=1
+		case "${optional_profile}" in
+			perception)
+				MANIFESTS+=("${PERCEPTION_MANIFEST}")
+				;;
+			navigation)
+				MANIFESTS+=("${NAVIGATION_MANIFEST}")
+				;;
+		esac
+		SELECTED_PROFILES+=("optional-${optional_profile}")
+	done
+fi
+for selected_manifest in "${MANIFESTS[@]}"; do
+	[[ -f "${selected_manifest}" ]] || die "Manifest not found: ${selected_manifest}"
+done
 
-manifest_data="$({
+parse_manifest() {
+	local selected_manifest="$1"
 	awk '
 	function trim(value) {
 		sub(/^[[:space:]]+/, "", value)
@@ -253,11 +319,18 @@ manifest_data="$({
 		}
 		exit bad
 	}
-	' "${MANIFEST}"
-})" || die "Failed to parse manifest: ${MANIFEST}"
+		' "${selected_manifest}"
+}
 
-[[ -n "${manifest_data}" ]] || die "Manifest contains no repositories: ${MANIFEST}"
-mapfile -t REPOSITORIES <<<"${manifest_data}"
+REPOSITORIES=()
+for selected_manifest in "${MANIFESTS[@]}"; do
+	manifest_data="$(parse_manifest "${selected_manifest}")" ||
+		die "Failed to parse manifest: ${selected_manifest}"
+	[[ -n "${manifest_data}" ]] || die "Manifest contains no repositories: ${selected_manifest}"
+	while IFS= read -r record; do
+		REPOSITORIES+=("${record}")
+	done <<<"${manifest_data}"
+done
 
 declare -A SEEN_TARGETS=()
 for record in "${REPOSITORIES[@]}"; do
@@ -291,7 +364,10 @@ elif [[ ${VERIFY_ONLY} -eq 0 ]]; then
 fi
 
 log "Project root: ${PROJECT_ROOT}"
-log "Manifest:     ${MANIFEST}"
+log "Profiles:     ${SELECTED_PROFILES[*]}"
+for selected_manifest in "${MANIFESTS[@]}"; do
+	log "Manifest:     ${selected_manifest}"
+done
 log "Target src:  ${SRC_DIR}"
 log "Repositories:${#REPOSITORIES[@]}"
 log "Checkout:    detached HEAD"
@@ -493,9 +569,14 @@ verify_ros_packages() {
 	local -a required_packages=(
 		px4_msgs
 		offboard_cpp
-		realsense2_camera
 		vision_to_dds
 	)
+	local selected_profile
+	for selected_profile in "${SELECTED_PROFILES[@]}"; do
+		if [[ "${selected_profile}" == optional-perception ]]; then
+			required_packages+=(realsense2_camera)
+		fi
+	done
 	local package
 	local colcon_output
 	local missing=0

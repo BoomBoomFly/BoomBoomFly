@@ -1,0 +1,35 @@
+# Optional navigation and simulation sources. Select explicitly with:
+#   uav_px4_dds_install.sh --with-optional navigation
+repositories:
+  src/gazebo_ros_pkgs:
+    type: git
+    url: https://github.com/ros-simulation/gazebo_ros_pkgs.git
+    version: b6f7bf121d0c607825b65a28b227a5459a71821b
+  src/imu_tools:
+    type: git
+    url: https://github.com/ccny-ros-pkg/imu_tools.git
+    version: d28555e487e4c1278c9a2e94143dc79dcc8941bf
+  src/navigation2:
+    type: git
+    url: https://github.com/ros-navigation/navigation2.git
+    version: ca482808a7a7c52ce01ae3c662dc2b980968fc16
+  src/navigation_msgs:
+    type: git
+    url: https://github.com/ros-planning/navigation_msgs.git
+    version: fe880e99d993e9d4dfbf37f00d839d32994610e1
+  src/rplidar_ros:
+    type: git
+    url: https://github.com/Slamtec/rplidar_ros.git
+    version: 24cc9b6dea97e045bda1408eaa867ce730fd3fc3
+  src/rtabmap:
+    type: git
+    url: https://github.com/introlab/rtabmap.git
+    version: 0070de4aafab0feaf5e37b497b1354d2264d41c8
+  src/rtabmap_ros:
+    type: git
+    url: https://github.com/introlab/rtabmap_ros.git
+    version: b341e2a776a743b8d6741b8aae8ab560471cd966
+  src/slam_toolbox:
+    type: git
+    url: https://github.com/SteveMacenski/slam_toolbox.git
+    version: 4786e90c06a4dc6fa811c5057d4e88387fba3829

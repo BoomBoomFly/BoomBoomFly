@@ -23,6 +23,55 @@ REQUIRED_DECISION = {
     "path": "src/serial_driver_ros",
     "status": "REQUIRES_MAINTAINER_DECISION",
 }
+PROFILE_MANIFESTS = {
+    "active": "workspace.lock.repos",
+    "archive": "workspace.archive.repos",
+    "optional-perception": "workspace.optional-perception.repos",
+    "optional-navigation": "workspace.optional-navigation.repos",
+}
+EXPECTED_PROFILE_PATHS = {
+    "active": {
+        "src/Micro-XRCE-DDS-Agent",
+        "src/offboard_cpp",
+        "src/px4_msgs",
+        "src/vision_to_dds",
+    },
+    "archive": {"src/px4_bringup"},
+    "optional-perception": {
+        "src/librealsense",
+        "src/realsense-ros",
+        "src/vision_opencv",
+    },
+    "optional-navigation": {
+        "src/gazebo_ros_pkgs",
+        "src/imu_tools",
+        "src/navigation2",
+        "src/navigation_msgs",
+        "src/rplidar_ros",
+        "src/rtabmap",
+        "src/rtabmap_ros",
+        "src/slam_toolbox",
+    },
+}
+CANONICAL_MANIFEST_URLS = {
+    "src/Micro-XRCE-DDS-Agent": "https://github.com/eProsima/Micro-XRCE-DDS-Agent.git",
+    "src/gazebo_ros_pkgs": "https://github.com/ros-simulation/gazebo_ros_pkgs.git",
+    "src/imu_tools": "https://github.com/ccny-ros-pkg/imu_tools.git",
+    "src/librealsense": "https://github.com/IntelRealSense/librealsense.git",
+    "src/navigation2": "https://github.com/ros-navigation/navigation2.git",
+    "src/navigation_msgs": "https://github.com/ros-planning/navigation_msgs.git",
+    "src/offboard_cpp": "https://github.com/BoomBoomFly/offboard_cpp.git",
+    "src/px4_bringup": "https://github.com/AyasOwen/px4_bringup.git",
+    "src/px4_msgs": "https://github.com/PX4/px4_msgs.git",
+    "src/realsense-ros": "https://github.com/IntelRealSense/realsense-ros.git",
+    "src/rplidar_ros": "https://github.com/Slamtec/rplidar_ros.git",
+    "src/rtabmap": "https://github.com/introlab/rtabmap.git",
+    "src/rtabmap_ros": "https://github.com/introlab/rtabmap_ros.git",
+    "src/slam_toolbox": "https://github.com/SteveMacenski/slam_toolbox.git",
+    "src/vision_opencv": "https://github.com/ros-perception/vision_opencv.git",
+    "src/vision_to_dds": "https://github.com/wanone111/vision_to_dds.git",
+}
+UNRESOLVED_SERIAL_PATHS = {"src/serial_driver_ros", "src/serial_driver_ros2"}
 
 
 class ProfileError(RuntimeError):
@@ -39,6 +88,137 @@ def load_catalog(path):
     if not isinstance(data, dict):
         raise ProfileError("catalog must be a JSON object")
     return data
+
+
+def load_repos_manifest(path):
+    """Load the strict rosinstall subset used by governed source manifests."""
+    path = Path(path)
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except OSError as exc:
+        raise ProfileError("cannot load manifest {}: {}".format(path, exc))
+
+    entries = []
+    current = None
+    saw_repositories = False
+
+    def emit():
+        if current is None:
+            return
+        expected = {"path", "type", "url", "version"}
+        if set(current) != expected:
+            raise ProfileError(
+                "{} entry {} must contain exactly type, url, version".format(
+                    path, current.get("path", "<unknown>")
+                )
+            )
+        entries.append(dict(current))
+
+    for line_number, raw in enumerate(lines, 1):
+        if not raw.strip() or raw.lstrip().startswith("#"):
+            continue
+        if raw == "repositories:":
+            if saw_repositories:
+                raise ProfileError("{} has duplicate repositories mapping".format(path))
+            saw_repositories = True
+            continue
+        match = re.fullmatch(r"  ([^\s:][^:]*):\s*", raw)
+        if match and saw_repositories:
+            emit()
+            current = {"path": match.group(1)}
+            continue
+        match = re.fullmatch(r"    (type|url|version):\s*(\S.*?)\s*", raw)
+        if match and current is not None:
+            key, value = match.groups()
+            if key in current:
+                raise ProfileError(
+                    "{}:{} duplicate {} field".format(path, line_number, key)
+                )
+            if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
+                value = value[1:-1]
+            current[key] = value
+            continue
+        raise ProfileError(
+            "{}:{} unsupported manifest syntax".format(path, line_number)
+        )
+    emit()
+    if not saw_repositories:
+        raise ProfileError("{} is missing repositories mapping".format(path))
+    if not entries:
+        raise ProfileError("{} contains no repositories".format(path))
+    return entries
+
+
+def validate_manifest_profiles(repository_root):
+    """Validate the real active/archive/optional manifests fail closed."""
+    issues = []
+    root = Path(repository_root)
+    seen_paths = {}
+    for profile_id, filename in PROFILE_MANIFESTS.items():
+        try:
+            entries = load_repos_manifest(root / filename)
+        except ProfileError as exc:
+            issues.append(str(exc))
+            continue
+        actual_paths = {entry["path"] for entry in entries}
+        expected_paths = EXPECTED_PROFILE_PATHS[profile_id]
+        if actual_paths != expected_paths:
+            issues.append(
+                "{} paths differ: expected {}, got {}".format(
+                    profile_id, sorted(expected_paths), sorted(actual_paths)
+                )
+            )
+        for entry in entries:
+            path = entry["path"]
+            if not _safe_source_path(path):
+                issues.append("{}.path must be a safe src/ path".format(profile_id))
+            if path in seen_paths:
+                issues.append(
+                    "duplicate path {} in {} and {}".format(
+                        path, seen_paths[path], profile_id
+                    )
+                )
+            else:
+                seen_paths[path] = profile_id
+            if path in UNRESOLVED_SERIAL_PATHS:
+                issues.append("unresolved serial path {} cannot enter a profile".format(path))
+            if entry["type"] != "git":
+                issues.append("{} in {} must use type git".format(path, profile_id))
+            expected_url = CANONICAL_MANIFEST_URLS.get(path)
+            if expected_url is None:
+                issues.append("{} has no frozen canonical URL".format(path))
+            elif entry["url"] != expected_url:
+                issues.append(
+                    "URL mismatch for {}: expected {}, got {}".format(
+                        path, expected_url, entry["url"]
+                    )
+                )
+            if not EXACT_SHA.fullmatch(entry["version"]):
+                issues.append(
+                    "{} in {} uses a moving or non-exact ref: {}".format(
+                        path, profile_id, entry["version"]
+                    )
+                )
+    return issues
+
+
+def selected_manifest_profiles(repository_root, with_archive=False, optional=()):
+    """Resolve real manifests only after the complete set validates."""
+    issues = validate_manifest_profiles(repository_root)
+    if issues:
+        raise ProfileError("; ".join(issues))
+    profile_ids = ["active"]
+    if with_archive:
+        profile_ids.append("archive")
+    for name in optional:
+        profile_id = OPTIONAL_PROFILE_IDS[name]
+        if profile_id not in profile_ids:
+            profile_ids.append(profile_id)
+    entries = []
+    root = Path(repository_root)
+    for profile_id in profile_ids:
+        entries.extend(load_repos_manifest(root / PROFILE_MANIFESTS[profile_id]))
+    return profile_ids, entries
 
 
 def _safe_source_path(value):
@@ -241,7 +421,15 @@ def build_parser():
             "resolve an explicit offline restore selection."
         )
     )
-    parser.add_argument("catalog", help="Strict JSON profile catalog")
+    parser.add_argument(
+        "catalog",
+        nargs="?",
+        help="Strict JSON profile catalog (omit with --manifest-root)",
+    )
+    parser.add_argument(
+        "--manifest-root",
+        help="Validate the real workspace.*.repos profile set below this root",
+    )
     parser.add_argument(
         "--with-archive",
         action="store_true",
@@ -260,12 +448,23 @@ def build_parser():
 def main(argv=None):
     args = build_parser().parse_args(argv)
     try:
-        catalog = load_catalog(args.catalog)
-        profile_ids, repositories = selected_profiles(
-            catalog,
-            with_archive=args.with_archive,
-            optional=args.with_optional,
-        )
+        if bool(args.catalog) == bool(args.manifest_root):
+            raise ProfileError(
+                "provide exactly one JSON catalog or --manifest-root"
+            )
+        if args.manifest_root:
+            profile_ids, repositories = selected_manifest_profiles(
+                args.manifest_root,
+                with_archive=args.with_archive,
+                optional=args.with_optional,
+            )
+        else:
+            catalog = load_catalog(args.catalog)
+            profile_ids, repositories = selected_profiles(
+                catalog,
+                with_archive=args.with_archive,
+                optional=args.with_optional,
+            )
     except ProfileError as exc:
         print(
             json.dumps(

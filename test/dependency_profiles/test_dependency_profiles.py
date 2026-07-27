@@ -5,14 +5,18 @@ import copy
 import importlib.util
 import json
 from pathlib import Path
+import shutil
 import subprocess
 import sys
+import tempfile
 import unittest
 
 
 TEST_DIR = Path(__file__).resolve().parent
 VALIDATOR_PATH = TEST_DIR / "validate_dependency_profiles.py"
 FIXTURES = TEST_DIR / "fixtures"
+REPO_ROOT = TEST_DIR.parents[1]
+INSTALLER = REPO_ROOT / "Scripts" / "installation" / "uav_px4_dds_install.sh"
 SPEC = importlib.util.spec_from_file_location(
     "validate_dependency_profiles", VALIDATOR_PATH
 )
@@ -72,6 +76,11 @@ class DependencyProfileTests(unittest.TestCase):
 
     def test_moving_archive_ref_is_nonzero(self):
         result = self._run_fixture("moving_archive.json")
+        self.assertNotEqual(0, result.returncode)
+        self.assertIn("moving or non-exact ref", result.stderr)
+
+    def test_abbreviated_sha_is_nonzero(self):
+        result = self._run_fixture("non_exact_sha.json")
         self.assertNotEqual(0, result.returncode)
         self.assertIn("moving or non-exact ref", result.stderr)
 
@@ -137,6 +146,156 @@ class DependencyProfileTests(unittest.TestCase):
         payload = json.loads(result.stdout)
         self.assertEqual(["active"], payload["selected_profiles"])
         self.assertEqual(["src/px4_msgs"], payload["repository_paths"])
+
+    def test_real_profile_manifests_are_exact_and_disjoint(self):
+        self.assertEqual([], VALIDATOR.validate_manifest_profiles(REPO_ROOT))
+        profile_ids, repositories = VALIDATOR.selected_manifest_profiles(
+            REPO_ROOT,
+            with_archive=True,
+            optional=("perception", "navigation"),
+        )
+        self.assertEqual(
+            [
+                "active",
+                "archive",
+                "optional-perception",
+                "optional-navigation",
+            ],
+            profile_ids,
+        )
+        paths = [entry["path"] for entry in repositories]
+        self.assertEqual(len(paths), len(set(paths)))
+        self.assertEqual(16, len(paths))
+        self.assertNotIn("src/serial_driver_ros", paths)
+        self.assertNotIn("src/serial_driver_ros2", paths)
+
+    def test_real_manifest_cli_default_excludes_archive_and_optional(self):
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(VALIDATOR_PATH),
+                "--manifest-root",
+                str(REPO_ROOT),
+            ],
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
+        )
+        self.assertEqual(0, result.returncode, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertEqual(["active"], payload["selected_profiles"])
+        self.assertEqual(4, len(payload["repository_paths"]))
+        self.assertNotIn("src/px4_bringup", payload["repository_paths"])
+
+    def test_real_manifest_mutations_fail_closed(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_root = Path(temp_dir)
+            for filename in VALIDATOR.PROFILE_MANIFESTS.values():
+                shutil.copy2(REPO_ROOT / filename, temp_root / filename)
+
+            archive = temp_root / "workspace.archive.repos"
+            original = archive.read_text(encoding="utf-8")
+            archive.write_text(original.replace("0fbdcbf6ee53d6927de75af1d98f22cf5bd4f917", "DDS"), encoding="utf-8")
+            issues = VALIDATOR.validate_manifest_profiles(temp_root)
+            self.assertTrue(any("moving or non-exact ref" in issue for issue in issues))
+
+            archive.write_text(original.replace("src/px4_bringup", "src/px4_msgs"), encoding="utf-8")
+            issues = VALIDATOR.validate_manifest_profiles(temp_root)
+            self.assertTrue(any("duplicate path src/px4_msgs" in issue for issue in issues))
+
+            archive.write_text(original.replace("AyasOwen", "substitution"), encoding="utf-8")
+            issues = VALIDATOR.validate_manifest_profiles(temp_root)
+            self.assertTrue(any("URL mismatch for src/px4_bringup" in issue for issue in issues))
+
+    def test_installer_profile_flags_are_explicit_and_offline_dry_run(self):
+        help_result = subprocess.run(
+            ["bash", str(INSTALLER), "--help"],
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
+        )
+        self.assertEqual(0, help_result.returncode, help_result.stderr)
+        self.assertIn("--with-archive", help_result.stdout)
+        self.assertIn("--with-optional <name>", help_result.stdout)
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            base_args = [
+                "bash",
+                str(INSTALLER),
+                "--src-dir",
+                str(Path(temp_dir) / "src"),
+                "--dry-run",
+                "--skip-package-check",
+            ]
+            default = subprocess.run(
+                base_args,
+                check=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
+            )
+            self.assertEqual(0, default.returncode, default.stderr)
+            self.assertIn("Profiles:     active", default.stdout)
+            self.assertNotIn("[PLAN] px4_bringup", default.stdout)
+
+            composed = subprocess.run(
+                base_args
+                + [
+                    "--with-archive",
+                    "--with-optional",
+                    "perception",
+                    "--with-optional",
+                    "navigation",
+                ],
+                check=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
+            )
+            self.assertEqual(0, composed.returncode, composed.stderr)
+            self.assertIn("Profiles:     active archive optional-perception optional-navigation", composed.stdout)
+            self.assertIn("px4_bringup", composed.stdout)
+
+            moving_denied = subprocess.run(
+                base_args + ["--manifest", str(REPO_ROOT / "workspace.repos")],
+                check=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
+            )
+            self.assertNotEqual(0, moving_denied.returncode)
+            self.assertIn("--allow-moving-refs", moving_denied.stderr)
+
+            moving_allowed = subprocess.run(
+                base_args
+                + [
+                    "--manifest",
+                    str(REPO_ROOT / "workspace.repos"),
+                    "--allow-moving-refs",
+                ],
+                check=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
+            )
+            self.assertEqual(0, moving_allowed.returncode, moving_allowed.stderr)
+
+            conflicting = subprocess.run(
+                base_args
+                + [
+                    "--manifest",
+                    str(REPO_ROOT / "workspace.lock.repos"),
+                    "--with-archive",
+                ],
+                check=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
+            )
+            self.assertNotEqual(0, conflicting.returncode)
+            self.assertIn("cannot be combined", conflicting.stderr)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,15 @@
+# Optional perception sources. Select explicitly with:
+#   uav_px4_dds_install.sh --with-optional perception
+repositories:
+  src/librealsense:
+    type: git
+    url: https://github.com/IntelRealSense/librealsense.git
+    version: c94410a420b74e5fb6a414bd12215c05ddd82b69
+  src/realsense-ros:
+    type: git
+    url: https://github.com/IntelRealSense/realsense-ros.git
+    version: 8abb4657c0add15f87b0edbfb67eaba2c1c2c439
+  src/vision_opencv:
+    type: git
+    url: https://github.com/ros-perception/vision_opencv.git
+    version: 72152d9d1d8edcfcafd707a1d0103810db8613ba
