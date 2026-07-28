@@ -98,6 +98,9 @@ while IFS=$'\t' read -r package_name package_path; do
   PACKAGE_NAMES+=("$package_name")
 done <"$OUTPUT_ROOT/artifacts/package-selection.tsv"
 
+# px4_msgs generated-code lint commands exceed the default async pipe line
+# limit when CTest is verbose. Quiet console mode avoids that transport
+# deadlock; xUnit plus CTest LastTest.log retain the complete test evidence.
 colcon \
   --log-base "$OUTPUT_ROOT/log/test" \
   test \
@@ -105,7 +108,8 @@ colcon \
   --install-base "$OUTPUT_ROOT/install" \
   --test-result-base "$OUTPUT_ROOT/test-results" \
   --packages-select "${PACKAGE_NAMES[@]}" \
-  --return-code-on-test-failure
+  --return-code-on-test-failure \
+  --ctest-args -Q
 
 colcon \
   --log-base "$OUTPUT_ROOT/log/test-result" \
