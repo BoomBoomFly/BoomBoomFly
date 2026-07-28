@@ -10,6 +10,7 @@ selection without duplicating repository identities across files.
 | archive | `workspace.lock.repos` | `--with-archive` | provenance-only historical source |
 | optional perception | `workspace.lock.repos` | `--with-optional perception` | perception source dependencies |
 | optional navigation | `workspace.lock.repos` | `--with-optional navigation` | navigation and simulation source dependencies |
+| quarantine | `workspace.lock.repos` | never selected | exact recovery identity excluded from build |
 
 All entries, including an explicitly supplied custom manifest, must use an
 exact lowercase 40-character commit SHA and a safe `src/` path. Paths are
@@ -53,15 +54,6 @@ profile. Root `.gitmodules` maps `src/communication`, whose gitlink is pinned to
 their governed remotes and `git submodule status --recursive` resolves the
 complete chain.
 
-The serial origin, immutable SHA, path, and offline recovery source are now
-governed. `COLCON_IGNORE` enforces discovery quarantine only; production
-admission, maintainer ownership, protocol, authority, interlock, and runtime
-safety approval remain:
-
-```text
-REQUIRES_MAINTAINER_DECISION
-```
-
-Do not add serial to production discovery, launch, or execution until that
-decision is approved. The production DDS-only package allowlist and forbidden
-set are unchanged.
+The serial origin, immutable SHA and path are stored in the `quarantine`
+profile of the same manifest. The installer never selects this profile, and
+the DDS-only package allowlist continues to reject the package.

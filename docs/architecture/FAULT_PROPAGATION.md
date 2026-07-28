@@ -286,5 +286,5 @@ flight phase
 - [数据流与 topic 契约](DATA_FLOW.md)
 - [控制权运行契约](CONTROL_AUTHORITY.md)
 - [ADR-0001：DDS-only 控制权](../adr/0001-dds-only-control-authority.md)
-- [当前风险登记册](../repository_audit/09_RISK_REGISTER.md)
-- [下一阶段验证计划](../repository_audit/10_NEXT_STAGE_PLAN.md)
+- [分级验证门](../runbooks/VALIDATION_LEVELS.md)
+- [SITL 验收](../runbooks/SITL_ACCEPTANCE.md)

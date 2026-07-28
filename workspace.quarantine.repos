@@ -1,7 +1,0 @@
-# Non-production sources retained only for audit and offline recovery.
-# This manifest is never consumed by the default installer.
-repositories:
-  src/serial_driver_ros:
-    type: git
-    url: https://github.com/BoomBoomFly/serial_driver_ros.git
-    version: 9d8c07814ad0f64f76c5fd8fe12072aebcbef431

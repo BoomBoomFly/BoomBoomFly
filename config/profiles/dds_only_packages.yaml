@@ -7,7 +7,7 @@
     "workspace.excluded_packages"
   ],
   "quarantine_manifests": [
-    "workspace.quarantine.repos"
+    "workspace.lock.repos"
   ],
   "production_packages": [
     {"name": "px4_msgs", "path": "src/px4_msgs"},

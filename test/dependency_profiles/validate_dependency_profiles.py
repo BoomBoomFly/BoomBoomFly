@@ -15,6 +15,7 @@ EXPECTED_PROFILES = {
     "optional-perception": "optional",
     "optional-navigation": "optional",
 }
+MANIFEST_PROFILES = dict(EXPECTED_PROFILES, quarantine="quarantine")
 OPTIONAL_PROFILE_IDS = {
     "perception": "optional-perception",
     "navigation": "optional-navigation",
@@ -47,6 +48,7 @@ EXPECTED_PROFILE_PATHS = {
         "src/rtabmap_ros",
         "src/slam_toolbox",
     },
+    "quarantine": {"src/serial_driver_ros"},
 }
 CANONICAL_MANIFEST_URLS = {
     "src/Micro-XRCE-DDS-Agent": "https://github.com/eProsima/Micro-XRCE-DDS-Agent.git",
@@ -62,6 +64,7 @@ CANONICAL_MANIFEST_URLS = {
     "src/rplidar_ros": "https://github.com/Slamtec/rplidar_ros.git",
     "src/rtabmap": "https://github.com/introlab/rtabmap.git",
     "src/rtabmap_ros": "https://github.com/introlab/rtabmap_ros.git",
+    "src/serial_driver_ros": "https://github.com/BoomBoomFly/serial_driver_ros.git",
     "src/slam_toolbox": "https://github.com/SteveMacenski/slam_toolbox.git",
     "src/vision_opencv": "https://github.com/ros-perception/vision_opencv.git",
     "src/vision_to_dds": "https://github.com/wanone111/vision_to_dds.git",
@@ -169,10 +172,10 @@ def validate_manifest_profiles(repository_root):
         return [str(exc)]
 
     seen_paths = {}
-    entries_by_profile = {profile_id: [] for profile_id in EXPECTED_PROFILES}
+    entries_by_profile = {profile_id: [] for profile_id in MANIFEST_PROFILES}
     for entry in entries:
         profile_id = entry["profile"]
-        if profile_id not in EXPECTED_PROFILES:
+        if profile_id not in MANIFEST_PROFILES:
             issues.append("unknown manifest profile: {}".format(profile_id))
         else:
             entries_by_profile[profile_id].append(entry)
@@ -187,7 +190,7 @@ def validate_manifest_profiles(repository_root):
             )
         else:
             seen_paths[path] = profile_id
-        if path in UNRESOLVED_SERIAL_PATHS:
+        if path in UNRESOLVED_SERIAL_PATHS and profile_id != "quarantine":
             issues.append("unresolved serial path {} cannot enter a profile".format(path))
         if entry["type"] != "git":
             issues.append("{} in {} must use type git".format(path, profile_id))
@@ -207,7 +210,7 @@ def validate_manifest_profiles(repository_root):
                 )
             )
 
-    for profile_id in EXPECTED_PROFILES:
+    for profile_id in MANIFEST_PROFILES:
         actual_paths = {entry["path"] for entry in entries_by_profile[profile_id]}
         expected_paths = EXPECTED_PROFILE_PATHS[profile_id]
         if actual_paths != expected_paths:

@@ -31,6 +31,7 @@ Usage:
 
 Restore the active exact-SHA profile declared by workspace.lock.repos. Archive
 and optional sources are composed only when their explicit flags are present.
+Quarantine entries are never selected, including through --manifest.
 Locked commits are checked out in detached-HEAD state; this script never creates
 dependency branches and never runs git pull.
 
@@ -349,13 +350,15 @@ for record in "${ALL_REPOSITORIES[@]}"; do
 
 	if [[ ${MANIFEST_EXPLICIT} -eq 0 ]]; then
 		case "${record_profile}" in
-			active | archive | optional-perception | optional-navigation) ;;
+			active | archive | optional-perception | optional-navigation | quarantine) ;;
 			*) die "Unknown governed profile for ${manifest_path}: ${record_profile}" ;;
 		esac
 		PROFILE_ENTRY_COUNTS[${record_profile}]=$((${PROFILE_ENTRY_COUNTS[${record_profile}]:-0} + 1))
 	fi
 
-	if [[ ${MANIFEST_EXPLICIT} -eq 1 || -n "${SELECTED_PROFILE_SET[${record_profile}]:-}" ]]; then
+	if [[ ${MANIFEST_EXPLICIT} -eq 1 && "${record_profile}" != "quarantine" ]]; then
+		REPOSITORIES+=("${manifest_path}"$'\t'"${repo_url}"$'\t'"${repo_ref}")
+	elif [[ ${MANIFEST_EXPLICIT} -eq 0 && -n "${SELECTED_PROFILE_SET[${record_profile}]:-}" ]]; then
 		REPOSITORIES+=("${manifest_path}"$'\t'"${repo_url}"$'\t'"${repo_ref}")
 	fi
 done

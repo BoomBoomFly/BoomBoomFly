@@ -9,8 +9,6 @@ import re
 import subprocess
 import sys
 
-import yaml
-
 
 EXIT_OK = 0
 EXIT_QUARANTINE = 2
@@ -39,18 +37,85 @@ def run(command, cwd):
     return result.stdout
 
 
-def load_yaml(path):
-    try:
-        return yaml.safe_load(path.read_text(encoding="utf-8"))
-    except (OSError, ValueError, yaml.YAMLError) as exc:
-        raise QuarantineError("cannot load {}: {}".format(path, exc))
-
-
 def load_json(path):
     try:
         return json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError) as exc:
         raise QuarantineError("cannot load {}: {}".format(path, exc))
+
+
+def load_profiled_repositories(path):
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except OSError as exc:
+        raise QuarantineError("cannot load {}: {}".format(path, exc))
+
+    profiles = {}
+    current_profile = None
+    current_path = None
+    current_entry = None
+    saw_repositories = False
+
+    def emit():
+        nonlocal current_path, current_entry
+        if current_path is None:
+            return
+        if current_profile is None:
+            raise QuarantineError(
+                "{} entry {} has no profile marker".format(path, current_path)
+            )
+        if set(current_entry) != {"type", "url", "version"}:
+            raise QuarantineError(
+                "{} entry {} must contain type, url and version".format(
+                    path, current_path
+                )
+            )
+        repositories = profiles.setdefault(current_profile, {})
+        if current_path in repositories:
+            raise QuarantineError("duplicate manifest path: {}".format(current_path))
+        repositories[current_path] = current_entry
+        current_path = None
+        current_entry = None
+
+    for line_number, raw in enumerate(lines, 1):
+        if not raw.strip():
+            continue
+        profile_match = re.fullmatch(r"# profile: ([a-z-]+)", raw)
+        if profile_match:
+            emit()
+            current_profile = profile_match.group(1)
+            continue
+        if raw.lstrip().startswith("#"):
+            continue
+        if raw == "repositories:":
+            if saw_repositories:
+                raise QuarantineError("{} has duplicate repositories mapping".format(path))
+            saw_repositories = True
+            continue
+        repository_match = re.fullmatch(r"  ([^\s:][^:]*):\s*", raw)
+        if repository_match and saw_repositories:
+            emit()
+            current_path = repository_match.group(1)
+            current_entry = {}
+            continue
+        field_match = re.fullmatch(r"    (type|url|version):\s*(\S.*?)\s*", raw)
+        if field_match and current_entry is not None:
+            key, value = field_match.groups()
+            if key in current_entry:
+                raise QuarantineError(
+                    "{}:{} duplicate {} field".format(path, line_number, key)
+                )
+            if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
+                value = value[1:-1]
+            current_entry[key] = value
+            continue
+        raise QuarantineError(
+            "{}:{} unsupported manifest syntax".format(path, line_number)
+        )
+    emit()
+    if not saw_repositories or not profiles:
+        raise QuarantineError("{} contains no profiled repositories".format(path))
+    return profiles
 
 
 def normalize_url(value):
@@ -59,11 +124,11 @@ def normalize_url(value):
 
 
 def verify(root, serial_source, log_base):
-    quarantine_path = root / "workspace.quarantine.repos"
-    quarantine = load_yaml(quarantine_path)
-    repositories = quarantine.get("repositories", {})
+    manifest_path = root / "workspace.lock.repos"
+    profiles = load_profiled_repositories(manifest_path)
+    repositories = profiles.get("quarantine", {})
     if set(repositories) != {"src/serial_driver_ros"}:
-        raise QuarantineError("quarantine manifest must contain only serial_driver_ros")
+        raise QuarantineError("quarantine profile must contain only serial_driver_ros")
     entry = repositories["src/serial_driver_ros"]
     expected_url = "https://github.com/BoomBoomFly/serial_driver_ros.git"
     if entry.get("type") != "git" or normalize_url(entry.get("url", "")) != normalize_url(expected_url):
@@ -75,16 +140,19 @@ def verify(root, serial_source, log_base):
     if (root / "workspace.repos").exists():
         raise QuarantineError("retired moving workspace.repos manifest was restored")
 
-    for active_name in ("workspace.lock.repos",):
-        active = load_yaml(root / active_name)
-        for path, active_entry in active.get("repositories", {}).items():
+    for profile, profile_repositories in profiles.items():
+        if profile == "quarantine":
+            continue
+        for path, active_entry in profile_repositories.items():
             active_url = normalize_url(str(active_entry.get("url", "")))
             if path == "src/serial_driver_ros" or active_url == normalize_url(expected_url):
-                raise QuarantineError("serial source entered active manifest {}".format(active_name))
+                raise QuarantineError(
+                    "serial source entered non-quarantine profile {}".format(profile)
+                )
 
     package_profile = load_json(root / "config/profiles/dds_only_packages.yaml")
-    if "workspace.quarantine.repos" not in package_profile.get("quarantine_manifests", []):
-        raise QuarantineError("package profile does not register quarantine manifest")
+    if package_profile.get("quarantine_manifests") != ["workspace.lock.repos"]:
+        raise QuarantineError("package profile does not register the quarantine profile")
     forbidden = {
         item["name"]: item["path"]
         for item in package_profile.get("forbidden_packages", [])
@@ -152,7 +220,8 @@ def verify(root, serial_source, log_base):
 
     return {
         "status": "PASS",
-        "quarantine_manifest": str(quarantine_path),
+        "quarantine_manifest": str(manifest_path),
+        "quarantine_profile": "quarantine",
         "serial_path": "src/serial_driver_ros",
         "serial_origin": expected_url,
         "serial_sha": expected_sha,

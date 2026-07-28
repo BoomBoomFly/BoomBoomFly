@@ -212,10 +212,15 @@ def verify_vision(root):
 
 def verify_serial_and_source_governance(root):
     active_lock = read(root / "workspace.lock.repos")
-    quarantine = read(root / "workspace.quarantine.repos")
+    quarantine_marker = re.search(
+        r"^# profile: quarantine\s*$", active_lock, re.MULTILINE
+    )
+    require(quarantine_marker is not None, "serial quarantine profile is missing")
+    quarantine = active_lock[quarantine_marker.end():]
+    non_quarantine = active_lock[:quarantine_marker.start()]
     require(
-        "src/serial_driver_ros:" not in active_lock,
-        "serial appears in an active source manifest",
+        "src/serial_driver_ros:" not in non_quarantine,
+        "serial appears in a non-quarantine source profile",
     )
     require(
         not (root / "workspace.repos").exists(),
@@ -229,6 +234,11 @@ def verify_serial_and_source_governance(root):
     require(
         re.search(r"version:\s*[0-9a-f]{40}\s*$", quarantine, re.MULTILINE),
         "serial quarantine uses a moving ref",
+    )
+    require(
+        sorted(path.name for path in root.glob("workspace*.repos"))
+        == ["workspace.lock.repos"],
+        "repository sources are not consolidated into workspace.lock.repos",
     )
 
     parser = configparser.ConfigParser()
