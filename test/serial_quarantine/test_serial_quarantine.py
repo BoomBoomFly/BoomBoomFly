@@ -6,8 +6,6 @@ from pathlib import Path
 import tempfile
 import unittest
 
-import yaml
-
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 MODULE_PATH = REPO_ROOT / "Scripts/test/verify_serial_quarantine.py"
@@ -44,7 +42,7 @@ class SerialQuarantineTests(unittest.TestCase):
             }
         }
         self.package_profile = {
-            "quarantine_manifests": ["workspace.quarantine.repos"],
+            "quarantine_manifests": ["workspace.lock.repos"],
             "production_packages": [
                 {"name": "offboard_cpp", "path": "src/offboard_cpp"}
             ],
@@ -65,13 +63,28 @@ class SerialQuarantineTests(unittest.TestCase):
         self.temp.cleanup()
 
     def write_fixture(self):
-        (self.root / "workspace.quarantine.repos").write_text(
-            yaml.safe_dump(self.quarantine), encoding="utf-8"
+        def render(repositories):
+            lines = []
+            for path, entry in sorted(repositories.items()):
+                lines.extend(
+                    [
+                        "  {}:".format(path),
+                        "    type: {}".format(entry["type"]),
+                        "    url: {}".format(entry["url"]),
+                        "    version: {}".format(entry["version"]),
+                    ]
+                )
+            return "\n".join(lines)
+
+        manifest = (
+            "repositories:\n"
+            "# profile: active\n"
+            + render(self.active_lock["repositories"])
+            + "\n# profile: quarantine\n"
+            + render(self.quarantine["repositories"])
+            + "\n"
         )
-        for name in ("workspace.lock.repos",):
-            (self.root / name).write_text(
-                yaml.safe_dump(self.active_lock), encoding="utf-8"
-            )
+        (self.root / "workspace.lock.repos").write_text(manifest, encoding="utf-8")
         (self.root / "config/profiles/dds_only_packages.yaml").write_text(
             json.dumps(self.package_profile), encoding="utf-8"
         )
@@ -99,7 +112,9 @@ class SerialQuarantineTests(unittest.TestCase):
             self.quarantine["repositories"]["src/serial_driver_ros"]
         )
         self.write_fixture()
-        with self.assertRaisesRegex(MODULE.QuarantineError, "entered active manifest"):
+        with self.assertRaisesRegex(
+            MODULE.QuarantineError, "entered non-quarantine profile active"
+        ):
             self.verify()
 
     def test_production_package_entry_is_rejected(self):

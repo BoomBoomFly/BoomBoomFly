@@ -186,14 +186,10 @@ MAVROS/MAVLink 不作为备用控制链，不进入 production、bench、SITL �
 
 ## 证据
 
-- `src/offboard_cpp/src/node.cpp:27-34,55-75`
-- `src/offboard_cpp/src/examples/offboard_demo.cpp:10-15`
-- `src/offboard_cpp/src/examples/animal_testing.cpp:10-15`
-- `src/offboard_cpp/text/mock_rc_control.py:18-19`
-- `src/offboard_cpp/launch/offboard_swarm_control.launch.py:29-64`
-- `src/vision_to_dds/src/vision_to_dds.cpp:80-88,127-162`
 - [`workspace.lock.repos`](../../workspace.lock.repos)
-- [当前 PX4、DDS 与 Offboard 审查](../repository_audit/03_PX4_DDS_OFFBOARD_AUDIT.md)
+- [控制权与发布者矩阵](../CONTROL_AUTHORITY_MATRIX.md)
+- [控制权运行契约](../architecture/CONTROL_AUTHORITY.md)
+- [视觉里程计契约](../architecture/VISION_ODOMETRY_CONTRACT.md)
 
 ## 验收
 

@@ -15,8 +15,8 @@ REMOVED_ACTIVE_PATHS = (
 CURRENT_AUTHORITY_DOCUMENTS = (
     "README.md",
     "Scripts/README.md",
-    "docs/governance/DOCUMENT_AUTHORITY.md",
-    "docs/repository_audit/09_RISK_REGISTER.md",
+    "docs/CONTROL_AUTHORITY_MATRIX.md",
+    "docs/runbooks/VALIDATION_LEVELS.md",
 )
 EVIDENCE_ROOTS = (
     "docs/evidence",

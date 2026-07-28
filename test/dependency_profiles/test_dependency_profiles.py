@@ -147,9 +147,9 @@ class DependencyProfileTests(unittest.TestCase):
         self.assertEqual(["active"], payload["selected_profiles"])
         self.assertEqual(["src/px4_msgs"], payload["repository_paths"])
 
-    def test_root_has_one_governed_manifest_plus_quarantine(self):
+    def test_root_has_one_governed_manifest(self):
         self.assertEqual(
-            ["workspace.lock.repos", "workspace.quarantine.repos"],
+            ["workspace.lock.repos"],
             sorted(path.name for path in REPO_ROOT.glob("workspace*.repos")),
         )
 
@@ -174,6 +174,13 @@ class DependencyProfileTests(unittest.TestCase):
         self.assertEqual(16, len(paths))
         self.assertNotIn("src/serial_driver_ros", paths)
         self.assertNotIn("src/serial_driver_ros2", paths)
+        all_entries = VALIDATOR.load_repos_manifest(
+            REPO_ROOT / VALIDATOR.PROFILE_MANIFEST
+        )
+        quarantine = [
+            entry for entry in all_entries if entry["profile"] == "quarantine"
+        ]
+        self.assertEqual(["src/serial_driver_ros"], [entry["path"] for entry in quarantine])
 
     def test_real_manifest_cli_default_excludes_archive_and_optional(self):
         result = subprocess.run(
