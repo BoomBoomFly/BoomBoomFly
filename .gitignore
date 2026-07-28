@@ -34,3 +34,5 @@ communication/
 # matches the broad workspace build ignore rule above.
 !Scripts/build/
 !Scripts/build/build_dds_only.sh
+
+src/communication

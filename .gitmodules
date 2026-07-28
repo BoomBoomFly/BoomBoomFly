@@ -1,0 +1,3 @@
+[submodule "src/communication"]
+	path = src/communication
+	url = https://github.com/BoomBoomFly/communication.git
