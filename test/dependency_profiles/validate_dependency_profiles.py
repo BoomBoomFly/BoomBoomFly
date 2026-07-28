@@ -10,6 +10,7 @@ import sys
 
 EXACT_SHA = re.compile(r"^[0-9a-f]{40}$")
 LATEST_BRANCHES = {
+    "src/communication": "main",
     "src/offboard_cpp": "DDS",
     "src/vision_to_dds": "master",
     "src/px4_bringup": "DDS",
@@ -33,6 +34,7 @@ PROFILE_MANIFEST = "workspace.lock.repos"
 EXPECTED_PROFILE_PATHS = {
     "active": {
         "src/Micro-XRCE-DDS-Agent",
+        "src/communication",
         "src/offboard_cpp",
         "src/px4_msgs",
         "src/vision_to_dds",
@@ -57,6 +59,7 @@ EXPECTED_PROFILE_PATHS = {
 }
 CANONICAL_MANIFEST_URLS = {
     "src/Micro-XRCE-DDS-Agent": "https://github.com/eProsima/Micro-XRCE-DDS-Agent.git",
+    "src/communication": "https://github.com/BoomBoomFly/communication.git",
     "src/gazebo_ros_pkgs": "https://github.com/ros-simulation/gazebo_ros_pkgs.git",
     "src/imu_tools": "https://github.com/ccny-ros-pkg/imu_tools.git",
     "src/librealsense": "https://github.com/IntelRealSense/librealsense.git",

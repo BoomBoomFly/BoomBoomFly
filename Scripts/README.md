@@ -89,8 +89,8 @@ bash Scripts/installation/uav_px4_dds_install.sh \
 `--manifest` 同样必须只包含安全 `src/` 路径、上述批准分支或精确 SHA；原
 `workspace.repos` 入口已退役。完整 profile 与安全语义见
 [`docs/dependencies/SOURCE_PROFILES.md`](../docs/dependencies/SOURCE_PROFILES.md)。
-同一脚本默认初始化并更新根仓库的 `src/communication` 子模块到
-`origin/main` 最新提交；仅在明确传入 `--skip-submodules` 时跳过。
+同一脚本通过根清单创建并更新 `src/communication` 到 `origin/main` 最新
+提交；该目录由脚本生成，不存储在根仓库 Git 树中。
 `verify_environment.py` 与 `verify_workspace_receipts.py` 提供相应的离线环境和
 dependency receipt 检查。
 

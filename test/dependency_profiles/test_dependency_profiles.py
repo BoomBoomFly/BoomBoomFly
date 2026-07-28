@@ -171,7 +171,7 @@ class DependencyProfileTests(unittest.TestCase):
         )
         paths = [entry["path"] for entry in repositories]
         self.assertEqual(len(paths), len(set(paths)))
-        self.assertEqual(16, len(paths))
+        self.assertEqual(17, len(paths))
         self.assertNotIn("src/serial_driver_ros", paths)
         self.assertNotIn("src/serial_driver_ros2", paths)
         all_entries = VALIDATOR.load_repos_manifest(
@@ -185,6 +185,7 @@ class DependencyProfileTests(unittest.TestCase):
         self.assertEqual("DDS", versions["src/offboard_cpp"])
         self.assertEqual("master", versions["src/vision_to_dds"])
         self.assertEqual("DDS", versions["src/px4_bringup"])
+        self.assertEqual("main", versions["src/communication"])
 
     def test_real_manifest_cli_default_excludes_archive_and_optional(self):
         result = subprocess.run(
@@ -202,7 +203,7 @@ class DependencyProfileTests(unittest.TestCase):
         self.assertEqual(0, result.returncode, result.stderr)
         payload = json.loads(result.stdout)
         self.assertEqual(["active"], payload["selected_profiles"])
-        self.assertEqual(4, len(payload["repository_paths"]))
+        self.assertEqual(5, len(payload["repository_paths"]))
         self.assertNotIn("src/px4_bringup", payload["repository_paths"])
 
     def test_real_manifest_mutations_fail_closed(self):
@@ -269,13 +270,8 @@ class DependencyProfileTests(unittest.TestCase):
             self.assertIn("Profiles:     active", default.stdout)
             self.assertNotIn("[PLAN] px4_bringup", default.stdout)
             self.assertIn(
-                "[PLAN] communication submodule <= "
+                "[PLAN] communication <= "
                 "https://github.com/BoomBoomFly/communication.git @ main",
-                default.stdout,
-            )
-            self.assertIn(
-                "submodule update --init --remote --checkout -- "
-                "src/communication",
                 default.stdout,
             )
 
@@ -290,11 +286,9 @@ class DependencyProfileTests(unittest.TestCase):
                 0, without_submodules.returncode, without_submodules.stderr
             )
             self.assertIn(
-                "[SKIP] src/communication submodule disabled",
+                "[PLAN] communication <= "
+                "https://github.com/BoomBoomFly/communication.git @ main",
                 without_submodules.stdout,
-            )
-            self.assertNotIn(
-                "[PLAN] communication submodule", without_submodules.stdout
             )
 
             composed = subprocess.run(
@@ -323,7 +317,7 @@ class DependencyProfileTests(unittest.TestCase):
                 universal_newlines=True,
             )
             self.assertEqual(0, custom_exact.returncode, custom_exact.stderr)
-            self.assertIn("Repositories:16", custom_exact.stdout)
+            self.assertIn("Repositories:17", custom_exact.stdout)
 
             moving_manifest = Path(temp_dir) / "moving.repos"
             moving_manifest.write_text(

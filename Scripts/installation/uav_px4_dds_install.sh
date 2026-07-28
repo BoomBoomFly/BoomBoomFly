@@ -8,9 +8,6 @@ PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 SRC_DIR="${PROJECT_ROOT}/src"
 DEFAULT_MANIFEST="${PROJECT_ROOT}/workspace.lock.repos"
 MANIFEST="${DEFAULT_MANIFEST}"
-COMMUNICATION_PATH="src/communication"
-COMMUNICATION_URL="https://github.com/BoomBoomFly/communication.git"
-COMMUNICATION_BRANCH="main"
 MANIFEST_EXPLICIT=0
 WITH_ARCHIVE=0
 WITH_OPTIONAL=()
@@ -35,8 +32,8 @@ Usage:
 Restore the active profile declared by workspace.lock.repos. Project-owned
 flight packages follow approved default branches; third-party dependencies use
 exact commit SHAs. Archive and optional sources are composed only when their
-explicit flags are present. The root src/communication submodule is initialized
-and refreshed from its configured main branch by the same script.
+explicit flags are present. src/communication is restored from main as a normal
+manifest repository and is not stored in the root Git tree.
 Quarantine entries are never selected, including through --manifest.
 Locked commits are checked out in detached-HEAD state; this script never creates
 dependency branches and never runs git pull.
@@ -51,7 +48,7 @@ Options:
   --update               Sync existing clean repositories to the manifest ref.
   --verify-only          Audit all repositories without cloning/updating.
   --dry-run              Audit and print planned actions without changing files or Git refs.
-  --skip-submodules      Skip src/communication and dependency submodules.
+  --skip-submodules      Do not initialize dependency submodules.
   --skip-package-check   Do not run colcon package discovery.
   --require-colcon       Fail if colcon is unavailable or package discovery fails.
   -h, --help             Show this help message.
@@ -59,7 +56,7 @@ Options:
 Safety:
   * Existing dirty repositories are never checked out or updated.
   * Existing repositories with a different origin URL are rejected.
-  * src/communication is checked out at the latest origin/main commit.
+  * src/communication is restored at the latest origin/main commit.
   * Active/archive/optional target paths must be globally unique.
   * Only the declared project paths may use their approved latest branches.
   * Every other governed or custom manifest entry requires an exact commit SHA.
@@ -135,7 +132,8 @@ is_approved_latest_ref() {
 	local manifest_path="$1"
 	local ref="$2"
 	case "${manifest_path}:${ref}" in
-		src/offboard_cpp:DDS | src/vision_to_dds:master | src/px4_bringup:DDS)
+		src/communication:main | src/offboard_cpp:DDS | \
+			src/vision_to_dds:master | src/px4_bringup:DDS)
 			return 0
 			;;
 	esac
@@ -484,104 +482,6 @@ sync_submodules() {
 	run_cmd git -C "${full_path}" submodule update --init --recursive
 }
 
-process_communication_submodule() {
-	local full_path="${PROJECT_ROOT}/${COMMUNICATION_PATH}"
-	local configured_path
-	local configured_url
-	local configured_branch
-	local configured_update
-	local current_head
-	local expected_head
-	local initialized=0
-
-	if [[ ${WITH_SUBMODULES} -eq 0 ]]; then
-		log "[SKIP] ${COMMUNICATION_PATH} submodule disabled"
-		return 0
-	fi
-
-	configured_path="$(git -C "${PROJECT_ROOT}" config -f .gitmodules \
-		--get submodule.src/communication.path 2>/dev/null || true)"
-	configured_url="$(git -C "${PROJECT_ROOT}" config -f .gitmodules \
-		--get submodule.src/communication.url 2>/dev/null || true)"
-	configured_branch="$(git -C "${PROJECT_ROOT}" config -f .gitmodules \
-		--get submodule.src/communication.branch 2>/dev/null || true)"
-	configured_update="$(git -C "${PROJECT_ROOT}" config -f .gitmodules \
-		--get submodule.src/communication.update 2>/dev/null || true)"
-	[[ "${configured_path}" == "${COMMUNICATION_PATH}" ]] ||
-		die "communication submodule path mismatch: ${configured_path}"
-	[[ "$(normalize_repo_url "${configured_url}")" == \
-		"$(normalize_repo_url "${COMMUNICATION_URL}")" ]] ||
-		die "communication submodule origin mismatch: ${configured_url}"
-	[[ "${configured_branch}" == "${COMMUNICATION_BRANCH}" ]] ||
-		die "communication submodule branch mismatch: ${configured_branch}"
-	[[ "${configured_update}" == "checkout" ]] ||
-		die "communication submodule update policy mismatch: ${configured_update}"
-
-	log "[PLAN] communication submodule <= ${COMMUNICATION_URL} @ ${COMMUNICATION_BRANCH}"
-	PLANNED_COUNT=$((PLANNED_COUNT + 1))
-
-	if [[ ${DRY_RUN} -eq 1 ]]; then
-		run_cmd git -C "${PROJECT_ROOT}" submodule sync -- "${COMMUNICATION_PATH}"
-		run_cmd git -C "${PROJECT_ROOT}" submodule update --init --remote \
-			--checkout -- "${COMMUNICATION_PATH}"
-		return 0
-	fi
-
-	if git -C "${full_path}" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-		initialized=1
-	fi
-
-	if [[ ${VERIFY_ONLY} -eq 1 ]]; then
-		if [[ ${initialized} -eq 0 ]]; then
-			record_blocker "missing submodule checkout: ${full_path}"
-			return 0
-		fi
-		if repo_is_dirty "${full_path}"; then
-			record_blocker "dirty submodule: ${full_path}"
-			return 0
-		fi
-		if ! verify_origin "${full_path}" "${COMMUNICATION_URL}"; then
-			record_blocker "origin mismatch: ${full_path}"
-			return 0
-		fi
-		current_head="$(git -C "${full_path}" rev-parse HEAD)"
-		expected_head="$(git -C "${PROJECT_ROOT}" rev-parse \
-			"HEAD:${COMMUNICATION_PATH}" 2>/dev/null || true)"
-		if [[ -z "${expected_head}" || "${current_head,,}" != "${expected_head,,}" ]]; then
-			record_blocker \
-				"communication HEAD ${current_head} does not match root gitlink ${expected_head}; run --update"
-			return 0
-		fi
-		log "[OK] communication submodule matches the root gitlink"
-		VERIFIED_COUNT=$((VERIFIED_COUNT + 1))
-		return 0
-	fi
-
-	if [[ ${initialized} -eq 1 ]] && repo_is_dirty "${full_path}"; then
-		die "Dirty submodule: ${full_path}. Preserve or commit local changes before syncing."
-	fi
-
-	run_cmd git -C "${PROJECT_ROOT}" submodule sync -- "${COMMUNICATION_PATH}"
-	run_cmd git -C "${PROJECT_ROOT}" submodule update --init --remote \
-		--checkout -- "${COMMUNICATION_PATH}"
-
-	verify_origin "${full_path}" "${COMMUNICATION_URL}" ||
-		die "Origin URL mismatch in ${full_path}"
-	current_head="$(git -C "${full_path}" rev-parse HEAD)"
-	expected_head="$(git -C "${full_path}" rev-parse \
-		"refs/remotes/origin/${COMMUNICATION_BRANCH}^{commit}")" ||
-		die "Cannot resolve origin/${COMMUNICATION_BRANCH} in ${full_path}"
-	[[ "${current_head,,}" == "${expected_head,,}" ]] ||
-		die "communication checkout ${current_head} is not latest origin/${COMMUNICATION_BRANCH} ${expected_head}"
-
-	if [[ ${initialized} -eq 1 ]]; then
-		UPDATED_COUNT=$((UPDATED_COUNT + 1))
-	else
-		CLONED_COUNT=$((CLONED_COUNT + 1))
-	fi
-	log "[OK] communication submodule at latest origin/${COMMUNICATION_BRANCH}: ${current_head}"
-}
-
 verify_origin() {
 	local full_path="$1"
 	local expected_url="$2"
@@ -608,7 +508,7 @@ process_repository() {
 	log "[PLAN] ${target_dir} <= ${repo_url} @ ${repo_ref}"
 	PLANNED_COUNT=$((PLANNED_COUNT + 1))
 
-	if [[ ! -d "${full_path}/.git" ]]; then
+	if ! git -C "${full_path}" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
 		if [[ -e "${full_path}" ]]; then
 			if [[ ${DRY_RUN} -eq 1 || ${VERIFY_ONLY} -eq 1 ]]; then
 				record_blocker "${full_path} exists but is not a Git repository"
@@ -776,7 +676,6 @@ for record in "${REPOSITORIES[@]}"; do
 	process_repository "${manifest_path}" "${repo_url}" "${repo_ref}"
 done
 
-process_communication_submodule
 verify_ros_packages
 
 log "Summary: planned=${PLANNED_COUNT} cloned=${CLONED_COUNT} updated=${UPDATED_COUNT} verified=${VERIFIED_COUNT} blockers=${BLOCKER_COUNT}"

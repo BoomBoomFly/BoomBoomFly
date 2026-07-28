@@ -21,6 +21,10 @@ repositories:
     type: git
     url: https://github.com/wanone111/vision_to_dds.git
     version: master
+  src/communication:
+    type: git
+    url: https://github.com/BoomBoomFly/communication.git
+    version: main
 
 # profile: archive
   src/px4_bringup:

@@ -115,7 +115,7 @@ ROS 2 ↔ Micro XRCE-DDS Agent ↔ PX4 uXRCE-DDS client
 
 ### 7. communication 边界
 
-`src/communication` 作为伴随计算机与单片机通信的独立子模块保留，不属于
+`src/communication` 由安装脚本从独立仓库拉取，不存储在根 Git 树，也不属于
 PX4 DDS 飞控控制链。它不得发布：
 
 - `/fmu/in/*`

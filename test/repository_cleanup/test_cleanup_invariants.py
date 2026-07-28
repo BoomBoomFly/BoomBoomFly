@@ -12,6 +12,7 @@ REMOVED_ACTIVE_PATHS = (
     "Scripts/simulation/uav_sim.sh",
     "Simulator",
     "SECURITY.md",
+    ".gitmodules",
     "docs/evidence/sessions/20260728T164521+0800_onboard_h0",
     "docs/evidence/sessions/20260728T174752+0800_onboard_validation/raw",
     "docs/evidence/sessions/20260728T174752+0800_onboard_validation/artifacts/workspace.final.lock.repos",
@@ -91,6 +92,20 @@ class RepositoryCleanupInvariantTests(unittest.TestCase):
         ):
             with self.subTest(identity=identity):
                 self.assertIn(identity, audit)
+
+    def test_communication_checkout_is_not_stored_in_root_git(self) -> None:
+        import subprocess
+
+        result = subprocess.run(
+            ["git", "ls-files", "--", "src/communication"],
+            cwd=str(REPO_ROOT),
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
+        )
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertEqual("", result.stdout.strip())
 
 
 if __name__ == "__main__":

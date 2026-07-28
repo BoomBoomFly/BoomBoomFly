@@ -2,7 +2,6 @@
 """Static fail-closed H0 verifier for the Wave 4B production profile."""
 
 import argparse
-import configparser
 import json
 from pathlib import Path
 import re
@@ -241,6 +240,7 @@ def verify_serial_and_source_governance(root):
         "repository sources are not consolidated into workspace.lock.repos",
     )
     for path, branch in (
+        ("src/communication", "main"),
         ("src/offboard_cpp", "DDS"),
         ("src/vision_to_dds", "master"),
         ("src/px4_bringup", "DDS"),
@@ -256,37 +256,20 @@ def verify_serial_and_source_governance(root):
             "{} does not track latest branch {}".format(path, branch),
         )
 
-    parser = configparser.ConfigParser()
-    try:
-        with (root / ".gitmodules").open("r", encoding="utf-8") as stream:
-            parser.read_file(stream)
-    except (OSError, configparser.Error) as exc:
-        raise H0Error("invalid .gitmodules: {}".format(exc))
-    section = 'submodule "src/communication"'
-    require(parser.has_section(section), "communication .gitmodules mapping is missing")
-    require(parser.get(section, "path") == "src/communication", "communication path mismatch")
     require(
-        parser.get(section, "url") == "https://github.com/BoomBoomFly/communication.git",
-        "communication origin mismatch",
+        not (root / ".gitmodules").exists(),
+        "communication submodule configuration was restored",
     )
-    require(parser.get(section, "branch") == "main", "communication branch mismatch")
-    require(parser.get(section, "update") == "checkout", "communication update policy mismatch")
     result = subprocess.run(
-        ["git", "ls-files", "-s", "src/communication"],
+        ["git", "ls-files", "--", "src/communication"],
         cwd=str(root),
         check=False,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         universal_newlines=True,
     )
-    require(result.returncode == 0, "cannot inspect communication gitlink")
-    fields = result.stdout.split()
-    require(
-        len(fields) >= 2
-        and fields[0] == "160000"
-        and re.fullmatch(r"[0-9a-f]{40}", fields[1]),
-        "communication gitlink identity mismatch",
-    )
+    require(result.returncode == 0, "cannot inspect tracked communication paths")
+    require(not result.stdout.strip(), "communication checkout is tracked by the root repository")
 
 
 def verify_launch_profile(root):
@@ -333,7 +316,7 @@ def main():
                 "production_text_rc": False,
                 "vision_enabled": False,
                 "serial_production": False,
-                "communication_update": "remote-checkout-main",
+                "communication_update": "manifest-main",
             },
             sort_keys=True,
         )

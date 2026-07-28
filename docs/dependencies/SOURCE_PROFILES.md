@@ -7,7 +7,7 @@ exact lowercase 40-character commit SHAs.
 
 | Profile | Selection | Repository policy |
 |---|---|---|
-| active | default | `offboard_cpp:DDS`, `vision_to_dds:master`; third party exact SHA |
+| active | default | `offboard_cpp:DDS`, `vision_to_dds:master`, `communication:main`; third party exact SHA |
 | archive | `--with-archive` | `px4_bringup:DDS` |
 | optional perception | `--with-optional perception` | exact SHA |
 | optional navigation | `--with-optional navigation` | exact SHA |
@@ -16,6 +16,7 @@ exact lowercase 40-character commit SHAs.
 Only these path/ref pairs may move:
 
 ```text
+src/communication -> main
 src/offboard_cpp  -> DDS
 src/vision_to_dds -> master
 src/px4_bringup   -> DDS
@@ -57,11 +58,11 @@ external paths, unapproved moving refs and mismatched commits. Profile
 selection only restores source; it does not build packages or start ROS,
 simulation, DDS Agent or hardware processes.
 
-## Communication submodule
+## Communication checkout
 
-`src/communication` is the companion-computer-to-MCU communication submodule.
-It follows `main` independently of the ROS source manifest. The standard
-installer initializes it and checks out the latest remote commit:
+`src/communication` is the companion-computer-to-MCU communication repository.
+It is not stored in the root Git tree. The active root manifest and standard
+installer create it from the latest `main` commit:
 
 ```bash
 bash Scripts/installation/uav_px4_dds_install.sh \
@@ -69,10 +70,7 @@ bash Scripts/installation/uav_px4_dds_install.sh \
   --skip-package-check
 ```
 
-Use `--skip-submodules` only when the communication checkout is intentionally
-not required.
-
-The submodule is not a PX4 transport or ROS control package and must not publish
+The checkout is not a PX4 transport or ROS control package and must not publish
 PX4 `/fmu/*` or control `/offboard/*` topics.
 
 The serial driver recovery identity remains in the `quarantine` profile. The

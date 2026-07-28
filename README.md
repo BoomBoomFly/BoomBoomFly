@@ -13,8 +13,9 @@ DDS Offboard 完成起飞、悬停和降落，并由 T265 视觉里程计提供�
 - PX4 uXRCE-DDS：TELEM2、921600 baud、Domain ID 0
 - `px4_msgs`、`offboard_cpp`、`vision_to_dds`
 
-`src/communication` 是独立子模块，用于后续伴随计算机与单片机通信。它不
-属于 PX4 DDS 控制链，不得发布 `/fmu/*` 或控制 `/offboard/*` 话题。
+`src/communication` 由安装脚本从独立仓库拉取，用于后续伴随计算机与
+单片机通信；根仓库不存储该目录。它不属于 PX4 DDS 控制链，不得发布
+`/fmu/*` 或控制 `/offboard/*` 话题。
 `px4_bringup` 保留在 archive profile，用于开发参考，不是默认控制入口。
 
 ## 当前实机状态
@@ -68,7 +69,7 @@ offboard_cpp
 - `vision_to_dds` 始终跟随 `master`
 - `px4_bringup` 始终跟随 `DDS`
 - 第三方依赖保持精确 SHA
-- `communication` 子模块独立跟随 `main`
+- `communication` 通过根清单跟随 `main`
 
 恢复并更新 DDS 主链与视觉依赖：
 
@@ -88,12 +89,7 @@ bash Scripts/installation/uav_px4_dds_install.sh \
   --skip-package-check
 ```
 
-`communication` 默认由同一安装脚本拉取并更新。仅单独维护子模块时可执行：
-
-```bash
-git submodule sync -- src/communication
-git submodule update --init --remote --checkout src/communication
-```
+`communication` 默认由上述安装脚本一并拉取和更新，无需单独执行命令。
 
 ## 最短验证路径
 
@@ -138,7 +134,7 @@ config/                  DDS-only package/launch profile
 docs/                    架构、运行手册、场景和技术证据
 test/                    离线回归测试
 tools/                   DDS 控制链与 SITL 验证工具
-src/communication        伴随计算机与单片机通信子模块
+src/communication        脚本拉取的通信仓库，不存储在根 Git 树
 workspace.lock.repos     唯一根仓库清单
 workspace.excluded_packages
                          DDS-only 禁止包列表
