@@ -16,4 +16,4 @@ repositories:
   src/vision_to_dds:
     type: git
     url: https://github.com/wanone111/vision_to_dds.git
-    version: dac2c0b54a2df2d1510fc08877d0b104f4d23365
+    version: b366db72cde55d9a1a7ef6bb734073fd8a43c4ae

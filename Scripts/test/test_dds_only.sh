@@ -89,6 +89,11 @@ source "$ROS_SETUP"
 source "$OUTPUT_ROOT/install/setup.bash"
 set -u
 
+# rclcpp tests must not fall back to ~/.ros: the receipt is self-contained and
+# must remain writable even when the source checkout and home are read-only.
+export ROS_LOG_DIR="$OUTPUT_ROOT/log/ros"
+mkdir -p "$ROS_LOG_DIR"
+
 PACKAGE_NAMES=()
 while IFS=$'\t' read -r package_name package_path; do
   [[ -n "$package_name" && -n "$package_path" ]] || {
