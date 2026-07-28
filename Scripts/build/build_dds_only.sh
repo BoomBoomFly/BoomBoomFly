@@ -127,7 +127,7 @@ done <"$SELECTION"
 CMAKE_BUILD_PARALLEL_LEVEL=1 colcon \
   --log-base "$OUTPUT_ROOT/log/build" \
   build \
-  --executor sequential \
+  --parallel-workers 1 \
   --paths "${PACKAGE_PATHS[@]}" \
   --build-base "$OUTPUT_ROOT/build" \
   --install-base "$OUTPUT_ROOT/install" \
