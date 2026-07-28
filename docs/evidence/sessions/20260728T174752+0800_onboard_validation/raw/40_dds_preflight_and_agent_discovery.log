@@ -1,0 +1,43 @@
+2026-07-28T19:28:35,300847132+08:00
+
+===== candidate agent executables =====
+
+===== agent source HEAD/status =====
+57d086216d01ec43121845d385894a25987f8a2c
+## HEAD (no branch)
+
+===== agent build guidance =====
+
+===== repository serial configuration references =====
+/bin/bash: line 12: rg: command not found
+
+===== current relevant processes =====
+PROCESS_SCAN_EXIT=1
+
+===== tty device and owners =====
+crw-rw---- 1 root dialout 239, 0 Jun 18  2024 /dev/ttyTHS0
+  File: /dev/ttyTHS0
+  Size: 0         	Blocks: 0          IO Block: 4096   character special file
+Device: 5h/5d	Inode: 244         Links: 1     Device type: ef,0
+Access: (0660/crw-rw----)  Uid: (    0/    root)   Gid: (   20/ dialout)
+Access: 2024-06-18 04:29:41.652000000 +0800
+Modify: 2024-06-18 04:29:41.652000000 +0800
+Change: 2024-06-18 04:29:41.652000000 +0800
+ Birth: -
+FUSER_EXIT=1
+lsof: WARNING: can't stat() fuse.gvfsd-fuse file system /run/user/116/gvfs
+      Output information may be incomplete.
+LSOF_EXIT=1
+
+===== ROS graph before Agent =====
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+The daemon is not running
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+NODE_LIST_EXIT=0
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/parameter_events [rcl_interfaces/msg/ParameterEvent]
+/rosout [rcl_interfaces/msg/Log]
+TOPIC_LIST_EXIT=0

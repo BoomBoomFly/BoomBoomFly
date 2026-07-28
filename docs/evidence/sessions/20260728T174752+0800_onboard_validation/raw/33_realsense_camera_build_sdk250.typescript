@@ -1,0 +1,10 @@
+Script started on 2026-07-28 19:16:31+08:00 [<not executed on terminal>]
+Starting >>> realsense2_camera
+[Processing: realsense2_camera]
+[Processing: realsense2_camera]
+[Processing: realsense2_camera]
+Finished <<< realsense2_camera [1min 48s]
+
+Summary: 1 package finished [1min 49s]
+
+Script done on 2026-07-28 19:18:22+08:00 [COMMAND_EXIT_CODE="0"]

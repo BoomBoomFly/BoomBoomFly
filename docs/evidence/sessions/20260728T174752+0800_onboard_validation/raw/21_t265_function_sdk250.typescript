@@ -1,0 +1,18 @@
+Script started on 2026-07-28 19:06:53+08:00 [<not executed on terminal>]
+SDK_VERSION=2.50.0
+DEVICE_NAME=Intel RealSense T265
+FIRMWARE=0.2.0.951
+USB_TYPE=3.1
+PRODUCT_LINE=T200
+SERIAL=REDACTED
+PHYSICAL_PORT=REDACTED
+AVAILABLE_STREAM_PROFILES_BEGIN
+sensor=Tracking Module,stream=Fisheye,format=Y8,fps=30,index=1,width=848,height=800
+sensor=Tracking Module,stream=Fisheye,format=Y8,fps=30,index=2,width=848,height=800
+sensor=Tracking Module,stream=Gyro,format=MOTION_XYZ32F,fps=200,index=0
+sensor=Tracking Module,stream=Accel,format=MOTION_XYZ32F,fps=62,index=0
+sensor=Tracking Module,stream=Pose,format=6DOF,fps=200,index=0
+AVAILABLE_STREAM_PROFILES_END
+ERROR: No device connected
+
+Script done on 2026-07-28 19:07:10+08:00 [COMMAND_EXIT_CODE="4"]

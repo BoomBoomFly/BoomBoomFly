@@ -1,0 +1,34 @@
+Script started on 2026-07-28 19:21:46+08:00 [<not executed on terminal>]
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+[0m[INFO] [1785237707.805009591] [camera]: RealSense ROS v4.0.4[0m
+[0m[INFO] [1785237707.805398886] [camera]: Built with LibRealSense v2.50.0[0m
+[0m[INFO] [1785237707.805469384] [camera]: Running with LibRealSense v2.50.0[0m
+[0m[INFO] [1785237707.859875851] [camera]: Device with serial number 241122070080 was found.
+[0m
+[0m[INFO] [1785237707.860036177] [camera]: Device with physical ID /sys/devices/platform/3610000.xhci/usb2/2-1/2-1.3/2-1.3:1.0/video4linux/video0 was found.[0m
+[0m[INFO] [1785237707.860085299] [camera]: Device with name Intel RealSense D435 was found.[0m
+[0m[INFO] [1785237707.860534916] [camera]: Device with port number 2-1.3 was found.[0m
+[0m[INFO] [1785237707.883807203] [camera]: Device with serial number 952322110550 was found.
+[0m
+[0m[INFO] [1785237707.883952072] [camera]: Device with physical ID 2-1.4-5 was found.[0m
+[0m[INFO] [1785237707.883993802] [camera]: Device with name Intel RealSense T265 was found.[0m
+[0m[INFO] [1785237707.884516445] [camera]: Device with port number 2-1.4 was found.[0m
+[0m[INFO] [1785237707.884587232] [camera]: Device USB type: 3.1[0m
+[0m[INFO] [1785237707.896225008] [camera]: No calib_odom_file. No input odometry accepted.[0m
+[0m[INFO] [1785237707.896305139] [camera]: getParameters...[0m
+[0m[INFO] [1785237707.896653856] [camera]: JSON file is not provided[0m
+[0m[INFO] [1785237707.896702241] [camera]: Device Name: Intel RealSense T265[0m
+[0m[INFO] [1785237707.896738851] [camera]: Device Serial No: 952322110550[0m
+[0m[INFO] [1785237707.896773284] [camera]: Device physical port: 2-1.4-5[0m
+[0m[INFO] [1785237707.896801861] [camera]: Device FW version: 0.2.0.951[0m
+[0m[INFO] [1785237707.896832966] [camera]: Device Product ID: 0x0B37[0m
+[0m[INFO] [1785237707.896860007] [camera]: Sync Mode: Off[0m
+[33m[WARN] [1785237707.897369562] [camera]: Could not set param: tracking_module.frames_queue_size with 256 Range: [0, 32]: parameter 'tracking_module.frames_queue_size' could not be set: Parameter {} doesn't comply with integer range.[0m
+[0m[INFO] [1785237707.953440091] [camera]: Start Sensor: Tracking Module[0m
+[0m[INFO] [1785237707.961234364] [camera]: Open profile: stream_type: Gyro(0)Format: MOTION_XYZ32F, FPS: 200[0m
+[0m[INFO] [1785237707.961384065] [camera]: Open profile: stream_type: Accel(0)Format: MOTION_XYZ32F, FPS: 62[0m
+[0m[INFO] [1785237707.983924646] [camera]: RealSense Node Is Up![0m
+[33m[WARN] [1785237707.984478490] [camera]: [0m
+
+Script done on 2026-07-28 19:22:09+08:00 [COMMAND_EXIT_CODE="143"]
