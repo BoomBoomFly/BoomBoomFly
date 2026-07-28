@@ -160,7 +160,7 @@
     "src/rtabmap_ros/rtabmap_examples/launch/rgbdslam_datasets.launch.py",
     "src/rtabmap_ros/rtabmap_examples/launch/vlp16.launch.py",
     "src/rtabmap_ros/rtabmap_launch/launch/rtabmap.launch.py",
-    "src/serial_driver_ros2/launch/serial_driver.launch.py",
+    "src/serial_driver_ros/launch/serial_driver.launch.py",
     "src/slam_toolbox/launch/lifelong_launch.py",
     "src/slam_toolbox/launch/localization_launch.py",
     "src/slam_toolbox/launch/merge_maps_kinematic_launch.py",

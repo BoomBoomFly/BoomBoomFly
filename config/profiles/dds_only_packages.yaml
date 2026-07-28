@@ -7,6 +7,9 @@
     "workspace.repos",
     "workspace.excluded_packages"
   ],
+  "quarantine_manifests": [
+    "workspace.quarantine.repos"
+  ],
   "production_packages": [
     {"name": "px4_msgs", "path": "src/px4_msgs"},
     {"name": "offboard_cpp", "path": "src/offboard_cpp"},

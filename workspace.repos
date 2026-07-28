@@ -18,7 +18,3 @@ repositories:
     type: git
     url: https://github.com/wanone111/vision_to_dds.git
     version: main
-  ../communication:
-    type: git
-    url: https://github.com/wanone111/communication.git
-    version: main
