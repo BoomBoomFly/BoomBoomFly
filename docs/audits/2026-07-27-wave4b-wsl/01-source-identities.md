@@ -11,6 +11,18 @@
 | Micro XRCE-DDS Agent | lock only; not run | `57d086216d01ec43121845d385894a25987f8a2c` | exact fetch/API recovery |
 | PX4 | external lock; not run | `54f0455ffcd755534539a7cf33a09a20bf71d29d` (`v1.16.2`) | exact API recovery |
 
+Master integration identity:
+
+| Component | Exact SHA | Disposition |
+|---|---|---|
+| integration tree | `7cbd4276ab27ef97c93436529cefb1fa5a3ab1c9` | merges `master@bcde328…` into the tested Wave 4B branch |
+| communication after integration | `eaaae53435ce706b32ee7dffc0c6643b43a12afe` | exact GitHub API recovery; canonical remote branch advertises SHA |
+| combined exact lock SHA256 | `7bb0ef1e3d06972fbe00f4a13b497f516c57641b424eb02906b9764c0b9b3522` | active, archive, and optional profiles in one governed manifest |
+
+The integration keeps serial solely in `workspace.quarantine.repos`; the
+moving `workspace.repos` remains deleted. Its fresh H1 receipt is
+`/tmp/boomboomfly-wave4b-h1-merge-20260728-10`.
+
 All checked-out candidate worktrees were clean before evidence documentation.
 The original dirty native-style checkout at
 `/home/aa/px4_ws/BoomBoomFly` was read only and was not copied, staged,

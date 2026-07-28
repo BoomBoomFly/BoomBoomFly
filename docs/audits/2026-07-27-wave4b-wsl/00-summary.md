@@ -6,6 +6,14 @@ ROS 2 Foxy. The immutable software candidate is root
 `01-source-identities.md`. The commit containing this report is evidence-only;
 it does not change that tested source candidate.
 
+Before merge to `master`, current `master@bcde328…` was integrated on the
+candidate branch at `7cbd4276ab27ef97c93436529cefb1fa5a3ab1c9`. That
+integration advances the governed communication gitlink to remotely
+recoverable `eaaae53435ce706b32ee7dffc0c6643b43a12afe`, preserves
+`update=none`, removes the retired moving `workspace.repos`, and retains the
+exact Offboard/vision/quarantine identities below. A fresh integration H1
+receipt also passed 14,598 tests with zero errors, failures, or skips.
+
 ```text
 ENVIRONMENT: WSL
 ROOT HEAD: 1ea582b8e7fa8aff4d284cf108c9a6c7bb510b56

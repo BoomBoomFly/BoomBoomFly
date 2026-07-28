@@ -12,6 +12,22 @@
     "report_commits_are_evidence_only": true,
     "handoff_branch_head_resolution": "git rev-parse origin/wsl/wave4b-native-ready"
   },
+  "master_integration": {
+    "base_master_sha": "bcde3281653ea2a045138cd1391534d16366961b",
+    "integration_sha": "7cbd4276ab27ef97c93436529cefb1fa5a3ab1c9",
+    "communication_sha": "eaaae53435ce706b32ee7dffc0c6643b43a12afe",
+    "communication_remote_recoverable": true,
+    "communication_update": "none",
+    "workspace_repos_retired": true,
+    "combined_workspace_lock_sha256": "7bb0ef1e3d06972fbe00f4a13b497f516c57641b424eb02906b9764c0b9b3522",
+    "h1_output_root": "/tmp/boomboomfly-wave4b-h1-merge-20260728-10",
+    "h1_sha256_manifest_sha256": "4d4ae48bb1542bc2c3ad0529bb95eb58cee404e57c16ecef2efc0dea742eea63",
+    "h1_tests": 14598,
+    "h1_errors": 0,
+    "h1_failures": 0,
+    "h1_skipped": 0,
+    "H1_WSL_PRECHECK": "PASS"
+  },
   "nested": {
     "offboard": {
       "sha": "722e05afa931df4fd46aa19944830d951d68ba65",
@@ -144,6 +160,18 @@
       "command": "isolated exact git fetch/cat-file plus gh api exact commit reads",
       "exit_code": 0,
       "result": "all active, quarantined, PX4 root, and PX4 nested SHAs remotely recoverable"
+    },
+    {
+      "id": "master-integration-h1-attempt-09",
+      "command": "bash Scripts/test/test_dds_only.sh --workspace-root <root> --output-root /tmp/boomboomfly-wave4b-h1-merge-20260728-09",
+      "exit_code": 2,
+      "result": "retained transient Foxy Python generator unknown-opcode failure"
+    },
+    {
+      "id": "master-integration-h1-attempt-10",
+      "command": "bash Scripts/test/test_dds_only.sh --workspace-root <root> --output-root /tmp/boomboomfly-wave4b-h1-merge-20260728-10",
+      "exit_code": 0,
+      "result": "build/test/test-result PASS; 14598 tests, 0 errors, 0 failures, 0 skipped"
     }
   ],
   "package_boundary": {

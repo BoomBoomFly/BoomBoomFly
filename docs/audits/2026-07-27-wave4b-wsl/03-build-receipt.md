@@ -46,3 +46,21 @@ harness compatibility fix. Attempt 08 is the only final-source formal receipt.
 
 This x86_64 WSL result is only `H1-WSL PRECHECK: PASS`; it does not replace the
 native ARM64 rebuild.
+
+## Master-integration recheck
+
+After resolving `master@bcde328…` into the candidate, root
+`7cbd4276ab27ef97c93436529cefb1fa5a3ab1c9` was rebuilt in fresh
+`/tmp/boomboomfly-wave4b-h1-merge-20260728-10`:
+
+```text
+boundary: PASS
+build: PASS (3/3)
+test: PASS (3/3)
+test-result: 14598 tests, 0 errors, 0 failures, 0 skipped
+SHA256(SHA256SUMS): 4d4ae48bb1542bc2c3ad0529bb95eb58cee404e57c16ecef2efc0dea742eea63
+```
+
+The immediately preceding `...-09` directory failed during the known
+transient Foxy Python generator `unknown opcode` condition and was retained as
+negative evidence; it was not promoted to PASS.

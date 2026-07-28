@@ -28,6 +28,13 @@ H1 attempt ledger:
 | 07 | 0 | successful parent-source confirmation; superseded |
 | 08 | 0 | final source candidate formal PASS |
 
+Master-integration attempt ledger:
+
+| Attempt | Exit | Disposition |
+|---|---:|---|
+| 09 | 2 | retained transient Foxy Python generator `unknown opcode` failure |
+| 10 | 0 | `master` integration root `7cbd427…`: 14,598 tests, zero errors/failures/skips |
+
 The final receipt uses one package worker and CMake build concurrency one.
 CTest quiet console mode avoids the Foxy async-line deadlock while retaining
 xUnit and `LastTest.log`. The rclcpp tests and H3 ran outside the Codex
