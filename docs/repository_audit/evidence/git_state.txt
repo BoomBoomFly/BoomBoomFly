@@ -1,0 +1,71 @@
+BoomBoomFly repository audit Git baseline
+Captured: 2026-07-28 (Asia/Shanghai)
+Hardware/network access: none
+
+Commands (read-only):
+  git rev-parse --show-toplevel
+  git status --short --branch
+  git branch --show-current
+  git rev-parse HEAD
+  git remote -v
+  git submodule status --recursive
+  find . -name .git
+  git -C <repo> rev-parse HEAD
+  git -C <repo> symbolic-ref --short -q HEAD
+  git -C <repo> status --porcelain=v1 -uall
+  git -C <repo> remote get-url origin
+
+Root:
+  path: /home/c/px4_ws/BoomBoomFly
+  branch: master
+  HEAD: df01b9280c0e79a05ad1e4cec727e7427c9251ca
+  upstream: origin/master
+  origin: https://github.com/BoomBoomFly/BoomBoomFly.git
+  status: clean
+  local ref relationship: HEAD == local origin/master
+  live remote relationship: not checked (no fetch/network)
+
+Root gitlink:
+  src/communication eaaae53435ce706b32ee7dffc0c6643b43a12afe
+  .gitmodules URL: https://github.com/BoomBoomFly/communication.git
+  update policy: none
+
+Repository ledger:
+  path                                             branch                         HEAD          upstream                          state
+  .                                                master                         df01b9280c0e origin/master                     clean
+  src/Micro-XRCE-DDS-Agent                        detached                       57d086216d01 none                              clean
+  src/communication                                agent/wave4b-serial-quarantine eaaae53435ce origin/agent/wave4b-serial-quarantine clean
+  src/communication/Serial/serial_driver_ros       detached                       9d8c07814ad0 none                              clean
+  src/gazebo_ros_pkgs                              foxy                           b6f7bf121d0c origin/foxy                       clean
+  src/imu_tools                                    foxy                           d28555e487e4 origin/foxy                       clean
+  src/librealsense                                 detached                       c94410a420b7 none                              DIRTY: 3347 mode-only changes
+  src/mavlink                                      detached                       22b62f8d55fe none                              DIRTY: 233 mode-only changes, 8 untracked
+  src/navigation2                                  foxy-devel                     ca482808a7a7 origin/foxy-devel                 clean
+  src/navigation_msgs                              foxy                           fe880e99d993 origin/foxy                       DIRTY: map_msgs deleted (13 files)
+  src/offboard_cpp                                 agent/wave3b-offboard-integration 976d6217d73 none                           clean, no upstream
+  src/offboard_py                                  master                         38887f08dd91 origin/master                     clean
+  src/px4_bringup                                  DDS                            0fbdcbf6ee53 origin/DDS                        clean
+  src/px4_msgs                                     detached                       392e831c1f65 none                              clean; tags v1.16.0/v1.16.1/v1.16.2
+  src/realsense-ros                                detached                       8abb4657c0ad none                              DIRTY: 98 mode changes + 1 untracked
+  src/ros2_foxy_vision_to_mavros                   main                           3d395fdc0d03 origin/main                       DIRTY: output_rate 30 -> 100
+  src/rplidar_ros                                  ros2                           24cc9b6dea97 origin/ros2                       clean
+  src/rtabmap                                      foxy-devel                     0070de4aafab origin/foxy-devel                 clean
+  src/rtabmap_ros                                  foxy-devel                     b341e2a776a7 origin/foxy-devel                 clean
+  src/serial-ros2                                  master                         ae46504ae7d4 origin/master                     clean
+  src/slam_toolbox                                 foxy-devel                     4786e90c06a4 origin/foxy-devel                 clean
+  src/vision_opencv                                foxy                           72152d9d1d8e origin/foxy                       DIRTY: image_geometry deleted (17 files)
+  src/vision_to_dds                                detached                       0c3a00137f3c none                              clean
+
+Exact-lock comparison:
+  MATCH    src/px4_msgs              392e831c1f659429ca83902e66820d7094591410
+  MATCH    src/Micro-XRCE-DDS-Agent  57d086216d01ec43121845d385894a25987f8a2c
+  MISMATCH src/offboard_cpp          expected 722e05afa931df4fd46aa19944830d951d68ba65
+                                      actual 976d6217d73a28b72e64300e2dd04bcbeeee30d7
+  MISMATCH src/vision_to_dds         expected b366db72cde55d9a1a7ef6bb734073fd8a43c4ae
+                                      actual 0c3a00137f3c90a4051ac1bc1029ec56beb669b6
+  All other present archive/optional checkouts matched their lock HEAD, but several
+  are intentionally dirty and governed by receipts.
+
+Limitations:
+  No git fetch/ls-remote was performed. Remote availability and ahead/behind are
+  based only on local refs. No branch, index, submodule HEAD, or source file was changed.

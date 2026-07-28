@@ -1,0 +1,114 @@
+ROS 2 package inventory
+
+Static validator:
+  env PYTHONDONTWRITEBYTECODE=1 python3 Scripts/test/verify_package_boundary.py \
+    --workspace-root /home/c/px4_ws/BoomBoomFly \
+    --log-base /tmp/boomboomfly-audit-20260728-package-boundary
+  exit: 0
+  status: PASS
+  classified_packages: 83
+  full colcon discovery: 75
+  authoritative discovery: 3
+  authoritative packages: offboard_cpp, px4_msgs, vision_to_dds
+
+Production:
+  src/offboard_cpp/package.xml
+  src/px4_msgs/package.xml
+  src/vision_to_dds/package.xml
+
+Forbidden or archive packages present in the source tree:
+  offboard_py
+  cv_yolo_paddle_pkg
+  opencv_cpp
+  mavlink
+  vision_to_mavros (directory src/ros2_foxy_vision_to_mavros)
+  px4_bringup
+  serial (src/serial-ros2)
+  serial_driver (nested quarantine; COLCON_IGNORE prevents discovery)
+  MAVROS package paths are listed as forbidden but absent from this checkout.
+
+Managed non-production families:
+  Micro XRCE-DDS Agent; gazebo_ros_pkgs; imu_tools; navigation2;
+  navigation_msgs; librealsense; realsense-ros; rplidar_ros; rtabmap;
+  rtabmap_ros; slam_toolbox; vision_opencv.
+
+Manifest paths found (76):
+  src/communication/Serial/serial_driver_ros/package.xml
+  src/cv_yolo_paddle_pkg/package.xml
+  src/gazebo_ros_pkgs/gazebo_dev/package.xml
+  src/gazebo_ros_pkgs/gazebo_msgs/package.xml
+  src/gazebo_ros_pkgs/gazebo_plugins/package.xml
+  src/gazebo_ros_pkgs/gazebo_ros/package.xml
+  src/gazebo_ros_pkgs/gazebo_ros_pkgs/package.xml
+  src/imu_tools/imu_complementary_filter/package.xml
+  src/imu_tools/imu_filter_madgwick/package.xml
+  src/imu_tools/imu_tools/package.xml
+  src/imu_tools/rviz_imu_plugin/package.xml
+  src/librealsense/package.xml
+  src/mavlink/package.xml
+  src/navigation2/navigation2/package.xml
+  src/navigation2/nav2_amcl/package.xml
+  src/navigation2/nav2_behavior_tree/package.xml
+  src/navigation2/nav2_bringup/bringup/package.xml
+  src/navigation2/nav2_bringup/nav2_gazebo_spawner/package.xml
+  src/navigation2/nav2_bt_navigator/package.xml
+  src/navigation2/nav2_common/package.xml
+  src/navigation2/nav2_controller/package.xml
+  src/navigation2/nav2_core/package.xml
+  src/navigation2/nav2_costmap_2d/package.xml
+  src/navigation2/nav2_dwb_controller/costmap_queue/package.xml
+  src/navigation2/nav2_dwb_controller/dwb_core/package.xml
+  src/navigation2/nav2_dwb_controller/dwb_critics/package.xml
+  src/navigation2/nav2_dwb_controller/dwb_msgs/package.xml
+  src/navigation2/nav2_dwb_controller/dwb_plugins/package.xml
+  src/navigation2/nav2_dwb_controller/nav2_dwb_controller/package.xml
+  src/navigation2/nav2_dwb_controller/nav_2d_msgs/package.xml
+  src/navigation2/nav2_dwb_controller/nav_2d_utils/package.xml
+  src/navigation2/nav2_lifecycle_manager/package.xml
+  src/navigation2/nav2_map_server/package.xml
+  src/navigation2/nav2_msgs/package.xml
+  src/navigation2/nav2_navfn_planner/package.xml
+  src/navigation2/nav2_planner/package.xml
+  src/navigation2/nav2_recoveries/package.xml
+  src/navigation2/nav2_regulated_pure_pursuit_controller/package.xml
+  src/navigation2/nav2_rviz_plugins/package.xml
+  src/navigation2/nav2_system_tests/package.xml
+  src/navigation2/nav2_util/package.xml
+  src/navigation2/nav2_voxel_grid/package.xml
+  src/navigation2/nav2_waypoint_follower/package.xml
+  src/navigation2/smac_planner/package.xml
+  src/navigation_msgs/move_base_msgs/package.xml
+  src/offboard_cpp/package.xml
+  src/offboard_py/package.xml
+  src/opencv_cpp/package.xml
+  src/px4_bringup/package.xml
+  src/px4_msgs/package.xml
+  src/realsense-ros/realsense2_camera/package.xml
+  src/realsense-ros/realsense2_camera_msgs/package.xml
+  src/realsense-ros/realsense2_description/package.xml
+  src/ros2_foxy_vision_to_mavros/package.xml
+  src/rplidar_ros/package.xml
+  src/rtabmap/package.xml
+  src/rtabmap_ros/rtabmap_conversions/package.xml
+  src/rtabmap_ros/rtabmap_demos/package.xml
+  src/rtabmap_ros/rtabmap_examples/package.xml
+  src/rtabmap_ros/rtabmap_launch/package.xml
+  src/rtabmap_ros/rtabmap_msgs/package.xml
+  src/rtabmap_ros/rtabmap_odom/package.xml
+  src/rtabmap_ros/rtabmap_python/package.xml
+  src/rtabmap_ros/rtabmap_ros/package.xml
+  src/rtabmap_ros/rtabmap_rviz_plugins/package.xml
+  src/rtabmap_ros/rtabmap_slam/package.xml
+  src/rtabmap_ros/rtabmap_sync/package.xml
+  src/rtabmap_ros/rtabmap_util/package.xml
+  src/rtabmap_ros/rtabmap_viz/package.xml
+  src/serial-ros2/package.xml
+  src/slam_toolbox/lib/karto_sdk/package.xml
+  src/slam_toolbox/package.xml
+  src/vision_opencv/cv_bridge/package.xml
+  src/vision_opencv/opencv_tests/package.xml
+  src/vision_opencv/vision_opencv/package.xml
+  src/vision_to_dds/package.xml
+
+Note: manifest count and colcon discovery differ because ignored/deleted package paths
+and aggregate/metapackage behavior are distinct concepts.

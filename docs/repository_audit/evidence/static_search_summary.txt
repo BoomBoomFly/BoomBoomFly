@@ -1,0 +1,64 @@
+Static search summary
+
+Scope exclusions:
+  .git, build, install, log, caches and generated output were not treated as
+  authoritative source. Some searches encountered nested build directories;
+  those hits were explicitly discarded.
+
+Control search:
+  patterns: VehicleCommand, OffboardControlMode, TrajectorySetpoint,
+            /fmu/in/, /fmu/out/, ARM_DISARM, DO_SET_MODE
+  confirmed:
+    src/offboard_cpp/src/node.cpp:28-35 creates all three control writers.
+    src/offboard_cpp/src/lib/CtrlFSM.cpp:339-340 publishes setpoint/mode at 50 Hz.
+    src/offboard_cpp/src/lib/CtrlFSM.cpp:405-416 directly publishes VehicleCommand.
+    src/offboard_cpp/src/lib/CtrlFSM.cpp:434,471 sends arm/disarm.
+    src/offboard_cpp/src/lib/CtrlFSM.cpp:621,675,712 sends mode changes.
+
+Safety-gate search:
+  OffboardRuntimeGate exists in include/lib and src/lib and is tested, but there
+  is no production instantiation in node.cpp/CtrlFSM.cpp.
+  Static H0 command:
+    python3 Scripts/test/verify_h0_production.py --workspace-root <root>
+  result:
+    exit 2
+    {"error":"production SafetyGateAdapter is missing","status":"FAIL"}
+
+PX4 version search:
+  src/px4_msgs HEAD 392e831... has tags v1.16.0, v1.16.1, v1.16.2.
+  VehicleStatus.msg declares MESSAGE_VERSION=1.
+  offboard topic constant uses fmu/out/vehicle_status_v1.
+
+Vision search:
+  default output /fmu/in/vehicle_visual_odometry.
+  wall/ROS clock timestamp and TF sample timestamp are mixed.
+  pose_frame is always FRD; reset_counter=0 and quality=1 are constants.
+  latest TF lookup is used; there is no covariance/device-quality/freeze epoch gate.
+
+Serial search:
+  quarantined ROS node subscribes /cmd_vel and writes /dev serial.
+  ROS frame uses additive 8-bit checksum and no 0xFF tail.
+  STM32 parser requires CRC16/MODBUS and 0xFF tail.
+  ROS receive loop indexes j+1 without rejecting odd payload lengths.
+  Static quarantine validator result: PASS, discovery_count=0,
+  production_launch_references=0, production_package_references=0.
+
+Hardware path search:
+  historical MAVROS launch default: /dev/ttyACM0:57600.
+  architecture target DDS path: /dev/ttyTHS0:921600, exclusive, runtime unverified.
+  serial defaults: /dev/ttyUSB0 in code, /dev/ttyS1 in YAML.
+  RPLIDAR upstream defaults commonly use /dev/ttyUSB0.
+
+Security search:
+  no .env, private-key, certificate, p12/pfx or id_rsa files found outside
+  excluded/generated areas.
+  tracked-root credential keyword scan found no non-fixture credential candidate.
+  Values were not printed.
+  GitHub Actions pins checkout/upload-artifact by immutable commit SHA and uses
+  contents:read; workflow trigger is manual workflow_dispatch only.
+
+Agent execution:
+  Threads A-H were launched as independent read-only review tasks. Thread B
+  returned usable partial package evidence. The other threads were interrupted
+  after exceeding the return deadline; the coordinator re-ran their domain
+  checks directly. No sub-agent wrote files.

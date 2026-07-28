@@ -15,11 +15,10 @@ REMOVED_ACTIVE_PATHS = (
 CURRENT_AUTHORITY_DOCUMENTS = (
     "README.md",
     "Scripts/README.md",
-    "docs/handoff.md",
     "docs/governance/DOCUMENT_AUTHORITY.md",
+    "docs/repository_audit/09_RISK_REGISTER.md",
 )
-HISTORICAL_ROOTS = (
-    "docs/audits",
+EVIDENCE_ROOTS = (
     "docs/evidence",
 )
 LEGACY_ENTRY_PATTERN = re.compile(
@@ -55,22 +54,22 @@ class RepositoryCleanupInvariantTests(unittest.TestCase):
                     "current authority contains a personal absolute home path",
                 )
 
-    def test_historical_roots_are_preserved_but_not_scanned_as_current(self) -> None:
+    def test_evidence_roots_are_preserved_but_not_scanned_as_current(self) -> None:
         current_paths = {
             (REPO_ROOT / relative_path).resolve()
             for relative_path in CURRENT_AUTHORITY_DOCUMENTS
         }
-        for relative_path in HISTORICAL_ROOTS:
+        for relative_path in EVIDENCE_ROOTS:
             with self.subTest(path=relative_path):
                 root = (REPO_ROOT / relative_path).resolve()
-                self.assertTrue(root.is_dir(), "historical root is missing")
+                self.assertTrue(root.is_dir(), "evidence root is missing")
                 self.assertTrue(
                     any(path.is_file() for path in root.rglob("*")),
-                    "historical root contains no preserved files",
+                    "evidence root contains no preserved files",
                 )
                 self.assertTrue(
                     all(root not in path.parents for path in current_paths),
-                    "historical material entered the current-authority scan",
+                    "evidence material entered the current-authority scan",
                 )
 
 

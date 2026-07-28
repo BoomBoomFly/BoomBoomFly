@@ -134,6 +134,5 @@ MAVROS、旧 `px4_bringup`、mock feedback、demo/animal production 使用、重
 
 - [ADR-0001：DDS-only 控制权](../adr/0001-dds-only-control-authority.md)
 - [控制权与发布者矩阵](../CONTROL_AUTHORITY_MATRIX.md)
-- [当前 handoff](../handoff.md)
-- [PX4、DDS 与 Offboard 接口契约审查](../audits/2026-07-26/03_PX4_DDS_OFFBOARD_CONTRACT.md)
-- [控制权、安全与故障处理审查](../audits/2026-07-26/04_SAFETY_AND_CONTROL_AUTHORITY.md)
+- [当前 PX4、DDS 与 Offboard 审查](../repository_audit/03_PX4_DDS_OFFBOARD_AUDIT.md)
+- [当前风险登记册](../repository_audit/09_RISK_REGISTER.md)

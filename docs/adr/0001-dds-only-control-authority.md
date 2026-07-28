@@ -193,8 +193,7 @@ MAVROS/MAVLink 不作为备用控制链，不进入 production、bench、SITL �
 - `src/offboard_cpp/launch/offboard_swarm_control.launch.py:29-64`
 - `src/vision_to_dds/src/vision_to_dds.cpp:80-88,127-162`
 - [`workspace.lock.repos`](../../workspace.lock.repos)
-- [`handoff.md`](../handoff.md)
-- [`OFFBOARD_PX4_MSGS_COMPAT_20260724.md`](../evidence/OFFBOARD_PX4_MSGS_COMPAT_20260724.md)
+- [当前 PX4、DDS 与 Offboard 审查](../repository_audit/03_PX4_DDS_OFFBOARD_AUDIT.md)
 
 ## 验收
 
