@@ -77,6 +77,21 @@ class RepositoryCleanupInvariantTests(unittest.TestCase):
                     "evidence material entered the current-authority scan",
                 )
 
+    def test_current_px4_hardware_identity_is_recorded(self) -> None:
+        audit = (
+            REPO_ROOT
+            / "docs/evidence/sessions/"
+            "20260728T213311+0800_px4_parameter_audit/PX4_PARAMETER_AUDIT.md"
+        ).read_text(encoding="utf-8")
+        for identity in (
+            "PX4_FMU_V3",
+            "STM32F42x rev. 5",
+            "54f0455ffcd755534539a7cf33a09a20bf71d29d",
+            "886acbbdb4f061e5c0ce1a76afbcfa7cb7df9849",
+        ):
+            with self.subTest(identity=identity):
+                self.assertIn(identity, audit)
+
 
 if __name__ == "__main__":
     unittest.main()

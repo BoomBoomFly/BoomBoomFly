@@ -23,8 +23,20 @@ artifacts:
       - "Screenshot reports System ID 1."
       - "Screenshot reports Quadrotor X / Generic Quadcopter."
       - "Screenshot reports firmware 1.16.2 and custom firmware 0.0.0."
+  - path: "raw/ver_all_redacted.txt"
+    media_type: "text/plain"
+    bytes: 526
+    source_last_write_at: "not-recorded"
+    sha256: "3d81548ea832115d79c790b457d4bbaf3b74fb8600651a46a7617aaee4adbff6"
+    redactions:
+      - "PX4GUID was omitted because it is a device-unique identifier not needed by the public technical baseline."
+    observations:
+      - "HW arch PX4_FMU_V3, HW type V30, MCU STM32F42x revision 5."
+      - "PX4 Release 1.16.2 stable at 54f0455ffcd755534539a7cf33a09a20bf71d29d."
+      - "NuttX Release 11.0.0 at 886acbbdb4f061e5c0ce1a76afbcfa7cb7df9849."
+      - "Default build dated 2026-04-22 14:06:56 using GNU GCC 9.3.1."
 limitations:
   - "Artifacts were supplied by the user and were not captured directly by this repository."
   - "No live hardware, DDS graph, estimator state, or flight behavior was observed."
-  - "The screenshot does not identify the flight-controller board target."
+  - "The NSH output identifies PX4_FMU_V3 architecture but does not provide a firmware binary SHA-256."
   - "The parameter snapshot is evidence of saved values, not evidence that a parameter set is safe to write or fly."

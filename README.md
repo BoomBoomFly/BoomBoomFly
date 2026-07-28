@@ -8,7 +8,8 @@ DDS Offboard 完成起飞、悬停和降落，并由 T265 视觉里程计提供�
 - Ubuntu 20.04
 - ROS 2 Foxy
 - PX4 v1.16.2
-- Pixhawk 2.4.8
+- Pixhawk 2.4.8 / PX4 FMUv3 / STM32F42x
+- NuttX 11.0.0
 - PX4 uXRCE-DDS：TELEM2、921600 baud、Domain ID 0
 - `px4_msgs`、`offboard_cpp`、`vision_to_dds`
 
@@ -22,7 +23,11 @@ DDS Offboard 完成起飞、悬停和降落，并由 T265 视觉里程计提供�
 
 | 项目 | 当前结果 |
 |---|---|
-| 飞控 | Pixhawk 2.4.8；PX4 v1.16.2；Generic Quadcopter；System ID 1 |
+| 飞控 | Pixhawk 2.4.8；`PX4_FMU_V3` / V30；STM32F42x rev.5 |
+| 固件 | PX4 1.16.2 stable；Git `54f0455ffcd755534539a7cf33a09a20bf71d29d` |
+| 飞控 OS | NuttX 11.0.0；Git `886acbbdb4f061e5c0ce1a76afbcfa7cb7df9849` |
+| 构建 | 2026-04-22 14:06:56；default；GCC 9.3.1 |
+| 机架身份 | Generic Quadcopter；System ID 1 |
 | DDS | uXRCE-DDS 配置到 TELEM2，921600 baud |
 | T265 | 位姿约 199 Hz，`odom_frame -> t265_pose_frame` |
 | D435 | 深度和彩色约 30 Hz，不参与当前 PX4 定位链 |

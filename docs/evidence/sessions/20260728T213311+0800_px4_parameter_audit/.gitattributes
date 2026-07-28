@@ -1,2 +1,3 @@
 raw/*.params binary
 raw/*.png binary
+raw/*.txt text eol=lf

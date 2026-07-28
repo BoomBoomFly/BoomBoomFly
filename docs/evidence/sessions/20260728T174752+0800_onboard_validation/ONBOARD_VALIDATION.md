@@ -9,7 +9,7 @@
 | 组件 | 实测结果 |
 |---|---|
 | 机载计算机 | Ubuntu 20.04.6 LTS，aarch64，Orin Nano |
-| 飞控板 | Pixhawk 2.4.8（现场提供）；PX4 `board target` 尚未读取确认 |
+| 飞控板 | Pixhawk 2.4.8；`ver all` 已确认 `PX4_FMU_V3` / V30、STM32F42x rev.5 |
 | ROS / RMW | ROS 2 Foxy，`rmw_fastrtps_cpp` 1.3.2 |
 | RealSense apt SDK | 2.56.5 |
 | RealSense 本地 SDK | 2.50.0 |

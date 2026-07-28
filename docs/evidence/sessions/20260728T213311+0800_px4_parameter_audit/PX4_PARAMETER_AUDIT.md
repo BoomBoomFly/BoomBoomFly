@@ -2,8 +2,9 @@
 
 ## 1. 结论
 
-本次收到一份 QGroundControl 导出的 PX4 参数快照和一张固件信息截图。
-两份原始材料已按原样保存并计算 SHA-256。
+本次收到一份 QGroundControl 导出的 PX4 参数快照、一张固件信息截图和
+一份飞控 NSH `ver all` 输出。参数与截图按原样保存；终端输出仅对设备唯一
+标识 PX4GUID 脱敏。三个材料均计算 SHA-256。
 
 当前状态：`BLOCKED`
 
@@ -20,6 +21,7 @@
 |---|---|---:|---|
 | QGroundControl 参数快照 | `raw/px4_2026-07-28.params` | 33,686 | `f669480ed8fd3f8066a6ab3132667a4be5a13dce956f7f23139efeff409222ce` |
 | 固件信息截图 | `raw/vehicle_firmware_info.png` | 11,546 | `22dc1d3525abd49b645930a165924fd2c496582ecc60f2bb7a54f19df3bf2d04` |
+| NSH `ver all`（PX4GUID 脱敏） | `raw/ver_all_redacted.txt` | 526 | `3d81548ea832115d79c790b457d4bbaf3b74fb8600651a46a7617aaee4adbff6` |
 
 参数文件包含 974 个参数名，未发现重复参数名。文件头记录：
 
@@ -36,10 +38,23 @@
 - Firmware：1.16.2
 - Custom firmware：0.0.0
 
-现场补充的硬件型号：
+现场补充的硬件与 `ver all` 身份：
 
 - 飞控板：Pixhawk 2.4.8
-- PX4 `board target`：尚未通过 `ver all`、构建产物或其他可复现标识确认
+- HW arch：`PX4_FMU_V3`
+- HW type/version/revision：`V30` / `0x9000E` / `0x000`
+- MCU：STM32F42x rev. 5
+- PX4：Release 1.16.2（17826559），branch `stable`
+- PX4 Git：`54f0455ffcd755534539a7cf33a09a20bf71d29d`
+- OS：NuttX 11.0.0（184549631）
+- NuttX Git：`886acbbdb4f061e5c0ce1a76afbcfa7cb7df9849`
+- 构建时间：2026-04-22 14:06:56
+- 构建 variant：`default`
+- 工具链：GNU GCC 9.3.1 20200408
+
+`HW arch: PX4_FMU_V3` 已确认运行固件的 FMUv3 架构，与现场报告的
+Pixhawk 2.4.8 一致。它不等同于固件二进制 SHA-256，仍不能单独证明当前
+飞控二进制与后续 SITL、台架或重建产物逐字节一致。
 
 ## 3. 已补齐的信息
 
@@ -132,17 +147,20 @@ Offboard 和 Kill 已映射到 RC 通道，但 `COM_RC_OVERRIDE=1` 只包含自�
 也没有提供可用容量。首次室内运行前需要用实际电池遥测确认电压、电流、
 剩余电量和低电量动作，而不能只依赖参数文件。
 
-### 4.7 固件和 DDS 运行证据仍不完整
+### 4.7 固件架构已确认，DDS 运行证据仍不完整
 
-- 飞控板型号已由现场补充为 Pixhawk 2.4.8，但 PX4 `board target` 尚未确认。
-- `54f0455ffc000000` 不能唯一绑定完整固件构建产物。
+- 飞控板为 Pixhawk 2.4.8，运行架构已由 `ver all` 确认为
+  `PX4_FMU_V3`，MCU 为 STM32F42x rev. 5。
+- 完整 PX4 Git 已确认是
+  `54f0455ffcd755534539a7cf33a09a20bf71d29d`，但仍缺少运行中固件
+  二进制 SHA-256，不能唯一绑定完整构建产物。
 - 参数未证明 `/fmu/out/rc_channels` 已由当前固件发布。
 - 参数未证明 uXRCE-DDS Agent 已连接或 topic 数据持续更新。
 - 参数未证明 T265 数据已进入 PX4 estimator。
 
 ## 5. 实机前技术检查
 
-1. 从实机确认 PX4 `board target` 和可复现的完整固件标识。
+1. 导出或重建 `PX4_FMU_V3` 固件并记录可复现的二进制 SHA-256。
 2. 证明 T265 位姿经正确坐标变换和时间同步进入 PX4，并由 estimator 接受。
 3. 只读证明 DDS Agent、关键输入输出 topic、频率、时间戳和消息版本正常。
 4. 明确 Offboard 丢失、RC 丢失、定位丢失和低电量的室内动作。

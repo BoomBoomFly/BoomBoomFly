@@ -1,0 +1,18 @@
+NuttShell (NSH) NuttX-11.0.0
+nsh> ver all
+HW arch: PX4_FMU_V3
+HW type: V30
+HW version: 0x9000E
+HW revision: 0x000
+PX4 git-hash: 54f0455ffcd755534539a7cf33a09a20bf71d29d
+PX4 version: Release 1.16.2 (17826559)
+PX4 git-branch: stable
+OS: NuttX
+OS version: Release 11.0.0 (184549631)
+OS git-hash: 886acbbdb4f061e5c0ce1a76afbcfa7cb7df9849
+Build datetime: Apr 22 2026 14:06:56
+Build uri: localhost
+Build variant: default
+Toolchain: GNU GCC, 9.3.1 20200408 (release)
+PX4GUID: [redacted from public repository]
+MCU: STM32F42x, rev. 5

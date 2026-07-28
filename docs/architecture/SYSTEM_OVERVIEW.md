@@ -13,7 +13,7 @@
 |---|---|---|
 | Companion OS | Ubuntu 20.04 | `HISTORICAL_EVIDENCE`（本轮未动态核验主机） |
 | ROS | ROS 2 Foxy | `HISTORICAL_EVIDENCE`（本轮未动态核验安装） |
-| PX4 目标版本 | PX4 v1.16.2 / PX4 FMUv3 | `HISTORICAL_EVIDENCE`；当前 binary 与参数未复验 |
+| PX4 目标版本 | Pixhawk 2.4.8；PX4 v1.16.2 stable；`PX4_FMU_V3`；STM32F42x | `HISTORICAL_EVIDENCE`；`ver all` 身份已记录，binary SHA-256 未取证 |
 | ROS/PX4 transport | PX4 uXRCE-DDS-only | `IMPLEMENTED`（架构决策）；运行 profile `BLOCKED` |
 | Agent | Micro XRCE-DDS Agent v2.4.2（lock） | `STATICALLY_VERIFIED`；本轮未启动 |
 | 消息集 | `px4_msgs` v1.16.2（lock） | `STATICALLY_VERIFIED` |
