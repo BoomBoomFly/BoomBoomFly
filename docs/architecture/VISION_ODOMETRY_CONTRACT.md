@@ -33,6 +33,36 @@ The defaults are `maximum_sample_age_s=0.20`,
 empty values prevent startup; changing an upstream frame convention requires a
 reviewed contract change, not a runtime guess.
 
+## T265 health adapter boundary
+
+`t265_health_adapter_node` is the minimal adapter for the checked-in legacy
+RealSense ROS T265 driver. It subscribes to its real
+`/camera/odom/sample` (`nav_msgs/msg/Odometry`) output and publishes only the
+two required health inputs. It does **not** estimate pose, alter or republish
+TF, and does not create a PX4 publisher.
+
+The driver creates the odometry covariance from its device
+`tracker_confidence`: `linear_accel_cov * 10^(3 - confidence)`, with default
+`linear_accel_cov=0.01`. The adapter reverses that documented measurement and
+publishes the discrete measured quality `0, 33, 66, 100` for confidence
+`0, 1, 2, 3`; it never emits a bridge-local constant quality. Its default
+minimum-quality contract therefore accepts only T265 confidence 2 or 3.
+
+The adapter publishes quality 0 on invalid covariance, missing input after
+`stream_timeout_s`, repeated source stamp, source stamp rollback, or a local
+ROS-clock rollback. A resumption after an input timeout, or a strict source
+stamp rollback, increments `/vision/source_epoch`; the bridge then latches and
+requires its explicit reset plus the normal two-TF warm-up. The source TF is
+not touched: the bridge remains solely responsible for preserving the original
+TF stamp in both PX4 timestamps.
+
+Static source review identifies the legacy driver's dynamic transform as
+`odom_frame -> camera_pose_frame` for `camera_name=camera`; it also publishes
+the static `camera_pose_frame -> camera_link` transform. The running camera
+must still be checked before flight. For this driver, use the observed dynamic
+pair (`odom_frame`, `camera_pose_frame`) as the bridge's frame parameters, not
+the generic defaults, unless a reviewed TF relay supplies a different pair.
+
 ## Fail-closed state machine
 
 The writer starts unarmed. It needs an epoch, a fresh acceptable quality value,
@@ -72,6 +102,7 @@ epoch discontinuity rather than a fixed zero.
 | A duplicated visual writer is rejected before publish | `VisionContract.DuplicateWriterLatchesBeforeAnyOdometryCanPublish` |
 | No callback sleep / no precision landing writer / one visual writer in package | source review plus `rg` evidence in the validation record |
 | Direct `builtin_interfaces` build declaration | `package.xml` dependency and CMake `find_package` / target dependency |
+| T265 measured quality, freeze/reconnect/rollback, and recovery warm-up | `T265HealthAdapter.*` (7 gtests) |
 
 ## Integration prerequisites and limitations
 
