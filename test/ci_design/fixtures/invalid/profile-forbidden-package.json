@@ -8,12 +8,12 @@
       "src/px4_bringup"
     ],
     "forbidden_packages": [
-      "mavros"
+      "serial_driver"
     ],
     "optional_paths": [],
     "production_packages": [
       "offboard_cpp",
-      "mavros"
+      "serial_driver"
     ]
   }
 }

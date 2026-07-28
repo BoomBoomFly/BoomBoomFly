@@ -1,4 +1,0 @@
-Script started on 2026-07-28 18:13:19+08:00 [<not executed on terminal>]
-{"authoritative_discovery_command": ["colcon", "--log-base", "/tmp/bbf_package_boundary_20260728/authoritative", "list", "--ignore-user-meta", "--paths", "/home/c/px4_ws/BoomBoomFly_onboard_20260728/src/offboard_cpp", "/home/c/px4_ws/BoomBoomFly_onboard_20260728/src/px4_msgs", "/home/c/px4_ws/BoomBoomFly_onboard_20260728/src/vision_to_dds"], "classified_packages": 83, "discovered_packages": 71, "full_discovery_command": ["colcon", "--log-base", "/tmp/bbf_package_boundary_20260728/full", "list", "--ignore-user-meta", "--base-paths", "/home/c/px4_ws/BoomBoomFly_onboard_20260728/src"], "log_base": "/tmp/bbf_package_boundary_20260728", "production_packages": ["offboard_cpp", "px4_msgs", "vision_to_dds"], "profile": "/home/c/px4_ws/BoomBoomFly_onboard_20260728/config/profiles/dds_only_packages.yaml", "status": "PASS"}
-
-Script done on 2026-07-28 18:13:22+08:00 [COMMAND_EXIT_CODE="0"]

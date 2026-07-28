@@ -9,6 +9,11 @@ import sys
 
 
 EXACT_SHA = re.compile(r"^[0-9a-f]{40}$")
+LATEST_BRANCHES = {
+    "src/offboard_cpp": "DDS",
+    "src/vision_to_dds": "master",
+    "src/px4_bringup": "DDS",
+}
 EXPECTED_PROFILES = {
     "active": "active",
     "archive": "archive",
@@ -203,7 +208,14 @@ def validate_manifest_profiles(repository_root):
                     path, expected_url, entry["url"]
                 )
             )
-        if not EXACT_SHA.fullmatch(entry["version"]):
+        expected_branch = LATEST_BRANCHES.get(path)
+        if expected_branch is not None and entry["version"] != expected_branch:
+            issues.append(
+                "{} in {} must track latest branch {}, got {}".format(
+                    path, profile_id, expected_branch, entry["version"]
+                )
+            )
+        elif expected_branch is None and not EXACT_SHA.fullmatch(entry["version"]):
             issues.append(
                 "{} in {} uses a moving or non-exact ref: {}".format(
                     path, profile_id, entry["version"]

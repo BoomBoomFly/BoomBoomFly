@@ -10,7 +10,9 @@ def generate_launch_description():
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 PathJoinSubstitution([
-                    FindPackageShare("mavros"), "launch", "px4.launch"
+                    FindPackageShare("px4_bringup"),
+                    "launch",
+                    "start_all_2025TI.launch.py",
                 ])
             )
         )

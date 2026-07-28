@@ -1,59 +1,75 @@
 # Dependency source profiles
 
-The governed restore set is stored in one exact-SHA manifest. Profile markers
-inside `workspace.lock.repos` preserve active-by-default and explicit opt-in
-selection without duplicating repository identities across files.
+`workspace.lock.repos` is the only root repository manifest. Project-owned
+flight packages follow their declared default branches so every `--update`
+resolves the latest remote commit. Third-party dependencies remain locked to
+exact lowercase 40-character commit SHAs.
 
-| Profile | Manifest | Selection | Purpose |
-|---|---|---|---|
-| active | `workspace.lock.repos` | default | DDS-only source baseline |
-| archive | `workspace.lock.repos` | `--with-archive` | provenance-only historical source |
-| optional perception | `workspace.lock.repos` | `--with-optional perception` | perception source dependencies |
-| optional navigation | `workspace.lock.repos` | `--with-optional navigation` | navigation and simulation source dependencies |
-| quarantine | `workspace.lock.repos` | never selected | exact recovery identity excluded from build |
+| Profile | Selection | Repository policy |
+|---|---|---|
+| active | default | `offboard_cpp:DDS`, `vision_to_dds:master`; third party exact SHA |
+| archive | `--with-archive` | `px4_bringup:DDS` |
+| optional perception | `--with-optional perception` | exact SHA |
+| optional navigation | `--with-optional navigation` | exact SHA |
+| quarantine | never selected | exact recovery SHA, excluded from build |
 
-All entries, including an explicitly supplied custom manifest, must use an
-exact lowercase 40-character commit SHA and a safe `src/` path. Paths are
-globally unique across the single governed manifest. Profile flags may be combined,
-but they cannot be combined with the generic `--manifest` option.
+Only these path/ref pairs may move:
 
-Examples:
-
-```bash
-# Active exact profile only.
-bash Scripts/installation/uav_px4_dds_install.sh \
-  --verify-only --skip-package-check
-
-# Add archived provenance explicitly.
-bash Scripts/installation/uav_px4_dds_install.sh \
-  --verify-only --skip-package-check --with-archive
-
-# Add both optional profiles explicitly.
-bash Scripts/installation/uav_px4_dds_install.sh \
-  --verify-only --skip-package-check \
-  --with-optional perception --with-optional navigation
+```text
+src/offboard_cpp  -> DDS
+src/vision_to_dds -> master
+src/px4_bringup   -> DDS
 ```
 
-The former non-governed moving developer index `workspace.repos` was retired
-after it diverged from the root gitlink layout and exact source locks. Custom
-manifests remain supported through `--manifest`, but moving branches/tags and
-workspace-external targets are rejected.
+All other manifest entries, including custom entries, require an exact commit
+SHA and a safe path below `src/`. Paths are globally unique. Profile flags may
+be combined, but cannot be combined with `--manifest`.
 
-Restore flags authorize source restore intent only. They do not authorize a build,
-ROS launch, SITL, hardware access, firmware generation, firmware flashing, or
-flight. Existing dirty repositories, origin mismatches, wrong commits, missing
-repositories, duplicate paths, and non-exact refs remain fail-closed.
+Update the active flight packages and selected perception dependencies:
 
-## Serial source decision
+```bash
+bash Scripts/installation/uav_px4_dds_install.sh \
+  --with-optional perception \
+  --update \
+  --skip-package-check
+```
 
-No serial actuator package belongs to an approved restore or production
-profile. Root `.gitmodules` maps `src/communication`, whose gitlink is pinned to
-`eaaae53435ce706b32ee7dffc0c6643b43a12afe`. Communication in turn maps
-`Serial/serial_driver_ros` and pins it to quarantine commit
-`9d8c07814ad0f64f76c5fd8fe12072aebcbef431`. Both commits are reachable from
-their governed remotes and `git submodule status --recursive` resolves the
-complete chain.
+Add the latest `px4_bringup` archive checkout:
 
-The serial origin, immutable SHA and path are stored in the `quarantine`
-profile of the same manifest. The installer never selects this profile, and
-the DDS-only package allowlist continues to reject the package.
+```bash
+bash Scripts/installation/uav_px4_dds_install.sh \
+  --with-archive \
+  --update \
+  --skip-package-check
+```
+
+Audit existing checkouts without changing them:
+
+```bash
+bash Scripts/installation/uav_px4_dds_install.sh \
+  --with-optional perception \
+  --verify-only \
+  --skip-package-check
+```
+
+The installer rejects dirty repositories, origin mismatches, duplicate or
+external paths, unapproved moving refs and mismatched commits. Profile
+selection only restores source; it does not build packages or start ROS,
+simulation, DDS Agent or hardware processes.
+
+## Communication submodule
+
+`src/communication` is the companion-computer-to-MCU communication submodule.
+It follows `main` independently of the ROS source manifest:
+
+```bash
+git submodule sync -- src/communication
+git submodule update --init --remote --merge src/communication
+```
+
+The submodule is not a PX4 transport or ROS control package and must not publish
+PX4 `/fmu/*` or control `/offboard/*` topics.
+
+The serial driver recovery identity remains in the `quarantine` profile. The
+installer never selects that profile, and the DDS-only package boundary rejects
+it from the flight-control workspace.

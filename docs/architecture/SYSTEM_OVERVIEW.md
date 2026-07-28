@@ -18,7 +18,6 @@
 | Agent | Micro XRCE-DDS Agent v2.4.2（lock） | `STATICALLY_VERIFIED`；本轮未启动 |
 | 消息集 | `px4_msgs` v1.16.2（lock） | `STATICALLY_VERIFIED` |
 | 运行拓扑 | 单 PX4、根 namespace `/` | `IMPLEMENTED`（架构决策） |
-| MAVROS | 不属于 production、bench、SITL 或 read-only baseline | `BLOCKED`（禁止路径） |
 | production | 禁用 | `BLOCKED` |
 
 本文仅使用项目规定的状态枚举：`IMPLEMENTED`、`PARTIALLY_IMPLEMENTED`、`STATICALLY_VERIFIED`、`UNIT_TESTED`、`SITL_VERIFIED`、`BENCH_VERIFIED`、`FLIGHT_VERIFIED`、`HISTORICAL_EVIDENCE`、`PLANNED`、`BLOCKED`、`UNVERIFIED`。
@@ -95,9 +94,9 @@ ROS 2 nodes <-> Micro XRCE-DDS Agent <-> PX4 uXRCE-DDS client
 
 ### 3.3 历史路径
 
-- `src/px4_bringup`、MAVROS、旧 serial、`vision_to_mavros` 和旧硬件组合 launch 是历史源码或排除项。
+- `src/px4_bringup`、旧 serial 和旧硬件组合 launch 是 archive 源码或排除项。
 - `offboard_swarm_control.launch.py` 是历史/实验入口，不能证明多机能力。
-- `offboard_cpp/README.md` 中 PX4 1.14.3、MAVROS/蜂群和烧录说明不是当前 PX4 v1.16.2 DDS-only 权威运行说明。
+- `offboard_cpp/README.md` 中 PX4 1.14.3、蜂群和烧录说明不是当前 PX4 v1.16.2 DDS-only 运行说明。
 - 2026-07-24 PX4 参数快照和 2026-07-25 实机 DDS session 是 `HISTORICAL_EVIDENCE`，不是当前参数或本轮运行结果。
 - 2026-07-28 用户提供的 PX4 v1.16.2 参数快照已完成只读审计；原始材料、哈希和当前阻塞点见
   [PX4 参数快照审计](../evidence/sessions/20260728T213311+0800_px4_parameter_audit/PX4_PARAMETER_AUDIT.md)。
@@ -107,8 +106,8 @@ ROS 2 nodes <-> Micro XRCE-DDS Agent <-> PX4 uXRCE-DDS client
 
 ### 3.4 禁止路径
 
-- MAVROS/MAVLink 作为 production fallback，或与 DDS 同时复用 TELEM2。
-- `px4_bringup` 旧入口、`vision_to_mavros`、mock RC、demo/animal mission owner 出现在 production graph。
+- 第二条飞控传输作为 production fallback，或与 DDS 同时复用 TELEM2。
+- `px4_bringup` 旧入口、mock RC、demo/animal mission owner 出现在 production graph。
 - 多个 Offboard、视觉、Agent 或 mission owner 实例连接同一目标 PX4。
 - 在 production 中运行 swarm launch 或使用 `/drone1` 等 namespace。
 - 在未完成安全门时启动真实控制 writer、arm、切 mode 或发布 `/fmu/in/*`。
@@ -122,12 +121,10 @@ flowchart LR
   Port[/dev/ttyTHS0:921600]
   Agent[one Micro XRCE-DDS Agent]
   PX4[PX4 uXRCE-DDS client]
-  MAVROS[MAVROS or MAVLink process]
   Other[serial or legacy bringup]
 
   Agent <-->|allowed exclusive owner| Port
   Port <--> PX4
-  MAVROS -. BLOCKED .-> Port
   Other -. BLOCKED .-> Port
 ```
 
@@ -141,7 +138,7 @@ Agent 只是字节流/DDS bridge，不是 mission owner，也不授予命令权�
 | Offboard | 校验任务意图并成为三个 PX4 控制输入的唯一 writer | 不拥有 transport 或视觉数据 | 节点 `IMPLEMENTED`；安全闭环 `PARTIALLY_IMPLEMENTED` |
 | Vision bridge | 将健康、已验证的 TF/视觉转换为 PX4 消息 | 不发布 mode、arm 或 trajectory | 基础节点 `IMPLEMENTED`；坐标/时间健康门 `BLOCKED` |
 | Agent | ROS DDS 与 PX4 XRCE transport bridge | 不仲裁 mission 或控制 | 源码/版本 `STATICALLY_VERIFIED`；运行 `UNVERIFIED` |
-| PX4 | 飞行控制、状态和反馈的权威端 | 不接受第二条 production ROS/MAVROS 控制链 | 目标 v1.16.2 `HISTORICAL_EVIDENCE` |
+| PX4 | 飞行控制、状态和反馈的权威端 | 不接受第二条 production ROS 控制链 | 目标 v1.16.2 `HISTORICAL_EVIDENCE` |
 | QGroundControl/operator | 监控、人工确认和未来获批操作 | 不作为 ROS `/fmu/in/*` writer，不复用 TELEM2 | 当前连接与配置 `UNVERIFIED` |
 
 ## 6. 单机限制与未来多机

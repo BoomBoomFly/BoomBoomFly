@@ -153,7 +153,7 @@ class DependencyProfileTests(unittest.TestCase):
             sorted(path.name for path in REPO_ROOT.glob("workspace*.repos")),
         )
 
-    def test_real_profile_manifest_is_exact_and_disjoint(self):
+    def test_real_profile_manifest_is_governed_and_disjoint(self):
         self.assertEqual([], VALIDATOR.validate_manifest_profiles(REPO_ROOT))
         profile_ids, repositories = VALIDATOR.selected_manifest_profiles(
             REPO_ROOT,
@@ -181,6 +181,10 @@ class DependencyProfileTests(unittest.TestCase):
             entry for entry in all_entries if entry["profile"] == "quarantine"
         ]
         self.assertEqual(["src/serial_driver_ros"], [entry["path"] for entry in quarantine])
+        versions = {entry["path"]: entry["version"] for entry in all_entries}
+        self.assertEqual("DDS", versions["src/offboard_cpp"])
+        self.assertEqual("master", versions["src/vision_to_dds"])
+        self.assertEqual("DDS", versions["src/px4_bringup"])
 
     def test_real_manifest_cli_default_excludes_archive_and_optional(self):
         result = subprocess.run(
@@ -208,9 +212,17 @@ class DependencyProfileTests(unittest.TestCase):
             shutil.copy2(REPO_ROOT / VALIDATOR.PROFILE_MANIFEST, manifest)
 
             original = manifest.read_text(encoding="utf-8")
-            manifest.write_text(original.replace("0fbdcbf6ee53d6927de75af1d98f22cf5bd4f917", "DDS"), encoding="utf-8")
+            manifest.write_text(
+                original.replace(
+                    "url: https://github.com/AyasOwen/px4_bringup.git\n"
+                    "    version: DDS",
+                    "url: https://github.com/AyasOwen/px4_bringup.git\n"
+                    "    version: main",
+                ),
+                encoding="utf-8",
+            )
             issues = VALIDATOR.validate_manifest_profiles(temp_root)
-            self.assertTrue(any("moving or non-exact ref" in issue for issue in issues))
+            self.assertTrue(any("must track latest branch DDS" in issue for issue in issues))
 
             manifest.write_text(original.replace("src/px4_bringup", "src/px4_msgs"), encoding="utf-8")
             issues = VALIDATOR.validate_manifest_profiles(temp_root)
@@ -301,7 +313,7 @@ class DependencyProfileTests(unittest.TestCase):
                 universal_newlines=True,
             )
             self.assertNotEqual(0, moving_denied.returncode)
-            self.assertIn("not a 40-character lock SHA", moving_denied.stderr)
+            self.assertIn("not an approved latest branch or 40-character lock SHA", moving_denied.stderr)
 
             removed_flag = subprocess.run(
                 base_args

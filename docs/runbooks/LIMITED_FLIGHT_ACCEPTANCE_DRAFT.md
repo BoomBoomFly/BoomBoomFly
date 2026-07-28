@@ -32,7 +32,7 @@
 
 - 未经新的明确授权 arm、mode、setpoint、VehicleCommand 或 `/fmu/in/*`；
 - 在现场修改源码、临时构建/刷写 firmware、写参数后继续飞行；
-- 使用 MAVROS/MAVLink 作为 production fallback，或让其与 DDS 争用 `/dev/ttyTHS0`；
+- 使用第二条飞控传输作为 production fallback，或让其与 DDS 争用 `/dev/ttyTHS0`；
 - 使用 demo、animal、mock、旧 bringup、swarm 或 baseline precision landing；
 - 单人飞行、无观察员、无独立人工控制/kill、超出批准地理或动力包线；
 - 自动串联多个 test case、失败后自动恢复 ACTIVE 或未经复核重复起飞；
@@ -116,7 +116,7 @@ git rev-parse HEAD:workspace.lock.repos
 ### 5.4 Transport
 
 - 单飞行器、单 PX4 client、单 Micro XRCE-DDS Agent、单 root namespace `/`、单批准 ROS domain。
-- `/dev/ttyTHS0:921600` 仅由 DDS Agent 独占；MAVROS、MAVLink、第二 Agent、历史 serial 禁止复用。
+- `/dev/ttyTHS0:921600` 仅由 DDS Agent 独占；第二 Agent、历史 serial 或其他飞控传输禁止复用。
 - client key、domain、system/component identity 和 Agent command/profile 与台架一致。
 - QGC 只使用独立批准链路；链路中断是否立即终止由 test card 定义，但不能切换到 TELEM2 fallback。
 
@@ -146,7 +146,7 @@ ros2 topic info -v /offboard/takeoff_land
 - PX4/Agent/vehicle/profile identity 全部匹配；telemetry fresh，battery/RC/status/odom/landed 合法；
 - 三个 `/fmu/in/*` 控制 topic 只有 `/offboard_control_node` 一个批准 writer；
 - 三个 `/offboard/*` topic 只有当前 arbiter lease owner；
-- 没有 MAVROS、旧 bringup、mock、demo/animal、swarm、第二 Agent 或未知 writer；
+- 没有旧 bringup、mock、demo/animal、swarm、第二 Agent 或未知 writer；
 - 未授予 lease、未完成 readiness/PRESTREAM 时，控制 payload 发布计数为 0；
 - vision 不在 scope 时 publisher 为 0；在 scope 时只有已批准 `/vision_to_dds_node`；
 - QGC 与 ROS graph 不构成第二控制源，且未占用 `/dev/ttyTHS0`。
@@ -217,7 +217,7 @@ go 只对当前一步和限定时间有效，不自动继承到下一步。
 - RC/kill/人工接管/QGC/地面通信失效或状态不一致；
 - DDS loss、Agent restart、PX4 reboot、VehicleStatus stale、odometry loss、battery stale、owner loss、vision loss/freeze；
 - ACK 拒绝/超时/错配、fault event/deadline 偏离批准状态表；
-- graph 出现额外 writer、MAVROS、第二 Agent 或 identity/domain/namespace 变化；
+- graph 出现额外 writer、第二 Agent 或 identity/domain/namespace 变化；
 - GPS/定位/视觉/气象/能见度/空域/人员条件超出批准限制；
 - 日志、时钟或 evidence recorder 中断；
 - PIC、safety pilot、observer、test director 或 recorder 任一喊停。

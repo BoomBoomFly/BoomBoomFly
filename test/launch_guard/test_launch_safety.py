@@ -48,7 +48,7 @@ class LaunchGuardTest(unittest.TestCase):
     def test_dangerous_node_and_yaml_are_denied(self):
         report = self.scan("dangerous_node.launch.py")
         joined = "\n".join(report["findings"])
-        self.assertIn("mavros", joined)
+        self.assertIn("serial_driver", joined)
         self.assertIn("/dev/ttyACM0", joined)
 
     def test_execute_process_agent_and_device_are_denied(self):
@@ -60,7 +60,7 @@ class LaunchGuardTest(unittest.TestCase):
 
     def test_dangerous_include_is_denied(self):
         report = self.scan("dangerous_include.launch.py")
-        self.assertTrue(any("mavros" in item for item in report["findings"]))
+        self.assertTrue(any("px4_bringup" in item for item in report["findings"]))
 
     def test_duplicate_fmu_writer_is_denied(self):
         report = self.scan("duplicate_writer.launch.py")

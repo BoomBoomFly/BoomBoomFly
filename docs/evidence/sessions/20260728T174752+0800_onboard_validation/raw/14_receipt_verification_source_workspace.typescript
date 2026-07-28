@@ -1,8 +1,0 @@
-Script started on 2026-07-28 18:12:00+08:00 [<not executed on terminal>]
-[UNAPPROVED] /home/c/px4_ws/BoomBoomFly_onboard_20260728/docs/evidence/receipts/librealsense.json: UNAPPROVED: no independently signed maintainer approval was verified
-[UNAPPROVED] /home/c/px4_ws/BoomBoomFly_onboard_20260728/docs/evidence/receipts/navigation_msgs.json: UNAPPROVED: no independently signed maintainer approval was verified
-[UNAPPROVED] /home/c/px4_ws/BoomBoomFly_onboard_20260728/docs/evidence/receipts/realsense_ros.json: UNAPPROVED: no independently signed maintainer approval was verified
-[UNAPPROVED] /home/c/px4_ws/BoomBoomFly_onboard_20260728/docs/evidence/receipts/vision_opencv.json: UNAPPROVED: no independently signed maintainer approval was verified
-{"errors": 0, "receipts": 4, "result": "UNAPPROVED", "unapproved": 4}
-
-Script done on 2026-07-28 18:13:10+08:00 [COMMAND_EXIT_CODE="2"]

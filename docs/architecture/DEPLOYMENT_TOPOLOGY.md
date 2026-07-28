@@ -74,9 +74,9 @@ flowchart TB
 
 | 资源 | 唯一允许 owner | 被禁止的并发 owner | 处置 |
 |---|---|---|---|
-| `/dev/ttyTHS0:921600` | 一个 Micro XRCE-DDS Agent | MAVROS、MAVLink serial、旧 `px4_bringup`、通用 serial driver、第二个 Agent | 发现冲突即 no-go；不得启动控制链 |
+| `/dev/ttyTHS0:921600` | 一个 Micro XRCE-DDS Agent | 旧 `px4_bringup`、通用 serial driver、第二个 Agent 或其他飞控传输 | 发现冲突即 no-go；不得启动控制链 |
 
-`/dev/ttyTHS0` 不能同时承载 MAVLink 和 DDS。PX4 侧 TELEM2 对应的精确当前参数及回滚值尚未重采，为 `UNVERIFIED`；2026-07-24 快照是 `HISTORICAL_EVIDENCE`。
+`/dev/ttyTHS0` 仅承载 DDS。PX4 侧 TELEM2 对应的精确当前参数及回滚值尚未重采，为 `UNVERIFIED`；2026-07-24 快照是 `HISTORICAL_EVIDENCE`。
 
 ## 5. Profile 部署差异
 
@@ -135,7 +135,7 @@ RealSense 驱动应产生受管 TF，`/vision_to_dds_node` 只在设备 identity
 
 - production 仍为 `BLOCKED`；
 - `/dev/ttyTHS0` owner 不唯一；
-- graph 中存在 MAVROS、旧 bringup、mock、demo/animal 或重复 writer；
+- graph 中存在旧 bringup、mock、demo/animal 或重复 writer；
 - ROS domain、Agent、PX4 identity 无法绑定；
 - `/fmu/out/rc_channels` firmware profile 未完成；
 - graph guard、owner/lease、ACK、PRESTREAM 或 fault lattice 未实现；

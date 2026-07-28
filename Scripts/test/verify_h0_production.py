@@ -240,6 +240,21 @@ def verify_serial_and_source_governance(root):
         == ["workspace.lock.repos"],
         "repository sources are not consolidated into workspace.lock.repos",
     )
+    for path, branch in (
+        ("src/offboard_cpp", "DDS"),
+        ("src/vision_to_dds", "master"),
+        ("src/px4_bringup", "DDS"),
+    ):
+        require(
+            re.search(
+                r"^  {}:\s*$.*?^    version:\s*{}\s*$".format(
+                    re.escape(path), re.escape(branch)
+                ),
+                active_lock,
+                re.MULTILINE | re.DOTALL,
+            ),
+            "{} does not track latest branch {}".format(path, branch),
+        )
 
     parser = configparser.ConfigParser()
     try:
@@ -254,7 +269,8 @@ def verify_serial_and_source_governance(root):
         parser.get(section, "url") == "https://github.com/BoomBoomFly/communication.git",
         "communication origin mismatch",
     )
-    require(parser.get(section, "update") == "none", "communication is not fail-closed")
+    require(parser.get(section, "branch") == "main", "communication branch mismatch")
+    require(parser.get(section, "update") == "merge", "communication update policy mismatch")
     result = subprocess.run(
         ["git", "ls-files", "-s", "src/communication"],
         cwd=str(root),
@@ -268,7 +284,7 @@ def verify_serial_and_source_governance(root):
     require(
         len(fields) >= 2
         and fields[0] == "160000"
-        and fields[1] == "eaaae53435ce706b32ee7dffc0c6643b43a12afe",
+        and re.fullmatch(r"[0-9a-f]{40}", fields[1]),
         "communication gitlink identity mismatch",
     )
 
@@ -285,7 +301,7 @@ def verify_launch_profile(root):
         list(allowlist) == ["src/offboard_cpp/launch/offboard_control.launch.py"],
         "production launch allowlist changed",
     )
-    forbidden = ("mavros", "MicroXRCEAgent", "serial", "mock", "realsense", "rplidar")
+    forbidden = ("MicroXRCEAgent", "serial", "mock", "realsense", "rplidar")
     serialized = json.dumps(allowlist).lower()
     require(
         not any(token.lower() in serialized for token in forbidden),
@@ -317,7 +333,7 @@ def main():
                 "production_text_rc": False,
                 "vision_enabled": False,
                 "serial_production": False,
-                "communication_update": "none",
+                "communication_update": "merge-main",
             },
             sort_keys=True,
         )

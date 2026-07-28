@@ -45,7 +45,7 @@ PX4 始终保留飞控、执行器和自身 failsafe 的最终权威。ROS 侧 w
 | PX4 feedback | 目标 PX4 | `/fmu/out/*` | `PARTIALLY_IMPLEMENTED`：若干真实输出仅有 `HISTORICAL_EVIDENCE`；`rc_channels` 为 `BLOCKED`，ACK subscriber 为 `PLANNED`；逐 topic 状态见 [数据流](DATA_FLOW.md) | 当前 identity、topic/type/QoS/freshness 可证明 |
 | Transport | 一个 Micro XRCE-DDS Agent | XRCE 数据转发，不决定 payload | `HISTORICAL_EVIDENCE`：带日期的 session 记录 | 单一 machine-readable profile、端口独占、identity guard |
 
-Agent 不是 ROS 控制 owner；QGroundControl 也不是 DDS production control writer。MAVROS/MAVLink 不属于 production fallback。
+Agent 不是 ROS 控制 owner；QGroundControl 也不是 DDS production control writer。production 不保留第二条飞控传输链。
 
 ## 3. Mission owner 规则
 
@@ -90,7 +90,7 @@ XOR future /control_authority_node
 | mission owner | 0 | 0 | 0 | 0 或 1 | 默认 0 | 恰好 1 个正式 arbiter |
 | `/vision_to_dds_node` | 0 | 隔离输出，不能连 `/fmu/in/*` | 0 | 0 或 1 | 逐门放行，最多 1 | profile 启用时恰好 1 |
 | PX4 feedback writer | 0 | 0 | 目标 PX4 1 个 | SITL PX4 1 个 | 目标 PX4 1 个 | 目标 PX4 1 个 |
-| MAVROS/旧 bringup/mock | 0 | mock 仅独立 domain | 0 | 0 | 0 | 0 |
+| 旧 bringup/mock | 0 | mock 仅独立 domain | 0 | 0 | 0 | 0 |
 
 表中的 “1” 是通过对应门禁后的最大/目标实例数，不表示默认启动。`bench-dds` 与 `production-dds` 当前均为 `BLOCKED`。
 
@@ -103,7 +103,7 @@ graph guard 当前为 `PLANNED`。后续必须同时满足：
 3. 三个 PX4 控制输入必须由同一个目标节点拥有，不能分别落到不同实例。
 4. 三个 `/offboard/*` mission 输入必须来自同一有效 lease。
 5. 视觉启用时最多一个目标 writer；baseline 精降 publisher 必须不存在。
-6. 发现重复 writer、禁止节点、mock feedback、MAVROS 或 identity 冲突时不得进入 ACTIVE，并产生稳定故障事件。
+6. 发现重复 writer、禁止节点、mock feedback 或 identity 冲突时不得进入 ACTIVE，并产生稳定故障事件。
 7. 故障消失后不能自动恢复旧 authority；需要健康窗口和新的有效 lease。
 
 当前源码可以重复启动控制/视觉节点，也没有 graph API 排他检查。因此 writer 规则是 `STATICALLY_VERIFIED` 的架构决策，运行时强制仍为 `PLANNED`。
@@ -159,11 +159,11 @@ sequenceDiagram
 | PX4 input/output | `/fmu/in/*`、`/fmu/out/*` | `STATICALLY_VERIFIED` |
 | mission interface | `/offboard/*` | `STATICALLY_VERIFIED` |
 | PX4 transport | uXRCE-DDS only | `STATICALLY_VERIFIED` |
-| `/dev/ttyTHS0` owner | DDS transport 独占；不得与 MAVLink/MAVROS 复用 | `STATICALLY_VERIFIED` 的规则；运行时 `UNVERIFIED` |
+| `/dev/ttyTHS0` owner | DDS transport 独占；不得被第二个飞控传输或串口进程复用 | `STATICALLY_VERIFIED` 的规则；运行时 `UNVERIFIED` |
 | DDS domain/client key/system identity | 尚无统一机器配置源 | `PLANNED` |
 | `/drone1` 等多机 namespace | 不支持 | `BLOCKED` |
 
-MAVROS 不是 production fallback。旧 `px4_bringup`、swarm launch 或 SD 卡 namespace 示例都不能改变当前单机根 namespace 决策。未来多机必须另立 ADR 并验证跨机命令不可达性。
+production 不保留备用传输。旧 `px4_bringup`、swarm launch 或 SD 卡 namespace 示例都不能改变当前单机根 namespace 决策。未来多机必须另立 ADR 并验证跨机命令不可达性。
 
 ## 8. 故障处置决策边界
 
@@ -182,7 +182,7 @@ fault lattice 当前为 `PLANNED`。对 RC loss、DDS loss、odometry loss、Veh
 
 以下任一项均不得出现在 production graph：
 
-- MAVROS、MAVROS command/setpoint plugin 或 vision-to-MAVROS；
+- 第二个 command/setpoint 或外部视觉 writer；
 - 旧 `px4_bringup` 入口；
 - `mock_rc_control.py` 或其他 `/fmu/out/*` mock writer；
 - demo/animal mission owner；

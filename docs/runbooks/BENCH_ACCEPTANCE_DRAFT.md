@@ -42,8 +42,8 @@
 - 单人操作或无观察员操作；
 - 跳过正式 SITL、P0/P1、安全评审或双人确认；
 - 在 test card 之外 arm、切换 mode、发送 setpoint/VehicleCommand 或 `/fmu/in/*`；
-- 使用 MAVROS/MAVLink 作为 production fallback；
-- 让 QGC、MAVLink 或历史 serial 与 DDS 共用 `/dev/ttyTHS0`；
+- 使用第二条飞控传输作为 production fallback；
+- 让 QGC 或历史 serial 与 DDS 共用 `/dev/ttyTHS0`；
 - 运行旧 `px4_bringup`、demo/animal、mock RC、swarm 或 precision landing baseline；
 - 在台架现场临时构建 firmware、修改源码、变更参数后继续测试；
 - 把 runbook 演练、只读 session 或电机未动等同于控制闭环通过。
@@ -128,7 +128,7 @@ git rev-parse HEAD:workspace.lock.repos
 
 台架前必须通过不争用 DDS transport 的批准只读通道采集当前完整参数快照，并记录 firmware identity、工具/命令、capture time、数量和 hash。2026-07-24 快照只能作为 `HISTORICAL_EVIDENCE` 比较。
 
-至少审查：DDS transport/domain、TELEM2/MAVLink 互斥、RC offboard/kill mapping、RC loss、Offboard loss、battery/failsafe、airframe、EKF2/vision disabled baseline。参数的预期值与回滚值由安全评审批准，本文不自行规定。
+至少审查：DDS transport/domain、TELEM2 独占、RC offboard/kill mapping、RC loss、Offboard loss、battery/failsafe、airframe、EKF2/vision disabled baseline。参数的预期值与回滚值由安全评审批准，本文不自行规定。
 
 参数未知、只采关键子集、capture 不完整、firmware 不匹配或没有回滚值：`no-go`。
 
@@ -136,7 +136,7 @@ git rev-parse HEAD:workspace.lock.repos
 
 - `/dev/ttyTHS0:921600` 仅供本次单一 Micro XRCE-DDS Agent 使用；device owner、Agent PID/binary/command/profile 进入记录。
 - Agent 启动前检查端口无 owner；启动后检查恰好一个批准 owner；停止后检查端口释放。
-- 不允许 MAVROS、第二个 Agent 或历史 serial 进程。
+- 不允许第二个 Agent 或历史 serial 进程。
 - QGC 必须使用维护者批准的独立链路；当前仓库记录没有可用 PX4 USB，因此 QGC 链路未定义时台架为 `BLOCKED`。
 - ROS domain、根 namespace、client key、system/component identity 与正式 SITL profile 一致。
 
@@ -268,7 +268,7 @@ ros2 topic info -v /fmu/out/vehicle_command_ack
 - 所有 P0、适用 P1 关闭，正式 SITL 为 `SITL_VERIFIED`；
 - 每个运行 gate 的前一 gate 通过；
 - 结果严格匹配批准状态表/deadline；
-- 无未知 publisher、mock、MAVROS、串口竞争或身份漂移；
+- 无未知 publisher、mock、串口竞争或身份漂移；
 - rollback 在本台架实际成功；
 - independent reviewer 无未解决文档/运行 P0/P1。
 
@@ -295,7 +295,7 @@ ros2 topic info -v /fmu/out/vehicle_command_ack
 - 急停、RC 或 kill 无效、延迟超限或状态与物理控件不一致；
 - PX4/Agent/Offboard/QGC 状态、ACK 或 fault event 偏离 test card；
 - DDS、RC、odom、status、battery、owner、vision 或日志意外丢失；
-- 未知/重复 writer、MAVROS、第二 Agent、串口 owner 变化；
+- 未知/重复 writer、第二 Agent、串口 owner 变化；
 - firmware reboot、时钟回退、参数变化或 source identity 不再可信；
 - observer、operator、test director 或 recorder 任一发出 stop。
 

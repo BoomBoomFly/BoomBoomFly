@@ -1,6 +1,8 @@
-# Single governed exact-SHA source lock. Project tooling consumes the profile
-# markers below and never selects quarantine. A generic vcs import ignores
-# profile comments and therefore imports all entries.
+# Single governed source manifest. Project-owned flight packages track their
+# declared default branches; third-party dependencies remain exact-SHA locked.
+# Project tooling consumes the profile markers below and never selects
+# quarantine. A generic vcs import ignores profile comments and imports all
+# entries.
 repositories:
 # profile: active
   src/px4_msgs:
@@ -14,17 +16,17 @@ repositories:
   src/offboard_cpp:
     type: git
     url: https://github.com/BoomBoomFly/offboard_cpp.git
-    version: 473dcb81b2b8ef9fb4a2f5dd849c9c27ce61c5c8
+    version: DDS
   src/vision_to_dds:
     type: git
     url: https://github.com/wanone111/vision_to_dds.git
-    version: 42a0688a6f9e9b5bfc80314a9429475eb8a297eb
+    version: master
 
 # profile: archive
   src/px4_bringup:
     type: git
     url: https://github.com/AyasOwen/px4_bringup.git
-    version: 0fbdcbf6ee53d6927de75af1d98f22cf5bd4f917
+    version: DDS
 
 # profile: optional-perception
   src/librealsense:

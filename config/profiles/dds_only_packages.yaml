@@ -18,13 +18,6 @@
     {"name": "offboard_py", "path": "src/offboard_py"},
     {"name": "cv_yolo_paddle_pkg", "path": "src/cv_yolo_paddle_pkg"},
     {"name": "opencv_cpp", "path": "src/opencv_cpp"},
-    {"name": "mavlink", "path": "src/mavlink"},
-    {"name": "libmavconn", "path": "src/mavros/libmavconn"},
-    {"name": "mavros", "path": "src/mavros/mavros"},
-    {"name": "mavros_extras", "path": "src/mavros/mavros_extras"},
-    {"name": "mavros_msgs", "path": "src/mavros/mavros_msgs"},
-    {"name": "test_mavros", "path": "src/mavros/test_mavros"},
-    {"name": "vision_to_mavros", "path": "src/ros2_foxy_vision_to_mavros"},
     {"name": "px4_bringup", "path": "src/px4_bringup"},
     {"name": "serial", "path": "src/serial-ros2"},
     {"name": "serial_driver", "path": "src/serial_driver_ros"}

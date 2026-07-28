@@ -112,7 +112,7 @@ flowchart LR
 | PX4 feedback writer | 每个 `/fmu/out/*` 恰好来自目标 PX4 | 当前动态身份校验 `UNVERIFIED` |
 | `/dev/ttyTHS0` transport owner | 仅 DDS Agent | 文档规则 `STATICALLY_VERIFIED`；运行 guard `PLANNED` |
 
-MAVROS、旧 `px4_bringup`、mock feedback、demo/animal production 使用、重复 control/vision writer 和任何 communication 包对 `/fmu/*` 或控制 `/offboard/*` 的发布均是禁止路径。
+旧 `px4_bringup`、mock feedback、demo/animal production 使用、重复 control/vision writer 和任何 communication 包对 `/fmu/*` 或控制 `/offboard/*` 的发布均是禁止路径。
 
 ## 7. 验证缺口
 

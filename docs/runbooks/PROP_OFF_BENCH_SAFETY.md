@@ -49,7 +49,7 @@ Safety Officer、Human Operator 和物理断电手段任一缺席，所有 H2 �
 - 未经独立批准写 PX4 参数或重启飞控；
 - 装桨运行、室内自由飞行或把 mock/static 结果登记为 bench evidence；
 - 输出不必要的永久唯一标识、USB serial、网络凭据或个人信息；
-- 启动未经批准的 Agent、MAVROS、Offboard、vision 或 hardware launch；
+- 启动 Agent、Offboard、vision 或 hardware launch；
 - readiness 前向 `/fmu/in/*` 发布任何消息。
 
 以下任一条件立即物理中止并停止后续项目：
@@ -71,7 +71,7 @@ Safety Officer、Human Operator 和物理断电手段任一缺席，所有 H2 �
 
 - [ ] Human Operator 现场确认飞控 **disarmed**，并记录确认时间。
 - [ ] Safety Officer 可直接触达物理断电/急停。
-- [ ] 不启动任何可能写串口、MAVLink、ROS 或 DDS 的进程。
+- [ ] 不启动任何可能写串口、ROS 或 DDS 的进程。
 - [ ] 明确本轮允许使用的只读 probe 和输出字段；永久 serial 默认过滤。
 - [ ] 当前连接拓扑已记录，设备重枚举时立即停止。
 
@@ -154,7 +154,7 @@ H2 当前可被人工安排，但不自动开始。每次必须先完成并签�
 ### H2.2 Read-only software/graph gate
 
 使用获批、observer-only profile，先证明它不含 `/fmu/in/*` publisher，再启动观察。
-不得由 Codex 启动 Agent/MAVROS/Offboard/vision/hardware launch。记录：
+不得由 Codex 启动 Agent/Offboard/vision/hardware launch。记录：
 
 - [ ] ROS graph epoch 和预期 node allowlist；
 - [ ] DDS client/endpoint identity 与 writer cardinality；

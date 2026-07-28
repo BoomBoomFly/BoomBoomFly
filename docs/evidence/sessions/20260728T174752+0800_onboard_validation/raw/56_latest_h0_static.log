@@ -1,2 +1,0 @@
-usage: verify_h0_production.py [-h] --workspace-root WORKSPACE_ROOT
-verify_h0_production.py: error: the following arguments are required: --workspace-root

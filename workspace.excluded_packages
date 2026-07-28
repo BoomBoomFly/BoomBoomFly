@@ -6,14 +6,6 @@ offboard_py
 cv_yolo_paddle_pkg
 opencv_cpp
 
-# Removed by the 2026-07-23 DDS-only source baseline decision.
-mavlink
-libmavconn
-mavros
-mavros_extras
-mavros_msgs
-test_mavros
-vision_to_mavros
 px4_bringup
 serial
 serial_driver

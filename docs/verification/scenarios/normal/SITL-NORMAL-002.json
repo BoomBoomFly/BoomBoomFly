@@ -8,7 +8,7 @@
   "milestone": "M5",
   "profile": {"profile_id": "sitl_dds_baseline_v1", "environment": "SITL", "transport": "UDP", "ros_domain_isolated": true, "namespace": "/"},
   "preconditions": ["SITL-NORMAL-001 completed in the same run identity", "endpoint manifest is frozen against locked px4_msgs"],
-  "forbidden_conditions": ["MAVROS, legacy bringup, or mock feedback is present", "an endpoint source is not traceable", "an unlisted PX4 input writer is present"],
+  "forbidden_conditions": ["legacy bringup or mock feedback is present", "an endpoint source is not traceable", "an unlisted PX4 input writer is present"],
   "participants": [
     {"participant_id": "px4_sitl", "role": "authoritative_px4", "required": true, "expected_count": {"min": 1, "max": 1}},
     {"participant_id": "xrce_agent", "role": "transport_only", "required": true, "expected_count": {"min": 1, "max": 1}},

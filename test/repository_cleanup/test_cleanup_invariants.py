@@ -11,6 +11,11 @@ REMOVED_ACTIVE_PATHS = (
     "Scripts/installation/car_install.sh",
     "Scripts/simulation/uav_sim.sh",
     "Simulator",
+    "SECURITY.md",
+    "docs/evidence/sessions/20260728T164521+0800_onboard_h0",
+    "docs/evidence/sessions/20260728T174752+0800_onboard_validation/raw",
+    "docs/evidence/sessions/20260728T174752+0800_onboard_validation/artifacts/workspace.final.lock.repos",
+    "docs/evidence/sessions/20260728T174752+0800_onboard_validation/artifacts/workspace.onboard_candidate.lock.repos",
 )
 CURRENT_AUTHORITY_DOCUMENTS = (
     "README.md",

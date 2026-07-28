@@ -31,7 +31,7 @@
 禁止：
 
 - 访问 `/dev/ttyTHS0`、`/dev/ttyACM*`、`/dev/ttyUSB*`；
-- 启动 MAVROS、旧 `px4_bringup`、任何真实硬件 Offboard/视觉入口或 hardware launch；只允许受管 SITL orchestration 创建被测 DUT；
+- 启动旧 `px4_bringup`、任何真实硬件 Offboard/视觉入口或 hardware launch；只允许受管 SITL orchestration 创建被测 DUT；
 - 使用真实 PX4、相机、雷达、VPU 或执行器；
 - 刷写 firmware、修改真实参数、arm 真实飞行器；
 - 把 mock publisher、rosbag replay 或手工 topic publisher 当作 PX4 source evidence；
@@ -46,7 +46,7 @@
 - [ ] PX4 v1.16.2 source SHA、递归 submodule、toolchain、SITL binary SHA-256 已锁定。
 - [ ] `rc_channels` profile 已静态生成，baseline 未加入 `landing_target_pose`。
 - [ ] Micro XRCE-DDS Agent v2.4.2 binary identity 已记录。
-- [ ] DDS-only package/launch 边界已技术强制；MAVROS 和历史入口不可进入测试图。
+- [ ] DDS-only package/launch 边界已技术强制；历史入口不可进入测试图。
 - [ ] graph guard、owner/lease、ACK/freshness、PRESTREAM 和 fault lattice 已实现并通过单元测试。
 - [ ] exact topic/type/version/QoS 表和 transport identity profile 已评审。
 - [ ] evidence schema、raw log 和 rollback manifest 入口已由对应工作线提供。
@@ -106,7 +106,7 @@ sha256sum "$BBF_SITL_PARAMETER_SNAPSHOT"
 项目级启动命令当前为 `BLOCKED`，由后续 SITL 框架提供。批准版本必须实现以下顺序和失败清理：
 
 1. 创建独立临时目录、ROS domain 和 evidence run ID。
-2. 校验没有真实设备参数、serial Agent、MAVROS 或非 allowlist package/action。
+2. 校验没有真实设备参数、serial Agent 或非 allowlist package/action。
 3. 启动单一 PX4 SITL，等待确定的 readiness 事件，不用无界 sleep。
 4. 启动单一 UDP Agent，验证 client/profile identity。
 5. 启动 observer/recorder；先检查 `/fmu/out/*`，此时不得有 ROS 侧控制 writer。
@@ -145,7 +145,7 @@ ros2 topic info -v /offboard/takeoff_land
 - 三个 `/offboard/*` 命令 topic 来自同一当前 lease owner；
 - `/fmu/out/*` 的 authoritative publisher 能追溯到本次 PX4 SITL；
 - `/fmu/out/rc_channels` 存在、type/QoS 匹配，并有来自 PX4 的有效 payload；
-- graph 不含 MAVROS、旧 bringup、mock feedback、demo/animal 并发或多个 Agent；
+- graph 不含旧 bringup、mock feedback、demo/animal 并发或多个 Agent；
 - root namespace 以外的 swarm endpoint 为 0。
 
 `ros2 topic info` 不能单独证明 payload source 或 PX4 reader 实际消费；必须与 orchestration 的 process identity、endpoint metadata 和 PX4-side evidence 交叉验证。
@@ -215,7 +215,7 @@ catalog 冲突、场景未登记、schema 校验失败或 dependency 未解析�
 ### 立即停止
 
 - orchestration 尝试打开真实串口/USB/硬件；
-- 发现 MAVROS、serial Agent、未知 PX4/Agent 或重复 writer；
+- 发现 serial Agent、未知 PX4/Agent 或重复 writer；
 - ROS domain 与预分配隔离值不一致；
 - 测试失去 bounded timeout、日志或 source identity；
 - 故障行为偏离批准状态表；

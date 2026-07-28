@@ -29,8 +29,10 @@ usage() {
 Usage:
   ${SCRIPT_NAME} [options]
 
-Restore the active exact-SHA profile declared by workspace.lock.repos. Archive
-and optional sources are composed only when their explicit flags are present.
+Restore the active profile declared by workspace.lock.repos. Project-owned
+flight packages follow approved default branches; third-party dependencies use
+exact commit SHAs. Archive and optional sources are composed only when their
+explicit flags are present.
 Quarantine entries are never selected, including through --manifest.
 Locked commits are checked out in detached-HEAD state; this script never creates
 dependency branches and never runs git pull.
@@ -40,7 +42,7 @@ Options:
   --manifest <path>      One custom manifest; mutually exclusive with profile flags.
                          Default active manifest: ${DEFAULT_MANIFEST}
   --with-archive         Add archive entries from ${DEFAULT_MANIFEST}
-  --with-optional <name> Add an optional exact profile: perception or navigation.
+  --with-optional <name> Add an optional profile: perception or navigation.
                          Repeat to select both profiles.
   --update               Sync existing clean repositories to the manifest ref.
   --verify-only          Audit all repositories without cloning/updating.
@@ -54,7 +56,8 @@ Safety:
   * Existing dirty repositories are never checked out or updated.
   * Existing repositories with a different origin URL are rejected.
   * Active/archive/optional target paths must be globally unique.
-  * The governed manifest and custom manifests accept exact commit SHAs only.
+  * Only the declared project paths may use their approved latest branches.
+  * Every other governed or custom manifest entry requires an exact commit SHA.
   * Without --update, a repository at the wrong commit is rejected.
   * Exact lock SHAs are verified after checkout.
   * Audit modes inspect every entry, summarize all blockers, then exit non-zero.
@@ -121,6 +124,17 @@ normalize_repo_url() {
 
 is_locked_sha() {
 	[[ "$1" =~ ^[0-9a-f]{40}$ ]]
+}
+
+is_approved_latest_ref() {
+	local manifest_path="$1"
+	local ref="$2"
+	case "${manifest_path}:${ref}" in
+		src/offboard_cpp:DDS | src/vision_to_dds:master | src/px4_bringup:DDS)
+			return 0
+			;;
+	esac
+	return 1
 }
 
 repo_is_dirty() {
@@ -344,8 +358,9 @@ for record in "${ALL_REPOSITORIES[@]}"; do
 	[[ -z "${SEEN_TARGETS[${target_key}]:-}" ]] || die "Duplicate manifest target: ${manifest_path}"
 	SEEN_TARGETS[${target_key}]=1
 
-	if ! is_locked_sha "${repo_ref}"; then
-		die "Manifest ref is not a 40-character lock SHA for ${manifest_path}: ${repo_ref}"
+	if ! is_locked_sha "${repo_ref}" &&
+		! is_approved_latest_ref "${manifest_path}" "${repo_ref}"; then
+		die "Manifest ref is not an approved latest branch or 40-character lock SHA for ${manifest_path}: ${repo_ref}"
 	fi
 
 	if [[ ${MANIFEST_EXPLICIT} -eq 0 ]]; then
@@ -389,7 +404,7 @@ resolve_ref() {
 	local ref="$2"
 	local candidate
 
-	for candidate in "${ref}" "refs/tags/${ref}" "origin/${ref}" FETCH_HEAD; do
+	for candidate in "origin/${ref}" "${ref}" "refs/tags/${ref}" FETCH_HEAD; do
 		if git -C "${full_path}" rev-parse --verify --quiet "${candidate}^{commit}" >/dev/null; then
 			git -C "${full_path}" rev-parse "${candidate}^{commit}"
 			return 0
@@ -401,6 +416,20 @@ resolve_ref() {
 ensure_ref_available() {
 	local full_path="$1"
 	local ref="$2"
+
+	if ! is_locked_sha "${ref}"; then
+		if [[ ${DRY_RUN} -eq 1 ]]; then
+			run_cmd git -C "${full_path}" fetch --prune origin \
+				"refs/heads/${ref}:refs/remotes/origin/${ref}"
+			return 0
+		fi
+		git -C "${full_path}" fetch --prune origin \
+			"refs/heads/${ref}:refs/remotes/origin/${ref}" ||
+			die "Unable to fetch latest origin/${ref} in ${full_path}"
+		resolve_ref "${full_path}" "${ref}" >/dev/null ||
+			die "Fetched branch but cannot resolve origin/${ref} in ${full_path}"
+		return 0
+	fi
 
 	if resolve_ref "${full_path}" "${ref}" >/dev/null; then
 		return 0
@@ -529,6 +558,9 @@ process_repository() {
 			fi
 		fi
 
+		if [[ ${DO_UPDATE} -eq 1 ]] && ! is_locked_sha "${repo_ref}"; then
+			ensure_ref_available "${full_path}" "${repo_ref}"
+		fi
 		current_head="$(git -C "${full_path}" rev-parse HEAD)"
 		if is_locked_sha "${repo_ref}"; then
 			expected_head="${repo_ref,,}"
@@ -537,7 +569,7 @@ process_repository() {
 		fi
 
 		if [[ -n "${expected_head}" && "${current_head,,}" == "${expected_head,,}" ]]; then
-			log "[OK] ${target_dir} already at locked commit"
+			log "[OK] ${target_dir} already at selected ref"
 			if [[ ${VERIFY_ONLY} -eq 0 ]]; then
 				sync_submodules "${full_path}"
 			fi
@@ -566,9 +598,14 @@ process_repository() {
 
 	if [[ ${DRY_RUN} -eq 0 ]]; then
 		current_head="$(git -C "${full_path}" rev-parse HEAD)"
-		if is_locked_sha "${repo_ref}" && [[ "${current_head,,}" != "${repo_ref,,}" ]]; then
-			die "Post-checkout verification failed for ${target_dir}: ${current_head} != ${repo_ref}"
+		if is_locked_sha "${repo_ref}"; then
+			expected_head="${repo_ref,,}"
+		else
+			expected_head="$(resolve_ref "${full_path}" "${repo_ref}")" ||
+				die "Cannot resolve selected branch after checkout: ${repo_ref}"
 		fi
+		[[ "${current_head,,}" == "${expected_head,,}" ]] ||
+			die "Post-checkout verification failed for ${target_dir}: ${current_head} != ${expected_head}"
 	fi
 }
 
@@ -640,7 +677,7 @@ verify_ros_packages
 
 log "Summary: planned=${PLANNED_COUNT} cloned=${CLONED_COUNT} updated=${UPDATED_COUNT} verified=${VERIFIED_COUNT} blockers=${BLOCKER_COUNT}"
 
-log "DDS-only baseline excludes: mavlink, mavros, vision_to_mavros, px4_bringup, legacy serial repositories"
+log "Default DDS baseline omits archive, navigation and quarantined serial sources"
 log "Intentionally excluded from restore/build: offboard_py, cv_yolo_paddle_pkg, opencv_cpp"
 
 if [[ (${DRY_RUN} -eq 1 || ${VERIFY_ONLY} -eq 1) && ${BLOCKER_COUNT} -gt 0 ]]; then

@@ -32,7 +32,7 @@ class PackageBoundaryTests(unittest.TestCase):
                 {"name": "core_b", "path": "src/core_b"},
             ],
             "forbidden_packages": [
-                {"name": "mavros", "path": "src/mavros"},
+                {"name": "serial_driver", "path": "src/serial_driver_ros"},
             ],
             "managed_nonproduction_packages": [
                 {"name": "support_pkg", "path": "src/support_pkg"},
@@ -40,7 +40,7 @@ class PackageBoundaryTests(unittest.TestCase):
         }
         self._write_package("core_a", ["core_b"])
         self._write_package("core_b")
-        self._write_package("mavros")
+        self._write_package("serial_driver")
         self._write_package("support_pkg")
         self._write_inputs()
 
@@ -113,7 +113,7 @@ class PackageBoundaryTests(unittest.TestCase):
 
     def test_forbidden_package_added_to_allowlist_fails(self):
         self.profile["production_packages"].append(
-            {"name": "mavros", "path": "src/mavros"}
+            {"name": "serial_driver", "path": "src/serial_driver_ros"}
         )
         self._write_inputs()
         with self.assertRaisesRegex(
@@ -122,16 +122,16 @@ class PackageBoundaryTests(unittest.TestCase):
             self._verify()
 
     def test_indirect_forbidden_dependency_fails(self):
-        self._write_package("core_b", ["mavros"])
+        self._write_package("core_b", ["serial_driver"])
         with self.assertRaisesRegex(
             BOUNDARY.BoundaryError, "forbidden dependencies"
         ):
             self._verify()
 
     def test_undiscovered_direct_forbidden_dependency_fails(self):
-        self._write_package("core_a", ["mavros"])
+        self._write_package("core_a", ["serial_driver"])
         discovered = self._discovered()
-        del discovered["mavros"]
+        del discovered["serial_driver"]
         with self.assertRaisesRegex(
             BOUNDARY.BoundaryError, "forbidden dependencies"
         ):
@@ -166,7 +166,7 @@ class PackageBoundaryTests(unittest.TestCase):
         selected = {
             "core_a": Path("src/core_a"),
             "core_b": Path("src/core_b"),
-            "mavros": Path("src/mavros"),
+            "serial_driver": Path("src/serial_driver_ros"),
         }
         with self.assertRaisesRegex(
             BOUNDARY.BoundaryError, "authoritative discovery mismatch"
@@ -174,7 +174,7 @@ class PackageBoundaryTests(unittest.TestCase):
             self._verify(authoritative=selected)
 
     def test_profile_and_excluded_list_must_match(self):
-        self.excluded_path.write_text("mavros\nserial\n", encoding="utf-8")
+        self.excluded_path.write_text("serial\nserial_driver\n", encoding="utf-8")
         with self.assertRaisesRegex(
             BOUNDARY.BoundaryError, "differs from forbidden profile"
         ):

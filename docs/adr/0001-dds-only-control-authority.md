@@ -8,7 +8,7 @@
 
 ## 背景
 
-初始工作区同时存在 DDS 与 MAVROS 源码。P0-01 已按维护者决策将 MAVROS、vision-to-MAVROS、MAVROS-only bringup 和旧 serial 从受管 manifest 移除，并把 `offboard_cpp:DDS`、`vision_to_dds` 纳入精确核心。
+P0-01 已将旧飞控传输、旧 bringup 和旧 serial 从默认受管源码中移除，并把 `offboard_cpp:DDS`、`vision_to_dds:master` 纳入核心。
 
 当前受管源码中：
 
@@ -37,7 +37,7 @@
 ROS 2 ↔ Micro XRCE-DDS Agent ↔ PX4 uXRCE-DDS client
 ```
 
-MAVROS/MAVLink 不作为备用控制链，不进入 production、bench、SITL 或 read-only profile。未来如需重新引入，必须创建新 ADR 并重新完成威胁和安全审查。
+不保留备用飞控传输链；production、bench、SITL 和 read-only profile 均只使用 DDS。
 
 ### 2. 单机 namespace
 
@@ -85,7 +85,7 @@ MAVROS/MAVLink 不作为备用控制链，不进入 production、bench、SITL �
 约束：
 
 - 默认 `enable_precland=false`。
-- 不允许同时运行 vision-to-MAVROS、MAVROS vision 插件或其他 EKF 外部视觉注入。
+- 不允许同时运行第二个 EKF 外部视觉注入节点。
 - 在坐标、时间、质量、reset 和 freeze 检测完成前，视觉输出只能用于离线/SITL/隔离验证。
 - 单设备相机检查时，应把 PX4 输出参数重映射到隔离话题，或不启动 `vision_to_dds_node`。
 
@@ -115,9 +115,8 @@ MAVROS/MAVLink 不作为备用控制链，不进入 production、bench、SITL �
 
 ### 7. communication 边界
 
-`src/communication` 负责后续 MCU/串口通信，不属于 PX4 飞控控制链。
-
-它不得发布：
+`src/communication` 作为伴随计算机与单片机通信的独立子模块保留，不属于
+PX4 DDS 飞控控制链。它不得发布：
 
 - `/fmu/in/*`
 - `/fmu/out/*`
@@ -125,7 +124,8 @@ MAVROS/MAVLink 不作为备用控制链，不进入 production、bench、SITL �
 - `/offboard/cmd_mode`
 - `/offboard/takeoff_land`
 
-如未来确需向任务层提供数据，只能通过另行定义的非飞控接口进入正式 arbiter，不得绕过 owner。
+如未来确需向任务层提供 MCU 数据，只能通过另行定义的非飞控接口进入正式
+arbiter，不得绕过 owner 或复用 PX4 DDS 输入话题。
 
 ## 运行 profile 决策
 
@@ -144,7 +144,6 @@ MAVROS/MAVLink 不作为备用控制链，不进入 production、bench、SITL �
 |---|---|
 | `px4_bringup/start_all_2025TI.launch.py` | 已退出 manifest；禁止 |
 | `px4_bringup/include/px4_fly.launch.py` | 已退出 manifest；禁止 |
-| `vision_to_mavros/t265_all_nodes_launch.py` | 已退出 manifest；禁止 |
 | `offboard_swarm_control.launch.py` | 多机契约缺失；禁止 |
 | `animal_testing.launch.py` | 默认自动启动任务 owner；只允许未来 SITL profile 显式封装 |
 | `offboard_demo.launch.py` | 只允许未来 SITL profile；`auto_start_demo=false` 不能替代控制安全门 |
@@ -158,7 +157,7 @@ MAVROS/MAVLink 不作为备用控制链，不进入 production、bench、SITL �
 后续实现必须提供：
 
 1. 静态 launch 检查：production graph 中恰好一个控制 writer、一个视觉 writer、一个 Agent、一个 mission owner。
-2. 启动前 graph guard：发现额外 publisher、旧 MAVROS 包或 mock feedback 时拒绝进入控制。
+2. 启动前 graph guard：发现额外 publisher、旧 bringup 或 mock feedback 时拒绝进入控制。
 3. owner/lease/sequence/timeout/ACK 协议：所有上层命令经 arbiter。
 4. Offboard 与 PX4 状态一致性：命令 ACK、mode、arming、preflight、failsafe 和 telemetry freshness。
 5. profile allowlist：默认入口不打开真实设备或控制。
@@ -168,7 +167,7 @@ MAVROS/MAVLink 不作为备用控制链，不进入 production、bench、SITL �
 
 正面后果：
 
-- 跨 MAVROS/DDS 的控制竞争从目标架构中消除。
+- 并行飞控传输造成的控制竞争从目标架构中消除。
 - PX4 command、setpoint、视觉和上层任务均有唯一 owner。
 - communication 与飞控控制边界明确。
 - 可以据此实现自动化 graph/launch 门禁。

@@ -36,6 +36,11 @@
 - Firmware：1.16.2
 - Custom firmware：0.0.0
 
+现场补充的硬件型号：
+
+- 飞控板：Pixhawk 2.4.8
+- PX4 `board target`：尚未通过 `ver all`、构建产物或其他可复现标识确认
+
 ## 3. 已补齐的信息
 
 | 项目 | 快照值 | 当前判断 |
@@ -84,8 +89,8 @@ Position/Offboard 悬停所需的位置估计。
 - `CBRK_FLIGHTTERM=121212`
 
 这些值分别涉及 IO Safety、供电有效性检查、USB 连接检查和部分
-Flight Termination 行为。必须结合飞控板型号、接线和人工急停设计逐项确认；
-当前快照没有给出这些取值的硬件依据。
+Flight Termination 行为。已知飞控板为 Pixhawk 2.4.8，但仍必须结合实际
+接线、IO 配置和人工急停设计逐项确认；当前快照没有给出这些取值的硬件依据。
 
 ### 4.4 室内飞行包线没有被参数限制
 
@@ -129,27 +134,15 @@ Offboard 和 Kill 已映射到 RC 通道，但 `COM_RC_OVERRIDE=1` 只包含自�
 
 ### 4.7 固件和 DDS 运行证据仍不完整
 
-- 截图没有飞控板型号或 PX4 board target。
+- 飞控板型号已由现场补充为 Pixhawk 2.4.8，但 PX4 `board target` 尚未确认。
 - `54f0455ffc000000` 不能唯一绑定完整固件构建产物。
 - 参数未证明 `/fmu/out/rc_channels` 已由当前固件发布。
 - 参数未证明 uXRCE-DDS Agent 已连接或 topic 数据持续更新。
 - 参数未证明 T265 数据已进入 PX4 estimator。
 
-## 5. 四人当前分工
+## 5. 实机前技术检查
 
-| 人员 | 工作位置 | 当前任务 | 交付物 |
-|---|---|---|---|
-| A | 伴随计算机 | 只读确认飞控板/target、Agent 连接、DDS topic 列表和关键状态 topic；不得写参数或发送控制 topic | 带时间戳的命令、输出和 SHA-256 |
-| B | WSL | 完成 T265→PX4 坐标系、外参、时间戳和质量门设计；形成参数变更建议，不直接写飞控 | 外参记录、topic/频率/质量检查结果、参数差异草案 |
-| C | WSL | 检查 `px4_msgs` 与 PX4 v1.16.2 消息兼容性，确认 `/fmu/out/rc_channels` 合约并完善只读 preflight 检查 | topic 合约报告、自动化只读检查 |
-| D | WSL | 根据本快照审计 failsafe、RC、围栏、电池和首次室内运动包线 | 参数差异草案、室内故障处置表 |
-
-只有在四项交付物合并复核、正式 PX4 DDS SITL 完成、拆桨台架闭环后，
-才重新评估有限实机入口。
-
-## 6. 下一步关闭条件
-
-1. 明确飞控板型号、board target 和可复现的完整固件标识。
+1. 从实机确认 PX4 `board target` 和可复现的完整固件标识。
 2. 证明 T265 位姿经正确坐标变换和时间同步进入 PX4，并由 estimator 接受。
 3. 只读证明 DDS Agent、关键输入输出 topic、频率、时间戳和消息版本正常。
 4. 明确 Offboard 丢失、RC 丢失、定位丢失和低电量的室内动作。
@@ -157,7 +150,7 @@ Offboard 和 Kill 已映射到 RC 通道，但 `COM_RC_OVERRIDE=1` 只包含自�
 6. 给出首次室内高度、水平范围、速度、加速度、偏航速率和最长时长。
 7. 完成正式 PX4 DDS SITL 和拆桨台架，保存原始日志及哈希。
 
-## 7. 参考
+## 6. 参考
 
 - [PX4 v1.16 参数参考](https://docs.px4.io/v1.16/en/advanced_config/parameter_reference)
 - [PX4 v1.16 外部位置估计](https://docs.px4.io/v1.16/en/ros/external_position_estimation)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Bounded H3 integration of production nodes on an isolated fake ROS graph.
 
-This harness never starts PX4, an XRCE Agent, MAVROS, or a device-backed node.
+This harness never starts PX4, an XRCE Agent or a device-backed node.
 Every production FMU input is remapped below /wave4b_h3/fmu/in so the real
 /fmu/in graph is never used.
 """
@@ -35,7 +35,6 @@ OFFBOARD_OUTPUT_TOPICS = tuple(list(OUTPUT_TOPICS)[:3])
 FORBIDDEN_PROCESS_MARKERS = (
     "MicroXRCEAgent",
     "micro-xrce-dds-agent",
-    "mavros",
     "PX4-Autopilot/build/",
     "serial_driver",
     "realsense",

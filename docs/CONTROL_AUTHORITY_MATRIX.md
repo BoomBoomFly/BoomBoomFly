@@ -25,7 +25,7 @@
   fail-closed。
 - baseline 不要求 `/fmu/in/landing_target_pose`；`enable_precland=false` 时视觉节点
   不创建该 publisher。精降只能由独立 firmware/profile 显式启用。
-- 2026-07-24 参数快照中的 `UXRCE_DDS_CFG=0` 与 MAVLink TELEM2 状态已经过期。
+- 2026-07-24 参数快照中的 `UXRCE_DDS_CFG=0` 与 TELEM2 状态已经过期。
   维护者调整后，`/dev/ttyTHS0:921600` 已成功建立 XRCE session；当前只批准
   显式授权的 `px4-read-only` 验证，不代表 bench 或 production 获批。
 
@@ -64,8 +64,6 @@ XOR future_control_authority_node
 
 以下组件不得出现在 DDS production graph：
 
-- `mavros`、`mavros_extras` 和所有 MAVROS command/setpoint plugin；
-- `vision_to_mavros`；
 - `px4_bringup` 旧入口；
 - `mock_rc_control.py`；
 - `offboard_demo_node`；
@@ -98,7 +96,7 @@ XOR future_control_authority_node
 | `offboard_control_node` | 否 | 否 | 否 | 最多 1 | P0-05 后 1 | 1 |
 | mission owner | 否 | 否 | 否 | 最多 1 | 默认无 | 仅 arbiter |
 | `vision_to_dds_node` | 否 | 隔离输出 | 否 | 最多 1 | 逐门放行 | 1 |
-| MAVROS/旧 bringup | 否 | 否 | 否 | 否 | 否 | 否 |
+| 旧 bringup | 否 | 否 | 否 | 否 | 否 | 否 |
 | mock feedback | 否 | 独立 domain | 否 | 测试专用 | 否 | 否 |
 | arm/mode/setpoint | 否 | 否 | 否 | SITL 门禁 | 默认禁止 | 安全门通过后 |
 
@@ -136,5 +134,5 @@ ros2 topic info -v /offboard/takeoff_land
 1. 三个控制输入各有且仅有一个 ROS publisher，均为 `/offboard_control_node`。
 2. 视觉输入最多一个 publisher，且为 `/vision_to_dds_node`。
 3. 三个内部命令话题来自同一个 mission owner。
-4. production graph 不包含 `mavros`、demo、animal、mock 或 swarm node。
+4. production graph 不包含旧 bringup、demo、animal、mock 或 swarm node。
 5. owner 消失、重复或重连时进入安全状态，不沿用陈旧命令。

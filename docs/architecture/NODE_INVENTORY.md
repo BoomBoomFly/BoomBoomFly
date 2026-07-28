@@ -57,9 +57,7 @@
 
 | 组件/入口 | 原因 | 状态 |
 |---|---|---|
-| MAVROS、MAVROS plugins | 违反 DDS-only；可能产生第二控制链 | production/bench/SITL/read-only 均 `BLOCKED` |
-| `src/px4_bringup` 旧 launch | 组合 MAVROS、旧 vision/serial/hardware，可能争用 `/dev/ttyTHS0` | archive only；`BLOCKED` |
-| `vision_to_mavros` | 第二视觉 writer 路径 | `BLOCKED` |
+| `src/px4_bringup` 旧 launch | 组合旧 vision/serial/hardware，可能争用 `/dev/ttyTHS0` | archive only；`BLOCKED` |
 | `mock_rc_control.py` | 伪造 PX4 feedback 并可改动态参数 | 仅隔离 unit/test；production `BLOCKED` |
 | `offboard_swarm_control.launch.py` | 创建三个 control writer，但无 per-vehicle transport/identity contract | `BLOCKED` |
 | multiple `offboard_control_node` | 同一 PX4 control writer 竞争 | `BLOCKED` |

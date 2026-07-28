@@ -1,3428 +1,0 @@
-Script started on 2026-07-28 19:12:54+08:00 [<not executed on terminal>]
-2026-07-28T19:12:54,649749940+08:00
-Device Position: 0.000 0.000 0.000 (meters)Device Position: 0.000 0.000 0.000 (meters)Device Position: 0.000 0.000 -0.000 (meters)Device Position: 0.000 0.000 -0.000 (meters)Device Position: 0.000 0.000 -0.000 (meters)Device Position: 0.000 0.000 -0.000 (meters)Device Position: 0.000 0.000 -0.000 (meters)Device Position: 0.000 0.000 -0.000 (meters)Device Position: 0.000 0.000 -0.000 (meters)Device Position: 0.000 0.000 -0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.001 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 -0.000 (meters)Device Position: -0.000 0.000 -0.000 (meters)Device Position: -0.000 0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: 0.000 -0.000 0.000 (meters)Device Position: 0.000 -0.000 -0.000 (meters)Device Position: 0.000 -0.000 -0.000 (meters)Device Position: 0.000 -0.000 -0.000 (meters)Device Position: 0.000 -0.000 -0.000 (meters)Device Position: 0.000 -0.000 -0.000 (meters)Device Position: 0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: 0.000 -0.000 -0.000 (meters)Device Position: 0.000 -0.000 -0.000 (meters)Device Position: 0.000 -0.000 -0.000 (meters)Device Position: 0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: 0.000 -0.000 0.000 (meters)Device Position: 0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 -0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 -0.000 (meters)Device Position: -0.000 0.000 -0.000 (meters)Device Position: -0.000 0.000 -0.000 (meters)Device Position: -0.000 0.000 -0.000 (meters)Device Position: -0.000 0.000 -0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: 0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: 0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters)Device Position: -0.000 -0.000 0.000 (meters{
-  "available_stream_profiles": [
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 800,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 1280
-    },
-    {
-      "format": "format.y16",
-      "fps": 25,
-      "height": 800,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 1280
-    },
-    {
-      "format": "format.y16",
-      "fps": 15,
-      "height": 800,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 1280
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 800,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 1280
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 720,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 1280
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 720,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 1280
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 720,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 1280
-    },
-    {
-      "format": "format.y8",
-      "fps": 90,
-      "height": 480,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 60,
-      "height": 480,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 480,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 480,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 480,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 300,
-      "height": 100,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 100,
-      "height": 100,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 90,
-      "height": 480,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 60,
-      "height": 480,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 480,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 480,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 480,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 640
-    },
-    {
-      "format": "format.y16",
-      "fps": 25,
-      "height": 400,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 640
-    },
-    {
-      "format": "format.y16",
-      "fps": 15,
-      "height": 400,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 90,
-      "height": 360,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 60,
-      "height": 360,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 360,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 360,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 360,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 90,
-      "height": 270,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 480
-    },
-    {
-      "format": "format.y8",
-      "fps": 60,
-      "height": 270,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 480
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 270,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 480
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 270,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 480
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 270,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 480
-    },
-    {
-      "format": "format.y8",
-      "fps": 90,
-      "height": 240,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 424
-    },
-    {
-      "format": "format.y8",
-      "fps": 60,
-      "height": 240,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 424
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 240,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 424
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 240,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 424
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 240,
-      "index": 1,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 1,
-      "width": 424
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 800,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 1280
-    },
-    {
-      "format": "format.y16",
-      "fps": 25,
-      "height": 800,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 1280
-    },
-    {
-      "format": "format.y16",
-      "fps": 15,
-      "height": 800,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 1280
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 800,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 1280
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 720,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 1280
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 720,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 1280
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 720,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 1280
-    },
-    {
-      "format": "format.y8",
-      "fps": 90,
-      "height": 480,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 60,
-      "height": 480,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 480,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 480,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 480,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 300,
-      "height": 100,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 100,
-      "height": 100,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 90,
-      "height": 480,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 60,
-      "height": 480,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 480,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 480,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 480,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 640
-    },
-    {
-      "format": "format.y16",
-      "fps": 25,
-      "height": 400,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 640
-    },
-    {
-      "format": "format.y16",
-      "fps": 15,
-      "height": 400,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 90,
-      "height": 360,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 60,
-      "height": 360,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 360,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 360,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 360,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 90,
-      "height": 270,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 480
-    },
-    {
-      "format": "format.y8",
-      "fps": 60,
-      "height": 270,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 480
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 270,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 480
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 270,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 480
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 270,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 480
-    },
-    {
-      "format": "format.y8",
-      "fps": 90,
-      "height": 240,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 424
-    },
-    {
-      "format": "format.y8",
-      "fps": 60,
-      "height": 240,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 424
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 240,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 424
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 240,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 424
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 240,
-      "index": 2,
-      "sensor": "Stereo Module",
-      "stream": "stream.infrared",
-      "unique_id": 2,
-      "width": 424
-    },
-    {
-      "format": "format.z16",
-      "fps": 30,
-      "height": 720,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 1280
-    },
-    {
-      "format": "format.z16",
-      "fps": 15,
-      "height": 720,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 1280
-    },
-    {
-      "format": "format.z16",
-      "fps": 6,
-      "height": 720,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 1280
-    },
-    {
-      "format": "format.z16",
-      "fps": 90,
-      "height": 480,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 848
-    },
-    {
-      "format": "format.z16",
-      "fps": 60,
-      "height": 480,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 848
-    },
-    {
-      "format": "format.z16",
-      "fps": 30,
-      "height": 480,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 848
-    },
-    {
-      "format": "format.z16",
-      "fps": 15,
-      "height": 480,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 848
-    },
-    {
-      "format": "format.z16",
-      "fps": 6,
-      "height": 480,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 848
-    },
-    {
-      "format": "format.z16",
-      "fps": 300,
-      "height": 100,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 848
-    },
-    {
-      "format": "format.z16",
-      "fps": 100,
-      "height": 100,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 848
-    },
-    {
-      "format": "format.z16",
-      "fps": 90,
-      "height": 480,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 640
-    },
-    {
-      "format": "format.z16",
-      "fps": 60,
-      "height": 480,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 640
-    },
-    {
-      "format": "format.z16",
-      "fps": 30,
-      "height": 480,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 640
-    },
-    {
-      "format": "format.z16",
-      "fps": 15,
-      "height": 480,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 640
-    },
-    {
-      "format": "format.z16",
-      "fps": 6,
-      "height": 480,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 640
-    },
-    {
-      "format": "format.z16",
-      "fps": 90,
-      "height": 360,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 640
-    },
-    {
-      "format": "format.z16",
-      "fps": 60,
-      "height": 360,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 640
-    },
-    {
-      "format": "format.z16",
-      "fps": 30,
-      "height": 360,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 640
-    },
-    {
-      "format": "format.z16",
-      "fps": 15,
-      "height": 360,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 640
-    },
-    {
-      "format": "format.z16",
-      "fps": 6,
-      "height": 360,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 640
-    },
-    {
-      "format": "format.z16",
-      "fps": 90,
-      "height": 270,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 480
-    },
-    {
-      "format": "format.z16",
-      "fps": 60,
-      "height": 270,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 480
-    },
-    {
-      "format": "format.z16",
-      "fps": 30,
-      "height": 270,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 480
-    },
-    {
-      "format": "format.z16",
-      "fps": 15,
-      "height": 270,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 480
-    },
-    {
-      "format": "format.z16",
-      "fps": 6,
-      "height": 270,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 480
-    },
-    {
-      "format": "format.z16",
-      "fps": 90,
-      "height": 240,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 424
-    },
-    {
-      "format": "format.z16",
-      "fps": 60,
-      "height": 240,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 424
-    },
-    {
-      "format": "format.z16",
-      "fps": 30,
-      "height": 240,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 424
-    },
-    {
-      "format": "format.z16",
-      "fps": 15,
-      "height": 240,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 424
-    },
-    {
-      "format": "format.z16",
-      "fps": 6,
-      "height": 240,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 424
-    },
-    {
-      "format": "format.z16",
-      "fps": 300,
-      "height": 144,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 256
-    },
-    {
-      "format": "format.z16",
-      "fps": 90,
-      "height": 144,
-      "index": 0,
-      "sensor": "Stereo Module",
-      "stream": "stream.depth",
-      "unique_id": 0,
-      "width": 256
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 30,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.raw16",
-      "fps": 30,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.y16",
-      "fps": 30,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 30,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 30,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 30,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 30,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 15,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.y16",
-      "fps": 15,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 15,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 15,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 15,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 15,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 6,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.y16",
-      "fps": 6,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 6,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 6,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 6,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 6,
-      "height": 1080,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1920
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 30,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.y16",
-      "fps": 30,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 30,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 30,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 30,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 30,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 15,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.y16",
-      "fps": 15,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 15,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 15,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 15,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 15,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 6,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.y16",
-      "fps": 6,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 6,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 6,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 6,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 6,
-      "height": 720,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 1280
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 60,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.y16",
-      "fps": 60,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.y8",
-      "fps": 60,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 60,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 60,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 60,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 60,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 30,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.y16",
-      "fps": 30,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 30,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 30,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 30,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 30,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 15,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.y16",
-      "fps": 15,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 15,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 15,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 15,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 15,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 6,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.y16",
-      "fps": 6,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 6,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 6,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 6,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 6,
-      "height": 540,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 960
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 60,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.y16",
-      "fps": 60,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 60,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 60,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 60,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 60,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 60,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 30,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.y16",
-      "fps": 30,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 30,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 30,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 30,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 30,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 15,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.y16",
-      "fps": 15,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 15,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 15,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 15,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 15,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 6,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.y16",
-      "fps": 6,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 6,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 6,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 6,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 6,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 848
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 60,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.y16",
-      "fps": 60,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 60,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 60,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 60,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 60,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 60,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 30,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.y16",
-      "fps": 30,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 30,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 30,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 30,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 30,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 15,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.y16",
-      "fps": 15,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 15,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 15,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 15,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 15,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 6,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.y16",
-      "fps": 6,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 6,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 6,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 6,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 6,
-      "height": 480,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 60,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.y16",
-      "fps": 60,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 60,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 60,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 60,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 60,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 60,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 30,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.y16",
-      "fps": 30,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 30,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 30,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 30,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 30,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 15,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.y16",
-      "fps": 15,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 15,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 15,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 15,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 15,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 6,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.y16",
-      "fps": 6,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 6,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 6,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 6,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 6,
-      "height": 360,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 640
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 60,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.y16",
-      "fps": 60,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.y8",
-      "fps": 60,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 60,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 60,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 60,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 60,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 30,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.y16",
-      "fps": 30,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 30,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 30,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 30,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 30,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 15,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.y16",
-      "fps": 15,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.y8",
-      "fps": 15,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 15,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 15,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 15,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 15,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 6,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.y16",
-      "fps": 6,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 6,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 6,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 6,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 6,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 424
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 60,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.y16",
-      "fps": 60,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.y8",
-      "fps": 60,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 60,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 60,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 60,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 60,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 30,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.y16",
-      "fps": 30,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 30,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 30,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 30,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 30,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 6,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.y16",
-      "fps": 6,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 6,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 6,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 6,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 6,
-      "height": 240,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 60,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.y16",
-      "fps": 60,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.y8",
-      "fps": 60,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 60,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 60,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 60,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 60,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 30,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.y16",
-      "fps": 30,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.y8",
-      "fps": 30,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 30,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 30,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 30,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 30,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.rgb8",
-      "fps": 6,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.y16",
-      "fps": 6,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.y8",
-      "fps": 6,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.bgra8",
-      "fps": 6,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.rgba8",
-      "fps": 6,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.bgr8",
-      "fps": 6,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    },
-    {
-      "format": "format.yuyv",
-      "fps": 6,
-      "height": 180,
-      "index": 0,
-      "sensor": "RGB Camera",
-      "stream": "stream.color",
-      "unique_id": 3,
-      "width": 320
-    }
-  ],
-  "csv": "/home/c/px4_ws/BoomBoomFly/docs/evidence/sessions/20260728T174752+0800_onboard_validation/artifacts/dual_d435_frames.csv",
-  "cycles": [
-    {
-      "duration_requested_s": 10.0,
-      "error": null,
-      "first_frame_delay_ms": 658.6875829962082,
-      "logical_source_epoch": 1,
-      "pose_confidence_counts": {},
-      "pose_first_samples": [],
-      "start_wall_unix_s": 1785237175.8805532,
-      "stop_latency_ms": 502.6867140113609
-    }
-  ],
-  "device": {
-    "firmware": "5.13.0.50",
-    "name": "Intel RealSense D435",
-    "physical_port": "REDACTED",
-    "product_id": "0B07",
-    "product_line": "D400",
-    "recommended_firmware": "5.15.1",
-    "serial": "REDACTED",
-    "usb_type": "3.2"
-  },
-  "logical_source_epoch_note": "Host probe epoch increments on pipeline reopen; this is not a camera- or ROS-published /vision/source_epoch.",
-  "probe": "d435",
-  "sensor_options": {
-    "RGB Camera": {
-      "option.auto_exposure_priority": 0.0,
-      "option.backlight_compensation": 0.0,
-      "option.brightness": 0.0,
-      "option.contrast": 50.0,
-      "option.enable_auto_exposure": 1.0,
-      "option.enable_auto_white_balance": 1.0,
-      "option.exposure": 166.0,
-      "option.frames_queue_size": 16.0,
-      "option.gain": 64.0,
-      "option.gamma": 300.0,
-      "option.global_time_enabled": 1.0,
-      "option.hue": 0.0,
-      "option.power_line_frequency": 3.0,
-      "option.saturation": 64.0,
-      "option.sharpness": 50.0,
-      "option.white_balance": 4600.0
-    },
-    "Stereo Module": {
-      "option.asic_temperature": "ERROR: object doesn't support option #23",
-      "option.depth_units": 0.0010000000474974513,
-      "option.emitter_always_on": 0.0,
-      "option.emitter_enabled": 1.0,
-      "option.emitter_on_off": 0.0,
-      "option.enable_auto_exposure": 1.0,
-      "option.error_polling_enabled": 1.0,
-      "option.exposure": 8500.0,
-      "option.frames_queue_size": 16.0,
-      "option.gain": 16.0,
-      "option.global_time_enabled": 1.0,
-      "option.hdr_enabled": 0.0,
-      "option.inter_cam_sync_mode": 0.0,
-      "option.laser_power": 150.0,
-      "option.output_trigger_enabled": 0.0,
-      "option.projector_temperature": "ERROR: object doesn't support option #25",
-      "option.sequence_id": 0.0,
-      "option.sequence_name": 0.0,
-      "option.sequence_size": 2.0,
-      "option.stereo_baseline": 49.94734573364258,
-      "option.visual_preset": 0.0
-    }
-  },
-  "status": "PASS",
-  "stream_metrics_by_epoch": {
-    "1": {
-      "color": {
-        "camera_timestamp_delta_ms": {
-          "max": 35.626708984375,
-          "median": 33.357666015625,
-          "min": 32.04345703125,
-          "p95": 34.029541015625
-        },
-        "camera_timestamp_domain": [
-          "timestamp_domain.global_time"
-        ],
-        "camera_timestamp_strictly_increasing": true,
-        "frame_number_backward_or_duplicate": 0,
-        "frame_number_gap_drops": 0,
-        "host_interarrival_ms": {
-          "max": 34.66608101129532,
-          "median": 33.343472987413406,
-          "min": 2.5779829919338226,
-          "p95": 33.99168901145458
-        },
-        "observed_rate_hz": 30.330469312438655,
-        "samples": 288,
-        "wall_minus_camera_ms": {
-          "first": 142.368896484375,
-          "last": 35.59765625
-        }
-      },
-      "depth": {
-        "camera_timestamp_delta_ms": {
-          "max": 34.6494140625,
-          "median": 33.357666015625,
-          "min": 0.0,
-          "p95": 33.7900390625
-        },
-        "camera_timestamp_domain": [
-          "timestamp_domain.global_time"
-        ],
-        "camera_timestamp_strictly_increasing": false,
-        "frame_number_backward_or_duplicate": 4,
-        "frame_number_gap_drops": 0,
-        "host_interarrival_ms": {
-          "max": 34.66608101129532,
-          "median": 33.343472987413406,
-          "min": 2.5779829919338226,
-          "p95": 33.99168901145458
-        },
-        "observed_rate_hz": 30.330469312438655,
-        "samples": 288,
-        "wall_minus_camera_ms": {
-          "first": 2.6611328125,
-          "last": 35.615478515625
-        }
-      }
-    }
-  }
-}
-DUAL_D435_EXIT_CODE=0
-DUAL_T265_TIMEOUT_EXIT_CODE=124
-DUAL_T265_POSE_SAMPLES=2097
-POST_PROCESS_SCAN_EXIT_CODE=1
-POST_VIDEO_OWNER_EXIT_CODE=1
-
-Script done on 2026-07-28 19:13:06+08:00 [COMMAND_EXIT_CODE="0"]
