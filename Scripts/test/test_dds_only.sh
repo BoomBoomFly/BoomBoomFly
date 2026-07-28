@@ -100,10 +100,12 @@ done <"$OUTPUT_ROOT/artifacts/package-selection.tsv"
 
 # px4_msgs generated-code lint commands exceed the default async pipe line
 # limit when CTest is verbose. Quiet console mode avoids that transport
-# deadlock; xUnit plus CTest LastTest.log retain the complete test evidence.
+# deadlock; sequential package execution plus xUnit and CTest LastTest.log
+# retain deterministic, complete test evidence.
 colcon \
   --log-base "$OUTPUT_ROOT/log/test" \
   test \
+  --executor sequential \
   --build-base "$OUTPUT_ROOT/build" \
   --install-base "$OUTPUT_ROOT/install" \
   --test-result-base "$OUTPUT_ROOT/test-results" \
