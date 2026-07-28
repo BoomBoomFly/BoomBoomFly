@@ -23,12 +23,7 @@ REQUIRED_DECISION = {
     "path": "src/serial_driver_ros",
     "status": "REQUIRES_MAINTAINER_DECISION",
 }
-PROFILE_MANIFESTS = {
-    "active": "workspace.lock.repos",
-    "archive": "workspace.archive.repos",
-    "optional-perception": "workspace.optional-perception.repos",
-    "optional-navigation": "workspace.optional-navigation.repos",
-}
+PROFILE_MANIFEST = "workspace.lock.repos"
 EXPECTED_PROFILE_PATHS = {
     "active": {
         "src/Micro-XRCE-DDS-Agent",
@@ -100,22 +95,37 @@ def load_repos_manifest(path):
 
     entries = []
     current = None
+    current_profile = None
     saw_repositories = False
 
     def emit():
         if current is None:
             return
-        expected = {"path", "type", "url", "version"}
+        expected = {"profile", "path", "type", "url", "version"}
         if set(current) != expected:
             raise ProfileError(
-                "{} entry {} must contain exactly type, url, version".format(
+                "{} entry {} must contain exactly profile, type, url, version".format(
                     path, current.get("path", "<unknown>")
+                )
+            )
+        if current["profile"] is None:
+            raise ProfileError(
+                "{} entry {} is missing a profile marker".format(
+                    path, current["path"]
                 )
             )
         entries.append(dict(current))
 
     for line_number, raw in enumerate(lines, 1):
-        if not raw.strip() or raw.lstrip().startswith("#"):
+        if not raw.strip():
+            continue
+        profile_match = re.fullmatch(r"# profile: ([a-z-]+)", raw)
+        if profile_match:
+            emit()
+            current = None
+            current_profile = profile_match.group(1)
+            continue
+        if raw.lstrip().startswith("#"):
             continue
         if raw == "repositories:":
             if saw_repositories:
@@ -125,7 +135,7 @@ def load_repos_manifest(path):
         match = re.fullmatch(r"  ([^\s:][^:]*):\s*", raw)
         if match and saw_repositories:
             emit()
-            current = {"path": match.group(1)}
+            current = {"profile": current_profile, "path": match.group(1)}
             continue
         match = re.fullmatch(r"    (type|url|version):\s*(\S.*?)\s*", raw)
         if match and current is not None:
@@ -150,17 +160,55 @@ def load_repos_manifest(path):
 
 
 def validate_manifest_profiles(repository_root):
-    """Validate the real active/archive/optional manifests fail closed."""
+    """Validate every profile in the single governed manifest fail closed."""
     issues = []
     root = Path(repository_root)
+    try:
+        entries = load_repos_manifest(root / PROFILE_MANIFEST)
+    except ProfileError as exc:
+        return [str(exc)]
+
     seen_paths = {}
-    for profile_id, filename in PROFILE_MANIFESTS.items():
-        try:
-            entries = load_repos_manifest(root / filename)
-        except ProfileError as exc:
-            issues.append(str(exc))
-            continue
-        actual_paths = {entry["path"] for entry in entries}
+    entries_by_profile = {profile_id: [] for profile_id in EXPECTED_PROFILES}
+    for entry in entries:
+        profile_id = entry["profile"]
+        if profile_id not in EXPECTED_PROFILES:
+            issues.append("unknown manifest profile: {}".format(profile_id))
+        else:
+            entries_by_profile[profile_id].append(entry)
+        path = entry["path"]
+        if not _safe_source_path(path):
+            issues.append("{}.path must be a safe src/ path".format(profile_id))
+        if path in seen_paths:
+            issues.append(
+                "duplicate path {} in {} and {}".format(
+                    path, seen_paths[path], profile_id
+                )
+            )
+        else:
+            seen_paths[path] = profile_id
+        if path in UNRESOLVED_SERIAL_PATHS:
+            issues.append("unresolved serial path {} cannot enter a profile".format(path))
+        if entry["type"] != "git":
+            issues.append("{} in {} must use type git".format(path, profile_id))
+        expected_url = CANONICAL_MANIFEST_URLS.get(path)
+        if expected_url is None:
+            issues.append("{} has no frozen canonical URL".format(path))
+        elif entry["url"] != expected_url:
+            issues.append(
+                "URL mismatch for {}: expected {}, got {}".format(
+                    path, expected_url, entry["url"]
+                )
+            )
+        if not EXACT_SHA.fullmatch(entry["version"]):
+            issues.append(
+                "{} in {} uses a moving or non-exact ref: {}".format(
+                    path, profile_id, entry["version"]
+                )
+            )
+
+    for profile_id in EXPECTED_PROFILES:
+        actual_paths = {entry["path"] for entry in entries_by_profile[profile_id]}
         expected_paths = EXPECTED_PROFILE_PATHS[profile_id]
         if actual_paths != expected_paths:
             issues.append(
@@ -168,42 +216,11 @@ def validate_manifest_profiles(repository_root):
                     profile_id, sorted(expected_paths), sorted(actual_paths)
                 )
             )
-        for entry in entries:
-            path = entry["path"]
-            if not _safe_source_path(path):
-                issues.append("{}.path must be a safe src/ path".format(profile_id))
-            if path in seen_paths:
-                issues.append(
-                    "duplicate path {} in {} and {}".format(
-                        path, seen_paths[path], profile_id
-                    )
-                )
-            else:
-                seen_paths[path] = profile_id
-            if path in UNRESOLVED_SERIAL_PATHS:
-                issues.append("unresolved serial path {} cannot enter a profile".format(path))
-            if entry["type"] != "git":
-                issues.append("{} in {} must use type git".format(path, profile_id))
-            expected_url = CANONICAL_MANIFEST_URLS.get(path)
-            if expected_url is None:
-                issues.append("{} has no frozen canonical URL".format(path))
-            elif entry["url"] != expected_url:
-                issues.append(
-                    "URL mismatch for {}: expected {}, got {}".format(
-                        path, expected_url, entry["url"]
-                    )
-                )
-            if not EXACT_SHA.fullmatch(entry["version"]):
-                issues.append(
-                    "{} in {} uses a moving or non-exact ref: {}".format(
-                        path, profile_id, entry["version"]
-                    )
-                )
     return issues
 
 
 def selected_manifest_profiles(repository_root, with_archive=False, optional=()):
-    """Resolve real manifests only after the complete set validates."""
+    """Resolve selected profiles from the single manifest after full validation."""
     issues = validate_manifest_profiles(repository_root)
     if issues:
         raise ProfileError("; ".join(issues))
@@ -214,10 +231,9 @@ def selected_manifest_profiles(repository_root, with_archive=False, optional=())
         profile_id = OPTIONAL_PROFILE_IDS[name]
         if profile_id not in profile_ids:
             profile_ids.append(profile_id)
-    entries = []
     root = Path(repository_root)
-    for profile_id in profile_ids:
-        entries.extend(load_repos_manifest(root / PROFILE_MANIFESTS[profile_id]))
+    all_entries = load_repos_manifest(root / PROFILE_MANIFEST)
+    entries = [entry for entry in all_entries if entry["profile"] in profile_ids]
     return profile_ids, entries
 
 
@@ -428,7 +444,7 @@ def build_parser():
     )
     parser.add_argument(
         "--manifest-root",
-        help="Validate the real workspace.*.repos profile set below this root",
+        help="Validate the single workspace.lock.repos profile set below this root",
     )
     parser.add_argument(
         "--with-archive",
