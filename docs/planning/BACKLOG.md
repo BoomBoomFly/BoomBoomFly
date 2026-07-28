@@ -761,8 +761,10 @@ evidence 变成可机器验证的 release 门。
 | F | F1 schema/parser 离线完善 | `PARTIALLY_IMPLEMENTED`；正式 SITL `BLOCKED` 于 A–D |
 | G | G1 archive manifest/source profile 设计 | `PLANNED`；可立即开始，迁移需批准 |
 
-精确 owner、写入范围、输入、输出和并行冲突以
-[`NEXT_PARALLEL_TASKS.md`](NEXT_PARALLEL_TASKS.md) 为 canonical 调度表。
+本节保留历史任务定义和审计映射，不再作为当前调度入口。当前 blocker、执行顺序与
+精确 source identity 以
+[Wave 4B open findings](../audits/2026-07-27-wave4b-wsl/07-open-findings.md)
+和 [current handoff](../handoff.md) 为准。
 
 ## 覆盖检查
 

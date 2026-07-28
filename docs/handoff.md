@@ -1,93 +1,61 @@
-# BoomBoomFly Wave 3B handoff
+# BoomBoomFly current handoff
 
-> Updated: 2026-07-27
-> Purpose: current workspace navigation; ADRs, machine-readable profiles, and
-> dated audit records remain authoritative.
-> Production: `BLOCKED`
+Updated: 2026-07-28
 
-## Open the workspace
+Environment: WSL2 / x86_64 / ROS 2 Foxy
 
-Never assume a personal checkout path:
+Production: `BLOCKED`
 
-```bash
-REPO_ROOT="$(git rev-parse --show-toplevel)"
-cd "$REPO_ROOT"
-git status --short --branch
-git rev-parse HEAD
-```
+This file is a short navigation entry. Dated audits remain immutable historical
+evidence; current claims require matching source identities and receipts.
 
-Preserve every existing dirty checkout. Do not reset, clean, stash, force
-checkout, move, rename, or overwrite `src/serial_driver_ros2/` or another
-protected nested repository.
+## Current WSL identities
 
-## Wave 3B identities
+- root evidence branch: `wsl/wave4b-20260727`; resolve its current commit with
+  `git rev-parse HEAD`;
+- root source baseline:
+  `de3c3104074c5b851d944cb4c757cbfa7d6ede20`;
+- latest Offboard default branch:
+  `origin/DDS@cded3dc5b6906420db3767abd82b2df7ba6ea9f0`;
+- latest serial upstream:
+  `origin/master@87f3907f0b3b906d474a8d1e1dc9677ab0c4298f`;
+- serial discovery quarantine:
+  `wsl/wave4b-serial-quarantine@9d8c07814ad0f64f76c5fd8fe12072aebcbef431`.
 
-- root start:
-  `agent/wave3a-software-gates@afb4fdcecb22596056432492d1ad284919b065cd`;
-- root work branch: `agent/wave3b-integration-gates`;
-- nested Offboard start:
-  `DDS@c744757a2df467807af240e34188869af65c603e`;
-- nested Offboard final:
-  `agent/wave3b-offboard-integration@976d6217d73a28b72e64300e2dd04bcbeeee30d7`,
-  clean;
-- protected serial checkout:
-  `src/serial_driver_ros2 main@8614989c8b9e60176a83d5d32a058801fafdb8d6`,
-  four modified plus one untracked, untouched.
+The serial quarantine only proves colcon discovery count zero. It does not make
+manual serial execution safe. No WSL result replaces a native ARM64 rebuild of
+the same approved source candidate.
 
-Resolve the final root commit with `git rev-parse HEAD`; the Wave 3B summary
-commit contains this handoff and therefore cannot self-record its own hash.
-
-## Gate status
-
-- A2: `BLOCKED`; exact PX4-Autopilot source/submodules/DDS generator/toolchain
-  and board identity are absent. Exact `px4_msgs@392e831c...` alone is not a
-  source lock.
-- B2/C2: pure-software runtime contract `PASS`; frozen interface is
-  `boom-boom-fly.authority-envelope/1.0.0`. Live node/publisher routing remains
-  unverified.
-- D2: manual non-required workflow/static validation `PASS`; execution remains
-  `BLOCKED_BY_DEPENDENCY_LOCK` (exit 78).
-- G2: active/archive/optional migration `PASS`; serial remains
-  `REQUIRES_MAINTAINER_DECISION`.
-- F2: `OFFLINE_SYNTHETIC` acceptance `PASS`; it is not formal SITL evidence.
-- package boundary and DDS wrapper: exit 2 on the protected serial path
-  conflict; no DDS build occurred.
-- H0/H1: not executed; software gates did not all pass, so no human GO was
-  requested or received.
-
-Canonical results:
-
-- [Wave 3B baseline and ownership](audits/2026-07-27-wave3b/20_BASELINE_AND_OWNERSHIP.md)
-- [Wave 3B validation ledger](audits/2026-07-27-wave3b/27_WAVE3B_VALIDATION.md)
-- [Wave 3B summary](audits/2026-07-27-wave3b/28_WAVE3B_SUMMARY.md)
-- [B/C interface freeze](authority/WAVE3B_BC_INTERFACE_FREEZE.md)
-- [source profiles](dependencies/SOURCE_PROFILES.md)
-- [canonical planning](planning/NEXT_PARALLEL_TASKS.md)
-
-## Next authorized work
-
-Only software-blocker closure is ready to schedule:
-
-1. import an approved offline exact PX4 v1.16.2 source/submodule/toolchain set;
-2. publish or otherwise make the Offboard B2 commit reproducibly restorable,
-   then update its exact root lock;
-3. integrate the tested B/C gates into the live node/publisher path;
-4. obtain the maintainer serial canonical-source/path decision without touching
-   the protected checkout;
-5. provide immutable CI runner/dependency locks and rerun the complete offline
-   and DDS-only gates.
-
-Formal SITL, hardware access without the human checklist, an armed bench,
-firmware flashing without per-artifact confirmation, propeller installation,
-and flight are outside the current handoff authorization.
+## Current gate status
 
 ```text
-FORMAL SITL: BLOCKED UNTIL A/B/C/D/G SOFTWARE GATES PASS
-PROP-OFF DISARMED BENCH: HUMAN-GATED; CURRENT DECISION NO-GO
-PROP-OFF ARMED BENCH: NOT AUTHORIZED
-FIRMWARE FLASH: REQUIRES PER-ARTIFACT HUMAN CONFIRMATION
-PROPELLER INSTALLATION: NOT AUTHORIZED
-INDOOR FLIGHT: BLOCKED
-ARM / MODE / TAKEOFF / ABORT AUTHORITY: HUMAN ONLY
-PRODUCTION: BLOCKED
+H0: NO-GO
+H1-WSL PRECHECK: NOT-RUN
+H2: NO-GO
+H3: NOT-RUN
+H4: NOT-RUN
+HARDWARE ACCESSED: NO
+FORMAL SITL RUN: NO
+REAL FMU GRAPH USED: NO
+READY FOR H5-A REQUEST: NO
 ```
+
+Open P0 items are the latest Offboard production writer/gate closure and the
+serial runtime open/write path outside its discovery quarantine. Vision,
+source governance, PX4 toolchain/profile locking, and native rebuild remain
+open H5-relevant P1 work.
+
+## Authoritative navigation
+
+- [Wave 4B WSL summary](audits/2026-07-27-wave4b-wsl/00-summary.md)
+- [source identities](audits/2026-07-27-wave4b-wsl/01-source-identities.md)
+- [H0 closure review](audits/2026-07-27-wave4b-wsl/02-h0-closure.md)
+- [open findings and dependency order](audits/2026-07-27-wave4b-wsl/07-open-findings.md)
+- [machine-readable handoff](audits/2026-07-27-wave4b-wsl/08-handoff.json)
+- [latest-source and serial-isolation receipt](audits/2026-07-27-wave4b-wsl/10-follow-latest-isolation.md)
+- [repository cleanup receipt](audits/2026-07-27-wave4b-wsl/11-repository-cleanup.md)
+- [document authority policy](governance/DOCUMENT_AUTHORITY.md)
+
+No hardware access, `/fmu/in/*` publication, arm/mode command, parameter
+change, firmware flash, Agent/MAVROS startup, or formal SITL is authorized by
+this handoff.
