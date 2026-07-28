@@ -12,7 +12,6 @@
 
 ```mermaid
 flowchart LR
-    OP["human operator / safety authority"]
     ARB["future control_authority_node<br/>owner / lease / sequence<br/>PLANNED"]
     OFB["/offboard_control_node<br/>sole control writer<br/>PARTIALLY_IMPLEMENTED"]
     AG["Micro XRCE-DDS Agent<br/>transport only"]
@@ -20,7 +19,6 @@ flowchart LR
     VIS["/vision_to_dds_node<br/>sole vision writer<br/>PARTIALLY_IMPLEMENTED"]
     SENSOR["approved perception profile<br/>UNVERIFIED"]
 
-    OP -."explicit authorization / reset".-> ARB
     ARB -->|"atomic mission command"| OFB
     OFB -->|"trajectory / mode / VehicleCommand"| AG
     AG -->|"XRCE transport"| PX4
@@ -35,7 +33,7 @@ flowchart LR
     class OFB,VIS partial;
 ```
 
-PX4 始终保留飞控、执行器和自身 failsafe 的最终权威。ROS 侧 writer 唯一性只解决“谁可以请求”，不代表 ROS 可以绕过 PX4 preflight、failsafe 或 operator safety authority。
+PX4 始终保留飞控、执行器和自身 failsafe 的最终权威。ROS 侧 writer 唯一性只解决“谁可以请求”，不代表 ROS 可以绕过 PX4 preflight 或 failsafe。
 
 ## 2. 当前角色与唯一 writer
 
@@ -46,7 +44,6 @@ PX4 始终保留飞控、执行器和自身 failsafe 的最终权威。ROS 侧 w
 | 上层 mission | 一个正式 arbiter | `/offboard/cmd`、`/offboard/cmd_mode`、`/offboard/takeoff_land` | `PLANNED`：正式 arbiter 不存在 | owner/lease/sequence/epoch/heartbeat 和原子事务通过 |
 | PX4 feedback | 目标 PX4 | `/fmu/out/*` | `PARTIALLY_IMPLEMENTED`：若干真实输出仅有 `HISTORICAL_EVIDENCE`；`rc_channels` 为 `BLOCKED`，ACK subscriber 为 `PLANNED`；逐 topic 状态见 [数据流](DATA_FLOW.md) | 当前 identity、topic/type/QoS/freshness 可证明 |
 | Transport | 一个 Micro XRCE-DDS Agent | XRCE 数据转发，不决定 payload | `HISTORICAL_EVIDENCE`：带日期的 session 记录 | 单一 machine-readable profile、端口独占、identity guard |
-| 人工安全权威 | 经 runbook 指定的操作者/飞手 | go/no-go、停止、显式恢复授权 | `PLANNED`：流程尚未实际验收 | 相应验证等级授权和双人门禁 |
 
 Agent 不是 ROS 控制 owner；QGroundControl 也不是 DDS production control writer。MAVROS/MAVLink 不属于 production fallback。
 
@@ -65,8 +62,8 @@ XOR future /control_authority_node
 - demo 与 animal 只允许隔离 SITL，production 中禁止。
 - 正式 `/control_authority_node` 为 `PLANNED`，当前仓库不能声称它已实现。
 - 一个 profile 同时只能有一个 owner；owner 必须同时拥有 setpoint、mode 和 takeoff/land 三类内部命令的发布权。
-- 当前消息没有 owner ID、lease ID、sequence、deadline 或 session epoch，所以 “人工只启动一个节点” 仅是文档规则，不是运行时保证。
-- owner 消失、重复、重连或 sequence 回退时，计划中的 arbiter 必须撤销 authority、清空旧事务并要求显式重新授权；该能力当前为 `PLANNED`。
+- 当前消息没有 owner ID、lease ID、sequence、deadline 或 session epoch，所以只启动一个节点仍只是文档规则，不是运行时保证。
+- owner 消失、重复、重连或 sequence 回退时，计划中的 arbiter 必须撤销 authority、清空旧事务并要求重新获取有效 lease；该能力当前为 `PLANNED`。
 
 ### 计划中的最小 owner envelope
 
@@ -95,7 +92,7 @@ XOR future /control_authority_node
 | PX4 feedback writer | 0 | 0 | 目标 PX4 1 个 | SITL PX4 1 个 | 目标 PX4 1 个 | 目标 PX4 1 个 |
 | MAVROS/旧 bringup/mock | 0 | mock 仅独立 domain | 0 | 0 | 0 | 0 |
 
-表中的 “1” 是通过对应门禁后的最大/目标实例数，不是启动授权。`bench-dds` 与 `production-dds` 当前均为 `BLOCKED`。
+表中的 “1” 是通过对应门禁后的最大/目标实例数，不表示默认启动。`bench-dds` 与 `production-dds` 当前均为 `BLOCKED`。
 
 ### 4.2 Graph guard 要求
 
@@ -103,11 +100,11 @@ graph guard 当前为 `PLANNED`。后续必须同时满足：
 
 1. 在创建任何控制 publisher 之前检查 profile、namespace、domain、Agent 与 vehicle identity。
 2. 持续观察 graph，而不是只在启动时取一次快照。
-3. 三个 PX4 控制输入必须由同一个批准节点拥有，不能分别落到不同实例。
+3. 三个 PX4 控制输入必须由同一个目标节点拥有，不能分别落到不同实例。
 4. 三个 `/offboard/*` mission 输入必须来自同一有效 lease。
-5. 视觉启用时最多一个批准 writer；baseline 精降 publisher 必须不存在。
+5. 视觉启用时最多一个目标 writer；baseline 精降 publisher 必须不存在。
 6. 发现重复 writer、禁止节点、mock feedback、MAVROS 或 identity 冲突时不得进入 ACTIVE，并产生稳定故障事件。
-7. 故障消失后不能自动恢复旧 authority；需要健康窗口和人工重新授权。
+7. 故障消失后不能自动恢复旧 authority；需要健康窗口和新的有效 lease。
 
 当前源码可以重复启动控制/视觉节点，也没有 graph API 排他检查。因此 writer 规则是 `STATICALLY_VERIFIED` 的架构决策，运行时强制仍为 `PLANNED`。
 
@@ -146,7 +143,7 @@ sequenceDiagram
 
 ## 6. Feedback authority 与 mock 边界
 
-- `/fmu/out/*` 的 production 权威 writer 只能是目标 PX4 经批准 Agent 转发的数据。
+- `/fmu/out/*` 的 production 权威 writer 只能是目标 PX4 经目标 Agent 转发的数据。
 - `mock_rc_control.py` 只能用于独立 ROS domain/namespace 的自动化测试，不能连接真实 Agent/PX4，也不能作为 SITL firmware、bench 或实机证据。
 - 当前 production target 无条件编译 `TEXT_RC`，且自动起飞路径可在从未收到 RC 时跳过互锁。这是 `BLOCKED`，不是可接受 fallback。
 - PX4 v1.16.2 默认 firmware 不导出 `/fmu/out/rc_channels`。定制 firmware profile 与真实 PX4-source SITL payload 为 `PLANNED`。
@@ -156,7 +153,7 @@ sequenceDiagram
 
 当前单机契约：
 
-| 项目 | 当前批准值/规则 | 状态 |
+| 项目 | 当前值/规则 | 状态 |
 |---|---|---|
 | ROS namespace | `/` | `STATICALLY_VERIFIED` |
 | PX4 input/output | `/fmu/in/*`、`/fmu/out/*` | `STATICALLY_VERIFIED` |
@@ -164,7 +161,7 @@ sequenceDiagram
 | PX4 transport | uXRCE-DDS only | `STATICALLY_VERIFIED` |
 | `/dev/ttyTHS0` owner | DDS transport 独占；不得与 MAVLink/MAVROS 复用 | `STATICALLY_VERIFIED` 的规则；运行时 `UNVERIFIED` |
 | DDS domain/client key/system identity | 尚无统一机器配置源 | `PLANNED` |
-| `/drone1` 等多机 namespace | 不批准 | `BLOCKED` |
+| `/drone1` 等多机 namespace | 不支持 | `BLOCKED` |
 
 MAVROS 不是 production fallback。旧 `px4_bringup`、swarm launch 或 SD 卡 namespace 示例都不能改变当前单机根 namespace 决策。未来多机必须另立 ADR 并验证跨机命令不可达性。
 
@@ -176,14 +173,14 @@ fault lattice 当前为 `PLANNED`。对 RC loss、DDS loss、odometry loss、Veh
 - 撤销旧 owner/lease 和 pending VehicleCommand；
 - 不沿用陈旧 setpoint、status、ACK 或视觉样本；
 - 不自动恢复 ACTIVE；
-- 恢复需要新鲜输入、连续健康窗口和人工确认；
+- 恢复需要新鲜输入、连续健康窗口和新的有效 lease；
 - 正常、单故障和组合故障必须在单元测试与 PX4 DDS SITL 中验证。
 
 具体故障下选择 Land、Position、保持 PX4 failsafe 或停止 ROS 输出，可能因飞行阶段和仍可用的反馈而产生相反风险。该选择全部保留为安全评审项，不能由本文自行决定。详见 [故障传播](FAULT_PROPAGATION.md)。
 
 ## 9. 禁止 authority 路径
 
-以下任一项出现在 production graph 都是 no-go：
+以下任一项均不得出现在 production graph：
 
 - MAVROS、MAVROS command/setpoint plugin 或 vision-to-MAVROS；
 - 旧 `px4_bringup` 入口；
@@ -191,11 +188,11 @@ fault lattice 当前为 `PLANNED`。对 RC loss、DDS loss、odometry loss、Veh
 - demo/animal mission owner；
 - 多个 control writer、vision writer、mission owner 或 Agent；
 - communication 包直接写 `/fmu/*` 或控制 `/offboard/*`；
-- 未经批准的 precision landing publisher；
+- 非目标 profile 定义的 precision landing publisher；
 - `/dev/ttyTHS0` 被 DDS 之外的进程占用；
-- swarm namespace 或 identity 未经新 ADR。
+- 未由新 ADR 定义的 swarm namespace 或 identity。
 
-## 10. 当前 go/no-go
+## 10. 当前状态
 
 | 项目 | 状态 | 结论 |
 |---|---|---|
@@ -206,6 +203,6 @@ fault lattice 当前为 `PLANNED`。对 RC loss、DDS loss、odometry loss、Veh
 | VehicleCommand ACK | `PLANNED` | production blocker |
 | PRESTREAM | `PLANNED` | production blocker |
 | fault lattice | `PLANNED` | production blocker |
-| SITL control acceptance | `UNVERIFIED` | no-go for bench |
+| SITL control acceptance | `UNVERIFIED` | 阻塞拆桨台架 |
 | 拆桨台架 | `UNVERIFIED` | 所有 P0 关闭前禁止 |
 | production | `BLOCKED` | 不允许启用 |

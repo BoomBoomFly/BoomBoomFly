@@ -6,11 +6,11 @@
 >
 > 验收状态：`UNVERIFIED`
 >
-> Level 3：`BLOCKED`
+> 有限实机：`BLOCKED`
 >
 > production：`BLOCKED`
 
-本轮没有访问硬件、启动 Agent/节点、写参数、刷 firmware、arm、切 mode 或发送 `/fmu/in/*`。本文只描述未来 Level 3 的治理和安全门；任何真实控制必须由维护者针对精确飞行器、候选版本、人员、场地、时间窗和 test card 另行书面授权。
+本轮没有访问硬件、启动 Agent/节点、写参数、刷 firmware、arm、切 mode 或发送 `/fmu/in/*`。本文只描述有限实机的治理和安全门；任何真实控制必须由维护者针对精确飞行器、候选版本、人员、场地、时间窗和 test card 另行书面授权。
 
 ## 1. 目标与非目标
 
@@ -80,7 +80,7 @@ PIC 与 safety pilot 是否允许同一人由法规和 safety review 决定；�
 - QGC 通过独立批准链路监控；不得占用 DDS 专用 `/dev/ttyTHS0`，不得形成 ROS/PX4 command 竞争。
 - 地面站、伴随计算机、PX4、定位/视觉（如适用）和记录设备时钟可关联。
 - 起降区、缓冲区、人员边界、fire containment、急救和通信均就绪。
-- 当前仓库历史记录没有可用 PX4 USB；若 QGC 独立链路仍未确定，则 Level 3 为 `BLOCKED`。
+- 当前仓库历史记录没有可用 PX4 USB；若 QGC 独立链路仍未确定，则有限实机为 `BLOCKED`。
 
 ## 5. 软件、firmware、参数和 transport
 
@@ -97,14 +97,14 @@ git status --short
 git rev-parse HEAD:workspace.lock.repos
 ```
 
-根 HEAD、lock、所有受管依赖/dirty receipt、toolchain、Agent binary、profile/config hash 必须与 `BENCH_VERIFIED` 候选一致。任何未知 dirty 状态、现场 rebuild 或 binary/hash 差异均 `no-go` 并退回 Level 0。
+根 HEAD、lock、所有受管依赖/dirty receipt、toolchain、Agent binary、profile/config hash 必须与 `BENCH_VERIFIED` 候选一致。任何未知 dirty 状态、现场 rebuild 或 binary/hash 差异均 `no-go` 并重新执行离线检查。
 
 ### 5.2 Firmware
 
 - PX4 v1.16.2 exact source/submodule/toolchain 和 FMUv3 artifact SHA-256 必须与台架通过件一致。
 - installed identity 必须通过批准只读方法确认；不能仅依据文件名、QGC 显示的版本号或历史 git hash。
 - `rc_channels` profile 必须存在；baseline 不加入 `landing_target_pose`。
-- 现场不得刷写。artifact 不一致时退回 Level 0→1→2。
+- 现场不得刷写。artifact 不一致时重新执行离线检查、正式 SITL 和拆桨台架。
 
 ### 5.3 参数快照
 
@@ -198,7 +198,7 @@ go 只对当前一步和限定时间有效，不自动继承到下一步。
 
 ## 9. no-go 条件
 
-- Level 2 只有文档或只读结果，没有实际 `BENCH_VERIFIED`；
+- 拆桨台架只有文档或只读结果，没有实际 `BENCH_VERIFIED`；
 - 任一 P0/P1 未关闭、重开或只做风险接受；
 - 当前 firmware/参数未知，或与台架候选有任何未批准差异；
 - QGC 无独立链路、DDS 串口不独占、出现未知/重复 writer/owner/Agent；
@@ -222,7 +222,7 @@ go 只对当前一步和限定时间有效，不自动继承到下一步。
 - 日志、时钟或 evidence recorder 中断；
 - PIC、safety pilot、observer、test director 或 recorder 任一喊停。
 
-具体应执行 Land、Position、保持 PX4 failsafe、停止 Offboard 输出还是人工接管，必须由逐飞行阶段 hazard analysis 和批准应急卡决定。本文不替安全评审做选择；未决定时 Level 3 保持 `BLOCKED`。
+具体应执行 Land、Position、保持 PX4 failsafe、停止 Offboard 输出还是人工接管，必须由逐飞行阶段 hazard analysis 和批准应急卡决定。本文不替安全评审做选择；未决定时有限实机保持 `BLOCKED`。
 
 ## 11. 预期结果与判定
 
@@ -252,20 +252,20 @@ go 只对当前一步和限定时间有效，不自动继承到下一步。
 ## 13. rollback 与失败处置
 
 1. 按批准应急卡安全终止当前飞行，不在空中尝试临时软件修复。
-2. 落地后确认 disarmed、动力隔离；移除桨叶，回到 Level 2 物理状态。
+2. 落地后确认 disarmed、动力隔离；移除桨叶，回到拆桨台架物理状态。
 3. 停止所有 ROS writer 和 Agent，确认 DDS 串口释放；封存原始 evidence。
 4. 采集飞后完整参数并核对 firmware/source/profile identity。
 5. 在拆桨台架按已演练 manifest 恢复已知良好 firmware、参数、software 和 transport。
-6. 重新执行相应 Level 0、Level 1 和 Level 2 门；影响边界不明时从 Level 0 开始。
+6. 重新执行相应的离线检查、正式 SITL 和拆桨台架；影响边界不明时从离线检查开始。
 7. rollback 失败或硬件异常时锁定/隔离飞行器，状态为 `BLOCKED`，不得复飞。
 
-rollback 后不自动恢复 Level 3 资格；必须完成 anomaly review 并获得新的授权。
+rollback 后不自动恢复有限实机资格；必须完成 anomaly review 并获得新的授权。
 
 ## 14. 完成条件与后续边界
 
 只有批准 test card 的全部 required step 通过、无 open P0/P1/anomaly、evidence 完整、飞后/rollback 处理完成且 independent reviewer 签字，才能把该精确场景标为 `FLIGHT_VERIFIED`。
 
-Level 3 没有自动下一等级：
+有限实机通过不自动启用 production：
 
 - production 继续 `BLOCKED`；
 - 扩大包线、新 mission、视觉、precision landing、不同 firmware/参数/硬件均是新验证对象；

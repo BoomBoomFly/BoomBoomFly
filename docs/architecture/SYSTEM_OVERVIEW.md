@@ -99,6 +99,9 @@ ROS 2 nodes <-> Micro XRCE-DDS Agent <-> PX4 uXRCE-DDS client
 - `offboard_swarm_control.launch.py` 是历史/实验入口，不能证明多机能力。
 - `offboard_cpp/README.md` 中 PX4 1.14.3、MAVROS/蜂群和烧录说明不是当前 PX4 v1.16.2 DDS-only 权威运行说明。
 - 2026-07-24 PX4 参数快照和 2026-07-25 实机 DDS session 是 `HISTORICAL_EVIDENCE`，不是当前参数或本轮运行结果。
+- 2026-07-28 用户提供的 PX4 v1.16.2 参数快照已完成只读审计；原始材料、哈希和当前阻塞点见
+  [PX4 参数快照审计](../evidence/sessions/20260728T213311+0800_px4_parameter_audit/PX4_PARAMETER_AUDIT.md)。
+  该快照不证明 DDS 运行状态、外部视觉融合或实机飞行可用。
 
 历史路径可以只读审计，不能被 production profile、批准 launch 或验收证据引用为当前实现。
 

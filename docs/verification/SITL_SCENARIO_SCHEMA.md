@@ -6,7 +6,7 @@
 >
 > 正式 PX4 SITL 结果：`UNVERIFIED`
 
-本文冻结 BoomBoomFly Level 1 场景、事件和离线结果的结构接口。schema 校验通过只证明输入符合静态契约，不证明 ROS graph、PX4、DDS Agent、topic payload 或安全行为已经运行或通过。合成事件必须保留 synthetic/mock identity，不能关闭 PX4 contract gate。
+本文冻结 BoomBoomFly 正式 PX4 DDS SITL 场景、事件和离线结果的结构接口。schema 校验通过只证明输入符合静态契约，不证明 ROS graph、PX4、DDS Agent、topic payload 或安全行为已经运行或通过。合成事件必须保留 synthetic/mock identity，不能关闭 PX4 contract gate。
 
 ## 1. 规范文件
 

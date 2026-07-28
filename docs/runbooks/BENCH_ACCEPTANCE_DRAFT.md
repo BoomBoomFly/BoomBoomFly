@@ -10,7 +10,7 @@
 >
 > 本轮未访问硬件、未启动节点、未刷写、未写参数、未 arm、未发送 `/fmu/in/*`。
 
-本文是 Level 2 的安全评审输入，不是操作授权、已批准 test card 或台架 evidence。只有所有 P0 关闭、适用 P1 关闭、Level 1 为 `SITL_VERIFIED`，且维护者签发精确范围的硬件授权后，才能把本草案转为受控 runbook。production 仍为 `BLOCKED`。
+本文是拆桨台架的安全评审输入，不是操作授权、已批准 test card 或台架 evidence。只有所有 P0 关闭、适用 P1 关闭、正式 SITL 为 `SITL_VERIFIED`，且维护者签发精确范围的硬件授权后，才能把本草案转为受控 runbook。production 仍为 `BLOCKED`。
 
 ## 1. 目标
 
@@ -40,7 +40,7 @@
 
 - 安装任何桨叶或让机体处于自由状态；
 - 单人操作或无观察员操作；
-- 跳过 Level 1、P0/P1、安全评审或双人确认；
+- 跳过正式 SITL、P0/P1、安全评审或双人确认；
 - 在 test card 之外 arm、切换 mode、发送 setpoint/VehicleCommand 或 `/fmu/in/*`；
 - 使用 MAVROS/MAVLink 作为 production fallback；
 - 让 QGC、MAVLink 或历史 serial 与 DDS 共用 `/dev/ttyTHS0`；
@@ -54,7 +54,7 @@
 
 - [ ] 所有 P0 已关闭且有独立 reviewer evidence。
 - [ ] 适用于台架的 P1 已关闭：DDS-only 边界、firmware profile、CI、安全测试、SITL、transport identity、参数 schema、runbook/rollback。
-- [ ] 精确候选在 Level 1 已标 `SITL_VERIFIED`。
+- [ ] 精确候选在正式 SITL 中已标 `SITL_VERIFIED`。
 - [ ] graph guard、owner/lease、VehicleCommand ACK、freshness、PRESTREAM、RC hard gate、kill latch 和 fault lattice 均不是 `PLANNED`。
 - [ ] PX4 v1.16.2 `rc_channels` firmware artifact 已完成 FMUv3 build，source/submodule/toolchain/artifact SHA-256 完整。
 - [ ] baseline precision landing 关闭；当前只支持单机根 namespace。
@@ -89,7 +89,7 @@
 | operator | 操作伴随计算机、RC 和批准步骤 | 逐命令复诵、观察预期、异常立即停 |
 | observer / safety officer | 独立观察机体、动力、电池、人员和急停 | 桨叶拆除、固定、急停、RC/kill、危险区清空 |
 | evidence recorder | 记录 identity、时间、原始日志、签字 | 日志持续、clock 对齐、结果不被覆盖 |
-| firmware/control reviewer | 核对 artifact/profile/状态机契约 | SHA/参数/故障动作与 Level 1 完全一致 |
+| firmware/control reviewer | 核对 artifact/profile/状态机契约 | SHA/参数/故障动作与正式 SITL 完全一致 |
 
 最少两名现场人员：operator 与 observer 必须是不同人员。test director 是否可兼任由风险评审决定并记录。每一步采用 challenge-response：test director 读出步骤和预期，operator 回读动作，observer 确认物理状态，recorder 标记时间，随后才执行。
 
@@ -138,7 +138,7 @@ git rev-parse HEAD:workspace.lock.repos
 - Agent 启动前检查端口无 owner；启动后检查恰好一个批准 owner；停止后检查端口释放。
 - 不允许 MAVROS、第二个 Agent 或历史 serial 进程。
 - QGC 必须使用维护者批准的独立链路；当前仓库记录没有可用 PX4 USB，因此 QGC 链路未定义时台架为 `BLOCKED`。
-- ROS domain、根 namespace、client key、system/component identity 与 Level 1 profile 一致。
+- ROS domain、根 namespace、client key、system/component identity 与正式 SITL profile 一致。
 
 ## 6. 日志与证据准备
 
@@ -180,7 +180,7 @@ git rev-parse HEAD:workspace.lock.repos
 4. QGC 以只读监控权限显示一致的 firmware、disarmed、battery 和 failsafe 状态。
 5. 确认 QGC 没有占用 `/dev/ttyTHS0`，没有创建 ROS control writer。
 
-预期：identity 和参数完全匹配。任何差异不得现场修后继续；回到变更流程和 Level 0。
+预期：identity 和参数完全匹配。任何差异不得现场修后继续；回到变更流程并重新执行离线检查。
 
 ### Gate B2 — DDS transport 只读
 
@@ -246,7 +246,7 @@ ros2 topic info -v /fmu/out/vehicle_command_ack
 3. 保存并 hash 所有日志、飞前/飞后参数和配置差异。
 4. 在拆桨固定状态下按 rollback manifest 恢复已知良好 firmware/参数/software/profile。
 5. 重复 B1/B2 的 identity 和只读检查，证明恢复成功。
-6. rollback 失败则锁定设备、标 `BLOCKED`，不得进入 Level 3。
+6. rollback 失败则锁定设备、标 `BLOCKED`，不得进入有限实机。
 
 ## 8. 故障场景与安全评审门
 
@@ -265,7 +265,7 @@ ros2 topic info -v /fmu/out/vehicle_command_ack
 ## 9. go 条件
 
 - 物理、人员、授权、source、software、firmware、参数、transport、QGC、日志和 rollback checklist 全部双签；
-- 所有 P0、适用 P1 关闭，Level 1 为 `SITL_VERIFIED`；
+- 所有 P0、适用 P1 关闭，正式 SITL 为 `SITL_VERIFIED`；
 - 每个运行 gate 的前一 gate 通过；
 - 结果严格匹配批准状态表/deadline；
 - 无未知 publisher、mock、MAVROS、串口竞争或身份漂移；
@@ -327,7 +327,7 @@ rollback 必须在本台架、拆桨固定条件下实际演练成功。桌面�
 - 每个 skipped/not-applicable/failed/unverified 项的理由；
 - 敏感设备唯一标识只进入受控 evidence；公开摘要必须脱敏。
 
-## 14. Level 3 入口
+## 14. 有限实机入口
 
 有限实机仍为 `BLOCKED`，直到：
 
@@ -335,5 +335,5 @@ rollback 必须在本台架、拆桨固定条件下实际演练成功。桌面�
 2. 候选状态为 `BENCH_VERIFIED`，不是只读 transport verified；
 3. firmware/参数/software/transport rollback 在台架实际成功；
 4. 所有适用 P0/P1 关闭且没有重新打开；
-5. Level 3 风险评估、场地/法规/保险、飞行包线、人员和应急卡获批；
+5. 有限实机风险评估、场地/法规/保险、飞行包线、人员和应急卡获批；
 6. 实机控制获得新的明确书面授权。

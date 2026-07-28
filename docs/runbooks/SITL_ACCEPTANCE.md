@@ -8,7 +8,7 @@
 >
 > 硬件：禁止使用
 
-本 runbook 规定 Level 1 的验收边界。当前仓库没有已批准的项目级 PX4 DDS SITL orchestration，`rc_channels` firmware profile 和关键 Offboard 安全闭环也未完成，因此本文不能直接启动验收，不能声称 `SITL_VERIFIED`。
+本 runbook 规定正式 PX4 DDS SITL 的验收边界。当前仓库没有已批准的项目级 PX4 DDS SITL orchestration，`rc_channels` firmware profile 和关键 Offboard 安全闭环也未完成，因此本文不能直接启动验收，不能声称 `SITL_VERIFIED`。
 
 ## 1. 目标与范围
 
@@ -42,7 +42,7 @@
 
 全部勾选后才可把本 runbook 从 `BLOCKED` 提交为待执行：
 
-- [ ] Level 0 已按同一 root HEAD/lock/profile 通过，状态为 `STATICALLY_VERIFIED` 且 required unit tests 为 `UNIT_TESTED`。
+- [ ] 离线静态检查和单元测试已按同一 root HEAD/lock/profile 通过，状态分别为 `STATICALLY_VERIFIED` 和 `UNIT_TESTED`。
 - [ ] PX4 v1.16.2 source SHA、递归 submodule、toolchain、SITL binary SHA-256 已锁定。
 - [ ] `rc_channels` profile 已静态生成，baseline 未加入 `landing_target_pose`。
 - [ ] Micro XRCE-DDS Agent v2.4.2 binary identity 已记录。
@@ -65,7 +65,7 @@
 
 ## 5. 设备、软件、firmware、参数和 transport
 
-| 项目 | Level 1 要求 |
+| 项目 | 正式 SITL 要求 |
 |---|---|
 | 设备状态 | 无真实硬件；工作目录和 ROS domain 与其他 graph 隔离；测试有 bounded timeout |
 | OS/ROS | Ubuntu 20.04、ROS 2 Foxy；RMW 实现和版本进入记录 |
@@ -187,7 +187,7 @@ catalog 冲突、场景未登记、schema 校验失败或 dependency 未解析�
 | SITL-F11 | vision loss/freeze/reset/time jump | stale/future/backward/non-finite 视觉 publish count 为 0 | 具体动作 `BLOCKED` |
 | SITL-F12 | kill edge/bounce | 去抖、最高优先级、锁存和人工复位符合批准契约 | `PLANNED` |
 
-任一 `BLOCKED` 动作未获安全批准时，不运行对应场景，也不能完成 Level 1。
+任一 `BLOCKED` 动作未获安全批准时，不运行对应场景，也不能将正式 SITL 标为 `SITL_VERIFIED`。
 
 ## 10. go、no-go 与立即停止
 
@@ -252,7 +252,7 @@ catalog 冲突、场景未登记、schema 校验失败或 dependency 未解析�
 4. 台架 firmware/参数/software/transport rollback 包已桌面演练；
 5. 已获得硬件、刷写、参数和任何 control action 的单独书面授权。
 
-任一条件缺失，Level 2 保持 `BLOCKED`。
+任一条件缺失，拆桨台架保持 `BLOCKED`。
 
 ## 14. 机器可读场景与离线验证
 

@@ -4,9 +4,8 @@
     "status": "unverified",
     "value": null
   },
-  "baseline_status": "unverified",
   "business_purpose": {
-    "observed_context": "The current differences are preserved observations. Their business necessity has not been confirmed by a maintainer.",
+    "observed_context": "The current differences are preserved observations. Their purpose is not established by this capture.",
     "status": "unverified",
     "value": null
   },
@@ -522,12 +521,6 @@
       }
     ]
   },
-  "maintainer_confirmation": {
-    "confirmed_at": null,
-    "notes": "No maintainer confirmation was present at capture time.",
-    "reviewer": null,
-    "status": "unapproved"
-  },
   "observed_at": "2026-07-26T17:42:00+08:00",
   "patch": {
     "artifact_path": "docs/evidence/receipts/patches/realsense_ros.patch.b64",
@@ -544,8 +537,7 @@
   "replay_order": [
     "verify_origin_and_head",
     "apply_patch_artifact",
-    "verify_content_manifest_sha256",
-    "obtain_maintainer_confirmation"
+    "verify_content_manifest_sha256"
   ],
   "repository": {
     "base_sha": "8abb4657c0add15f87b0edbfb67eaba2c1c2c439",

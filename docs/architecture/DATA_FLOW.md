@@ -134,4 +134,6 @@ MAVROS、旧 `px4_bringup`、mock feedback、demo/animal production 使用、重
 - [ADR-0001：DDS-only 控制权](../adr/0001-dds-only-control-authority.md)
 - [控制权与发布者矩阵](../CONTROL_AUTHORITY_MATRIX.md)
 - [控制权运行契约](CONTROL_AUTHORITY.md)
-- [分级验证门](../runbooks/VALIDATION_LEVELS.md)
+- [SITL 验收](../runbooks/SITL_ACCEPTANCE.md)
+- [拆桨台架](../runbooks/BENCH_ACCEPTANCE_DRAFT.md)
+- [有限实机](../runbooks/LIMITED_FLIGHT_ACCEPTANCE_DRAFT.md)

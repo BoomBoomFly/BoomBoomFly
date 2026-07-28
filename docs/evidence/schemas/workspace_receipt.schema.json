@@ -6,13 +6,6 @@
     "applicable_platform": {
       "$ref": "#/$defs/unverifiedClaim"
     },
-    "baseline_status": {
-      "description": "Receipt-local claim only. Approval requires a separately signed workspace receipt approval artifact.",
-      "enum": [
-        "unverified",
-        "approved"
-      ]
-    },
     "business_purpose": {
       "$ref": "#/$defs/unverifiedClaim"
     },
@@ -117,41 +110,6 @@
       ],
       "type": "object"
     },
-    "maintainer_confirmation": {
-      "description": "Receipt-local confirmation claim only; it is not trusted without a separately signed approval artifact.",
-      "additionalProperties": false,
-      "properties": {
-        "confirmed_at": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "notes": {
-          "minLength": 1,
-          "type": "string"
-        },
-        "reviewer": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "status": {
-          "enum": [
-            "approved",
-            "unapproved"
-          ]
-        }
-      },
-      "required": [
-        "status",
-        "reviewer",
-        "confirmed_at",
-        "notes"
-      ],
-      "type": "object"
-    },
     "observed_at": {
       "format": "date-time",
       "type": "string"
@@ -196,8 +154,7 @@
       "const": [
         "verify_origin_and_head",
         "apply_patch_artifact",
-        "verify_content_manifest_sha256",
-        "obtain_maintainer_confirmation"
+        "verify_content_manifest_sha256"
       ]
     },
     "repository": {
@@ -248,7 +205,6 @@
   "required": [
     "schema_version",
     "receipt_id",
-    "baseline_status",
     "observed_at",
     "repository",
     "checkout",
@@ -261,8 +217,7 @@
     "content",
     "applicable_platform",
     "business_purpose",
-    "replay_order",
-    "maintainer_confirmation"
+    "replay_order"
   ],
   "title": "BoomBoomFly preserved workspace checkout receipt",
   "type": "object",
@@ -427,8 +382,7 @@
         "status": {
           "enum": [
             "unverified",
-            "verified",
-            "approved"
+            "verified"
           ]
         },
         "value": {

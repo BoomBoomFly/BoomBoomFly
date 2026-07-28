@@ -16,7 +16,7 @@ CURRENT_AUTHORITY_DOCUMENTS = (
     "README.md",
     "Scripts/README.md",
     "docs/CONTROL_AUTHORITY_MATRIX.md",
-    "docs/runbooks/VALIDATION_LEVELS.md",
+    "docs/runbooks/SITL_ACCEPTANCE.md",
 )
 EVIDENCE_ROOTS = (
     "docs/evidence",

@@ -11,12 +11,12 @@ production 控制链只允许 PX4 uXRCE-DDS；MAVROS、历史串口链和旧 bri
 - 构建：[DDS-only 构建入口](Scripts/build/build_dds_only.sh)
 - 测试：[DDS-only 测试入口](Scripts/test/test_dds_only.sh) 与
   [离线测试目录](test/)
-- 验证层级与 runbook：[分级验证门](docs/runbooks/VALIDATION_LEVELS.md)、
-  [SITL 验收](docs/runbooks/SITL_ACCEPTANCE.md)
+- 验证 runbook：[SITL 验收](docs/runbooks/SITL_ACCEPTANCE.md)、
+  [拆桨台架](docs/runbooks/BENCH_ACCEPTANCE_DRAFT.md)与
+  [有限实机](docs/runbooks/LIMITED_FLIGHT_ACCEPTANCE_DRAFT.md)
 - 当前规范：[控制权矩阵](docs/CONTROL_AUTHORITY_MATRIX.md) 与
   [architecture](docs/architecture/)
-- 当前验证边界：[分级验证门](docs/runbooks/VALIDATION_LEVELS.md)、
-  [控制权矩阵](docs/CONTROL_AUTHORITY_MATRIX.md) 与
+- 当前验证边界：[控制权矩阵](docs/CONTROL_AUTHORITY_MATRIX.md) 与
   [视觉里程计契约](docs/architecture/VISION_ODOMETRY_CONTRACT.md)
 - evidence：[evidence 索引](docs/evidence/index.yaml) 与
   [schema 说明](docs/evidence/SCHEMA.md)

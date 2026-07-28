@@ -256,7 +256,7 @@ flight phase
 
 ## 7. 验证要求
 
-### Level 0：静态与单元
+### 离线检查：静态与单元
 
 - typed freshness/epoch wrapper 的首帧、stale、negative age 和 clock mismatch 测试；
 - 所有 ACK result、错误 target/command、迟到/重复/timeout；
@@ -267,7 +267,7 @@ flight phase
 
 当前整体状态：`UNVERIFIED`。
 
-### Level 1：PX4 DDS SITL
+### 正式 PX4 DDS SITL
 
 - 使用 PX4 publisher/reader，不得用 mock 替代 PX4 contract；
 - 注入 RC/DDS/odom/status/battery/owner/vision loss；
@@ -277,14 +277,16 @@ flight phase
 
 当前整体状态：`UNVERIFIED`。
 
-### Level 2/3
+### 拆桨台架与有限实机
 
-拆桨台架与有限实机均为 `UNVERIFIED`，且 Level 2/3 运行需独立授权。所有 P0 关闭、SITL 通过和 runbook 获批前不得进入拆桨台架；有限实机必须另行授权。
+拆桨台架与有限实机均为 `UNVERIFIED`，且运行需独立授权。所有 P0 关闭、SITL 通过和 runbook 获批前不得进入拆桨台架；有限实机必须另行授权。
 
 ## 8. 依据
 
 - [数据流与 topic 契约](DATA_FLOW.md)
 - [控制权运行契约](CONTROL_AUTHORITY.md)
 - [ADR-0001：DDS-only 控制权](../adr/0001-dds-only-control-authority.md)
-- [分级验证门](../runbooks/VALIDATION_LEVELS.md)
+- [SITL 验收](../runbooks/SITL_ACCEPTANCE.md)
+- [拆桨台架](../runbooks/BENCH_ACCEPTANCE_DRAFT.md)
+- [有限实机](../runbooks/LIMITED_FLIGHT_ACCEPTANCE_DRAFT.md)
 - [SITL 验收](../runbooks/SITL_ACCEPTANCE.md)
