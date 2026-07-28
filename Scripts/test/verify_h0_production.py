@@ -212,12 +212,14 @@ def verify_vision(root):
 
 def verify_serial_and_source_governance(root):
     active_lock = read(root / "workspace.lock.repos")
-    active_index = read(root / "workspace.repos")
     quarantine = read(root / "workspace.quarantine.repos")
     require(
-        "src/serial_driver_ros:" not in active_lock
-        and "src/serial_driver_ros:" not in active_index,
+        "src/serial_driver_ros:" not in active_lock,
         "serial appears in an active source manifest",
+    )
+    require(
+        not (root / "workspace.repos").exists(),
+        "retired moving workspace.repos manifest was restored",
     )
     require(
         "src/serial_driver_ros:" in quarantine
@@ -256,7 +258,7 @@ def verify_serial_and_source_governance(root):
     require(
         len(fields) >= 2
         and fields[0] == "160000"
-        and fields[1] == "df256c180dbd4167f879b697e38d547521f1f8e2",
+        and fields[1] == "eaaae53435ce706b32ee7dffc0c6643b43a12afe",
         "communication gitlink identity mismatch",
     )
 

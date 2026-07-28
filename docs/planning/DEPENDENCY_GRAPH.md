@@ -2,10 +2,11 @@
 
 > 文档状态：`PLANNED`
 >
-> 调度基线：Repository Cleanup Wave 2 起始
-> `master@0a7f90dad0942843c989a9bed6333a88f9b31ca5`。箭头 `X --> Y`
-> 表示 Y 的集成或验收依赖 X；纯只读审查、ADR、schema 和失败测试只有在不写共享
-> 文件时才可提前。
+> 当前调度入口为 [`docs/handoff.md`](../handoff.md) 和
+> [Wave 4B open findings](../audits/2026-07-27-wave4b-wsl/07-open-findings.md)。
+> 本图不绑定活动 branch/HEAD；精确 source identity 必须从当次 handoff/receipt
+> 重新验证。箭头 `X --> Y` 表示 Y 的集成或验收依赖 X；纯只读审查、ADR、schema
+> 和失败测试只有在不写共享文件时才可提前。
 
 ## A–G 工作线
 
@@ -72,7 +73,7 @@ SITL 必须等待 A、B、C、D 的适用门通过；F1 完成不等于 `SITL_VE
 | E 的 publisher/profile 集成 | C 的 authority/profile 接口冻结；frame/time ADR 通过 |
 | F-RUN | A firmware/profile、B/C 软件门、D CI gate 全部通过 |
 | G archive 实施 | 维护者批准 manifest 迁移；active/archive/optional profile 负向测试先通过 |
-| G moving receipt | 维护者确认 `../communication` dirty/untracked 内容归属与签名身份 |
+| G source receipt | 维护者确认 `src/communication` dirty/untracked 内容归属与签名身份 |
 | G CODEOWNERS | 真实 GitHub user/team；当前 proposal 不可直接启用 |
 | G required checks | D jobs 稳定通过和仓库管理员授权 |
 | M5 拆桨台架 | 全部适用 P0/P1、F-RUN、release/rollback evidence 和单独硬件授权 |

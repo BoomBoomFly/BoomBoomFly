@@ -72,7 +72,7 @@ XOR future_control_authority_node
 - `animal_testing_node`；
 - 多个 `offboard_control_node`；
 - 多个 `vision_to_dds_node`；
-- `../communication` 对 `/fmu/*` 或 `/offboard/*` 的任何发布。
+- `src/communication` 对 `/fmu/*` 或 `/offboard/*` 的任何发布。
 
 ## 5. Namespace 契约
 

@@ -79,11 +79,12 @@ bash Scripts/installation/uav_px4_dds_install.sh \
   --skip-package-check
 ```
 
-脚本会拒绝覆盖 dirty checkout、origin 不匹配和未获准的 ref 漂移。
-默认只选择 active exact-SHA profile；archive 和 optional sources 必须通过
-`--with-archive` 或 `--with-optional perception|navigation` 显式加入。moving
-`workspace.repos` 只允许以 `--manifest workspace.repos --allow-moving-refs`
-显式审计/恢复。完整 profile 与安全语义见
+脚本会拒绝覆盖 dirty checkout、origin 不匹配和任何非精确 ref。
+根目录只保留一个 `workspace.lock.repos`；脚本默认只选择其中的 active exact-SHA
+profile，archive 和 optional sources 必须通过 `--with-archive` 或
+`--with-optional perception|navigation` 显式加入。自定义
+`--manifest` 同样必须只包含安全 `src/` 路径和精确 SHA；原 moving
+`workspace.repos` 入口已退役。完整 profile 与安全语义见
 [`docs/dependencies/SOURCE_PROFILES.md`](../docs/dependencies/SOURCE_PROFILES.md)。
 `verify_environment.py` 与 `verify_workspace_receipts.py` 提供相应的离线环境和
 dependency receipt 检查。

@@ -20,7 +20,7 @@ blocked until its scenario dependencies and authorization are satisfied.
 | `test_scenario_validation.py` | Valid scenario plus required fields, IDs, bounded units, dependencies, event shape, status, and blocker rejection |
 | `test_event_validation.py` | Event and JSONL structure, required fields, parse errors, and synthetic identity rejection |
 | `test_timeline_assertions.py` | Wall/monotonic order, correlation closure, deadlines, forbidden counts, cleanup, publisher cardinality, identity, state order, and duplicate counts |
-| `test_catalog_integrity.py` | Exactly 12 normal and 24 fault scenarios, unique IDs, file references, and scenario semantic validation |
+| `test_catalog_integrity.py` | Exactly 12 normal and 25 fault scenarios; the 25th is explicitly offline synthetic, with unique IDs, file references, and scenario semantic validation |
 | `test_safety_boundaries.py` | Every prohibited safety fixture is rejected with a non-empty error list and the expected error code |
 
 The valid fixture contains a synthetic endpoint, two synthetic state transitions,

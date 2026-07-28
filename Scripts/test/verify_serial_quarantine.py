@@ -72,7 +72,10 @@ def verify(root, serial_source, log_base):
     if not SHA_RE.fullmatch(expected_sha):
         raise QuarantineError("serial quarantine version must be an exact 40-character SHA")
 
-    for active_name in ("workspace.lock.repos", "workspace.repos"):
+    if (root / "workspace.repos").exists():
+        raise QuarantineError("retired moving workspace.repos manifest was restored")
+
+    for active_name in ("workspace.lock.repos",):
         active = load_yaml(root / active_name)
         for path, active_entry in active.get("repositories", {}).items():
             active_url = normalize_url(str(active_entry.get("url", "")))

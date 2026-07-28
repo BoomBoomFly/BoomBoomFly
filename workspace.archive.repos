@@ -1,7 +1,0 @@
-# Archived source provenance. This profile is never restored by default.
-# Every entry must remain pinned to an exact lowercase 40-character commit.
-repositories:
-  src/px4_bringup:
-    type: git
-    url: https://github.com/AyasOwen/px4_bringup.git
-    version: 0fbdcbf6ee53d6927de75af1d98f22cf5bd4f917

@@ -68,7 +68,7 @@ class SerialQuarantineTests(unittest.TestCase):
         (self.root / "workspace.quarantine.repos").write_text(
             yaml.safe_dump(self.quarantine), encoding="utf-8"
         )
-        for name in ("workspace.lock.repos", "workspace.repos"):
+        for name in ("workspace.lock.repos",):
             (self.root / name).write_text(
                 yaml.safe_dump(self.active_lock), encoding="utf-8"
             )

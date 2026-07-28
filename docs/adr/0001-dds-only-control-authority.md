@@ -115,7 +115,7 @@ MAVROS/MAVLink 不作为备用控制链，不进入 production、bench、SITL �
 
 ### 7. communication 边界
 
-`../communication` 负责后续 MCU/串口通信，不属于 PX4 飞控控制链。
+`src/communication` 负责后续 MCU/串口通信，不属于 PX4 飞控控制链。
 
 它不得发布：
 

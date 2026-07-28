@@ -4,7 +4,6 @@
   "description": "Authoritative DDS-only ROS package boundary. This file uses JSON syntax, which is valid YAML 1.2.",
   "source_manifests": [
     "workspace.lock.repos",
-    "workspace.repos",
     "workspace.excluded_packages"
   ],
   "quarantine_manifests": [
