@@ -31,7 +31,8 @@ UNVERIFIED
 
 ## 开始贡献前
 
-1. 阅读 `README.md`、`docs/handoff.md`、适用 ADR、控制权矩阵和对应 runbook。
+1. 阅读 `README.md`、`docs/repository_audit/00_EXECUTIVE_SUMMARY.md`、适用 ADR、
+   控制权矩阵和对应 runbook。
 2. 记录根仓库 branch、HEAD 和工作树；依赖仓库还要记录 origin、HEAD 和 dirty
    状态。
 3. 先确认变更范围、风险级别、文件 owner 和依赖任务。不得覆盖他人的 dirty

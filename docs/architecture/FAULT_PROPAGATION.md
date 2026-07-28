@@ -286,5 +286,5 @@ flight phase
 - [数据流与 topic 契约](DATA_FLOW.md)
 - [控制权运行契约](CONTROL_AUTHORITY.md)
 - [ADR-0001：DDS-only 控制权](../adr/0001-dds-only-control-authority.md)
-- [统一发现登记册](../audits/2026-07-26/07_FINDINGS_REGISTER.md)
-- [验证矩阵](../audits/2026-07-26/09_VALIDATION_MATRIX.md)
+- [当前风险登记册](../repository_audit/09_RISK_REGISTER.md)
+- [下一阶段验证计划](../repository_audit/10_NEXT_STAGE_PLAN.md)

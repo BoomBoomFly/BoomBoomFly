@@ -1,35 +1,7 @@
 schema_version: "1.0"
-generated_at: "2026-07-26T17:31:29+08:00"
+generated_at: "2026-07-28T15:57:16+08:00"
 repository:
   origin: "https://github.com/BoomBoomFly/BoomBoomFly.git"
-  root_branch: "agent/wave1-evidence"
-  root_head: "5a0e6edd4930474506a1046d414425893ebd800f"
-entries:
-  - evidence_id: "BBF-EVID-LEGACY-OFFBOARD-PX4-MSGS-20260724"
-    title: "Offboard / px4_msgs v1.16.2 compatibility evidence"
-    evidence_type: "validation_record"
-    status: "historical"
-    path: "docs/evidence/OFFBOARD_PX4_MSGS_COMPAT_20260724.md"
-    sha256: "1c3cf3f0fd72a233c3a59005a94023bb9a516425f25f6e9ed742034aa0ae114d"
-    metadata_path: null
-    known_historical: true
-    supersedes: null
-    superseded_by: null
-    limitations:
-      - "Legacy cumulative record spans multiple dates and does not conform to evidence.schema.json."
-      - "It does not establish the current repository HEAD, environment, or hardware state."
-      - "It contains historical hardware details and must not be republished without redaction review."
-  - evidence_id: "BBF-EVID-LEGACY-PX4-PARAMS-20260724"
-    title: "PX4 parameter snapshot captured before later transport changes"
-    evidence_type: "parameter_snapshot"
-    status: "historical"
-    path: "docs/evidence/PX4_PARAMS_20260724T203458+0800.json"
-    sha256: "d962b85410fe8bd610cb2514a11b240ac3629d54492f51cee2e9fd1a6b808ba4"
-    metadata_path: null
-    known_historical: true
-    supersedes: null
-    superseded_by: null
-    limitations:
-      - "This snapshot predates maintainer-reported PX4 transport parameter changes."
-      - "It does not represent current PX4 parameters and cannot satisfy a current acceptance gate."
-      - "The legacy payload is preserved byte-for-byte and does not conform to evidence.schema.json."
+  root_branch: "master"
+  root_head: "df01b9280c0e79a05ad1e4cec727e7427c9251ca"
+entries: []

@@ -39,7 +39,7 @@ ADR 可使用 `Proposed`、`Accepted`、`Deprecated`、`Superseded` 表示决策
 | Runbook | 经批准操作的步骤、go/no-go、停止与回滚 | 文档存在不表示步骤已执行 |
 | Dated audit | 绑定日期与 checkout 的审查发现 | 不自动代表当前 tree |
 | Dated evidence / receipt | 绑定 source/profile/artifact/time 的实际记录 | 不自动推广为普遍规则或当前状态 |
-| Correction / supersedes record | 修正历史引用、解释限制或以新记录替代旧结论 | 保留原历史正文和原始 artifact |
+| Correction / supersedes record | 修正历史引用、解释限制或以新记录替代旧结论 | 若原件仍在工作树则不得静默改写；获准删除后由 Git 历史恢复 |
 
 ## 权威层级
 
@@ -53,29 +53,26 @@ ADR 可使用 `Proposed`、`Accepted`、`Deprecated`、`Superseded` 表示决策
 5. 某次执行事实只由匹配 source/profile/artifact identity 的 evidence/receipt
    证明。
 6. handoff 只提供临时导航；planning 只描述未来工作。
-7. dated audit/evidence 是不可变历史记录，通过 correction 或 superseding
-   record 解释，不原地改写。
+7. dated audit/evidence 在工作树存在期间不原地改写；由 correction/superseding
+   record 解释，或在被完整取代且无活跃引用时经维护者批准删除。
 
 法律、许可证、production enable 和硬件授权仍需维护者及适用责任人的显式决策。
 
 ## 历史勘误与 supersession
 
-历史审计、原始 evidence、receipt、schema 和参数快照不得为了匹配当前 tree 而
-重写或删除。
+当前权威文档直接修正，并通过 Git commit 保留变更记录。已被当前统一报告完整
+取代、且没有活跃消费方的旧报告或 dated evidence 可以从工作树删除；Git 历史是其
+恢复路径。
 
 发现错误或后续变化时：
 
-1. 保留原文件和 artifact。
-2. 在同一日期审计目录的 `CORRECTIONS.md` 或新的 dated correction record 中记录
-   原文件、错误位置、错误内容、正确目标或“当前 tree 不存在”。
-3. 如果新记录取代旧结论，双方通过 `supersedes` / `superseded_by` 建立可追溯
-   关系；原记录保持 `HISTORICAL_EVIDENCE`。
-4. evidence 的 supersession 必须符合
+1. 修正当前权威文档，并记录依据和日期。
+2. 删除旧材料前检查源码、脚本、测试、CI、schema、索引和文档的入站引用。
+3. 仍被构建、依赖或发布验证器消费的 machine-readable evidence、receipt、schema、
+   template 和 scenario 不属于旧报告，不得仅因日期较早而删除。
+4. evidence 的 supersession 与索引更新必须符合
    [evidence schema](../evidence/SCHEMA.md) 和机器可读索引。
-5. correction 只修正解释和引用，不把未执行项目提升为通过。
-
-2026-07-26 历史引用的已知修正见
-[CORRECTIONS](../audits/2026-07-26/CORRECTIONS.md)。
+5. 文档修正或旧材料删除不把未执行项目提升为通过。
 
 ## 冲突处理
 
@@ -83,8 +80,8 @@ ADR 可使用 `Proposed`、`Accepted`、`Deprecated`、`Superseded` 表示决策
 2. 记录冲突文件、段落、checkout HEAD、时间和问题类型。
 3. 按本文的权威范围确定应回答该问题的来源。
 4. profile 违反 ADR/matrix 时不得运行；runbook 违反 profile 或安全边界时停止。
-5. evidence 与描述不符时保留原 evidence，创建 correction 或 superseding record。
-6. handoff、planning 或 audit 过期时只修订导航或追加勘误，不据此改写 ADR。
+5. evidence 与描述不符时先停止状态提升，再修正索引或创建替代记录。
+6. handoff、planning 或 audit 过期时更新当前入口；若已被完整取代且无活跃引用，可删除旧文件。
 
 ## 当前、历史与计划
 
@@ -106,7 +103,7 @@ planning、draft runbook 和未执行测试只能标为 `PLANNED`、`BLOCKED` �
 - Evidence 一次只绑定一个 identity，不在原记录中追加不同 source 的结论。
 - Handoff 保持短小，只做导航并提示重新获取动态状态。
 - Planning 的完成状态必须链接对应验收 evidence。
-- Audit 保留原始基线；错误和后续变化使用 correction 或新报告。
+- Audit 必须绑定基线；被统一报告取代且无活跃引用的旧报告可由维护者批准删除。
 - Runbook 使用前必须核对版本、角色、go/no-go、停止和 rollback 条件。
 - 本地相对链接、schema、索引和 Mermaid 应进入文档质量门。
 
