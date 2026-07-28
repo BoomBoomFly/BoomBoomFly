@@ -1,0 +1,4 @@
+Script started on 2026-07-28 18:11:22+08:00 [<not executed on terminal>]
+{"capture_output": "/home/c/px4_ws/BoomBoomFly/docs/evidence/sessions/20260728T174752+0800_onboard_validation/artifacts/environment.json", "errors": [], "hardware_accessed": false, "inventory": "/home/c/px4_ws/BoomBoomFly_onboard_20260728/docs/evidence/environment/current_environment.json", "micro_xrce_agent_executed": false, "px4_lock": "/home/c/px4_ws/BoomBoomFly_onboard_20260728/docs/evidence/environment/px4_source_toolchain_lock.template.json", "status": "PASS"}
+
+Script done on 2026-07-28 18:11:23+08:00 [COMMAND_EXIT_CODE="0"]

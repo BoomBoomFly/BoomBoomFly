@@ -1,0 +1,6 @@
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+average rate: 1.000
+	min: 0.992s max: 1.008s std dev: 0.00659s window: 3
+average rate: 0.995
+	min: 0.992s max: 1.018s std dev: 0.00953s window: 4

@@ -1,0 +1,295 @@
+Script started on 2026-07-28 16:51:31+08:00 [<not executed on terminal>]
++ date --iso-8601=seconds
+2026-07-28T16:51:31+08:00
++ uname -a
+Linux orinnano 5.10.104-tegra #1 SMP PREEMPT Sun Mar 19 07:55:28 PDT 2023 aarch64 aarch64 aarch64 GNU/Linux
++ dpkg --print-architecture
+arm64
++ sed -n 1,120p /etc/os-release
+NAME="Ubuntu"
+VERSION="20.04.6 LTS (Focal Fossa)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 20.04.6 LTS"
+VERSION_ID="20.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
++ test -r /proc/device-tree/model
++ tr -d '\000'
+NVIDIA Orin Nano Developer Kit+ printf '\n'
+
++ for f in /sys/devices/soc0/family /sys/devices/soc0/soc_id /sys/devices/soc0/revision /sys/devices/soc0/machine
++ test -r /sys/devices/soc0/family
++ printf %s= /sys/devices/soc0/family
+/sys/devices/soc0/family=+ tr -d '\000'
+Tegra
++ printf '\n'
+
++ for f in /sys/devices/soc0/family /sys/devices/soc0/soc_id /sys/devices/soc0/revision /sys/devices/soc0/machine
++ test -r /sys/devices/soc0/soc_id
++ printf %s= /sys/devices/soc0/soc_id
+/sys/devices/soc0/soc_id=+ tr -d '\000'
+35
++ printf '\n'
+
++ for f in /sys/devices/soc0/family /sys/devices/soc0/soc_id /sys/devices/soc0/revision /sys/devices/soc0/machine
++ test -r /sys/devices/soc0/revision
++ printf %s= /sys/devices/soc0/revision
+/sys/devices/soc0/revision=+ tr -d '\000'
+A01
++ printf '\n'
+
++ for f in /sys/devices/soc0/family /sys/devices/soc0/soc_id /sys/devices/soc0/revision /sys/devices/soc0/machine
++ test -r /sys/devices/soc0/machine
++ printf 'ROS_DISTRO=%s\n' foxy
+ROS_DISTRO=foxy
++ printf 'RMW_IMPLEMENTATION=%s\n' '<unset>'
+RMW_IMPLEMENTATION=<unset>
++ printf 'ROS_DOMAIN_ID=%s\n' '<unset>'
+ROS_DOMAIN_ID=<unset>
++ dpkg-query -W ros-foxy-ros-base ros-foxy-rmw-fastrtps-cpp ros-foxy-rmw-cyclonedds-cpp
+ros-foxy-rmw-fastrtps-cpp	1.3.2-1focal.20230527.064419
+ros-foxy-ros-base	0.9.2-1focal.20230606.043331
+[1mdpkg-query:[0m no packages found matching ros-foxy-rmw-cyclonedds-cpp
++ true
++ command -v ros2
+/opt/ros/foxy/bin/ros2
++ command -v MicroXRCEAgent
++ true
++ dpkg-query -W micro-xrce-dds-agent 'micro-xrce-dds-agent*'
+[1mdpkg-query:[0m no packages found matching micro-xrce-dds-agent
+[1mdpkg-query:[0m no packages found matching micro-xrce-dds-agent*
++ true
+++ command -v MicroXRCEAgent
++ agent_path=
++ test -n ''
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/1-0:1.0/idVendor
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/1-2/idVendor
++ test -r /sys/bus/usb/devices/1-2/idProduct
++ printf '%s vid=' 1-2
+1-2 vid=+ tr -d '\n'
+0bda+ printf ' pid='
+ pid=+ tr -d '\n'
+5489+ for f in manufacturer product
++ test -r /sys/bus/usb/devices/1-2/manufacturer
++ printf ' %s=' manufacturer
+ manufacturer=+ tr -d '\000\n\r\t'
+Generic+ for f in manufacturer product
++ test -r /sys/bus/usb/devices/1-2/product
++ printf ' %s=' product
+ product=+ tr -d '\000\n\r\t'
+4-Port USB 2.0 Hub+ printf '\n'
+
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/1-2.2/idVendor
++ test -r /sys/bus/usb/devices/1-2.2/idProduct
++ printf '%s vid=' 1-2.2
+1-2.2 vid=+ tr -d '\n'
+0bda+ printf ' pid='
+ pid=+ tr -d '\n'
+5858+ for f in manufacturer product
++ test -r /sys/bus/usb/devices/1-2.2/manufacturer
++ printf ' %s=' manufacturer
+ manufacturer=+ tr -d '\000\n\r\t'
+Generic+ for f in manufacturer product
++ test -r /sys/bus/usb/devices/1-2.2/product
++ printf ' %s=' product
+ product=+ tr -d '\000\n\r\t'
+USB Camera2+ printf '\n'
+
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/1-2.2:1.0/idVendor
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/1-2.2:1.1/idVendor
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/1-2.2:1.2/idVendor
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/1-2.4/idVendor
++ test -r /sys/bus/usb/devices/1-2.4/idProduct
++ printf '%s vid=' 1-2.4
+1-2.4 vid=+ tr -d '\n'
+03e7+ printf ' pid='
+ pid=+ tr -d '\n'
+2150+ for f in manufacturer product
++ test -r /sys/bus/usb/devices/1-2.4/manufacturer
++ printf ' %s=' manufacturer
+ manufacturer=+ tr -d '\000\n\r\t'
+Movidius Ltd.+ for f in manufacturer product
++ test -r /sys/bus/usb/devices/1-2.4/product
++ printf ' %s=' product
+ product=+ tr -d '\000\n\r\t'
+Movidius MA2X5X+ printf '\n'
+
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/1-2.4:1.0/idVendor
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/1-2:1.0/idVendor
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/1-3/idVendor
++ test -r /sys/bus/usb/devices/1-3/idProduct
++ printf '%s vid=' 1-3
+1-3 vid=+ tr -d '\n'
+0bda+ printf ' pid='
+ pid=+ tr -d '\n'
+c822+ for f in manufacturer product
++ test -r /sys/bus/usb/devices/1-3/manufacturer
++ printf ' %s=' manufacturer
+ manufacturer=+ tr -d '\000\n\r\t'
+Realtek+ for f in manufacturer product
++ test -r /sys/bus/usb/devices/1-3/product
++ printf ' %s=' product
+ product=+ tr -d '\000\n\r\t'
+Bluetooth Radio+ printf '\n'
+
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/1-3:1.0/idVendor
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/1-3:1.1/idVendor
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/2-0:1.0/idVendor
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/2-1/idVendor
++ test -r /sys/bus/usb/devices/2-1/idProduct
++ printf '%s vid=' 2-1
+2-1 vid=+ tr -d '\n'
+0bda+ printf ' pid='
+ pid=+ tr -d '\n'
+0489+ for f in manufacturer product
++ test -r /sys/bus/usb/devices/2-1/manufacturer
++ printf ' %s=' manufacturer
+ manufacturer=+ tr -d '\000\n\r\t'
+Generic+ for f in manufacturer product
++ test -r /sys/bus/usb/devices/2-1/product
++ printf ' %s=' product
+ product=+ tr -d '\000\n\r\t'
+4-Port USB 3.0 Hub+ printf '\n'
+
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/2-1.3/idVendor
++ test -r /sys/bus/usb/devices/2-1.3/idProduct
++ printf '%s vid=' 2-1.3
+2-1.3 vid=+ tr -d '\n'
+8086+ printf ' pid='
+ pid=+ tr -d '\n'
+0b07+ for f in manufacturer product
++ test -r /sys/bus/usb/devices/2-1.3/manufacturer
++ printf ' %s=' manufacturer
+ manufacturer=+ tr -d '\000\n\r\t'
+Intel(R) RealSense(TM) Depth Camera 435 + for f in manufacturer product
++ test -r /sys/bus/usb/devices/2-1.3/product
++ printf ' %s=' product
+ product=+ tr -d '\000\n\r\t'
+Intel(R) RealSense(TM) Depth Camera 435 + printf '\n'
+
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/2-1.3:1.0/idVendor
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/2-1.3:1.1/idVendor
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/2-1.3:1.2/idVendor
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/2-1.3:1.3/idVendor
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/2-1.3:1.4/idVendor
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/2-1:1.0/idVendor
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/usb1/idVendor
++ test -r /sys/bus/usb/devices/usb1/idProduct
++ printf '%s vid=' usb1
+usb1 vid=+ tr -d '\n'
+1d6b+ printf ' pid='
+ pid=+ tr -d '\n'
+0002+ for f in manufacturer product
++ test -r /sys/bus/usb/devices/usb1/manufacturer
++ printf ' %s=' manufacturer
+ manufacturer=+ tr -d '\000\n\r\t'
+Linux 5.10.104-tegra xhci-hcd+ for f in manufacturer product
++ test -r /sys/bus/usb/devices/usb1/product
++ printf ' %s=' product
+ product=+ tr -d '\000\n\r\t'
+xHCI Host Controller+ printf '\n'
+
++ for d in /sys/bus/usb/devices/*
++ test -r /sys/bus/usb/devices/usb2/idVendor
++ test -r /sys/bus/usb/devices/usb2/idProduct
++ printf '%s vid=' usb2
+usb2 vid=+ tr -d '\n'
+1d6b+ printf ' pid='
+ pid=+ tr -d '\n'
+0003+ for f in manufacturer product
++ test -r /sys/bus/usb/devices/usb2/manufacturer
++ printf ' %s=' manufacturer
+ manufacturer=+ tr -d '\000\n\r\t'
+Linux 5.10.104-tegra xhci-hcd+ for f in manufacturer product
++ test -r /sys/bus/usb/devices/usb2/product
++ printf ' %s=' product
+ product=+ tr -d '\000\n\r\t'
+xHCI Host Controller+ printf '\n'
+
++ find /dev -maxdepth 1 -type c '(' -name 'video*' -o -name 'media*' -o -name 'v4l-subdev*' -o -name 'ttyTHS*' -o -name 'ttyACM*' -o -name 'ttyUSB*' ')' -printf '%f major_minor=%t:%T mode=%m owner=%u:%g\n'
++ sort
+media0 major_minor=Tue Jun 18 04:29:42.0760000000 2024:% mode=660 owner=root:video
+media1 major_minor=Sun Jul 26 22:51:13.2895350000 2026:% mode=666 owner=root:plugdev
+media2 major_minor=Sun Jul 26 22:51:13.3015350000 2026:% mode=666 owner=root:plugdev
+media3 major_minor=Tue Jul 28 16:43:20.5895645430 2026:% mode=660 owner=root:video
+ttyTHS0 major_minor=Tue Jun 18 04:29:41.6520000000 2024:% mode=660 owner=root:dialout
+ttyTHS1 major_minor=Tue Jun 18 04:29:41.6280000000 2024:% mode=660 owner=root:dialout
+ttyTHS3 major_minor=Tue Jun 18 04:29:41.6320000000 2024:% mode=660 owner=root:dialout
+ttyTHS4 major_minor=Tue Jun 18 04:29:41.6680000000 2024:% mode=660 owner=root:dialout
+video0 major_minor=Sun Jul 26 22:51:13.2855350000 2026:% mode=666 owner=root:plugdev
+video1 major_minor=Sun Jul 26 22:51:13.2855350000 2026:% mode=666 owner=root:plugdev
+video2 major_minor=Sun Jul 26 22:51:13.2855350000 2026:% mode=666 owner=root:plugdev
+video3 major_minor=Sun Jul 26 22:51:13.2815350000 2026:% mode=666 owner=root:plugdev
+video4 major_minor=Sun Jul 26 22:51:13.3015350000 2026:% mode=666 owner=root:plugdev
+video5 major_minor=Sun Jul 26 22:51:13.3055350000 2026:% mode=666 owner=root:plugdev
+video6 major_minor=Tue Jul 28 16:43:20.5935648500 2026:% mode=660 owner=root:video
+video7 major_minor=Tue Jul 28 16:43:20.5975651570 2026:% mode=660 owner=root:video
++ test -e /dev/ttyTHS0
++ stat -c '%n type=%F major_minor=%t:%T mode=%a owner=%U:%G' /dev/ttyTHS0
+/dev/ttyTHS0 type=character special file major_minor=ef:0 mode=660 owner=root:dialout
++ readlink -f /sys/class/tty/ttyTHS0/device
+/sys/devices/platform/3100000.serial
++ fuser -v /dev/ttyTHS0
++ true
++ lsof /dev/ttyTHS0
+lsof: WARNING: can't stat() fuse.gvfsd-fuse file system /run/user/116/gvfs
+      Output information may be incomplete.
++ true
++ ps -eo pid=,lstart=,args=
++ awk 'BEGIN{IGNORECASE=1} /MicroXRCEAgent|mavros|offboard|vision_to_|px4_bringup|mock_rc|qgroundcontrol|realsense|ros2 launch/ && $0 !~ /awk / {print}'
++ ss -lpnut
++ awk 'BEGIN{IGNORECASE=1} /MicroXRCEAgent|mavros|offboard|qgroundcontrol|realsense/ {print}'
++ timedatectl show --property=Timezone --property=NTPSynchronized --property=TimeUSec
+Timezone=Asia/Shanghai
+NTPSynchronized=yes
+TimeUSec=Tue 2026-07-28 16:51:32 CST
++ df -h .
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme0n1p1  117G   78G   34G  70% /
++ git rev-parse --show-toplevel
+/home/c/px4_ws/BoomBoomFly
++ git branch --show-current
+master
++ git rev-parse HEAD
+2900914bf14da3baafd15a5326b74e5df2c89b16
++ git rev-parse HEAD:workspace.lock.repos
+e619420a8871a645222e331b72600dd2218afd08
++ git status --short
+?? docs/evidence/sessions/
++ git remote -v
++ sed -E 's#(https?://)[^/@]+@#\1<redacted>@#g'
+origin	https://github.com/BoomBoomFly/BoomBoomFly.git (fetch)
+origin	https://github.com/BoomBoomFly/BoomBoomFly.git (push)
++ git submodule status --recursive
+ eaaae53435ce706b32ee7dffc0c6643b43a12afe src/communication (heads/agent/wave4b-serial-quarantine)
+ 9d8c07814ad0f64f76c5fd8fe12072aebcbef431 src/communication/Serial/serial_driver_ros (remotes/origin/wsl/wave4b-serial-quarantine)
++ exit 0
+
+Script done on 2026-07-28 16:51:32+08:00 [COMMAND_EXIT_CODE="0"]

@@ -1,0 +1,72 @@
+2026-07-28T20:31:23,617175263+08:00
+
+===== OS =====
+No LSB modules are available.
+Distributor ID:	Ubuntu
+Description:	Ubuntu 20.04.6 LTS
+Release:	20.04
+Codename:	focal
+Linux orinnano 5.10.104-tegra #1 SMP PREEMPT Sun Mar 19 07:55:28 PDT 2023 aarch64 aarch64 aarch64 GNU/Linux
+aarch64
+
+===== ROS/RMW =====
+foxy
+2
+3
+ros-foxy-rmw-fastrtps-cpp	1.3.2-1focal.20230527.064419
+ros-foxy-rmw-fastrtps-shared-cpp	1.3.2-1focal.20230527.052644
+ros-foxy-ros-base	0.9.2-1focal.20230606.043331
+
+===== RealSense =====
+dpkg-query: no packages found matching librealsense2-dkms
+librealsense2:arm64	2.56.5-0~realsense.6681
+librealsense2-utils:arm64	2.56.5-0~realsense.6681
+
+/usr/local/bin/rs-enumerate-devices  version: 2.50.0
+
+
+/usr/bin/rs-enumerate-devices  version: 2.56.5.0
+
+version:        1.1.1
+srcversion:     187DBDC4F94931600634224
+vermagic:       5.10.104-tegra SMP preempt mod_unload modversions aarch64
+
+===== XRCE build identity =====
+v2.4.2
+57d086216d01ec43121845d385894a25987f8a2c
+v2.12.2
+092848725b8425e4f05a8ccf7b3b8d513fabf733
+4dd7ae1025ab70ee6f6d7431848ade4bd4a3f72701f00bf6bdab8aaea5aeec10  /tmp/bbf_xrce_agent_v2122_20260728/build/MicroXRCEAgent
+
+===== final root and managed repo identities =====
+d34ad84eddb9f181c986d20329431007a395463c
+## HEAD (no branch)
+origin	https://github.com/BoomBoomFly/BoomBoomFly.git (fetch)
+origin	https://github.com/BoomBoomFly/BoomBoomFly.git (push)
+src/px4_msgs 392e831c1f659429ca83902e66820d7094591410
+src/Micro-XRCE-DDS-Agent 57d086216d01ec43121845d385894a25987f8a2c
+src/offboard_cpp 473dcb81b2b8ef9fb4a2f5dd849c9c27ce61c5c8
+src/vision_to_dds 42a0688a6f9e9b5bfc80314a9429475eb8a297eb
+src/px4_bringup 0fbdcbf6ee53d6927de75af1d98f22cf5bd4f917
+src/gazebo_ros_pkgs b6f7bf121d0c607825b65a28b227a5459a71821b
+src/rplidar_ros 24cc9b6dea97e045bda1408eaa867ce730fd3fc3
+src/imu_tools d28555e487e4c1278c9a2e94143dc79dcc8941bf
+src/navigation_msgs fe880e99d993e9d4dfbf37f00d839d32994610e1
+src/navigation2 ca482808a7a7c52ce01ae3c662dc2b980968fc16
+src/rtabmap_ros b341e2a776a743b8d6741b8aae8ab560471cd966
+src/vision_opencv 72152d9d1d8edcfcafd707a1d0103810db8613ba
+src/librealsense c94410a420b74e5fb6a414bd12215c05ddd82b69
+src/realsense-ros 8abb4657c0add15f87b0edbfb67eaba2c1c2c439
+src/rtabmap 0070de4aafab0feaf5e37b497b1354d2264d41c8
+src/slam_toolbox 4786e90c06a4dc6fa811c5057d4e88387fba3829
+src/serial_driver_ros 9d8c07814ad0f64f76c5fd8fe12072aebcbef431
+
+===== artifact hashes =====
+9bce2a2bd2b4d632912d80063a5ca35a5d509da4cd1ed443f82dc3f375350b7f  /home/c/px4_ws/BoomBoomFly/docs/evidence/sessions/20260728T174752+0800_onboard_validation/artifacts/agent_build_dependency_ref.patch
+8c37d078db87934b15a77337d7f2a2ba8771e32967ac0eccc63637978b149d25  /home/c/px4_ws/BoomBoomFly/docs/evidence/sessions/20260728T174752+0800_onboard_validation/artifacts/d435_frames.csv
+12332024ee83269b6b4b1a03363bb66b508202da31aa65a9375caaec3e2fb5c2  /home/c/px4_ws/BoomBoomFly/docs/evidence/sessions/20260728T174752+0800_onboard_validation/artifacts/dual_d435_frames.csv
+4a1ef9036fec368ab555950913ae0f7a4c255563be0537fb0eefcbdfb2be8e19  /home/c/px4_ws/BoomBoomFly/docs/evidence/sessions/20260728T174752+0800_onboard_validation/artifacts/environment.json
+0cd9d9c164612c2fb2df7809d5f61595f9e4ca7fbc767719a15d0a8fdf44cbf0  /home/c/px4_ws/BoomBoomFly/docs/evidence/sessions/20260728T174752+0800_onboard_validation/artifacts/environment.latest.json
+8ee6fb10f035ab51e7dc9e853ed15a78eb6f15ffaee8d91a5c3a24a660539111  /home/c/px4_ws/BoomBoomFly/docs/evidence/sessions/20260728T174752+0800_onboard_validation/artifacts/px4_output_metrics.json
+08e65880adee64905c0aa4a01449cc9ab4cfa408ae5f03d6a4ed3ca12585322b  /home/c/px4_ws/BoomBoomFly/docs/evidence/sessions/20260728T174752+0800_onboard_validation/artifacts/workspace.final.lock.repos
+428c2a697f18c184ae819fe694202f1b6a2e25a01a575bad3b75b46bb4e19594  /home/c/px4_ws/BoomBoomFly/docs/evidence/sessions/20260728T174752+0800_onboard_validation/artifacts/workspace.onboard_candidate.lock.repos

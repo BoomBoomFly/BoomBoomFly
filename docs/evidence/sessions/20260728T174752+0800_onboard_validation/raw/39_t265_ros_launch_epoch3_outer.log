@@ -1,0 +1,356 @@
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+The daemon is not running
+2026-07-28T19:27:25,038059341+08:00
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+[INFO] [launch]: All log files can be found below /home/c/.ros/log/2026-07-28-19-27-25-810857-orinnano-317127
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [realsense2_camera_node-1]: process started with pid [317129]
+[realsense2_camera_node-1] [0m[INFO] [1785238046.389522597] [t265.t265]: RealSense ROS v4.0.4[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.389780338] [t265.t265]: Built with LibRealSense v2.50.0[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.389816084] [t265.t265]: Running with LibRealSense v2.50.0[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.442441548] [t265.t265]: Device with serial number 241122070080 was found.
+[realsense2_camera_node-1] [0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.442600276] [t265.t265]: Device with physical ID /sys/devices/platform/3610000.xhci/usb2/2-1/2-1.3/2-1.3:1.0/video4linux/video0 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.442638710] [t265.t265]: Device with name Intel RealSense D435 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.443085198] [t265.t265]: Device with port number 2-1.3 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.467267224] [t265.t265]: Device with serial number 952322110550 was found.
+[realsense2_camera_node-1] [0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.467427041] [t265.t265]: Device with physical ID 2-1.4-5 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.467460610] [t265.t265]: Device with name Intel RealSense T265 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.467983870] [t265.t265]: Device with port number 2-1.4 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.468045089] [t265.t265]: Device USB type: 3.1[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.477494394] [t265.t265]: No calib_odom_file. No input odometry accepted.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.477572990] [t265.t265]: getParameters...[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.477863693] [t265.t265]: JSON file is not provided[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.477914448] [t265.t265]: Device Name: Intel RealSense T265[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.477962387] [t265.t265]: Device Serial No: 952322110550[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.478007797] [t265.t265]: Device physical port: 2-1.4-5[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.478050743] [t265.t265]: Device FW version: 0.2.0.951[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.478089657] [t265.t265]: Device Product ID: 0x0B37[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.478119803] [t265.t265]: Sync Mode: Off[0m
+[realsense2_camera_node-1] [33m[WARN] [1785238046.478651863] [t265.t265]: Could not set param: tracking_module.frames_queue_size with 256 Range: [0, 32]: parameter 'tracking_module.frames_queue_size' could not be set: Parameter {} doesn't comply with integer range.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.480182121] [t265.t265]: Set ROS param tracking_module.profile to default: 848x800x30[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.480335025] [t265.t265]: Set ROS param gyro_fps to default: 200[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.480459448] [t265.t265]: Set ROS param accel_fps to default: 62[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.536243672] [t265.t265]: Start Sensor: Tracking Module[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.542017484] [t265.t265]: Open profile: stream_type: Pose(0)Format: 6DOF, FPS: 200[0m
+[realsense2_camera_node-1] [0m[INFO] [1785238046.565005014] [t265.t265]: RealSense Node Is Up![0m
+[realsense2_camera_node-1] [33m[WARN] [1785238047.063291210] [t265.t265]: [0m
+
+===== ROS node list =====
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/t265/t265
+EXIT_CODE=0
+
+===== ROS parameter list =====
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+  accel_fps
+  accel_info_qos
+  accel_qos
+  align.enable
+  align.frames_queue_size
+  angular_velocity_cov
+  base_frame_id
+  calib_odom_file
+  camera_name
+  clip_distance
+  colorizer.color_scheme
+  colorizer.enable
+  colorizer.frames_queue_size
+  colorizer.histogram_equalization_enabled
+  colorizer.max_distance
+  colorizer.min_distance
+  colorizer.stream_filter
+  colorizer.stream_format_filter
+  colorizer.stream_index_filter
+  colorizer.visual_preset
+  decimation_filter.enable
+  decimation_filter.filter_magnitude
+  decimation_filter.frames_queue_size
+  decimation_filter.stream_filter
+  decimation_filter.stream_format_filter
+  decimation_filter.stream_index_filter
+  device_type
+  diagnostics_period
+  disparity_filter.enable
+  disparity_to_depth.enable
+  enable_accel
+  enable_fisheye1
+  enable_fisheye2
+  enable_gyro
+  enable_pose
+  enable_sync
+  filter_by_sequence_id.enable
+  filter_by_sequence_id.frames_queue_size
+  filter_by_sequence_id.sequence_id
+  fisheye1_info_qos
+  fisheye1_qos
+  fisheye2_info_qos
+  fisheye2_qos
+  gyro_fps
+  gyro_info_qos
+  gyro_qos
+  hdr_merge.enable
+  hdr_merge.frames_queue_size
+  hold_back_imu_for_frames
+  hole_filling_filter.enable
+  hole_filling_filter.frames_queue_size
+  hole_filling_filter.holes_fill
+  hole_filling_filter.stream_filter
+  hole_filling_filter.stream_format_filter
+  hole_filling_filter.stream_index_filter
+  initial_reset
+  json_file_path
+  linear_accel_cov
+  pointcloud.allow_no_texture_points
+  pointcloud.enable
+  pointcloud.filter_magnitude
+  pointcloud.frames_queue_size
+  pointcloud.ordered_pc
+  pointcloud.pointcloud_qos
+  pointcloud.stream_filter
+  pointcloud.stream_format_filter
+  pointcloud.stream_index_filter
+  pose_fps
+  pose_info_qos
+  pose_qos
+  publish_odom_tf
+  publish_tf
+  reconnect_timeout
+  rosbag_filename
+  serial_no
+  spatial_filter.enable
+  spatial_filter.filter_magnitude
+  spatial_filter.filter_smooth_alpha
+  spatial_filter.filter_smooth_delta
+  spatial_filter.frames_queue_size
+  spatial_filter.holes_fill
+  spatial_filter.stream_filter
+  spatial_filter.stream_format_filter
+  spatial_filter.stream_index_filter
+  temporal_filter.enable
+  temporal_filter.filter_smooth_alpha
+  temporal_filter.filter_smooth_delta
+  temporal_filter.frames_queue_size
+  temporal_filter.holes_fill
+  temporal_filter.stream_filter
+  temporal_filter.stream_format_filter
+  temporal_filter.stream_index_filter
+  tf_publish_rate
+  tracking_module.enable_auto_exposure
+  tracking_module.enable_dynamic_calibration
+  tracking_module.enable_map_preservation
+  tracking_module.enable_mapping
+  tracking_module.enable_pose_jumping
+  tracking_module.enable_relocalization
+  tracking_module.exposure
+  tracking_module.frames_queue_size
+  tracking_module.gain
+  tracking_module.profile
+  unite_imu_method
+  usb_port_id
+  use_sim_time
+  wait_for_device_timeout
+EXIT_CODE=0
+
+===== ROS topic list with types =====
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/parameter_events [rcl_interfaces/msg/ParameterEvent]
+/rosout [rcl_interfaces/msg/Log]
+/t265/imu [sensor_msgs/msg/Imu]
+/t265/pose/metadata [realsense2_camera_msgs/msg/Metadata]
+/t265/pose/sample [nav_msgs/msg/Odometry]
+/tf [tf2_msgs/msg/TFMessage]
+/tf_static [tf2_msgs/msg/TFMessage]
+EXIT_CODE=0
+
+===== pose topic verbose info =====
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+Type: nav_msgs/msg/Odometry
+
+Publisher count: 1
+
+Node name: t265
+Node namespace: /t265
+Topic type: nav_msgs/msg/Odometry
+Endpoint type: PUBLISHER
+GID: 01.0f.2f.51.c9.d6.d4.64.01.00.00.00.00.00.14.03.00.00.00.00.00.00.00.00
+QoS profile:
+  Reliability: RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT
+  Durability: RMW_QOS_POLICY_DURABILITY_VOLATILE
+  Lifespan: 2147483651294967295 nanoseconds
+  Deadline: 2147483651294967295 nanoseconds
+  Liveliness: RMW_QOS_POLICY_LIVELINESS_AUTOMATIC
+  Liveliness lease duration: 2147483651294967295 nanoseconds
+
+Subscription count: 0
+
+EXIT_CODE=0
+
+===== tf verbose info =====
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+Type: tf2_msgs/msg/TFMessage
+
+Publisher count: 1
+
+Node name: t265
+Node namespace: /t265
+Topic type: tf2_msgs/msg/TFMessage
+Endpoint type: PUBLISHER
+GID: 01.0f.2f.51.c9.d6.d4.64.01.00.00.00.00.00.18.03.00.00.00.00.00.00.00.00
+QoS profile:
+  Reliability: RMW_QOS_POLICY_RELIABILITY_RELIABLE
+  Durability: RMW_QOS_POLICY_DURABILITY_VOLATILE
+  Lifespan: 2147483651294967295 nanoseconds
+  Deadline: 2147483651294967295 nanoseconds
+  Liveliness: RMW_QOS_POLICY_LIVELINESS_AUTOMATIC
+  Liveliness lease duration: 2147483651294967295 nanoseconds
+
+Subscription count: 0
+
+EXIT_CODE=0
+
+===== required side-channel topic lookup =====
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+EXIT_CODE=1
+
+===== odom/tf time metrics, BEST_EFFORT odom =====
+{
+  "observed_tf_pairs": [
+    [
+      "odom_frame",
+      "t265_pose_frame"
+    ]
+  ],
+  "odom": {
+    "host_interarrival_ms": {
+      "max": 7.809597,
+      "median": 5.0000885,
+      "min": 2.254039,
+      "p95": 5.967163
+    },
+    "observed_hz": 199.54064413449277,
+    "samples": 2395,
+    "stamp_delta_ms": {
+      "max": 5.07392,
+      "median": 5.0112,
+      "min": 5.0048,
+      "p95": 5.012224
+    },
+    "stamp_duplicate_or_backward": 0,
+    "stamp_strictly_increasing": true,
+    "wall_minus_ros_stamp_ms": {
+      "max": 8.86851,
+      "median": 6.335668,
+      "min": 5.577791,
+      "p95": 7.272316
+    }
+  },
+  "odom_first": [
+    {
+      "child": "t265_pose_frame",
+      "frame": "odom_frame",
+      "mono_ns": 102423944461278,
+      "orientation_xyzw": [
+        -0.0003628917329479009,
+        -0.022652938961982727,
+        -0.00026686800993047655,
+        0.9997433423995972
+      ],
+      "pose_covariance_diagonal": [
+        0.1,
+        0.1,
+        0.1,
+        0.001,
+        0.001,
+        0.001
+      ],
+      "position": [
+        -7.974209438543767e-05,
+        2.3027549104881473e-05,
+        -0.00010259488044539467
+      ],
+      "stamp_ns": 1785238057550771968,
+      "wall_ns": 1785238057557777378
+    }
+  ],
+  "odom_last": [
+    {
+      "child": "t265_pose_frame",
+      "frame": "odom_frame",
+      "mono_ns": 102435942017016,
+      "orientation_xyzw": [
+        -0.0005835670745000243,
+        -0.02290063537657261,
+        -0.0002783685049507767,
+        0.9997376203536987
+      ],
+      "pose_covariance_diagonal": [
+        0.1,
+        0.1,
+        0.1,
+        0.001,
+        0.001,
+        0.001
+      ],
+      "position": [
+        -0.00011208014620933682,
+        2.9225506295915693e-05,
+        -9.157917520496994e-05
+      ],
+      "stamp_ns": 1785238069548240896,
+      "wall_ns": 1785238069555334524
+    }
+  ],
+  "tf": {
+    "host_interarrival_ms": {
+      "max": 7.963813,
+      "median": 4.9996085,
+      "min": 1.676984,
+      "p95": 5.804594
+    },
+    "observed_hz": 199.5470866604294,
+    "samples": 2395,
+    "stamp_delta_ms": {
+      "max": 5.07392,
+      "median": 5.0112,
+      "min": 5.0048,
+      "p95": 5.012224
+    },
+    "stamp_duplicate_or_backward": 0,
+    "stamp_strictly_increasing": true,
+    "wall_minus_ros_stamp_ms": {
+      "max": 9.495327,
+      "median": 6.640544,
+      "min": 5.565613,
+      "p95": 7.147869
+    }
+  }
+}
+METRICS_EXIT_CODE=0
+
+Session terminated.
+LAUNCH_CAPTURE_EXIT_CODE=143
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+The daemon has been stopped
+
+===== released ROS graph =====
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+NODE_LIST_EXIT_CODE=0
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/parameter_events
+/rosout
+TOPIC_LIST_EXIT_CODE=0
+POST_PROCESS_SCAN_EXIT_CODE=1
+POST_VIDEO_OWNER_EXIT_CODE=1
