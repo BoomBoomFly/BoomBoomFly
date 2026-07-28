@@ -1,29 +1,47 @@
 # Wave 4B WSL summary
 
-Capture: 2026-07-27T23:24:45+08:00.  Environment is WSL2 `rog`, user `aa`,
-Linux `6.6.87.2-microsoft-standard-WSL2`, `x86_64`, ROS Foxy.  This evidence
-package is a source-identity and static-safety disposition only.  No hardware,
-ROS node, Agent, MAVROS, PX4, SITL, serial device, camera, lidar, or real FMU
-graph was used.
-
-## Decision
+Capture completed 2026-07-28 on WSL2 host `rog`, user `aa`, `x86_64`,
+ROS 2 Foxy. The immutable software candidate is root
+`1ea582b8e7fa8aff4d284cf108c9a6c7bb510b56` with the nested identities in
+`01-source-identities.md`. The commit containing this report is evidence-only;
+it does not change that tested source candidate.
 
 ```text
-H0: NO-GO
-H1-WSL PRECHECK: NOT-RUN
-H2: NO-GO
-H3: NOT-RUN
+ENVIRONMENT: WSL
+ROOT HEAD: 1ea582b8e7fa8aff4d284cf108c9a6c7bb510b56
+WORKTREE CLEAN: YES (source candidate and every checked-out nested repository)
+H0: GO
+H1-WSL PRECHECK: PASS
+H1-NATIVE: NOT-RUN
+H2: GO
+H3: GO
 H4: NOT-RUN
-H5: BLOCKED
-OPEN P0: 2
-OPEN H5-RELEVANT P1: 4
-READY FOR NATIVE REBUILD: NO
+OPEN P0: 0
+OPEN H5-RELEVANT P1: 1
+HARDWARE ACCESSED: NO
+FORMAL SITL RUN: false
+REAL FMU GRAPH USED: false
+SOURCE FILES MODIFIED: YES
+REPORTS CREATED: docs/audits/2026-07-27-wave4b-wsl/
+WSL_READY_FOR_NATIVE_REBUILD: true
+READY FOR H5-A REQUEST: NO
 ```
 
-The mandatory root baseline is present at `de3c3104074c5b851d944cb4c757cbfa7d6ede20` and a clean dedicated root worktree/branch was created at `/home/aa/px4_ws/BoomBoomFly-wave4b`, branch `wsl/wave4b-20260727`.  No recursive submodule update was performed.
+H1 used a fresh `/tmp/boomboomfly-wave4b-h1-20260728-08` and passed boundary,
+build, test, and test-result: 3 production packages and 14,598 tests with zero
+errors, failures, or skips. H2 re-executed the safety gate, RC, topic-contract,
+vision, and serial-quarantine suites. H3 used isolated `ROS_DOMAIN_ID=217`,
+remapped all apparent FMU inputs below `/wave4b_h3`, observed zero control
+messages through two production-node runs/restarts, and left zero forbidden
+processes.
 
-On 2026-07-28 the user superseded the fixed-SHA requirement and authorized following the latest Offboard repository.  An approved `git fetch --prune origin` established the upstream default as `origin/DDS@cded3dc5b6906420db3767abd82b2df7ba6ea9f0` (unchanged by fetch); it matches the existing root lock.  A dedicated worktree tracks that branch.  This resolves only the former identity block: the live single-gate/ACK/RC/kill/freshness P0 remains open.
+Serial remains intentionally quarantined at exact remote commit
+`9d8c07814ad0f64f76c5fd8fe12072aebcbef431`: discovery count, production
+package references, and production launch references are all zero. Its unsafe
+runtime/protocol implementation is not claimed fixed and is not part of this
+candidate.
 
-On 2026-07-28 the user likewise authorized following the latest serial repository while keeping it isolated.  `origin/master@87f3907...` was unchanged by the approved fetch.  Dedicated branch `wsl/wave4b-serial-quarantine@9d8c078...` adds only `COLCON_IGNORE`; `colcon list` returned 0 with discovery count 0.  This is discovery quarantine only—not source governance, runtime arbitration, or a repair of the direct `/cmd_vel` execution path.
-
-Historical reports were read as historical evidence only; their root `0ed9...`/Offboard `976...` claims were not promoted to current state.
+H5-A remains blocked by native ARM64 rebuild/independent H0-H3 verification,
+formal approved H4 SITL, the PX4 board/toolchain/RC/profile command card, and
+the separately approved two-person physical session. No device, serial port,
+PX4, Agent, MAVROS, camera, lidar, or real `/fmu/in` graph was used.

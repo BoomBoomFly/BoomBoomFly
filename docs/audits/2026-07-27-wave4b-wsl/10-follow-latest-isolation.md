@@ -1,5 +1,9 @@
 # 2026-07-28 follow-latest and serial isolation receipt
 
+> Historical precursor receipt. Its H0 statement describes the pre-fix
+> `cded3dc…` source and is superseded by `00-summary.md` through
+> `08-handoff.json`; it is retained only as command history.
+
 User direction superseding the prior fixed Offboard SHA requirement:
 
 1. Follow the latest Offboard repository.

@@ -1,10 +1,42 @@
-# H0 closure review — NO-GO
+# H0 closure review — GO
 
-No H0 item is closed.  All items below are current static observations, not test or hardware claims.
+`Scripts/test/verify_h0_production.py` returned PASS on the exact candidate:
 
-1. **P0 / latest Offboard production safety chain absent.** Current `origin/DDS@cded...` has direct `/fmu/in` writers in `src/node.cpp:28-35`; its FSM directly publishes setpoint/mode (`src/lib/CtrlFSM.cpp:339-340`) and `VehicleCommand` (`:405-417`). There is no `VehicleCommandAck` subscription/correlation, fresh status/timesync/lease/epoch/owner/kill gate, or required WAIT→PRESTREAM→REQUEST_MODE→REQUEST_ARM→ACTIVE lattice. `TEXT_RC` is unconditional (`CMakeLists.txt:33-35`) and `enable_arm` defaults true (`config/ctrl_param.yaml:12-16`).
-2. **P0 / serial second execution path is quarantined only for discovery.** Latest serial plus `9d8c078...` has `COLCON_IGNORE`, and a local `colcon list` proved zero discovery.  Its `serial_main.cpp:13-35` still subscribes `/cmd_vel`; `serial_driver.cpp:6-12,26-32` opens the port in construction and writes frames. There is no runtime enable, owner/lease, bounded watchdog, physical interlock, finite/range control, or fault/exit zero-output proof.
-4. **P1 / governance and lock failure.** Root gitlink mapping is broken; serial/communication have no unique immutable receipt. Offboard `976d...`, PX4 source/submodules/toolchain/board/RC profile do not form a recoverable approved lock.
-5. **P1 / vision is active by code, not demonstrably disabled.** `vision_to_dds.cpp:79-84` creates `/fmu/in/vehicle_visual_odometry`; `:262-345` can publish with no frame/time/epoch/quality/device-health fail-closed gate. It has no test seam or unit suite.
+```json
+{"communication_update":"none","offboard_control_writer_files":["src/offboard_cpp/src/safety_gate_adapter.cpp"],"production_enable_arm":false,"production_text_rc":false,"serial_production":false,"status":"PASS","vision_enabled":false}
+```
 
-Required next evidence: source changes and tests on latest Offboard `DDS`; written serial disposition; repaired `.gitmodules`/lock/receipt; then a fresh full-workspace candidate and tests.
+Offboard has one adapter owning all three production control publishers:
+trajectory setpoint, offboard control mode, and vehicle command. Legacy FSM
+and callbacks no longer publish around it. The fail-closed state machine is
+`WAIT → PRESTREAM → REQUEST_MODE → REQUEST_ARM → ACTIVE`; default
+`enable_arm=false` ends in disarmed standby and produces no ARM request.
+
+Hard gates cover fresh status, finite odometry, PX4 timesync, RC, kill state,
+paired fresh setpoint/mode, monotonic clocks, one writer, owner, lease, epoch,
+and sequence. VehicleCommandAck correlation requires one pending command,
+deadline, exact command/target/origin, unchanged authority sequence, accepted
+result, and a newer status generation. Reject, timeout, mismatch, restart,
+clock fault, input loss, or authority loss returns a decision with both
+publish flags false and command `NONE`. Fault recovery returns to WAIT and
+requires a second explicit manual activation; it never auto-resumes ACTIVE.
+
+Production has no `TEXT_RC`, and no MAVROS, second Agent, serial, demo, or mock
+control path is in the package/launch allowlist. H3 graph inventory confirmed
+exactly one publisher for each remapped Offboard output and zero vision
+estimator publishers.
+
+Serial is closed by non-bypassable quarantine rather than runtime repair:
+exact origin/SHA/path, `COLCON_IGNORE`, discovery 0, active-manifest 0,
+production-package refs 0, production-launch refs 0. Therefore `/cmd_vel`
+cannot reach an open/write path in this production candidate.
+
+Vision is disabled by default. Disabled execution creates no estimator-input
+publisher, starts no processing loop, exits cleanly, and H2/H3 observed output
+count 0. Its enabled path is not authorized for H5-A.
+
+```text
+OPEN P0: 0
+HARDWARE ACCESSED: NO
+REAL FMU GRAPH USED: false
+```

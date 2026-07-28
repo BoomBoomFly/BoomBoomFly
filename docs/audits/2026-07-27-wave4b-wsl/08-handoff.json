@@ -1,59 +1,209 @@
 {
-  "schema_version": "wave4b-wsl-handoff-v1",
+  "schema_version": "wave4b-wsl-handoff-v2",
   "environment": "WSL",
-  "captured_at": "2026-07-27T23:24:45+08:00",
-  "root": {
+  "captured_at": "2026-07-28T14:20:00+08:00",
+  "source_candidate": {
+    "root_sha": "1ea582b8e7fa8aff4d284cf108c9a6c7bb510b56",
+    "branch": "wsl/wave4b-native-ready",
+    "remote": "https://github.com/BoomBoomFly/BoomBoomFly.git",
     "baseline_sha": "de3c3104074c5b851d944cb4c757cbfa7d6ede20",
-    "branch": "wsl/wave4b-20260727",
-    "worktree_clean_before_evidence": true,
-    "worktree_clean_at_handoff": true,
-    "evidence_content_commit_sha1": "5e6941ee897a4427583d776edc3797114ec428a9",
-    "origin_master_local_ref": "de3c3104074c5b851d944cb4c757cbfa7d6ede20"
+    "worktree_clean_at_source_freeze": true,
+    "remote_recoverable": true,
+    "report_commits_are_evidence_only": true,
+    "handoff_branch_head_resolution": "git rev-parse origin/wsl/wave4b-native-ready"
   },
   "nested": {
-    "communication": {"sha": "df256c180dbd4167f879b697e38d547521f1f8e2", "branch": "main", "state": "dirty; blocked"},
-    "serial_upstream": {"sha": "87f3907f0b3b906d474a8d1e1dc9677ab0c4298f", "branch": "master", "state": "latest origin/master after approved fetch"},
-    "serial_quarantine": {"sha": "9d8c07814ad0f64f76c5fd8fe12072aebcbef431", "branch": "wsl/wave4b-serial-quarantine", "state": "COLCON_IGNORE; discovery count 0; runtime P0 remains open"},
-    "offboard_latest": {"sha": "cded3dc5b6906420db3767abd82b2df7ba6ea9f0", "branch": "wsl/wave4b-offboard-latest tracking origin/DDS", "state": "latest default branch after approved fetch; H0 P0 remains open"},
-    "px4_msgs": {"sha": "392e831c1f659429ca83902e66820d7094591410", "state": "clean"},
-    "px4": {"sha": "54f0455ffcd755534539a7cf33a09a20bf71d29d", "state": "three nested gitlink dirties; ungoverned"},
-    "vision": {"sha": "0c3a00137f3c90a4051ac1bc1029ec56beb669b6", "state": "clean"}
+    "offboard": {
+      "sha": "722e05afa931df4fd46aa19944830d951d68ba65",
+      "branch": "wsl/wave4b-offboard-latest",
+      "clean": true,
+      "remote_recoverable": true
+    },
+    "vision": {
+      "sha": "b366db72cde55d9a1a7ef6bb734073fd8a43c4ae",
+      "branch": "wsl/wave4b-vision-safety",
+      "clean": true,
+      "remote_recoverable": true
+    },
+    "px4_msgs": {
+      "sha": "392e831c1f659429ca83902e66820d7094591410",
+      "clean": true,
+      "remote_recoverable": true
+    },
+    "communication": {
+      "sha": "df256c180dbd4167f879b697e38d547521f1f8e2",
+      "initialized": false,
+      "gitmodules_update": "none",
+      "remote_recoverable": true
+    },
+    "serial_quarantine": {
+      "sha": "9d8c07814ad0f64f76c5fd8fe12072aebcbef431",
+      "branch": "wsl/wave4b-serial-quarantine",
+      "clean": true,
+      "discovery_count": 0,
+      "production_launch_references": 0,
+      "production_package_references": 0,
+      "remote_recoverable": true
+    },
+    "micro_xrce_dds_agent": {
+      "sha": "57d086216d01ec43121845d385894a25987f8a2c",
+      "run": false,
+      "remote_recoverable": true
+    },
+    "px4": {
+      "sha": "54f0455ffcd755534539a7cf33a09a20bf71d29d",
+      "tag": "v1.16.2",
+      "run": false,
+      "remote_recoverable": true,
+      "recursive_locked_objects": 33,
+      "exact_fetch_pass": 28,
+      "exact_commit_api_pass": 5
+    }
   },
   "hashes": {
-    "workspace_lock_repos_sha256": "365e8ecb681ee98b9c8511c7fc565362a0abc446371d893a3b8f4e87d23d2235",
-    "root_source_patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "root_source_patch_sha256": "70a466efbdff8683b1f31b1293ee9f9c550d11beb427c1df9f24f07b6a29742c",
+    "root_source_commit_object_sha256": "4879639b2ad2020b7b4a3918542b8455388b4299d46e8f703f90a075d64c047e",
+    "offboard_patch_sha256": "9b5dfc71a4cc2b0e86ac3be8c5ffb3dbb8bca0b6382dca9115f134f2565e1530",
+    "offboard_commit_object_sha256": "7d1994a0ad84507cc761602ac24e2a8dd804f56a795d4f85b9b69ddf3715c3d8",
+    "vision_patch_sha256": "1595d55c8c8a57554044473c04a8559018abd60c5e9af733e8c3e4e1ca57b3fd",
+    "vision_commit_object_sha256": "1ac9c1cc71243c370f454f146e98adafb1a2befb37c0079aacc45a8ccc940dc3",
     "serial_quarantine_patch_sha256": "f733c6ddaef81c02c276bb70c3c5347495ac872e5fc7d6f66f2d7f0799ca27c2",
-    "serial_colcon_ignore_sha256": "37bcea51021e7b206f471e78419ab6fd4b38a95f2a35d4fd36e0cba9c31b289e",
-    "serial_generated_logger_sha256": "31ab58b7c0f018670ed91a7df1ce289891d9504b358aeb6f29041a58c0037a96"
+    "serial_marker_sha256": "37bcea51021e7b206f471e78419ab6fd4b38a95f2a35d4fd36e0cba9c31b289e",
+    "workspace_lock_sha256": "34da0bb4cb507efdfa6f19b3b323b2c956b13fa749d09377dc18628dc7a85470",
+    "workspace_quarantine_sha256": "23c6902b7f4db5fe58d86ac590912eba4049c34de633dfcd24016796263bb262",
+    "h1_sha256_manifest_sha256": "804d532b0400121e037589e95d4e7640c35029e20df336b9a8d27bde33f9eb6f",
+    "h2_h3_remote_manifest_sha256": "c6f6be0657eb7af9563ae3e9688acdaa2366ce8298af03bd711198b7444e9870"
   },
-  "host": {"hostname": "rog", "user": "aa", "architecture": "x86_64", "ros_distribution": "foxy"},
+  "host": {
+    "hostname": "rog",
+    "user": "aa",
+    "kernel": "6.6.87.2-microsoft-standard-WSL2",
+    "architecture": "x86_64",
+    "ros_distribution": "foxy"
+  },
   "commands": [
-    {"id": "identity", "command": "git rev-parse/status/remote on target repositories", "exit_code": 0},
-    {"id": "root_submodule_status", "command": "git submodule status --recursive", "exit_code": 128, "result": "missing .gitmodules mapping for src/communication"},
-    {"id": "upstream_fetch", "command": "git fetch --prune origin in Offboard and serial", "exit_code": 0, "result": "Offboard HEAD DDS@cded3dc; serial HEAD master@87f3907"},
-    {"id": "serial_discovery_quarantine", "command": "colcon list --base-paths serial_driver_ros-wave4b --log-base /tmp/...", "exit_code": 0, "result": "discovery_count=0; generated workspace log moved to /tmp and hashed"},
-    {"id": "repository_cleanup_invariants", "command": "python3 -m unittest discover -s test/repository_cleanup -p test_*.py -v", "exit_code": 0, "result": "3/3 PASS; active removed-path references 0; modified-document broken links 0"}
+    {
+      "id": "h0-production",
+      "command": "python3 Scripts/test/verify_h0_production.py --workspace-root <root>",
+      "exit_code": 0
+    },
+    {
+      "id": "serial-quarantine",
+      "command": "python3 Scripts/test/verify_serial_quarantine.py --workspace-root <root> --serial-source <serial> --log-base /tmp/.../serial-discovery",
+      "exit_code": 0
+    },
+    {
+      "id": "h1-final-boundary",
+      "command": "python3 Scripts/test/verify_package_boundary.py --workspace-root <root> --log-base /tmp/boomboomfly-wave4b-h1-boundary-20260728-08",
+      "exit_code": 0
+    },
+    {
+      "id": "h1-final",
+      "command": "bash Scripts/test/test_dds_only.sh --workspace-root <root> --output-root /tmp/boomboomfly-wave4b-h1-20260728-08",
+      "exit_code": 0,
+      "result": "build 3/3; test 3/3; 14598 tests, 0 errors, 0 failures, 0 skipped"
+    },
+    {
+      "id": "h1-attempts-01-06",
+      "command": "fresh isolated diagnostic attempts",
+      "exit_codes": [130, 130, 2, 130, 1, 1],
+      "result": "retained negative infrastructure/sandbox evidence; none promoted to PASS"
+    },
+    {
+      "id": "h1-attempt-07",
+      "command": "parent-source full DDS-only run",
+      "exit_code": 0,
+      "result": "superseded by final-source attempt 08"
+    },
+    {
+      "id": "h2-runtime",
+      "command": "test_safety_gate; test_rc_input; test_topic_contract; test_vision_safety",
+      "exit_code": 0,
+      "result": "state machine PASS; RC 7/7; contract 1/1; vision 4/4"
+    },
+    {
+      "id": "h2-serial-governance",
+      "command": "python3 -m unittest discover -s test/serial_quarantine -p test_*.py -v",
+      "exit_code": 0,
+      "result": "6/6 PASS"
+    },
+    {
+      "id": "h3-attempt-01",
+      "command": "isolated domain 217 harness",
+      "exit_code": 1,
+      "result": "spy construction compatibility failure; no production node started"
+    },
+    {
+      "id": "h3-final",
+      "command": "timeout 45s python3 Scripts/test/test_h3_no_hardware.py --install-root <h1-install> --output-root /tmp/boomboomfly-wave4b-h3-20260728-02 --domain-id 217",
+      "exit_code": 0,
+      "result": "PASS; two clean runs; all output counts zero; forbidden process count zero"
+    },
+    {
+      "id": "remote-recovery",
+      "command": "isolated exact git fetch/cat-file plus gh api exact commit reads",
+      "exit_code": 0,
+      "result": "all active, quarantined, PX4 root, and PX4 nested SHAs remotely recoverable"
+    }
   ],
-  "package_boundary": null,
-  "test_cases": [
-    {"id": "serial-discovery-quarantine", "result": "PASS: colcon list exit 0 and stdout empty"},
-    {"id": "repository-cleanup-invariants", "result": "PASS: 3/3; no active references or modified-document broken links"}
+  "package_boundary": {
+    "status": "PASS",
+    "classified_packages": 83,
+    "discovered_packages": 3,
+    "production_packages": ["offboard_cpp", "px4_msgs", "vision_to_dds"],
+    "override_or_path_leakage": false,
+    "json_path": "/tmp/boomboomfly-wave4b-h1-20260728-08/artifacts/package-boundary-summary.json"
+  },
+  "test_cases": {
+    "h1": {"tests": 14598, "errors": 0, "failures": 0, "skipped": 0},
+    "h2": {
+      "status": "GO",
+      "matrix": [
+        "ack-accepted",
+        "ack-rejected",
+        "ack-timeout",
+        "ack-mismatch",
+        "no-stale-lost-rc",
+        "kill-latch",
+        "duplicate-writer",
+        "owner-lease-epoch-loss",
+        "restart",
+        "stale-setpoint",
+        "clock-and-timestamp-faults",
+        "serial-quarantine-containment",
+        "vision-disabled-and-invalid-samples",
+        "clean-node-exit"
+      ],
+      "all_failure_control_writer_counts_zero": true
+    },
+    "h3": {
+      "status": "GO",
+      "ros_domain_id": 217,
+      "production_node_runs": 2,
+      "control_message_count": 0,
+      "real_fmu_topics_seen": 0,
+      "forbidden_processes_after": 0
+    }
+  },
+  "artifact_log_hashes": {
+    "h1_manifest": "/tmp/boomboomfly-wave4b-h1-20260728-08/SHA256SUMS",
+    "h2_h3_remote_manifest": "/tmp/boomboomfly-wave4b-final-evidence-20260728/H2-H3-REMOTE-SHA256SUMS"
+  },
+  "gates": {
+    "H0": "GO",
+    "H1_WSL_PRECHECK": "PASS",
+    "H1_NATIVE": "NOT-RUN",
+    "H2": "GO",
+    "H3": "GO",
+    "H4": "NOT-RUN"
+  },
+  "open_p0": [],
+  "open_h5_relevant_p1": [
+    "WSL-PX4-H4-001: approved exact formal SITL command card/run and native cross-check remain"
   ],
-  "artifact_hashes": {
-    "serial_colcon_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "serial_generated_logger_sha256": "31ab58b7c0f018670ed91a7df1ce289891d9504b358aeb6f29041a58c0037a96",
-    "repository_cleanup_test_log_sha256": "a4e1c0b43353f2edc49c7213027ff256e14f1ef40f2a9468cf488d5df55a893d"
-  },
-  "cleanup": {
-    "deleted": ["docs/planning/NEXT_PARALLEL_TASKS.md"],
-    "pre_delete_sha256": "fd6290fbf6a98a3b71cf3332753766e161000336c227aa548cf07cccb8796cd5",
-    "recoverable_from": "a7976a4ab397c8e85a278191770625d848c86c6d:docs/planning/NEXT_PARALLEL_TASKS.md",
-    "historical_audits_evidence_receipts_preserved": true
-  },
-  "open_p0": ["WSL-OFFBOARD-001", "WSL-SERIAL-001"],
-  "open_h5_relevant_p1": ["WSL-GOV-001", "WSL-SERIAL-002", "WSL-VISION-001", "WSL-PX4-001"],
   "HARDWARE_ACCESSED": false,
   "REAL_FMU_GRAPH_USED": false,
   "FORMAL_SITL_RUN": false,
-  "WSL_READY_FOR_NATIVE_REBUILD": false
+  "WSL_READY_FOR_NATIVE_REBUILD": true,
+  "READY_FOR_H5_A_REQUEST": false
 }
