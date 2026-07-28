@@ -89,6 +89,11 @@ source "$ROS_SETUP"
 source "$OUTPUT_ROOT/install/setup.bash"
 set -u
 
+# rclcpp tests must not fall back to ~/.ros: the receipt is self-contained and
+# must remain writable even when the source checkout and home are read-only.
+export ROS_LOG_DIR="$OUTPUT_ROOT/log/ros"
+mkdir -p "$ROS_LOG_DIR"
+
 PACKAGE_NAMES=()
 while IFS=$'\t' read -r package_name package_path; do
   [[ -n "$package_name" && -n "$package_path" ]] || {
@@ -98,14 +103,20 @@ while IFS=$'\t' read -r package_name package_path; do
   PACKAGE_NAMES+=("$package_name")
 done <"$OUTPUT_ROOT/artifacts/package-selection.tsv"
 
+# px4_msgs generated-code lint commands exceed the default async pipe line
+# limit when CTest is verbose. Quiet console mode avoids that transport
+# deadlock; one package worker plus xUnit and CTest LastTest.log retain
+# deterministic, complete test evidence.
 colcon \
   --log-base "$OUTPUT_ROOT/log/test" \
   test \
+  --parallel-workers 1 \
   --build-base "$OUTPUT_ROOT/build" \
   --install-base "$OUTPUT_ROOT/install" \
   --test-result-base "$OUTPUT_ROOT/test-results" \
   --packages-select "${PACKAGE_NAMES[@]}" \
-  --return-code-on-test-failure
+  --return-code-on-test-failure \
+  --ctest-args -Q
 
 colcon \
   --log-base "$OUTPUT_ROOT/log/test-result" \

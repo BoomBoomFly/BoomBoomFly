@@ -147,9 +147,9 @@ class DependencyProfileTests(unittest.TestCase):
         self.assertEqual(["active"], payload["selected_profiles"])
         self.assertEqual(["src/px4_msgs"], payload["repository_paths"])
 
-    def test_root_has_one_governed_repos_manifest(self):
+    def test_root_has_one_governed_manifest_plus_quarantine(self):
         self.assertEqual(
-            ["workspace.lock.repos"],
+            ["workspace.lock.repos", "workspace.quarantine.repos"],
             sorted(path.name for path in REPO_ROOT.glob("workspace*.repos")),
         )
 

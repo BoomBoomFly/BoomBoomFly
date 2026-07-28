@@ -122,9 +122,12 @@ done <"$SELECTION"
   exit 2
 }
 
-colcon \
+# Keep generated ROS interface compilation deterministic and bounded on both
+# WSL and the later ARM64 rebuild; px4_msgs must not race multiple generators.
+CMAKE_BUILD_PARALLEL_LEVEL=1 colcon \
   --log-base "$OUTPUT_ROOT/log/build" \
   build \
+  --parallel-workers 1 \
   --paths "${PACKAGE_PATHS[@]}" \
   --build-base "$OUTPUT_ROOT/build" \
   --install-base "$OUTPUT_ROOT/install" \

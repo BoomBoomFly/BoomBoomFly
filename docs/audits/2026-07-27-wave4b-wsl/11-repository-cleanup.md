@@ -1,5 +1,8 @@
 # 2026-07-28 repository cleanup receipt
 
+> Historical cleanup receipt. Paths and gate wording below describe the
+> earlier worktree; current candidate identity is `01-source-identities.md`.
+
 Scope: clean WSL candidate `/home/aa/px4_ws/BoomBoomFly-wave4b`; original dirty
 checkout, nested source worktrees, PX4 source, dated audits, evidence, receipts,
 and hardware state were not modified.

@@ -13,11 +13,11 @@ repositories:
   src/offboard_cpp:
     type: git
     url: https://github.com/BoomBoomFly/offboard_cpp.git
-    version: cded3dc5b6906420db3767abd82b2df7ba6ea9f0
+    version: 722e05afa931df4fd46aa19944830d951d68ba65
   src/vision_to_dds:
     type: git
     url: https://github.com/wanone111/vision_to_dds.git
-    version: 0c3a00137f3c90a4051ac1bc1029ec56beb669b6
+    version: b366db72cde55d9a1a7ef6bb734073fd8a43c4ae
 
 # profile: archive
   src/px4_bringup:
