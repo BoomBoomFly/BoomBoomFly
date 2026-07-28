@@ -62,6 +62,14 @@ inside that sandbox and is not used as a pass claim there. `git diff --check`
 passed. Root dependency-profile, package-boundary, evidence and index checks
 remain to be recorded with the root lock integration commit.
 
+After the lock integration, dependency `--verify-only` passed all four active
+exact SHAs and the evidence validator/index passed (14/14 evidence unit tests).
+The package-boundary unit suite passed (9/9), but its live workspace scan is
+currently blocked by the pre-existing unrelated
+`src/communication/Serial/serial_driver_ros` checkout: it exposes package
+`serial_driver` at a path different from the governed quarantine path
+`src/serial_driver_ros`. This candidate did not modify that checkout.
+
 The legacy driver statically exposes `odom_frame -> camera_pose_frame` and
 encodes tracker confidence in covariance. This is an interface finding only:
 camera frame convention, timestamp epoch, quality calibration, reconnect
