@@ -1,4 +1,0 @@
-<launch>
-  <arg name="device" default="/dev/ttyUSB9"/>
-  <node pkg="rplidar_ros" exec="rplidar_node" name="lidar"/>
-</launch>

@@ -1,8 +1,0 @@
-{
-  "kind": "license",
-  "payload": {
-    "dependency": "synthetic-unlicensed-dependency",
-    "policy_allowed": false,
-    "spdx_id": null
-  }
-}

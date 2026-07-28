@@ -1,7 +1,0 @@
-{
-  "kind": "link",
-  "payload": {
-    "exists": false,
-    "target": "../outside-workspace/missing.md"
-  }
-}

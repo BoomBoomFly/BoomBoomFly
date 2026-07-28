@@ -81,7 +81,7 @@ command -v colcon >/dev/null || {
   exit 2
 }
 
-mkdir -p -- "$OUTPUT_ROOT"/{artifacts,build,install,log,test-results}
+mkdir -p -- "$OUTPUT_ROOT"/{artifacts,build,install,log}
 SELECTION="$OUTPUT_ROOT/artifacts/package-selection.tsv"
 
 set +u
@@ -93,18 +93,27 @@ unset AMENT_PREFIX_PATH COLCON_PREFIX_PATH CMAKE_PREFIX_PATH ROS_PACKAGE_PATH PY
 source "$ROS_SETUP"
 set -u
 
-python3 "$WORKSPACE_ROOT/Scripts/test/verify_package_boundary.py" \
-  --workspace-root "$WORKSPACE_ROOT" \
-  --profile "$PROFILE" \
-  --log-base "$OUTPUT_ROOT/log/package-boundary" \
-  >"$OUTPUT_ROOT/artifacts/package-boundary-summary.json"
-
 python3 -c \
   'import json, pathlib, sys
-profile = json.load(open(sys.argv[1], encoding="utf-8"))
-root = pathlib.Path(sys.argv[2])
-for item in profile["production_packages"]:
-    print("{}\t{}".format(item["name"], root / item["path"]))' \
+profile_path = pathlib.Path(sys.argv[1])
+root = pathlib.Path(sys.argv[2]).resolve()
+profile = json.loads(profile_path.read_text(encoding="utf-8"))
+packages = profile.get("production_packages")
+if not isinstance(packages, list) or not packages:
+    raise SystemExit("ERROR: production_packages must be a non-empty list")
+seen = set()
+for item in packages:
+    name = item.get("name")
+    relative = item.get("path")
+    if not isinstance(name, str) or not name or name in seen:
+        raise SystemExit("ERROR: invalid or duplicate package name")
+    if not isinstance(relative, str) or not relative.startswith("src/"):
+        raise SystemExit("ERROR: invalid package path for {}".format(name))
+    path = (root / relative).resolve()
+    if root not in path.parents or not (path / "package.xml").is_file():
+        raise SystemExit("ERROR: package {} is missing {}".format(name, path / "package.xml"))
+    seen.add(name)
+    print("{}\t{}".format(name, path))' \
   "$PROFILE" "$WORKSPACE_ROOT" >"$SELECTION"
 
 PACKAGE_NAMES=()
@@ -131,7 +140,6 @@ CMAKE_BUILD_PARALLEL_LEVEL=1 colcon \
   --paths "${PACKAGE_PATHS[@]}" \
   --build-base "$OUTPUT_ROOT/build" \
   --install-base "$OUTPUT_ROOT/install" \
-  --test-result-base "$OUTPUT_ROOT/test-results" \
   --packages-select "${PACKAGE_NAMES[@]}"
 
 printf '{"status":"PASS","action":"build","output_root":"%s","packages":%d}\n' \

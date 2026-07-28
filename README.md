@@ -1,49 +1,47 @@
 # BoomBoomFly
 
-BoomBoomFly 是面向室内无人机的 ROS 2 / PX4 DDS 工作区。当前目标是通过
-DDS Offboard 完成起飞、悬停和降落，并由 T265 视觉里程计提供室内定位。
+BoomBoomFly 是面向室内无人机实机验证的 ROS 2 / PX4 DDS 工作区。当前目标是
+使用 T265 提供室内视觉定位，通过 DDS Offboard 完成起飞、悬停和降落。
 
-当前技术基线：
+## 硬件与软件基线
 
-- Ubuntu 20.04
-- ROS 2 Foxy
-- PX4 v1.16.2
-- Pixhawk 2.4.8 / PX4 FMUv3 / STM32F42x
-- NuttX 11.0.0
-- PX4 uXRCE-DDS：TELEM2、921600 baud、Domain ID 0
-- `px4_msgs`、`offboard_cpp`、`vision_to_dds`
+- 机载计算机：NVIDIA Jetson Orin Nano，Ubuntu 20.04.6，ROS 2 Foxy
+- 飞控：Pixhawk 2.4.8，`PX4_FMU_V3` / V30，STM32F42x rev.5
+- 固件：PX4 v1.16.2 stable，NuttX 11.0.0
+- DDS：TELEM2，921600 baud，Domain ID 0
+- 定位：Intel RealSense T265
+- 深度相机：Intel RealSense D435，暂不参与 PX4 定位
 
-`src/communication` 由安装脚本从独立仓库拉取，用于后续伴随计算机与
-单片机通信；根仓库不存储该目录。它不属于 PX4 DDS 控制链，不得发布
-`/fmu/*` 或控制 `/offboard/*` 话题。
-`px4_bringup` 保留在 archive profile，用于开发参考，不是默认控制入口。
+现场采集结果见：
 
-## 当前实机状态
+- [机载技术验证](docs/evidence/sessions/20260728T174752+0800_onboard_validation/ONBOARD_VALIDATION.md)
+- [PX4 参数审计](docs/evidence/sessions/20260728T213311+0800_px4_parameter_audit/PX4_PARAMETER_AUDIT.md)
 
-2026-07-28 的参数与只读硬件检查结果：
+## 当前状态
 
-| 项目 | 当前结果 |
-|---|---|
-| 飞控 | Pixhawk 2.4.8；`PX4_FMU_V3` / V30；STM32F42x rev.5 |
-| 固件 | PX4 1.16.2 stable；Git `54f0455ffcd755534539a7cf33a09a20bf71d29d` |
-| 飞控 OS | NuttX 11.0.0；Git `886acbbdb4f061e5c0ce1a76afbcfa7cb7df9849` |
-| 构建 | 2026-04-22 14:06:56；default；GCC 9.3.1 |
-| 机架身份 | Generic Quadcopter；System ID 1 |
-| DDS | uXRCE-DDS 配置到 TELEM2，921600 baud |
-| T265 | 位姿约 199 Hz，`odom_frame -> t265_pose_frame` |
-| D435 | 深度和彩色约 30 Hz，不参与当前 PX4 定位链 |
-| PX4 外部视觉融合 | `EKF2_EV_CTRL=0`，尚未启用 |
-| T265 机体外参 | 尚未测量并验证 |
-| Offboard 丢失回退 | 依赖有效 Position 状态，室内条件尚未闭合 |
-| 首次室内运动包线 | 围栏、速度、高度和最长时长尚未收敛 |
+已经确认：
 
-当前可以继续进行 SITL、视觉验证和拆桨台架。完成外部视觉融合、外参、故障
-回退和有限运动包线验证后，再进入装桨有限飞行。
+- Pixhawk、PX4、NuttX 和 MCU 身份
+- uXRCE-DDS Agent 可通过 `/dev/ttyTHS0` 与飞控通信
+- T265 位姿约 199 Hz，ROS 2 数据流稳定
+- `offboard_cpp`、`vision_to_dds` 和 DDS 工作区能够在机载环境构建
+- `vision_to_dds` 已包含时间戳、质量和数据冻结检查
 
-详细数据见 [PX4 参数审计](docs/evidence/sessions/20260728T213311+0800_px4_parameter_audit/PX4_PARAMETER_AUDIT.md)
-和 [机载技术验证](docs/evidence/sessions/20260728T174752+0800_onboard_validation/ONBOARD_VALIDATION.md)。
+尚未达到装桨起飞条件：
 
-## DDS 控制链
+1. `EKF2_EV_CTRL=0`，PX4 尚未融合外部视觉。
+2. T265 到机体坐标系的外参尚未测量和验证。
+3. `vision_to_dds` 默认帧名与实机 T265 帧名尚未统一。
+4. `offboard_cpp` 只转发外部 setpoint，没有生成起飞、悬停和降落轨迹的节点。
+5. 当前 launch 没有提供安全门所需的 RC、kill、控制状态和人工触发输入。
+6. 最新记录中 `/fmu/out/rc_channels` 没有 publisher。
+7. Offboard 丢失、RC 丢失、视觉丢失和低电量动作尚未完成拆桨验证。
+8. 电机序号、旋向、传感器校准和首次室内运动包线没有形成实机证据。
+
+当前仅适合继续代码集成、视觉融合和拆桨台架。完成上述项目后，再进入装桨
+低高度短时悬停。
+
+## DDS 数据链
 
 ```text
 T265
@@ -51,91 +49,99 @@ T265
   -> /fmu/in/vehicle_visual_odometry
   -> PX4 EKF2
 
-offboard_cpp
+flight sequence
+  -> /offboard/cmd
+  -> /offboard/cmd_mode
+  -> offboard_cpp
   -> /fmu/in/offboard_control_mode
   -> /fmu/in/trajectory_setpoint
   -> /fmu/in/vehicle_command
   -> PX4
 ```
 
-同一 PX4 输入话题只能有一个 writer。不要同时启动旧 bringup、demo writer
-或第二个 `offboard_control_node` / `vision_to_dds_node`。
+`flight sequence` 尚未在当前工作区实现。同一 `/fmu/in/*` 控制话题只能存在
+一个 ROS 2 writer。
 
-## 根清单与更新策略
+## 源码组成
 
-仓库根目录只保留一个清单：`workspace.lock.repos`。
+根仓库不直接保存 `src/`。所有功能包由
+[`Scripts/installation/uav_px4_dds_install.sh`](Scripts/installation/uav_px4_dds_install.sh)
+根据 `workspace.lock.repos` 拉取。
 
-- `offboard_cpp` 始终跟随 `DDS`
-- `vision_to_dds` 始终跟随 `master`
-- `px4_bringup` 始终跟随 `DDS`
-- 第三方依赖保持精确 SHA
-- `communication` 通过根清单跟随 `main`
+默认 active profile：
 
-恢复并更新 DDS 主链与视觉依赖：
+- `px4_msgs`：精确提交
+- `Micro-XRCE-DDS-Agent`：精确提交
+- `offboard_cpp`：跟随 `DDS`
+- `vision_to_dds`：跟随 `master`
+- `communication`：跟随 `main`
+
+`communication` 用于后续机载计算机与单片机通信，不属于 PX4 控制链，不应
+发布 `/fmu/*` 或 `/offboard/*` 控制话题。
+
+`px4_bringup` 只保留在 archive profile。RealSense 相关仓库位于
+optional-perception profile。
+
+## 恢复工作区
+
+在 Ubuntu 20.04 / ROS 2 Foxy 环境中执行：
 
 ```bash
+git clone https://github.com/BoomBoomFly/BoomBoomFly.git
+cd BoomBoomFly
+
 bash Scripts/installation/uav_px4_dds_install.sh \
   --with-optional perception \
   --update \
-  --skip-package-check
+  --require-colcon
 ```
 
-只核对现有 checkout：
+只检查当前 checkout：
 
 ```bash
 bash Scripts/installation/uav_px4_dds_install.sh \
   --with-optional perception \
   --verify-only \
-  --skip-package-check
+  --require-colcon
 ```
 
-`communication` 默认由上述安装脚本一并拉取和更新，无需单独执行命令。
-
-## 最短验证路径
+## 构建
 
 ```bash
-python3 test/dependency_profiles/validate_dependency_profiles.py \
-  --manifest-root .
-
-python3 Scripts/test/verify_h0_production.py \
-  --workspace-root .
-
-python3 Scripts/test/verify_package_boundary.py \
-  --workspace-root .
-
-python3 -m unittest discover -s test -p 'test_*.py' -v
-
-bash Scripts/test/test_dds_only.sh
+bash Scripts/build/build_dds_only.sh
 ```
 
-按顺序推进：
+构建入口只选择：
 
-1. [T265 视觉启动](docs/runbooks/T265_VISION_STARTUP.md)
-2. [SITL 验收](docs/runbooks/SITL_ACCEPTANCE.md)
-3. [拆桨台架](docs/runbooks/BENCH_ACCEPTANCE_DRAFT.md)
-4. [有限实机](docs/runbooks/LIMITED_FLIGHT_ACCEPTANCE_DRAFT.md)
+- `px4_msgs`
+- `offboard_cpp`
+- `vision_to_dds`
 
-## 关键技术文档
+构建成功只表示代码可以编译，不表示可以启动电机或装桨飞行。
 
-- [系统总览](docs/architecture/SYSTEM_OVERVIEW.md)
-- [部署拓扑](docs/architecture/DEPLOYMENT_TOPOLOGY.md)
-- [节点清单](docs/architecture/NODE_INVENTORY.md)
-- [数据流](docs/architecture/DATA_FLOW.md)
-- [故障传播](docs/architecture/FAULT_PROPAGATION.md)
-- [视觉里程计契约](docs/architecture/VISION_ODOMETRY_CONTRACT.md)
-- [依赖 profile](docs/dependencies/SOURCE_PROFILES.md)
-- [脚本说明](Scripts/README.md)
+## 最短实机推进顺序
+
+1. 统一 T265 TF 帧并测量相机到机体外参。
+2. 启用 PX4 外部视觉融合，确认 local position 持续有效。
+3. 实现最小 flight-sequence 节点：起飞、定点悬停、下降、着陆确认和停桨。
+4. 补齐并验证 RC、kill、控制状态、command ACK 和失效回退。
+5. 拆桨检查电机序号、旋向、飞控模式切换和完整起降状态机。
+6. 设置保守的高度、速度、围栏和最长飞行时间。
+7. 装桨执行低高度、短时间的首次室内悬停。
 
 ## 仓库结构
 
 ```text
-Scripts/                 构建、依赖恢复和静态验证
-config/                  DDS-only package/launch profile
-docs/                    架构、运行手册、场景和技术证据
-test/                    离线回归测试
-tools/                   DDS 控制链与 SITL 验证工具
-src/communication        脚本拉取的通信仓库，不存储在根 Git 树
-workspace.lock.repos     唯一根仓库清单
+Scripts/
+  build/                 DDS-only 构建入口
+  evidence/              evidence 格式检查
+  installation/          依赖恢复与环境检查
+config/profiles/         功能包和 launch 清单
+docs/evidence/           实机记录、环境快照和依赖回执
+tools/authority/         Offboard 控制状态运行工具
+workspace.lock.repos     唯一源码清单
 workspace.excluded_packages
-                         DDS-only 禁止包列表
+                         不进入 DDS-only 构建的包名
 ```
+
+脚本说明见 [Scripts/README.md](Scripts/README.md)。

@@ -1,52 +1,71 @@
 # Scripts
 
-本目录只保留当前可审查、可测试的构建、evidence、依赖恢复和静态验证入口。
-命令应从动态解析出的仓库根目录运行：
+本目录只保留当前实机工作区需要的源码恢复、构建和 evidence 检查入口。
+所有命令均从仓库根目录执行。
 
 ```bash
-REPO_ROOT="$(git rev-parse --show-toplevel)"
-cd "$REPO_ROOT"
+cd "$(git rev-parse --show-toplevel)"
 ```
 
-## 目录结构
+## 目录
 
 ```text
 Scripts/
-├── README.md
 ├── build/
 │   └── build_dds_only.sh
 ├── evidence/
 │   ├── validate_evidence.py
 │   ├── validate_index.py
 │   └── validate_manifest.py
-├── installation/
-│   ├── uav_px4_dds_install.sh
-│   ├── verify_environment.py
-│   └── verify_workspace_receipts.py
-└── test/
-    ├── launch_guard/
-    │   └── check_launch_safety.py
-    ├── test_dds_only.sh
-    └── verify_package_boundary.py
+└── installation/
+    ├── uav_px4_dds_install.sh
+    ├── verify_environment.py
+    └── verify_workspace_receipts.py
 ```
 
-## DDS-only 构建
+## 恢复源码
 
-[`build/build_dds_only.sh`](build/build_dds_only.sh) 按
-[`config/profiles/dds_only_packages.yaml`](../config/profiles/dds_only_packages.yaml)
-中的精确 allowlist 构建，并要求所有 colcon 输出位于 `/tmp`。
+`installation/uav_px4_dds_install.sh` 根据根目录
+`workspace.lock.repos` 将功能包恢复到 `src/`。
+
+恢复 active profile 和 RealSense 依赖：
+
+```bash
+bash Scripts/installation/uav_px4_dds_install.sh \
+  --with-optional perception \
+  --update \
+  --require-colcon
+```
+
+只检查已经存在的 checkout：
+
+```bash
+bash Scripts/installation/uav_px4_dds_install.sh \
+  --with-optional perception \
+  --verify-only \
+  --require-colcon
+```
+
+脚本不会覆盖 dirty checkout，也不会启动 DDS Agent、ROS 2 节点或飞控。
+`src/communication` 同样由该脚本从 `main` 拉取。
+
+## 构建
+
+`build/build_dds_only.sh` 根据
+`config/profiles/dds_only_packages.yaml` 选择 DDS 主链功能包，并将 colcon
+输出放在 `/tmp`。
 
 ```bash
 bash Scripts/build/build_dds_only.sh --help
 bash Scripts/build/build_dds_only.sh
 ```
 
-构建成功不代表获准启动节点、SITL、硬件链或 production。
+构建入口会检查 profile、功能包路径和 `package.xml`，随后只构建
+`px4_msgs`、`offboard_cpp` 和 `vision_to_dds`。
 
-## Evidence 验证
+## Evidence
 
-`evidence/` 中的验证器离线检查 evidence、索引、release manifest 和 rollback
-manifest；它们不执行 manifest 中记录的命令，也不访问硬件。
+以下脚本只检查记录格式，不访问飞控和相机：
 
 ```bash
 python3 Scripts/evidence/validate_evidence.py --help
@@ -54,68 +73,5 @@ python3 Scripts/evidence/validate_index.py
 python3 Scripts/evidence/validate_manifest.py --help
 ```
 
-权威格式和生命周期见
-[`docs/evidence/SCHEMA.md`](../docs/evidence/SCHEMA.md)，当前登记项见
-[`docs/evidence/index.yaml`](../docs/evidence/index.yaml)。
-
-## 依赖恢复与环境检查
-
-克隆仓库的统一入口为：
-
-```bash
-git clone https://github.com/BoomBoomFly/BoomBoomFly.git
-cd BoomBoomFly
-```
-
-[`installation/uav_px4_dds_install.sh`](installation/uav_px4_dds_install.sh)
-默认读取 `workspace.lock.repos`，只管理源码 checkout；它不安装 ROS、系统包、
-udev 规则或 firmware，也不启动 Agent 或 ROS 节点。先查看帮助；对既有工作区
-优先使用只读审计：
-
-```bash
-bash Scripts/installation/uav_px4_dds_install.sh --help
-bash Scripts/installation/uav_px4_dds_install.sh \
-  --verify-only \
-  --skip-package-check
-```
-
-脚本会拒绝覆盖 dirty checkout、origin 不匹配和任何未经清单批准的 ref。
-根目录只保留一个 `workspace.lock.repos`；`offboard_cpp:DDS`、
-`vision_to_dds:master` 和 `px4_bringup:DDS` 跟随远端最新提交，其余依赖使用
-精确 SHA。脚本默认只选择 active profile，archive 和 optional sources 必须通过
-`--with-archive` 或
-`--with-optional perception|navigation` 显式加入。quarantine profile 只保存
-恢复身份，安装器始终跳过。自定义
-`--manifest` 同样必须只包含安全 `src/` 路径、上述批准分支或精确 SHA；原
-`workspace.repos` 入口已退役。完整 profile 与安全语义见
-[`docs/dependencies/SOURCE_PROFILES.md`](../docs/dependencies/SOURCE_PROFILES.md)。
-同一脚本通过根清单创建并更新 `src/communication` 到 `origin/main` 最新
-提交；该目录由脚本生成，不存储在根仓库 Git 树中。
-`verify_environment.py` 与 `verify_workspace_receipts.py` 提供相应的离线环境和
-dependency receipt 检查。
-
-## 测试
-
-[`test/test_dds_only.sh`](test/test_dds_only.sh) 在 `/tmp` 中构建并测试 DDS-only
-package allowlist。`verify_package_boundary.py` 与
-`launch_guard/check_launch_safety.py` 分别检查包边界和 launch 安全边界。
-
-```bash
-bash Scripts/test/test_dds_only.sh --help
-bash Scripts/test/test_dds_only.sh
-python3 -m unittest discover -s test -p 'test_*.py'
-```
-
-## SITL
-
-当前不存在获准执行的项目级 SITL orchestration，SITL 运行状态为 `BLOCKED`。
-canonical 规范、场景和离线测试入口为：
-
-- [`docs/runbooks/SITL_ACCEPTANCE.md`](../docs/runbooks/SITL_ACCEPTANCE.md)
-- [`docs/runbooks/SITL_SCENARIO_CATALOG.md`](../docs/runbooks/SITL_SCENARIO_CATALOG.md)
-- [`docs/verification/`](../docs/verification/)
-- [`tools/sitl_acceptance/`](../tools/sitl_acceptance/)
-- [`test/sitl_acceptance/`](../test/sitl_acceptance/)
-
-场景 schema/parser 的离线测试不能作为 PX4 SITL evidence；不得手工拼接启动命令
-后声称 `SITL_VERIFIED`。
+格式定义见
+[`docs/evidence/SCHEMA.md`](../docs/evidence/SCHEMA.md)。
