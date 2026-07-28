@@ -1,0 +1,16 @@
+Script started on 2026-07-28 17:17:03+08:00 [<not executed on terminal>]
+Device info: 
+    Name                          : 	Intel RealSense D435
+    Firmware Version              : 	05.13.00.50
+    Recommended Firmware Version  : 	05.13.00.50
+    Product Id                    : 	0B07
+    Usb Type Descriptor           : 	3.2
+    Product Line                  : 	D400
+Device info: 
+    Name                          : 	Intel RealSense T265
+    Firmware Version              : 	0.2.0.951
+    Product Id                    : 	0B37
+    Usb Type Descriptor           : 	3.1
+    Product Line                  : 	T200
+
+Script done on 2026-07-28 17:17:06+08:00 [COMMAND_EXIT_CODE="0"]
