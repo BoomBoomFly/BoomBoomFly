@@ -25,6 +25,7 @@ serial_driver_ros/
 serial-ros2/
 slam_toolbox/
 vision_opencv/
+communication/
 
 # Keep the current DDS-only build entrypoint even though its parent directory
 # matches the broad workspace build ignore rule above.
