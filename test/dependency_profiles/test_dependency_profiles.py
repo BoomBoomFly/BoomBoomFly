@@ -247,6 +247,7 @@ class DependencyProfileTests(unittest.TestCase):
         self.assertEqual(0, help_result.returncode, help_result.stderr)
         self.assertIn("--with-archive", help_result.stdout)
         self.assertIn("--with-optional <name>", help_result.stdout)
+        self.assertIn("src/communication", help_result.stdout)
 
         with tempfile.TemporaryDirectory() as temp_dir:
             base_args = [
@@ -267,6 +268,34 @@ class DependencyProfileTests(unittest.TestCase):
             self.assertEqual(0, default.returncode, default.stderr)
             self.assertIn("Profiles:     active", default.stdout)
             self.assertNotIn("[PLAN] px4_bringup", default.stdout)
+            self.assertIn(
+                "[PLAN] communication submodule <= "
+                "https://github.com/BoomBoomFly/communication.git @ main",
+                default.stdout,
+            )
+            self.assertIn(
+                "submodule update --init --remote --checkout -- "
+                "src/communication",
+                default.stdout,
+            )
+
+            without_submodules = subprocess.run(
+                base_args + ["--skip-submodules"],
+                check=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
+            )
+            self.assertEqual(
+                0, without_submodules.returncode, without_submodules.stderr
+            )
+            self.assertIn(
+                "[SKIP] src/communication submodule disabled",
+                without_submodules.stdout,
+            )
+            self.assertNotIn(
+                "[PLAN] communication submodule", without_submodules.stdout
+            )
 
             composed = subprocess.run(
                 base_args

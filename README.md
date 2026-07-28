@@ -88,11 +88,11 @@ bash Scripts/installation/uav_px4_dds_install.sh \
   --skip-package-check
 ```
 
-更新 communication：
+`communication` 默认由同一安装脚本拉取并更新。仅单独维护子模块时可执行：
 
 ```bash
 git submodule sync -- src/communication
-git submodule update --init --remote --merge src/communication
+git submodule update --init --remote --checkout src/communication
 ```
 
 ## 最短验证路径

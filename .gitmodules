@@ -2,4 +2,4 @@
     path = src/communication
     url = https://github.com/BoomBoomFly/communication.git
     branch = main
-    update = merge
+    update = checkout

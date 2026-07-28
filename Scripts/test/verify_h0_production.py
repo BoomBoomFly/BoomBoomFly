@@ -270,7 +270,7 @@ def verify_serial_and_source_governance(root):
         "communication origin mismatch",
     )
     require(parser.get(section, "branch") == "main", "communication branch mismatch")
-    require(parser.get(section, "update") == "merge", "communication update policy mismatch")
+    require(parser.get(section, "update") == "checkout", "communication update policy mismatch")
     result = subprocess.run(
         ["git", "ls-files", "-s", "src/communication"],
         cwd=str(root),
@@ -333,7 +333,7 @@ def main():
                 "production_text_rc": False,
                 "vision_enabled": False,
                 "serial_production": False,
-                "communication_update": "merge-main",
+                "communication_update": "remote-checkout-main",
             },
             sort_keys=True,
         )

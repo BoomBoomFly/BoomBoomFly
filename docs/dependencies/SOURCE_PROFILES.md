@@ -60,12 +60,17 @@ simulation, DDS Agent or hardware processes.
 ## Communication submodule
 
 `src/communication` is the companion-computer-to-MCU communication submodule.
-It follows `main` independently of the ROS source manifest:
+It follows `main` independently of the ROS source manifest. The standard
+installer initializes it and checks out the latest remote commit:
 
 ```bash
-git submodule sync -- src/communication
-git submodule update --init --remote --merge src/communication
+bash Scripts/installation/uav_px4_dds_install.sh \
+  --update \
+  --skip-package-check
 ```
+
+Use `--skip-submodules` only when the communication checkout is intentionally
+not required.
 
 The submodule is not a PX4 transport or ROS control package and must not publish
 PX4 `/fmu/*` or control `/offboard/*` topics.
