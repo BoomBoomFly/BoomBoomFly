@@ -31,11 +31,25 @@
     {"id": "identity", "command": "git rev-parse/status/remote on target repositories", "exit_code": 0},
     {"id": "root_submodule_status", "command": "git submodule status --recursive", "exit_code": 128, "result": "missing .gitmodules mapping for src/communication"},
     {"id": "upstream_fetch", "command": "git fetch --prune origin in Offboard and serial", "exit_code": 0, "result": "Offboard HEAD DDS@cded3dc; serial HEAD master@87f3907"},
-    {"id": "serial_discovery_quarantine", "command": "colcon list --base-paths serial_driver_ros-wave4b --log-base /tmp/...", "exit_code": 0, "result": "discovery_count=0; generated workspace log moved to /tmp and hashed"}
+    {"id": "serial_discovery_quarantine", "command": "colcon list --base-paths serial_driver_ros-wave4b --log-base /tmp/...", "exit_code": 0, "result": "discovery_count=0; generated workspace log moved to /tmp and hashed"},
+    {"id": "repository_cleanup_invariants", "command": "python3 -m unittest discover -s test/repository_cleanup -p test_*.py -v", "exit_code": 0, "result": "3/3 PASS; active removed-path references 0; modified-document broken links 0"}
   ],
   "package_boundary": null,
-  "test_cases": [{"id": "serial-discovery-quarantine", "result": "PASS: colcon list exit 0 and stdout empty"}],
-  "artifact_hashes": {"serial_colcon_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "serial_generated_logger_sha256": "31ab58b7c0f018670ed91a7df1ce289891d9504b358aeb6f29041a58c0037a96"},
+  "test_cases": [
+    {"id": "serial-discovery-quarantine", "result": "PASS: colcon list exit 0 and stdout empty"},
+    {"id": "repository-cleanup-invariants", "result": "PASS: 3/3; no active references or modified-document broken links"}
+  ],
+  "artifact_hashes": {
+    "serial_colcon_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "serial_generated_logger_sha256": "31ab58b7c0f018670ed91a7df1ce289891d9504b358aeb6f29041a58c0037a96",
+    "repository_cleanup_test_log_sha256": "a4e1c0b43353f2edc49c7213027ff256e14f1ef40f2a9468cf488d5df55a893d"
+  },
+  "cleanup": {
+    "deleted": ["docs/planning/NEXT_PARALLEL_TASKS.md"],
+    "pre_delete_sha256": "fd6290fbf6a98a3b71cf3332753766e161000336c227aa548cf07cccb8796cd5",
+    "recoverable_from": "a7976a4ab397c8e85a278191770625d848c86c6d:docs/planning/NEXT_PARALLEL_TASKS.md",
+    "historical_audits_evidence_receipts_preserved": true
+  },
   "open_p0": ["WSL-OFFBOARD-001", "WSL-SERIAL-001"],
   "open_h5_relevant_p1": ["WSL-GOV-001", "WSL-SERIAL-002", "WSL-VISION-001", "WSL-PX4-001"],
   "HARDWARE_ACCESSED": false,

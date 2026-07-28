@@ -15,7 +15,8 @@ production 控制链只允许 PX4 uXRCE-DDS；MAVROS、历史串口链和旧 bri
   [SITL 验收](docs/runbooks/SITL_ACCEPTANCE.md)
 - 当前规范：[控制权矩阵](docs/CONTROL_AUTHORITY_MATRIX.md) 与
   [architecture](docs/architecture/)
-- 计划：[下一批并行任务](docs/planning/NEXT_PARALLEL_TASKS.md)
+- 当前阻塞项与执行顺序：
+  [Wave 4B open findings](docs/audits/2026-07-27-wave4b-wsl/07-open-findings.md)
 - evidence：[evidence 索引](docs/evidence/index.yaml) 与
   [schema 说明](docs/evidence/SCHEMA.md)
 - 文档权威规则：[Document Authority](docs/governance/DOCUMENT_AUTHORITY.md)
