@@ -147,7 +147,13 @@ class DependencyProfileTests(unittest.TestCase):
         self.assertEqual(["active"], payload["selected_profiles"])
         self.assertEqual(["src/px4_msgs"], payload["repository_paths"])
 
-    def test_real_profile_manifests_are_exact_and_disjoint(self):
+    def test_root_has_one_governed_repos_manifest(self):
+        self.assertEqual(
+            ["workspace.lock.repos"],
+            sorted(path.name for path in REPO_ROOT.glob("workspace*.repos")),
+        )
+
+    def test_real_profile_manifest_is_exact_and_disjoint(self):
         self.assertEqual([], VALIDATOR.validate_manifest_profiles(REPO_ROOT))
         profile_ids, repositories = VALIDATOR.selected_manifest_profiles(
             REPO_ROOT,
@@ -191,22 +197,25 @@ class DependencyProfileTests(unittest.TestCase):
     def test_real_manifest_mutations_fail_closed(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             temp_root = Path(temp_dir)
-            for filename in VALIDATOR.PROFILE_MANIFESTS.values():
-                shutil.copy2(REPO_ROOT / filename, temp_root / filename)
+            manifest = temp_root / VALIDATOR.PROFILE_MANIFEST
+            shutil.copy2(REPO_ROOT / VALIDATOR.PROFILE_MANIFEST, manifest)
 
-            archive = temp_root / "workspace.archive.repos"
-            original = archive.read_text(encoding="utf-8")
-            archive.write_text(original.replace("0fbdcbf6ee53d6927de75af1d98f22cf5bd4f917", "DDS"), encoding="utf-8")
+            original = manifest.read_text(encoding="utf-8")
+            manifest.write_text(original.replace("0fbdcbf6ee53d6927de75af1d98f22cf5bd4f917", "DDS"), encoding="utf-8")
             issues = VALIDATOR.validate_manifest_profiles(temp_root)
             self.assertTrue(any("moving or non-exact ref" in issue for issue in issues))
 
-            archive.write_text(original.replace("src/px4_bringup", "src/px4_msgs"), encoding="utf-8")
+            manifest.write_text(original.replace("src/px4_bringup", "src/px4_msgs"), encoding="utf-8")
             issues = VALIDATOR.validate_manifest_profiles(temp_root)
             self.assertTrue(any("duplicate path src/px4_msgs" in issue for issue in issues))
 
-            archive.write_text(original.replace("AyasOwen", "substitution"), encoding="utf-8")
+            manifest.write_text(original.replace("AyasOwen", "substitution"), encoding="utf-8")
             issues = VALIDATOR.validate_manifest_profiles(temp_root)
             self.assertTrue(any("URL mismatch for src/px4_bringup" in issue for issue in issues))
+
+            manifest.write_text(original.replace("# profile: active\n", "", 1), encoding="utf-8")
+            issues = VALIDATOR.validate_manifest_profiles(temp_root)
+            self.assertTrue(any("missing a profile marker" in issue for issue in issues))
 
     def test_installer_profile_flags_are_explicit_and_offline_dry_run(self):
         help_result = subprocess.run(
@@ -266,6 +275,7 @@ class DependencyProfileTests(unittest.TestCase):
                 universal_newlines=True,
             )
             self.assertEqual(0, custom_exact.returncode, custom_exact.stderr)
+            self.assertIn("Repositories:16", custom_exact.stdout)
 
             moving_manifest = Path(temp_dir) / "moving.repos"
             moving_manifest.write_text(

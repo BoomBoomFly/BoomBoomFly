@@ -7,9 +7,6 @@ PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
 SRC_DIR="${PROJECT_ROOT}/src"
 DEFAULT_MANIFEST="${PROJECT_ROOT}/workspace.lock.repos"
-ARCHIVE_MANIFEST="${PROJECT_ROOT}/workspace.archive.repos"
-PERCEPTION_MANIFEST="${PROJECT_ROOT}/workspace.optional-perception.repos"
-NAVIGATION_MANIFEST="${PROJECT_ROOT}/workspace.optional-navigation.repos"
 MANIFEST="${DEFAULT_MANIFEST}"
 MANIFEST_EXPLICIT=0
 WITH_ARCHIVE=0
@@ -41,7 +38,7 @@ Options:
   --src-dir <path>       Target ROS 2 src directory. Default: ${SRC_DIR}
   --manifest <path>      One custom manifest; mutually exclusive with profile flags.
                          Default active manifest: ${DEFAULT_MANIFEST}
-  --with-archive         Add ${ARCHIVE_MANIFEST}
+  --with-archive         Add archive entries from ${DEFAULT_MANIFEST}
   --with-optional <name> Add an optional exact profile: perception or navigation.
                          Repeat to select both profiles.
   --update               Sync existing clean repositories to the manifest ref.
@@ -56,7 +53,7 @@ Safety:
   * Existing dirty repositories are never checked out or updated.
   * Existing repositories with a different origin URL are rejected.
   * Active/archive/optional target paths must be globally unique.
-  * Governed profile manifests accept exact commit SHAs only.
+  * The governed manifest and custom manifests accept exact commit SHAs only.
   * Without --update, a repository at the wrong commit is rejected.
   * Exact lock SHAs are verified after checkout.
   * Audit modes inspect every entry, summarize all blockers, then exit non-zero.
@@ -201,40 +198,34 @@ require_command git
 require_command awk
 
 SRC_DIR="$(absolute_path "${SRC_DIR}")"
-MANIFESTS=()
 SELECTED_PROFILES=()
 if [[ ${MANIFEST_EXPLICIT} -eq 1 ]]; then
-	MANIFESTS+=("$(absolute_path "${MANIFEST}")")
+	MANIFEST="$(absolute_path "${MANIFEST}")"
 	SELECTED_PROFILES+=("custom")
 else
-	MANIFESTS+=("${DEFAULT_MANIFEST}")
+	MANIFEST="${DEFAULT_MANIFEST}"
 	SELECTED_PROFILES+=("active")
 	if [[ ${WITH_ARCHIVE} -eq 1 ]]; then
-		MANIFESTS+=("${ARCHIVE_MANIFEST}")
 		SELECTED_PROFILES+=("archive")
 	fi
 	declare -A SELECTED_OPTIONAL=()
 	for optional_profile in "${WITH_OPTIONAL[@]}"; do
 		[[ -z "${SELECTED_OPTIONAL[${optional_profile}]:-}" ]] || continue
 		SELECTED_OPTIONAL[${optional_profile}]=1
-		case "${optional_profile}" in
-			perception)
-				MANIFESTS+=("${PERCEPTION_MANIFEST}")
-				;;
-			navigation)
-				MANIFESTS+=("${NAVIGATION_MANIFEST}")
-				;;
-		esac
 		SELECTED_PROFILES+=("optional-${optional_profile}")
 	done
 fi
-for selected_manifest in "${MANIFESTS[@]}"; do
-	[[ -f "${selected_manifest}" ]] || die "Manifest not found: ${selected_manifest}"
+[[ -f "${MANIFEST}" ]] || die "Manifest not found: ${MANIFEST}"
+
+declare -A SELECTED_PROFILE_SET=()
+for selected_profile in "${SELECTED_PROFILES[@]}"; do
+	SELECTED_PROFILE_SET[${selected_profile}]=1
 done
 
 parse_manifest() {
 	local selected_manifest="$1"
-	awk '
+	local require_profiles="$2"
+	awk -v require_profiles="${require_profiles}" '
 	function trim(value) {
 		sub(/^[[:space:]]+/, "", value)
 		sub(/[[:space:]]+$/, "", value)
@@ -258,12 +249,27 @@ parse_manifest() {
 			bad = 1
 			return
 		}
-		printf "%s\t%s\t%s\n", path, url, version
+		if (require_profiles == "1" && profile == "") {
+			printf "Missing profile marker for %s\n", path > "/dev/stderr"
+			bad = 1
+			return
+		}
+		entry_profile = (profile == "" ? "custom" : profile)
+		printf "%s\t%s\t%s\t%s\n", entry_profile, path, url, version
 	}
 	BEGIN {
 		in_repositories = 0
 		path = ""
+		profile = ""
 		bad = 0
+	}
+	/^# profile:[[:space:]]*[a-z-]+[[:space:]]*$/ {
+		emit()
+		path = ""
+		profile = $0
+		sub(/^# profile:[[:space:]]*/, "", profile)
+		sub(/[[:space:]]*$/, "", profile)
+		next
 	}
 	/^[[:space:]]*#/ { next }
 	/^repositories:[[:space:]]*$/ {
@@ -309,19 +315,20 @@ parse_manifest() {
 		' "${selected_manifest}"
 }
 
-REPOSITORIES=()
-for selected_manifest in "${MANIFESTS[@]}"; do
-	manifest_data="$(parse_manifest "${selected_manifest}")" ||
-		die "Failed to parse manifest: ${selected_manifest}"
-	[[ -n "${manifest_data}" ]] || die "Manifest contains no repositories: ${selected_manifest}"
-	while IFS= read -r record; do
-		REPOSITORIES+=("${record}")
-	done <<<"${manifest_data}"
-done
+require_profiles=$((1 - MANIFEST_EXPLICIT))
+manifest_data="$(parse_manifest "${MANIFEST}" "${require_profiles}")" ||
+	die "Failed to parse manifest: ${MANIFEST}"
+[[ -n "${manifest_data}" ]] || die "Manifest contains no repositories: ${MANIFEST}"
+ALL_REPOSITORIES=()
+while IFS= read -r record; do
+	ALL_REPOSITORIES+=("${record}")
+done <<<"${manifest_data}"
 
+REPOSITORIES=()
 declare -A SEEN_TARGETS=()
-for record in "${REPOSITORIES[@]}"; do
-	IFS=$'\t' read -r manifest_path repo_url repo_ref <<<"${record}"
+declare -A PROFILE_ENTRY_COUNTS=()
+for record in "${ALL_REPOSITORIES[@]}"; do
+	IFS=$'\t' read -r record_profile manifest_path repo_url repo_ref <<<"${record}"
 	case "${manifest_path}" in
 		src/*)
 			target_key="${manifest_path#src/}"
@@ -339,7 +346,27 @@ for record in "${REPOSITORIES[@]}"; do
 	if ! is_locked_sha "${repo_ref}"; then
 		die "Manifest ref is not a 40-character lock SHA for ${manifest_path}: ${repo_ref}"
 	fi
+
+	if [[ ${MANIFEST_EXPLICIT} -eq 0 ]]; then
+		case "${record_profile}" in
+			active | archive | optional-perception | optional-navigation) ;;
+			*) die "Unknown governed profile for ${manifest_path}: ${record_profile}" ;;
+		esac
+		PROFILE_ENTRY_COUNTS[${record_profile}]=$((${PROFILE_ENTRY_COUNTS[${record_profile}]:-0} + 1))
+	fi
+
+	if [[ ${MANIFEST_EXPLICIT} -eq 1 || -n "${SELECTED_PROFILE_SET[${record_profile}]:-}" ]]; then
+		REPOSITORIES+=("${manifest_path}"$'\t'"${repo_url}"$'\t'"${repo_ref}")
+	fi
 done
+
+if [[ ${MANIFEST_EXPLICIT} -eq 0 ]]; then
+	for selected_profile in "${SELECTED_PROFILES[@]}"; do
+		[[ ${PROFILE_ENTRY_COUNTS[${selected_profile}]:-0} -gt 0 ]] ||
+			die "Selected profile has no repositories: ${selected_profile}"
+	done
+fi
+[[ ${#REPOSITORIES[@]} -gt 0 ]] || die "Profile selection produced no repositories"
 
 if [[ ${DRY_RUN} -eq 1 ]]; then
 	[[ -d "${SRC_DIR}" ]] || log "[DRY] mkdir -p ${SRC_DIR}"
@@ -349,9 +376,7 @@ fi
 
 log "Project root: ${PROJECT_ROOT}"
 log "Profiles:     ${SELECTED_PROFILES[*]}"
-for selected_manifest in "${MANIFESTS[@]}"; do
-	log "Manifest:     ${selected_manifest}"
-done
+log "Manifest:     ${MANIFEST}"
 log "Target src:  ${SRC_DIR}"
 log "Repositories:${#REPOSITORIES[@]}"
 log "Checkout:    detached HEAD"
