@@ -51,9 +51,9 @@ class Spy(Node):
     def __init__(self):
         super().__init__("wave4b_h3_publisher_spy")
         self.counts = {topic: 0 for topic in OUTPUT_TOPICS}
-        self.subscriptions = []
+        self._spy_subscriptions = []
         for topic, message_type in OUTPUT_TOPICS.items():
-            self.subscriptions.append(
+            self._spy_subscriptions.append(
                 self.create_subscription(
                     message_type,
                     topic,
