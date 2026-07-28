@@ -16,7 +16,10 @@
 | 集合 | ID 范围 | 数量 | 说明 |
 |---|---|---:|---|
 | normal | `SITL-NORMAL-001`–`SITL-NORMAL-012` | 12 | session、topic、PX4 feedback、readiness、PRESTREAM、ACK、mode、cleanup |
-| fault | `SITL-FAULT-001`–`SITL-FAULT-024` | 24 | ACK、freshness、loss/restart、authority、identity、time、invalid data、mock、vision |
+| fault | `SITL-FAULT-001`–`SITL-FAULT-025` | 25 | 24 个正式候选，以及 1 个 `OFFLINE_SYNTHETIC` Wave 3B 拒绝矩阵 |
+
+`SITL-FAULT-025` 的 `UNIT_TESTED` 仅指内存 synthetic fixture；它没有运行 PX4、
+Agent、ROS graph 或 formal SITL，不能作为 H4 或硬件证据。
 
 场景不得因依赖未实现而从 catalog 删除。此类条目保留为 `BLOCKED`，并列出
 `BLOCKED_BY_T00`–`BLOCKED_BY_T06`、`BLOCKED_BY_T08` 或

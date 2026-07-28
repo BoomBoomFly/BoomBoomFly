@@ -2,10 +2,11 @@
 
 > 文档状态：`PLANNED`
 >
-> 调度基线：Repository Cleanup Wave 2 起始
-> `master@0a7f90dad0942843c989a9bed6333a88f9b31ca5`；当前执行分支
-> `agent/repository-cleanup-wave2`。这些是仓库内规划，不是已创建的 GitHub
-> Milestone，也不代表阶段已经通过。
+> 当前调度入口为 [`docs/handoff.md`](../handoff.md) 和
+> [Wave 4B open findings](../audits/2026-07-27-wave4b-wsl/07-open-findings.md)。
+> 本文件不绑定活动 branch/HEAD；精确 source identity 必须从当次 handoff/receipt
+> 重新验证。旧审计中的 branch/HEAD 只属于 `HISTORICAL_EVIDENCE`。这些是仓库内
+> 规划，不是已创建的 GitHub Milestone，也不代表阶段已经通过。
 
 ## 共同 promotion 规则
 
@@ -34,7 +35,7 @@
   - CODEOWNERS 和 remote required checks 只在真实 owner/管理员批准后启用；
   - CI 骨架执行无硬件静态/build/test 门，远端 required 设置由管理员另行确认。
 - **阻塞项：** archive/source profile 尚未实施；`src/serial_driver_ros` 为
-  `REQUIRES_MAINTAINER_DECISION`；`../communication` dirty/untracked 替代来源未固化；
+  `REQUIRES_MAINTAINER_DECISION`；`src/communication` dirty/untracked 来源未固化；
   CODEOWNERS 无有效 owner；required checks 未获管理员授权。未知许可证决定不阻塞
   离线开发，但继续阻塞 release。
 - **禁止提前执行：** PX4 firmware patch 集成、SITL promotion、任何 hardware、

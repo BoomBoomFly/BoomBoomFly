@@ -35,7 +35,7 @@ review request 后，才能创建有效 CODEOWNERS。
 | 当前 tracked 路径 | 提议 owner |
 |---|---|
 | `*` | `@RELEASE-MAINTAINER` |
-| `/workspace.lock.repos`、`/workspace.repos`、`/workspace.excluded_packages` | `@RELEASE-MAINTAINER`、`@PX4-MAINTAINER` |
+| `/workspace.lock.repos`、`/workspace.excluded_packages` | `@RELEASE-MAINTAINER`、`@PX4-MAINTAINER` |
 | `/config/profiles/**` | `@RELEASE-MAINTAINER`、`@CONTROL-MAINTAINER`、`@PX4-MAINTAINER` |
 | `/Scripts/build/**`、`/Scripts/installation/**` | `@RELEASE-MAINTAINER`、`@PX4-MAINTAINER` |
 | `/Scripts/evidence/**` | `@RELEASE-MAINTAINER` |

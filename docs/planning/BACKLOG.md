@@ -2,10 +2,10 @@
 
 > 文档状态：`PLANNED`
 >
-> 调度事实基线：Repository Cleanup Wave 2 起始
-> `master@0a7f90dad0942843c989a9bed6333a88f9b31ca5`；执行分支
-> `agent/repository-cleanup-wave2`。旧审计中的 branch/HEAD 只属于
-> `HISTORICAL_EVIDENCE`。
+> 当前调度入口为 [`docs/handoff.md`](../handoff.md) 和
+> [Wave 4B open findings](../audits/2026-07-27-wave4b-wsl/07-open-findings.md)。
+> 本 backlog 不绑定活动 branch/HEAD；精确 source identity 必须从当次 handoff/receipt
+> 重新验证。旧审计中的 branch/HEAD 只属于 `HISTORICAL_EVIDENCE`。
 >
 > 来源：`docs/audits/2026-07-26/07_FINDINGS_REGISTER.md` 的 44 个统一发现。
 > 本文件完整拆分其中 9 个 P0 与 15 个 P1，共 24 项；不创建或代表真实 GitHub
@@ -689,10 +689,10 @@ evidence 变成可机器验证的 release 门。
 - **Task ID：** `BBF-TASK-026`
 - **工作线：** G
 - **优先级：** P1
-- **目标：** 为 `../communication` 建立 root HEAD、origin、exact HEAD、dirty
+- **目标：** 为 `src/communication` 建立 root HEAD、origin、exact HEAD、dirty
   content、时间、用途、批准人和 replay 结果的 fail-closed receipt。
 - **唯一写入范围：** 后续获批的 receipt schema/validator/tests 与新 dated receipt；
-  不修改、清理或提交 `../communication`。
+  不修改、清理或提交 `src/communication`。
 - **前置依赖：** 维护者决定当前 dirty/untracked 串口实现的归属及签名身份。
 - **是否可立即开始：** receipt schema 与负向测试可开始；签署 current receipt
   `BLOCKED` 于维护者确认。

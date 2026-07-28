@@ -19,7 +19,6 @@ DRY_RUN=0
 VERIFY_ONLY=0
 SKIP_PACKAGE_CHECK=0
 REQUIRE_COLCON=0
-ALLOW_MOVING_REFS=0
 WITH_SUBMODULES=1
 
 CLONED_COUNT=0
@@ -38,9 +37,6 @@ and optional sources are composed only when their explicit flags are present.
 Locked commits are checked out in detached-HEAD state; this script never creates
 dependency branches and never runs git pull.
 
-workspace.repos may additionally declare ../communication as the one approved
-moving external repository. It is intentionally absent from workspace.lock.repos.
-
 Options:
   --src-dir <path>       Target ROS 2 src directory. Default: ${SRC_DIR}
   --manifest <path>      One custom manifest; mutually exclusive with profile flags.
@@ -54,7 +50,6 @@ Options:
   --skip-submodules      Do not initialize recursive Git submodules.
   --skip-package-check   Do not run colcon package discovery.
   --require-colcon       Fail if colcon is unavailable or package discovery fails.
-  --allow-moving-refs    Permit tags/branches only with explicit --manifest.
   -h, --help             Show this help message.
 
 Safety:
@@ -187,10 +182,6 @@ while [[ $# -gt 0 ]]; do
 			REQUIRE_COLCON=1
 			shift
 			;;
-		--allow-moving-refs)
-			ALLOW_MOVING_REFS=1
-			shift
-			;;
 		-h | --help)
 			usage
 			exit 0
@@ -206,10 +197,6 @@ done
 if [[ ${MANIFEST_EXPLICIT} -eq 1 && (${WITH_ARCHIVE} -eq 1 || ${#WITH_OPTIONAL[@]} -gt 0) ]]; then
 	die "--manifest cannot be combined with --with-archive or --with-optional"
 fi
-if [[ ${MANIFEST_EXPLICIT} -eq 0 && ${ALLOW_MOVING_REFS} -eq 1 ]]; then
-	die "--allow-moving-refs requires an explicit --manifest"
-fi
-
 require_command git
 require_command awk
 
@@ -342,18 +329,15 @@ for record in "${REPOSITORIES[@]}"; do
 				die "Unsafe manifest target: ${manifest_path}"
 			fi
 			;;
-		../communication)
-			target_key="external:communication"
-			;;
 		*)
-			die "Manifest path must be below src/ or exactly ../communication: ${manifest_path}"
+			die "Manifest path must be below src/: ${manifest_path}"
 			;;
 	esac
 	[[ -z "${SEEN_TARGETS[${target_key}]:-}" ]] || die "Duplicate manifest target: ${manifest_path}"
 	SEEN_TARGETS[${target_key}]=1
 
-	if ! is_locked_sha "${repo_ref}" && [[ ${ALLOW_MOVING_REFS} -eq 0 ]]; then
-		die "Manifest ref is not a 40-character lock SHA for ${manifest_path}: ${repo_ref}. Use --allow-moving-refs only when intentional."
+	if ! is_locked_sha "${repo_ref}"; then
+		die "Manifest ref is not a 40-character lock SHA for ${manifest_path}: ${repo_ref}"
 	fi
 done
 
@@ -458,13 +442,8 @@ process_repository() {
 	local expected_head
 
 	local repo_blocked=0
-	if [[ "${manifest_path}" == ../communication ]]; then
-		target_dir="../communication"
-		full_path="${PROJECT_ROOT}/../communication"
-	else
-		target_dir="${manifest_path#src/}"
-		full_path="${SRC_DIR}/${target_dir}"
-	fi
+	target_dir="${manifest_path#src/}"
+	full_path="${SRC_DIR}/${target_dir}"
 
 	log "[PLAN] ${target_dir} <= ${repo_url} @ ${repo_ref}"
 	PLANNED_COUNT=$((PLANNED_COUNT + 1))

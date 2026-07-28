@@ -258,21 +258,39 @@ class DependencyProfileTests(unittest.TestCase):
             self.assertIn("Profiles:     active archive optional-perception optional-navigation", composed.stdout)
             self.assertIn("px4_bringup", composed.stdout)
 
+            custom_exact = subprocess.run(
+                base_args + ["--manifest", str(REPO_ROOT / "workspace.lock.repos")],
+                check=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
+            )
+            self.assertEqual(0, custom_exact.returncode, custom_exact.stderr)
+
+            moving_manifest = Path(temp_dir) / "moving.repos"
+            moving_manifest.write_text(
+                "repositories:\n"
+                "  src/example:\n"
+                "    type: git\n"
+                "    url: https://example.com/example.git\n"
+                "    version: main\n",
+                encoding="utf-8",
+            )
             moving_denied = subprocess.run(
-                base_args + ["--manifest", str(REPO_ROOT / "workspace.repos")],
+                base_args + ["--manifest", str(moving_manifest)],
                 check=False,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 universal_newlines=True,
             )
             self.assertNotEqual(0, moving_denied.returncode)
-            self.assertIn("--allow-moving-refs", moving_denied.stderr)
+            self.assertIn("not a 40-character lock SHA", moving_denied.stderr)
 
-            moving_allowed = subprocess.run(
+            removed_flag = subprocess.run(
                 base_args
                 + [
                     "--manifest",
-                    str(REPO_ROOT / "workspace.repos"),
+                    str(REPO_ROOT / "workspace.lock.repos"),
                     "--allow-moving-refs",
                 ],
                 check=False,
@@ -280,7 +298,27 @@ class DependencyProfileTests(unittest.TestCase):
                 stderr=subprocess.PIPE,
                 universal_newlines=True,
             )
-            self.assertEqual(0, moving_allowed.returncode, moving_allowed.stderr)
+            self.assertNotEqual(0, removed_flag.returncode)
+            self.assertIn("Unknown option: --allow-moving-refs", removed_flag.stderr)
+
+            external_manifest = Path(temp_dir) / "external.repos"
+            external_manifest.write_text(
+                "repositories:\n"
+                "  ../communication:\n"
+                "    type: git\n"
+                "    url: https://example.com/communication.git\n"
+                "    version: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n",
+                encoding="utf-8",
+            )
+            external_denied = subprocess.run(
+                base_args + ["--manifest", str(external_manifest)],
+                check=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
+            )
+            self.assertNotEqual(0, external_denied.returncode)
+            self.assertIn("Manifest path must be below src/", external_denied.stderr)
 
             conflicting = subprocess.run(
                 base_args

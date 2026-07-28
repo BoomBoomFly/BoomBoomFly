@@ -2,7 +2,7 @@
 
 > 文档状态：`STATICALLY_VERIFIED`
 >
-> 场景状态：24 个场景均为 `BLOCKED`
+> 场景状态：24 个正式候选为 `BLOCKED`；1 个 synthetic 场景为 `UNIT_TESTED`
 >
 > 验证范围：`OFFLINE_SPEC_ONLY`
 
@@ -47,6 +47,7 @@
 | `SITL-FAULT-022` | mock publisher contamination | feedback graph/source guard | `MOCK_SOURCE_DETECTED` | 500 ms | `FAULT_LATCHED` | contract acceptance, `ACTIVE` | 否 | T02, T04, T05 |
 | `SITL-FAULT-023` | vision freeze | approved transform source | `VISION_STALE` | 750 ms | `FAULT_LATCHED` | frozen vision publish, `ACTIVE` | 否 | T03, T05, safety |
 | `SITL-FAULT-024` | vision frame mismatch | pre-conversion frame check | `VISION_FRAME_MISMATCH` | 500 ms | `FAULT_LATCHED` | mismatched publish, `PRESTREAM` | 否 | T05, safety |
+| `SITL-FAULT-025` | Wave 3B synthetic rejection matrix | offline synthetic event stream | `WAVE3B_REJECTION_MATRIX` | 2 s | `FAIL_CLOSED` | `ACTIVE`、任何 PX4 publish | 否 | 无 formal dependency；仅 `OFFLINE_SYNTHETIC` |
 
 ## 依赖映射
 
@@ -67,12 +68,13 @@ T00/T01/T08 的输出由其他工作线拥有；本目录只消费其未来冻�
 ## 状态统计
 
 ```text
-fault scenarios: 24
+fault scenarios: 25
 PLANNED: 0
 STATICALLY_VERIFIED: 0
-UNIT_TESTED: 0
+UNIT_TESTED: 1 (SITL-FAULT-025; offline synthetic only)
 BLOCKED: 24
 UNVERIFIED: 0
 ```
 
-文档本身可静态校验，不改变场景运行状态。正式 SITL 执行仍未授权。
+文档本身可静态校验；`SITL-FAULT-025` 的离线单元测试也不提升任何正式候选状态。
+正式 SITL 执行仍未授权。
