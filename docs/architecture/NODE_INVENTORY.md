@@ -65,7 +65,7 @@
 | multiple `offboard_control_node` | 同一 PX4 control writer 竞争 | `BLOCKED` |
 | multiple `vision_to_dds_node` | 外部视觉双源 | `BLOCKED` |
 | multiple Agent instances on same transport/profile | 串口和 PX4 identity 冲突 | `BLOCKED` |
-| `../communication` 写 `/fmu/*` 或 `/offboard/*` | 被 ADR 明确排除出飞控链 | `BLOCKED` |
+| `src/communication` 写 `/fmu/*` 或 `/offboard/*` | 被 ADR 明确排除出飞控链 | `BLOCKED` |
 
 ## 5. 启动入口清单
 
