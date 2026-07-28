@@ -43,6 +43,31 @@ returned exit 2; it was not used as acceptance evidence. Dependency generation
 was then completed in the isolated `/tmp` prefix before the passing CMake/CTest
 run above.
 
+## Follow-up candidate integration (2026-07-28)
+
+The follow-up candidate extends the `6503921` fail-closed bridge with the
+checked legacy T265 ROS interface adapter. It reads only
+`/camera/odom/sample` covariance and source stamps, publishes the mandatory
+`/vision/quality` and `/vision/source_epoch` health inputs, and does not
+implement a second visual algorithm, modify TF stamps, or add a precision
+landing publisher. The 7 adapter tests cover normal tracking, low/failed
+tracking, freeze timeout, reconnect epoch increment, timestamp rollback,
+initial message timeout, and reset plus two-TF recovery warm-up.
+
+The candidate was rebuilt cleanly with a freshly built and installed isolated
+`px4_msgs` dependency. CTest passed the original 6 bridge gtests and the 7
+adapter gtests (13 total). An ASan/UBSan build passed the same two CTest targets
+outside the ptrace-restricted filesystem sandbox; LeakSanitizer cannot run
+inside that sandbox and is not used as a pass claim there. `git diff --check`
+passed. Root dependency-profile, package-boundary, evidence and index checks
+remain to be recorded with the root lock integration commit.
+
+The legacy driver statically exposes `odom_frame -> camera_pose_frame` and
+encodes tracker confidence in covariance. This is an interface finding only:
+camera frame convention, timestamp epoch, quality calibration, reconnect
+behavior, extrinsics and latency require the hardware card in
+`docs/runbooks/T265_VISION_STARTUP.md`.
+
 ## Cross-thread and SITL status
 
 | Required confirmation | Status | Consequence |
