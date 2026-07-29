@@ -54,6 +54,22 @@ class Px4ParamSnapshotTest(unittest.TestCase):
                     value,
                 )
 
+    def test_integer_encode_decode_round_trip(self):
+        cases = (
+            (255, self.snapshot.MAV_PARAM_TYPE_UINT8),
+            (-12, self.snapshot.MAV_PARAM_TYPE_INT8),
+            (65530, self.snapshot.MAV_PARAM_TYPE_UINT16),
+            (-32000, self.snapshot.MAV_PARAM_TYPE_INT16),
+            (0xF1234567, self.snapshot.MAV_PARAM_TYPE_UINT32),
+            (-1234567, self.snapshot.MAV_PARAM_TYPE_INT32),
+        )
+        for value, param_type in cases:
+            with self.subTest(param_type=param_type):
+                encoded = self.snapshot.encode_param_value(value, param_type)
+                self.assertEqual(
+                    self.snapshot.decode_param_value(encoded, param_type), value
+                )
+
     def test_real32_requires_finite_value(self):
         self.assertAlmostEqual(
             self.snapshot.decode_param_value(

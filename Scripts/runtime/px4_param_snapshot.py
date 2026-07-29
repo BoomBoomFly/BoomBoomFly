@@ -113,18 +113,37 @@ def decode_param_value(raw_value, param_type):
     raise SnapshotError("unsupported MAV_PARAM_TYPE {}".format(param_type))
 
 
-def capture(args):
-    from pymavlink import mavutil
+def encode_param_value(value, param_type):
+    """Encode a value using PX4's bytewise legacy PARAM_SET representation."""
+    param_type = int(param_type)
+    if param_type in INTEGER_FORMATS:
+        try:
+            raw_bytes = struct.pack(INTEGER_FORMATS[param_type], int(value))
+        except (OverflowError, struct.error, ValueError) as error:
+            raise SnapshotError(
+                "value {} is invalid for MAV_PARAM_TYPE {}".format(
+                    value, param_type
+                )
+            ) from error
+        return struct.unpack("<f", raw_bytes.ljust(4, b"\0"))[0]
+    if param_type == MAV_PARAM_TYPE_REAL32:
+        value = float(value)
+        if not math.isfinite(value):
+            raise SnapshotError("non-finite REAL32 parameter")
+        return value
+    if param_type in (MAV_PARAM_TYPE_UINT64, MAV_PARAM_TYPE_INT64,
+                      MAV_PARAM_TYPE_REAL64):
+        raise SnapshotError(
+            "64-bit parameter type {} is not representable in legacy "
+            "PARAM_SET".format(param_type)
+        )
+    raise SnapshotError("unsupported MAV_PARAM_TYPE {}".format(param_type))
 
-    connection = mavutil.mavlink_connection(args.device, autoreconnect=False)
-    heartbeat = connection.wait_heartbeat(timeout=args.heartbeat_timeout_s)
-    if heartbeat is None:
-        raise SnapshotError("no MAVLink heartbeat")
 
-    source_system = int(heartbeat.get_srcSystem())
-    source_component = int(heartbeat.get_srcComponent())
-    target_system = args.target_system or source_system
-    target_component = args.target_component or source_component or 1
+def collect_parameters(connection, device, source_system, source_component,
+                       target_system, target_component, idle_timeout_s,
+                       overall_timeout_s, max_recovery_rounds,
+                       recovery_batch_size):
     connection.mav.param_request_list_send(target_system, target_component)
 
     parameters = {}
@@ -134,15 +153,15 @@ def capture(args):
     last_new = started
     recovery_rounds = 0
 
-    while time.monotonic() - started < args.overall_timeout_s:
+    while time.monotonic() - started < overall_timeout_s:
         message = connection.recv_match(
             type="PARAM_VALUE", blocking=True, timeout=1.0
         )
         now = time.monotonic()
         if message is None:
-            if now - last_new < args.idle_timeout_s:
+            if now - last_new < idle_timeout_s:
                 continue
-            if expected_count is None or recovery_rounds >= args.max_recovery_rounds:
+            if expected_count is None or recovery_rounds >= max_recovery_rounds:
                 break
             missing = [
                 index for index in range(expected_count)
@@ -150,7 +169,7 @@ def capture(args):
             ]
             if not missing:
                 break
-            for index in missing[:args.recovery_batch_size]:
+            for index in missing[:recovery_batch_size]:
                 connection.mav.param_request_read_send(
                     target_system, target_component, b"", index
                 )
@@ -190,7 +209,7 @@ def capture(args):
     return {
         "capture": {
             "complete": complete,
-            "device": args.device,
+            "device": device,
             "elapsed_s": round(time.monotonic() - started, 6),
             "encoding": "px4_mavlink_bytewise",
             "expected_count": expected_count,
@@ -205,6 +224,32 @@ def capture(args):
         "parameters": dict(sorted(parameters.items())),
         "selected": {name: parameters.get(name) for name in SELECTED},
     }
+
+
+def capture(args):
+    from pymavlink import mavutil
+
+    connection = mavutil.mavlink_connection(args.device, autoreconnect=False)
+    heartbeat = connection.wait_heartbeat(timeout=args.heartbeat_timeout_s)
+    if heartbeat is None:
+        raise SnapshotError("no MAVLink heartbeat")
+
+    source_system = int(heartbeat.get_srcSystem())
+    source_component = int(heartbeat.get_srcComponent())
+    target_system = args.target_system or source_system
+    target_component = args.target_component or source_component or 1
+    return collect_parameters(
+        connection,
+        args.device,
+        source_system,
+        source_component,
+        target_system,
+        target_component,
+        args.idle_timeout_s,
+        args.overall_timeout_s,
+        args.max_recovery_rounds,
+        args.recovery_batch_size,
+    )
 
 
 def main():
