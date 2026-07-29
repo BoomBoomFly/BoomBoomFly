@@ -1,7 +1,0 @@
-{
-  "exit_code": 0,
-  "index": "/home/c/px4_ws/BoomBoomFly/docs/evidence/index.yaml",
-  "issues": [],
-  "result": "PASS",
-  "validator": "evidence_index"
-}

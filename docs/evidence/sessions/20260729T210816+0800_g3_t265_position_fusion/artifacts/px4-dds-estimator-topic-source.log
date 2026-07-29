@@ -1,6 +1,0 @@
-boards/nxp/tropic-community/nuttx-config/scripts/itcm_functions_includes.ld:339:*(.text._ZN16PreFlightChecker26preFlightCheckHeightFailedERK23estimator_innovations_sf)
-boards/nxp/tropic-community/nuttx-config/scripts/itcm_functions_includes.ld:378:*(.text._ZN16PreFlightChecker6updateEfRK23estimator_innovations_s)
-boards/nxp/tropic-community/nuttx-config/scripts/itcm_functions_includes.ld:462:*(.text._ZN16PreFlightChecker27preFlightCheckHeadingFailedERK23estimator_innovations_sf)
-boards/nxp/tropic-community/nuttx-config/scripts/itcm_functions_includes.ld:597:*(.text._ZN16PreFlightChecker27preFlightCheckVertVelFailedERK23estimator_innovations_sf)
-boards/nxp/tropic-community/nuttx-config/scripts/itcm_functions_includes.ld:671:*(.text._ZN16PreFlightChecker28preFlightCheckHorizVelFailedERK23estimator_innovations_sf)
-src/modules/uxrce_dds_client/dds_topics.yaml:23:  - topic: /fmu/out/estimator_status_flags

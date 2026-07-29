@@ -1,5 +1,0 @@
-usage: validate_manifest.py [-h] --kind {release,rollback}
-                            [--repo-root REPO_ROOT] [--schema SCHEMA]
-                            [--expected-head EXPECTED_HEAD]
-                            manifest [manifest ...]
-validate_manifest.py: error: the following arguments are required: manifest, --kind

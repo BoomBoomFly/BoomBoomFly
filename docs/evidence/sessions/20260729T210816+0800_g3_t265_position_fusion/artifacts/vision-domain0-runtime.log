@@ -1,9 +1,0 @@
-[INFO] [launch]: All log files can be found below /home/c/.ros/log/2026-07-29-21-10-18-535228-orinnano-53415
-[INFO] [launch]: Default logging verbosity is set to INFO
-[INFO] [static_transform_publisher-1]: process started with pid [53424]
-[INFO] [t265_health_adapter_node-2]: process started with pid [53426]
-[INFO] [vision_to_dds_node-3]: process started with pid [53428]
-[static_transform_publisher-1] [INFO] [1785330618.747420720] [t265_to_base_link_static_tf]: Spinning until killed publishing transform from 't265_pose_frame' to 'base_link'
-[vision_to_dds_node-3] [INFO] [1785330618.755550608] [vision_to_dds_node]: vision odometry bridge starts fail-closed; awaiting source epoch, quality, and two fresh TF samples
-[vision_to_dds_node-3] [ERROR] [1785330618.796612303] [vision_to_dds_node]: {"component":"vision_to_dds","event":"fault","code":"QUALITY_LOW","writer":"stopped"}
-[vision_to_dds_node-3] [ERROR] [1785330751.365436652] [vision_to_dds_node]: {"component":"vision_to_dds","event":"fault","code":"INPUT_TIMEOUT","writer":"stopped"}

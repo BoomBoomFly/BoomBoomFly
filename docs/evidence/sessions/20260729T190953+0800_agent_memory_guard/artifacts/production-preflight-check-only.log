@@ -1,1 +1,0 @@
-{"agent_sha256": "1a64daa54225a41c8e0e1f333481b7d9c4341c20939b1dce44b43e7ea45580b3", "baudrate": 921600, "check_only": true, "dma_free_above_high_kib": 1545908, "mem_available_kib": 2526572, "serial_dev": "/dev/ttyTHS0", "status": "PASS"}

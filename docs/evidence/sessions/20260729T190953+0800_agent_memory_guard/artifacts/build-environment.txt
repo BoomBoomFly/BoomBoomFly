@@ -1,5 +1,0 @@
-ROS_DOMAIN_ID=231
-ROS_DISTRO=foxy
-python=Python 3.8.10
-cmake=cmake version 3.16.3
-colcon=colcon-argcomplete 0.3.3: up-to-date

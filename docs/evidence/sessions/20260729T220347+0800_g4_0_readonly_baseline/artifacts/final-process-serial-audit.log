@@ -1,7 +1,0 @@
-2026-07-29T22:10:17+08:00
-=== agent/guard processes ===
-=== serial owners ===
-=== devices ===
-crw-rw---- 1 root dialout 166, 0 Jul 29 21:34 /dev/ttyACM0
-crw-rw---- 1 root dialout 239, 0 Jul 29 22:10 /dev/ttyTHS0
-=== forbidden flight-control processes ===

@@ -1,2 +1,0 @@
-ERROR: replay refused: ROS_DOMAIN_ID=0 but isolated domain 231 is required
-runtime_domain_0_exit=2 expected=2
