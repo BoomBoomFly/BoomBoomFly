@@ -54,6 +54,10 @@ G2 为 FAIL 并按已验证原固件回滚流程停止。
 
 ## G3：T265 与 EKF（仅 G2 PASS 后）
 
+2026-07-29 用户已批准进入 G3 拆桨预检。真实 T265 原始/ROS 流和健康适配器断流恢复已验证，
+但工作区没有实测 `t265_pose_frame -> base_link` 外参；生产 writer 与 EKF 融合保持关闭，
+G3 仍为 BLOCKED。该批准不包含 PX4 参数写入、Arm、Offboard 或电机动作。
+
 1. 实测并复核 `odom_frame → t265_pose_frame → base_link` 外参；模板中的 TBD 不得带入生产。
 2. 先验证静止、前、右、上、顺时针偏航的符号、尺度、时间戳、质量和 source epoch；断流、
    冻结、回退、重连均须 fail closed。

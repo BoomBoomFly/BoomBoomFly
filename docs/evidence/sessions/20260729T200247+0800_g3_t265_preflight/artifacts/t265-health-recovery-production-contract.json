@@ -1,0 +1,15 @@
+{
+  "note": "The adapter's integer expression maps confidence 2 to 66. Its source comment says 67; production minimum_quality is 50.",
+  "observed_quality_sequence": [
+    66,
+    0,
+    66
+  ],
+  "observed_source_epoch_sequence": [
+    2,
+    3
+  ],
+  "production_minimum_quality": 50,
+  "source_result": "docs/evidence/sessions/20260729T200247+0800_g3_t265_preflight/artifacts/t265-health-recovery-42s.json",
+  "status": "PASS"
+}

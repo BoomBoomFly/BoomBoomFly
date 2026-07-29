@@ -31,7 +31,7 @@
 | G0 源码与构建 | **PASS（软件证据）** | 精确 SHA；四包 clean build；50 tests 全 PASS；launch、单 writer、无生产 mock 门禁 PASS |
 | G1 SITL/隔离回放 | **PASS（Domain 231 软件证据）** | 60 秒历史频率无误锁；VERTICAL_TEST、ACK/超时/kill/断流/Land/Disarm 场景 PASS；回放器运行时 PASS |
 | G2 拆桨 H1 | **PASS（真实拆桨证据）** | 指定固件、真实 RC、唯一 Agent/串口和零输入 writer PASS；干净 boot 下 620.011 秒 RC/timesync 连续，125 次图检查无 writer 违例，内核 UART/DMA 错误 0；最低内存/DMA 水位守住门限 |
-| G3 拆桨视觉/EKF | **BLOCKED / 未执行** | 须另行批准并先完成实测外参；先位置分量，再逐步速度和航向，并保存 estimator 接受证据 |
+| G3 拆桨视觉/EKF | **BLOCKED / 预检部分完成** | 已批准并实测 T265/ROS 200 Hz 流与断流恢复；仍缺 `t265_pose_frame → base_link` 实测外参，故零生产 writer、零 EKF 融合证据 |
 | G4 拆桨失效测试 | **BLOCKED / 未执行** | G3 PASS；逐项取得授权并以 PX4 实际 mode/failsafe/Land 结果验收 |
 | G5 装桨首次悬停 | **PROHIBITED / 本任务绝不执行** | 仅 G0–G4 全 PASS 后重新 go/no-go，并取得当次装桨、Arm、0.5 m 悬停明确授权 |
 
@@ -46,6 +46,8 @@ Jetson UART RX DMA 根因和 120 秒内存对照见
 [`docs/evidence/sessions/20260729T190953+0800_agent_memory_guard`](docs/evidence/sessions/20260729T190953+0800_agent_memory_guard)。
 干净 boot 的 620 秒真实 RC/timesync soak 见
 [`docs/evidence/sessions/20260729T195311+0800_g2_clean_boot_soak`](docs/evidence/sessions/20260729T195311+0800_g2_clean_boot_soak)。
+G3 T265 真实流、隔离驱动构建/测试、断流恢复和外参 fail-closed 预检见
+[`docs/evidence/sessions/20260729T200247+0800_g3_t265_preflight`](docs/evidence/sessions/20260729T200247+0800_g3_t265_preflight)。
 
 ## 参数纪律
 

@@ -23,6 +23,8 @@
 | G2 UART DMA 诊断 | `docs/evidence/sessions/20260729T183138+0800_g2_uart_dma_diagnostic` | 内核证明 Jetson 低内存时 UART RX DMA descriptor 分配失败；释放语言服务后 120 秒 RC/timesync 对照 PASS；生产内存约束待验收 |
 | Agent 内存/DMA 门禁 | `docs/evidence/sessions/20260729T190953+0800_agent_memory_guard` | 根 SHA `133cf05fd49deb55b072bd061b310aaf7f7310e7`；精确 Agent SHA、唯一串口、Domain 0、内存/DMA 水位和开发进程 fail-closed；7 项单测与四包 50 tests PASS |
 | G2 干净 boot soak | `docs/evidence/sessions/20260729T195311+0800_g2_clean_boot_soak` | Boot ID `3268e759-5043-48a8-92ae-44afb959ae95`；guard 启动 Agent SHA `4cbc5038...433995`；620.011 秒 RC/timesync、零输入 writer、内核错误 0、最终串口释放 PASS；保存运行 bundle 和构建依赖身份 |
+| G3 T265 预检 | `docs/evidence/sessions/20260729T200247+0800_g3_t265_preflight` | T265 原始与 ROS odometry 约 200 Hz、严格 `odom_frame → t265_pose_frame`、断流质量 0/恢复 epoch 递增、Domain 0 零输入 writer；缺实测机体外参，未启动生产 writer/EKF，G3 BLOCKED |
 
 固件已刷写且真实 `/fmu/out/rc_channels` 契约、生产内存门禁和干净 boot 长稳态验证均通过，
-G2 PASS。当前备份与目标逐字节相同，仍不是旧行为回滚证据；G3/G4 未执行，整体继续 NO-GO。
+G2 PASS。当前备份与目标逐字节相同，仍不是旧行为回滚证据；G3 仅完成 T265 预检，因缺实测
+机体外参保持 BLOCKED，G4 未执行，整体继续 NO-GO。

@@ -1,0 +1,35 @@
+{
+  "domain_id": 231,
+  "duration_s": 42.0,
+  "maximum_input_publisher_counts_at_end": {
+    "/fmu/in/offboard_control_mode": 0,
+    "/fmu/in/trajectory_setpoint": 0,
+    "/fmu/in/vehicle_command": 0,
+    "/fmu/in/vehicle_visual_odometry": 0
+  },
+  "quality_events": [
+    {
+      "elapsed_s": 0.006,
+      "value": 66
+    },
+    {
+      "elapsed_s": 0.59,
+      "value": 0
+    },
+    {
+      "elapsed_s": 19.163,
+      "value": 66
+    }
+  ],
+  "source_epoch_events": [
+    {
+      "elapsed_s": 0.005,
+      "value": 2
+    },
+    {
+      "elapsed_s": 19.157,
+      "value": 3
+    }
+  ],
+  "status": "FAIL"
+}

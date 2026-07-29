@@ -1,0 +1,23 @@
+{
+  "child_frame_ids": {
+    "t265_pose_frame": 11975
+  },
+  "domain_id": 231,
+  "elapsed_from_first_sample_s": 60.010743,
+  "frame_ids": {
+    "odom_frame": 11975
+  },
+  "invalid_quaternion_samples": 0,
+  "max_stamp_gap_ms": 5.029376,
+  "non_finite_values": 0,
+  "pose_covariance_0_counts": {
+    "0.1": 11975
+  },
+  "quaternion_norm_max": 1.000000106341011,
+  "quaternion_norm_min": 0.9999999579761489,
+  "rate_hz": 199.547603,
+  "samples": 11975,
+  "status": "PASS",
+  "timestamp_regressions": 0,
+  "topic": "/t265/pose/sample"
+}
