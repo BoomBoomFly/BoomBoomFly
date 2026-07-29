@@ -20,6 +20,7 @@ EXPECTED_RATES_HZ = {
     "odometry": 50.0,
 }
 ACK_RESULTS = {"accept", "reject", "timeout"}
+RC_CHANNEL_CAPACITY = 18
 
 
 def require_isolated_domain(expected_domain):
@@ -44,6 +45,13 @@ def scheduled_count(rate_hz, duration_s):
     return int(math.floor(rate_hz * duration_s + 1.0e-9))
 
 
+def fixed_rc_channels(configured):
+    values = [float(value) for value in configured]
+    if not values or len(values) > RC_CHANNEL_CAPACITY:
+        raise ValueError("RC replay requires 1..18 configured channels")
+    return values + [0.0] * (RC_CHANNEL_CAPACITY - len(values))
+
+
 def run_self_test():
     duration_s = 60.0
     expected = {
@@ -64,6 +72,9 @@ def run_self_test():
         raise AssertionError("frequency schedule mismatch: {}".format(observed))
     if ACK_RESULTS != {"accept", "reject", "timeout"}:
         raise AssertionError("ACK scenario set is incomplete")
+    padded = fixed_rc_channels([0.0] * 8)
+    if len(padded) != 18 or padded[8:] != [0.0] * 10:
+        raise AssertionError("RcChannels fixed-array padding is invalid")
     print(
         "PASS px4_interface_replay self-test: duration=60s counts={} ack={}".format(
             observed, sorted(ACK_RESULTS)
@@ -193,7 +204,7 @@ class Px4Replay:
         message = self.msg["RcChannels"]()
         message.timestamp = self.now_us()
         message.timestamp_last_valid = message.timestamp
-        message.channels = list(self.args.rc_channels)
+        message.channels = fixed_rc_channels(self.args.rc_channels)
         message.channel_count = len(self.args.rc_channels)
         message.rssi = 100
         message.signal_lost = False
