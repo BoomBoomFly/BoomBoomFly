@@ -16,7 +16,7 @@ repositories:
   src/offboard_cpp:
     type: git
     url: https://github.com/BoomBoomFly/offboard_cpp.git
-    version: f3ad731a48a74fa0e4381bd487b644d957d12232
+    version: 26fa6ff567f8da76e3ca53c787859755975dc285
   src/vision_to_dds:
     type: git
     url: https://github.com/wanone111/vision_to_dds.git
@@ -24,7 +24,7 @@ repositories:
   src/communication:
     type: git
     url: https://github.com/BoomBoomFly/communication.git
-    version: 0ed2a98164fbcb35a33642cf646017ebdd34b314
+    version: 375b7811660e09411d7a3c984c396f45f5881eb8
 
 # profile: archive
   src/px4_bringup:
