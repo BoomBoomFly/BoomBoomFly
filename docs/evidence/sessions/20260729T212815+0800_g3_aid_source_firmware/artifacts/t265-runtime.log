@@ -1,0 +1,105 @@
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+file 'rs_t265_launch.py' was not found in the share directory of package 'realsense2_camera' which is at '/tmp/boomboomfly_g3_realsense_build.QnlPXc/install/realsense2_camera/share/realsense2_camera'
+[INFO] [launch]: All log files can be found below /home/c/.ros/log/2026-07-29-21-38-41-814200-orinnano-67023
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [realsense2_camera_node-1]: process started with pid [67032]
+[realsense2_camera_node-1] [0m[INFO] [1785332322.187286660] [camera.camera]: RealSense ROS v4.0.4[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.187509390] [camera.camera]: Built with LibRealSense v2.50.0[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.187547664] [camera.camera]: Running with LibRealSense v2.50.0[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.240770896] [camera.camera]: Device with serial number 241122070080 was found.
+[realsense2_camera_node-1] [0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.240910134] [camera.camera]: Device with physical ID /sys/devices/platform/3610000.xhci/usb1/1-2/1-2.2/1-2.2:1.0/video4linux/video0 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.240946743] [camera.camera]: Device with name Intel RealSense D435 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.241415501] [camera.camera]: Device with port number 1-2.2 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.263400268] [camera.camera]: Device with serial number 952322110550 was found.
+[realsense2_camera_node-1] [0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.263544978] [camera.camera]: Device with physical ID 2-1.1-3 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.263580148] [camera.camera]: Device with name Intel RealSense T265 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.264096331] [camera.camera]: Device with port number 2-1.1 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.264161902] [camera.camera]: Device USB type: 3.1[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.273188197] [camera.camera]: No calib_odom_file. No input odometry accepted.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.273275913] [camera.camera]: getParameters...[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.273921606] [camera.camera]: JSON file is not provided[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.273972009] [camera.camera]: Device Name: Intel RealSense T265[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.274010058] [camera.camera]: Device Serial No: 952322110550[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.274047244] [camera.camera]: Device physical port: 2-1.1-3[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.274083118] [camera.camera]: Device FW version: 0.2.0.951[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.274116431] [camera.camera]: Device Product ID: 0x0B37[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.274147024] [camera.camera]: Sync Mode: Off[0m
+[realsense2_camera_node-1] [33m[WARN] [1785332322.274694889] [camera.camera]: Could not set param: tracking_module.frames_queue_size with 256 Range: [0, 32]: parameter 'tracking_module.frames_queue_size' could not be set: Parameter {} doesn't comply with integer range.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.276348244] [camera.camera]: Set ROS param tracking_module.profile to default: 848x800x30[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.276497562] [camera.camera]: Set ROS param gyro_fps to default: 200[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.276573502] [camera.camera]: Set ROS param accel_fps to default: 62[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.329475887] [camera.camera]: Start Sensor: Tracking Module[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.334932933] [camera.camera]: Open profile: stream_type: Pose(0)Format: 6DOF, FPS: 200[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332322.357746154] [camera.camera]: RealSense Node Is Up![0m
+[realsense2_camera_node-1] [33m[WARN] [1785332322.855718047] [camera.camera]: [0m
+[INFO] [launch]: All log files can be found below /home/c/.ros/log/2026-07-29-21-39-19-906156-orinnano-67430
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [realsense2_camera_node-1]: process started with pid [67439]
+[realsense2_camera_node-1] [0m[INFO] [1785332360.275719939] [t265.t265]: RealSense ROS v4.0.4[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.275950797] [t265.t265]: Built with LibRealSense v2.50.0[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.275985391] [t265.t265]: Running with LibRealSense v2.50.0[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.328848858] [t265.t265]: Device with serial number 241122070080 was found.
+[realsense2_camera_node-1] [0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.328991520] [t265.t265]: Device with physical ID /sys/devices/platform/3610000.xhci/usb1/1-2/1-2.2/1-2.2:1.0/video4linux/video0 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.329030978] [t265.t265]: Device with name Intel RealSense D435 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.329513816] [t265.t265]: Device with port number 1-2.2 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.352434656] [t265.t265]: Device with serial number 952322110550 was found.
+[realsense2_camera_node-1] [0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.352568198] [t265.t265]: Device with physical ID 2-1.1-3 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.352596583] [t265.t265]: Device with name Intel RealSense T265 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.353097341] [t265.t265]: Device with port number 2-1.1 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.353156032] [t265.t265]: Device USB type: 3.1[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.361747075] [t265.t265]: No calib_odom_file. No input odometry accepted.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.361825190] [t265.t265]: getParameters...[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.362110227] [t265.t265]: JSON file is not provided[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.362153397] [t265.t265]: Device Name: Intel RealSense T265[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.362185079] [t265.t265]: Device Serial No: 952322110550[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.362215576] [t265.t265]: Device physical port: 2-1.1-3[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.362237753] [t265.t265]: Device FW version: 0.2.0.951[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.362257242] [t265.t265]: Device Product ID: 0x0B37[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.362274459] [t265.t265]: Sync Mode: Off[0m
+[realsense2_camera_node-1] [33m[WARN] [1785332360.362734799] [t265.t265]: Could not set param: tracking_module.frames_queue_size with 256 Range: [0, 32]: parameter 'tracking_module.frames_queue_size' could not be set: Parameter {} doesn't comply with integer range.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.364289365] [t265.t265]: Set ROS param tracking_module.profile to default: 848x800x30[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.364466013] [t265.t265]: Set ROS param gyro_fps to default: 200[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.364571778] [t265.t265]: Set ROS param accel_fps to default: 62[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.416671691] [t265.t265]: Start Sensor: Tracking Module[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.421926584] [t265.t265]: Open profile: stream_type: Pose(0)Format: 6DOF, FPS: 200[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332360.444781884] [t265.t265]: RealSense Node Is Up![0m
+[realsense2_camera_node-1] [33m[WARN] [1785332360.942605283] [t265.t265]: [0m
+[INFO] [launch]: All log files can be found below /home/c/.ros/log/2026-07-29-21-47-26-030761-orinnano-71490
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [realsense2_camera_node-1]: process started with pid [71499]
+[realsense2_camera_node-1] [0m[INFO] [1785332846.403349901] [t265.t265]: RealSense ROS v4.0.4[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.403577910] [t265.t265]: Built with LibRealSense v2.50.0[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.403613368] [t265.t265]: Running with LibRealSense v2.50.0[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.456561249] [t265.t265]: Device with serial number 241122070080 was found.
+[realsense2_camera_node-1] [0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.456702983] [t265.t265]: Device with physical ID /sys/devices/platform/3610000.xhci/usb1/1-2/1-2.2/1-2.2:1.0/video4linux/video0 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.456741832] [t265.t265]: Device with name Intel RealSense D435 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.457210139] [t265.t265]: Device with port number 1-2.2 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.478123694] [t265.t265]: Device with serial number 952322110550 was found.
+[realsense2_camera_node-1] [0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.478257267] [t265.t265]: Device with physical ID 2-1.1-4 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.478287636] [t265.t265]: Device with name Intel RealSense T265 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.478794217] [t265.t265]: Device with port number 2-1.1 was found.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.478855115] [t265.t265]: Device USB type: 3.1[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.487969822] [t265.t265]: No calib_odom_file. No input odometry accepted.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.488048289] [t265.t265]: getParameters...[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.488322828] [t265.t265]: JSON file is not provided[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.488367086] [t265.t265]: Device Name: Intel RealSense T265[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.488401264] [t265.t265]: Device Serial No: 952322110550[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.488432753] [t265.t265]: Device physical port: 2-1.1-4[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.488466066] [t265.t265]: Device FW version: 0.2.0.951[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.488495187] [t265.t265]: Device Product ID: 0x0B37[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.488521012] [t265.t265]: Sync Mode: Off[0m
+[realsense2_camera_node-1] [33m[WARN] [1785332846.489009864] [t265.t265]: Could not set param: tracking_module.frames_queue_size with 256 Range: [0, 32]: parameter 'tracking_module.frames_queue_size' could not be set: Parameter {} doesn't comply with integer range.[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.490474884] [t265.t265]: Set ROS param tracking_module.profile to default: 848x800x30[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.490604521] [t265.t265]: Set ROS param gyro_fps to default: 200[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.490722670] [t265.t265]: Set ROS param accel_fps to default: 62[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.544617885] [t265.t265]: Start Sensor: Tracking Module[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.550225057] [t265.t265]: Open profile: stream_type: Pose(0)Format: 6DOF, FPS: 200[0m
+[realsense2_camera_node-1] [0m[INFO] [1785332846.576009210] [t265.t265]: RealSense Node Is Up![0m
+[realsense2_camera_node-1] [33m[WARN] [1785332847.108172129] [t265.t265]: [0m

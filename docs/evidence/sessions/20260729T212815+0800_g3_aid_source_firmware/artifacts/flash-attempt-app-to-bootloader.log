@@ -1,0 +1,6 @@
+==========================================================================================================
+WARNING: You should uninstall ModemManager as it conflicts with any non-modem serial device (like Pixhawk)
+==========================================================================================================
+Waiting for bootloader...
+Attempting reboot on /dev/ttyACM0 with baudrate=57600...
+If the board does not respond, unplug and re-plug the USB connector.

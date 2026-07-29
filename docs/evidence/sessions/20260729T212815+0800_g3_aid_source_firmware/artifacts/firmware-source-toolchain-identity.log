@@ -1,0 +1,12 @@
+## flight/rc-channels-dds-v1.16.2
+a8f2dbdfff4792c92f576060ab947f8e588d6f8b
+a8f2dbdfff uxrce_dds: publish EV estimator aid status
+ src/modules/uxrce_dds_client/dds_topics.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
+fa0fafe9ff25ec503498124631b2880c0255f02cd64394555fcf077a556a725b  build/px4_fmu-v3_default/px4_fmu-v3_default.px4
+1a8ac7c019ab781eb334417be1c4b839334e5b4e1f9fa896120ca7e77ccb83ab  build/px4_fmu-v3_default/px4_fmu-v3_default.bin
+build/px4_fmu-v3_default/px4_fmu-v3_default.px4 1901211 bytes 2026-07-29 21:27:07.191111134 +0800
+build/px4_fmu-v3_default/px4_fmu-v3_default.bin 2053049 bytes 2026-07-29 21:27:06.891096651 +0800
+arm-none-eabi-gcc (15:9-2019-q4-0ubuntu1) 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599]
+cmake version 3.16.3
+1.11.1.git.kitware.jobserver-1

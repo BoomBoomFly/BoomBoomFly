@@ -1,0 +1,17 @@
+{
+  "elapsed_s": 10.01196702299967,
+  "last_writer_counts": {
+    "/fmu/in/offboard_control_mode": 0,
+    "/fmu/in/trajectory_setpoint": 0,
+    "/fmu/in/vehicle_command": 0,
+    "/fmu/in/vehicle_visual_odometry": 0
+  },
+  "max_writer_counts": {
+    "/fmu/in/offboard_control_mode": 0,
+    "/fmu/in/trajectory_setpoint": 0,
+    "/fmu/in/vehicle_command": 0,
+    "/fmu/in/vehicle_visual_odometry": 0
+  },
+  "samples": 20,
+  "status": "PASS"
+}

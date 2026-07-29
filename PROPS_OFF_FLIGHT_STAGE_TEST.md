@@ -1,10 +1,10 @@
 # 普通飞行阶段拆桨验证卡与执行状态
 
-状态：**G2 PASS / G3 PARTIAL PASS、仍 BLOCKED**。用户已分别明确授权 2026-07-29 当次指定
-SHA 固件刷写/G2 拆桨验证，以及后续 G3 真实 Domain 0 视觉位置融合。刷写、真实 RC 契约、
-UART DMA 门禁、干净 boot 620 秒 soak、实测 T265 外参、位置融合、断流和恢复均取得真实证据。
-未授权再次刷写、写参数、Offboard、Arm、Land、Disarm、Kill 或电机动作。G3 强制证据未补齐
-前不得进入 G4。
+状态：**G2 PASS / G3 PASS / G4 未授权且未执行**。用户已明确授权两次固件刷写、G2 拆桨验证
+及 G3 真实 Domain 0 视觉位置融合。真实 RC、UART DMA 门禁、干净 boot 620 秒 soak、实测外参、
+EV position/height aid-source、innovation/test ratio/time_last_fuse、断流和恢复均取得真实证据。
+未授权后续刷写、写参数、Offboard、Arm、Land、Disarm、Kill 或电机动作。进入 G4 前必须对每个
+真实失效场景逐项取得明确授权。
 
 ## G2：刷写后真实 RC/DDS 验证
 
@@ -55,11 +55,14 @@ G2 为 FAIL 并按已验证原固件回滚流程停止。
 
 ## G3：T265 与 EKF（仅 G2 PASS 后）
 
-2026-07-29 用户已批准 G3 拆桨真实位置融合。实测 `t265_pose_frame -> base_link` 外参、唯一
-Domain 0 视觉 writer、PX4 位置/高度融合、T265 断流退出、source epoch 递增及显式复位恢复均
-通过；全程零 PX4 参数写入、零 VehicleCommand、Disarmed、无电机动作。当前固件 DDS 清单没有
-导出 estimator aid-source/innovation 主题，故仍缺 innovation/test ratio 和 `time_last_fuse`，
-G3 保持 PARTIAL PASS/BLOCKED。
+2026-07-29 G3 已完成并 PASS。新固件导出 EV position/height aid-source；两段各 30 秒真实融合
+均取得 600 个 position 和 600 个 height aid 样本，全部 fused、0 reject、0 非有限，
+`time_last_fuse` 连续递增且无倒退，test ratio 远低于 1。T265 断流后视觉输出为 0、EV 融合退出、
+PX4 进入惯性推算；恢复后 source epoch 从 2 变为 3，显式 reset 前不自动输出，reset 后融合恢复。
+全程零参数写入、零 VehicleCommand、DISARMED、无电机动作。完整证据见
+`docs/evidence/sessions/20260729T212815+0800_g3_aid_source_firmware`。刷写后 USB MAVLink 完整参数
+列表未稳定重导出，因此没有把已有参数文件冒充实时 diff；真实 estimator flags 证明仅融合位置和
+高度，未融合速度或航向。
 
 1. 实测并复核 `odom_frame → t265_pose_frame → base_link` 外参；模板中的 TBD 不得带入生产。
 2. 先验证静止、前、右、上、顺时针偏航的符号、尺度、时间戳、质量和 source epoch；断流、

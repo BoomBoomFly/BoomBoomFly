@@ -1,0 +1,17 @@
+[INFO] [launch]: All log files can be found below /home/c/.ros/log/2026-07-29-21-39-41-168781-orinnano-67635
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [static_transform_publisher-1]: process started with pid [67644]
+[INFO] [t265_health_adapter_node-2]: process started with pid [67646]
+[INFO] [vision_to_dds_node-3]: process started with pid [67648]
+[static_transform_publisher-1] [INFO] [1785332381.388646158] [t265_to_base_link_static_tf]: Spinning until killed publishing transform from 't265_pose_frame' to 'base_link'
+[vision_to_dds_node-3] [INFO] [1785332381.395988152] [vision_to_dds_node]: vision odometry bridge starts fail-closed; awaiting source epoch, quality, and two fresh TF samples
+[vision_to_dds_node-3] [ERROR] [1785332425.048415144] [vision_to_dds_node]: {"component":"vision_to_dds","event":"fault","code":"INPUT_TIMEOUT","writer":"stopped"}
+[INFO] [launch]: All log files can be found below /home/c/.ros/log/2026-07-29-21-48-07-973864-orinnano-71887
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [static_transform_publisher-1]: process started with pid [71896]
+[INFO] [t265_health_adapter_node-2]: process started with pid [71898]
+[INFO] [vision_to_dds_node-3]: process started with pid [71900]
+[static_transform_publisher-1] [INFO] [1785332888.183255026] [t265_to_base_link_static_tf]: Spinning until killed publishing transform from 't265_pose_frame' to 'base_link'
+[vision_to_dds_node-3] [INFO] [1785332888.197206605] [vision_to_dds_node]: vision odometry bridge starts fail-closed; awaiting source epoch, quality, and two fresh TF samples
+[vision_to_dds_node-3] [ERROR] [1785332888.228012631] [vision_to_dds_node]: {"component":"vision_to_dds","event":"fault","code":"QUALITY_LOW","writer":"stopped"}
+[vision_to_dds_node-3] [ERROR] [1785333000.082620750] [vision_to_dds_node]: {"component":"vision_to_dds","event":"fault","code":"QUALITY_LOW","writer":"stopped"}

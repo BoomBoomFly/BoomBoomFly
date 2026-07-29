@@ -31,7 +31,7 @@
 | G0 源码与构建 | **PASS（软件证据）** | 精确 SHA；四包 clean build；50 tests 全 PASS；launch、单 writer、无生产 mock 门禁 PASS |
 | G1 SITL/隔离回放 | **PASS（Domain 231 软件证据）** | 60 秒历史频率无误锁；VERTICAL_TEST、ACK/超时/kill/断流/Land/Disarm 场景 PASS；回放器运行时 PASS |
 | G2 拆桨 H1 | **PASS（真实拆桨证据）** | 指定固件、真实 RC、唯一 Agent/串口和零输入 writer PASS；干净 boot 下 620.011 秒 RC/timesync 连续，125 次图检查无 writer 违例，内核 UART/DMA 错误 0；最低内存/DMA 水位守住门限 |
-| G3 拆桨视觉/EKF | **PARTIAL PASS / BLOCKED** | 实测外参、真实 Domain 0 位置/高度融合、断流退出、epoch 递增和显式复位恢复 PASS；当前固件未通过 DDS 导出 aid-source innovation/test-ratio/time-last-fuse，强制证据仍缺 |
+| G3 拆桨视觉/EKF | **PASS（真实拆桨证据）** | 新固件导出 EV position/height aid source；两段 30 秒融合、innovation/test ratio/time_last_fuse、断流退出、epoch 防重放和显式复位恢复全部 PASS |
 | G4 拆桨失效测试 | **BLOCKED / 未执行** | G3 PASS；逐项取得授权并以 PX4 实际 mode/failsafe/Land 结果验收 |
 | G5 装桨首次悬停 | **PROHIBITED / 本任务绝不执行** | 仅 G0–G4 全 PASS 后重新 go/no-go，并取得当次装桨、Arm、0.5 m 悬停明确授权 |
 
@@ -50,14 +50,17 @@ G3 T265 真实流、隔离驱动构建/测试、断流恢复和外参 fail-close
 [`docs/evidence/sessions/20260729T200247+0800_g3_t265_preflight`](docs/evidence/sessions/20260729T200247+0800_g3_t265_preflight)。
 G3 实测外参、真实 Domain 0 位置融合、断流和恢复证据见
 [`docs/evidence/sessions/20260729T210816+0800_g3_t265_position_fusion`](docs/evidence/sessions/20260729T210816+0800_g3_t265_position_fusion)。
+G3 aid-source 固件刷写、innovation/test ratio/time_last_fuse、断流和恢复补证见
+[`docs/evidence/sessions/20260729T212815+0800_g3_aid_source_firmware`](docs/evidence/sessions/20260729T212815+0800_g3_aid_source_firmware)。
 
 ## 参数纪律
 
-G3 实测明确保持零 PX4 参数写入；参数快照哈希在 session 前后不变。任何后续候选修改前必须
-重新导出完整参数并计算 SHA-256；记录旧值、
-新值、单项理由、验证方法和回滚值；一次只改一个风险组；写后重新导出并 diff。首次测试包线
-为 0.5 m、上升不超过 0.3 m/s、下降不超过 0.2 m/s。无测距仪时不得假设 range aid 可用，
-circuit breaker 必须逐项确认。
+G3 实测明确保持零 PX4 参数写入。刷写后 USB MAVLink 参数列表没有稳定完成，因此不把已有参数
+文件冒充为本次实时导出，也不宣称完成参数前后 diff；实际 estimator flags 证明仅融合 EV
+position/height，未融合 EV velocity/yaw。任何后续候选修改前必须重新导出完整参数并计算
+SHA-256；记录旧值、新值、单项理由、验证方法和回滚值；一次只改一个风险组；写后重新导出并
+diff。首次测试包线为 0.5 m、上升不超过 0.3 m/s、下降不超过 0.2 m/s。无测距仪时不得假设
+range aid 可用，circuit breaker 必须逐项确认。
 
 关联操作卡：
 
