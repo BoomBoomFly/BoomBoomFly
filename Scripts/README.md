@@ -47,7 +47,8 @@ bash Scripts/installation/uav_px4_dds_install.sh \
 ```
 
 脚本不会覆盖 dirty checkout，也不会启动 DDS Agent、ROS 2 节点或飞控。
-`src/communication` 同样由该脚本从 `main` 拉取。
+`src/communication` 同样由该脚本从 `main` 拉取，其中
+`Serial/serial_driver_ros` 按该仓库记录的 Git 子模块 URL 和提交恢复。
 
 ## 构建
 

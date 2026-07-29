@@ -21,7 +21,7 @@
     {"name": "opencv_cpp", "path": "src/opencv_cpp"},
     {"name": "px4_bringup", "path": "src/px4_bringup"},
     {"name": "serial", "path": "src/serial-ros2"},
-    {"name": "serial_driver", "path": "src/serial_driver_ros"}
+    {"name": "serial_driver", "path": "src/communication/Serial/serial_driver_ros"}
   ],
   "managed_nonproduction_packages": [
     {"name": "costmap_queue", "path": "src/navigation2/nav2_dwb_controller/costmap_queue"},

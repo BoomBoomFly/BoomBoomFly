@@ -77,7 +77,9 @@ flight sequence
 - `communication`：跟随 `main`
 
 `communication` 用于后续机载计算机与单片机通信，不属于 PX4 控制链，不应
-发布 `/fmu/*` 或 `/offboard/*` 控制话题。
+发布 `/fmu/*` 或 `/offboard/*` 控制话题。其串口驱动位于
+`src/communication/Serial/serial_driver_ros`，由 `communication` 的 Git
+子模块提交固定；`serial-ros2` 仅作为 quarantine 来源记录。
 
 `px4_bringup` 只保留在 archive profile。RealSense 相关仓库位于
 optional-perception profile。
