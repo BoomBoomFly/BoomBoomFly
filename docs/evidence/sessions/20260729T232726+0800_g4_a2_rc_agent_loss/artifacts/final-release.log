@@ -1,8 +1,0 @@
-2026-07-29T23:33:26+08:00
-   7650 c        tee             tee docs/evidence/sessions/20260729T232726+0800_g4_a2_rc_agent_loss/artifacts/final-release.log
-2026-07-29T23:33:52+08:00
-/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
-  from pkg_resources import load_entry_point
-/parameter_events [rcl_interfaces/msg/ParameterEvent]
-/rosout [rcl_interfaces/msg/Log]
-MemAvailable:    2350652 kB

@@ -1,3 +1,0 @@
-cat /fs/microsd/etc/extras.txt
-nsh: cat: open failed: Not a directory
-nsh> [K

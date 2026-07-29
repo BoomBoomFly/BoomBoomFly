@@ -1,7 +1,0 @@
-{
-  "output": "docs/evidence/sessions/20260729T234922+0800_g4_agent_gap_ulog/artifacts/ulogs/sess100_log100.ulg",
-  "remote_path": "/fs/microsd/log/sess100/log100.ulg",
-  "sha256": "dfae3da52baa361d087442541c81445bf03582b320e40121036525ed9bebec04",
-  "size_bytes": 1013020,
-  "status": "PASS"
-}

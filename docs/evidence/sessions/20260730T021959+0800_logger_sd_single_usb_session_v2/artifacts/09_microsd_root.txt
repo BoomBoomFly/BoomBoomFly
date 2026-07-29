@@ -1,8 +1,0 @@
-ls -l /fs/microsd
-/fs/microsd:
- drw-rw-rw-       0 APM/
- -rw-rw-rw-   68528 dataman
- drw-rw-rw-       0 log/
- -rw-rw-rw-    1883 parameters_backup.bson
- drw-rw-rw-       0 mavlink/
-nsh> [K

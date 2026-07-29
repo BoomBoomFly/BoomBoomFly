@@ -1,89 +1,40 @@
 # Scripts
 
-本目录只保留当前实机工作区需要的源码恢复、构建和 evidence 检查入口。
-所有命令均从仓库根目录执行。
+所有命令从仓库根目录执行。
+
+## 工作区
 
 ```bash
-cd "$(git rev-parse --show-toplevel)"
-```
-
-## 目录
-
-```text
-Scripts/
-├── build/
-│   └── build_dds_only.sh
-├── runtime/
-│   └── px4_dds_agent_guard.py
-├── evidence/
-│   ├── validate_evidence.py
-│   ├── validate_index.py
-│   └── validate_manifest.py
-├── test/
-│   └── px4_interface_replay.py
-└── installation/
-    ├── uav_px4_dds_install.sh
-    ├── verify_environment.py
-    └── verify_workspace_receipts.py
-```
-
-## 恢复源码
-
-`installation/uav_px4_dds_install.sh` 根据根目录
-`workspace.lock.repos` 将功能包恢复到 `src/`。
-
-恢复 active profile 和 RealSense 依赖：
-
-```bash
+# 恢复精确锁定的依赖
 bash Scripts/installation/uav_px4_dds_install.sh \
-  --with-optional perception \
-  --update \
-  --require-colcon
-```
+  --with-optional perception --update --require-colcon
 
-只检查已经存在的 checkout：
-
-```bash
+# 只校验现有 checkout
 bash Scripts/installation/uav_px4_dds_install.sh \
-  --with-optional perception \
-  --verify-only \
-  --require-colcon
+  --with-optional perception --verify-only --require-colcon
+
+# 校验机载环境快照
+python3 Scripts/installation/verify_environment.py
 ```
 
-脚本不会覆盖 dirty checkout，也不会启动 DDS Agent、ROS 2 节点或飞控。
-`src/communication` 同样由该脚本从 `main` 拉取，其中
-`Serial/serial_driver_ros` 按该仓库记录的 Git 子模块 URL 和提交恢复。
-
-## 构建
-
-`build/build_dds_only.sh` 根据
-`config/profiles/dds_only_packages.yaml` 选择 DDS 主链功能包，并将 colcon
-输出放在 `/tmp`。
+## 构建与回放
 
 ```bash
-bash Scripts/build/build_dds_only.sh --help
 bash Scripts/build/build_dds_only.sh
-```
-
-构建入口会先执行根仓通信/集成门禁，再对 `px4_msgs`、`offboard_cpp`、
-`vision_to_dds` 和 `mission_bridge` 执行权威 `colcon build`，并测试三个
-项目包。`px4_msgs` 是精确 SHA 锁定的接口依赖，仅构建；其 ROS Foxy
-生成代码 lint 不属于项目门禁。
-
-构建/测试入口强制使用 `ROS_DOMAIN_ID=231`，并在 `/tmp` 输出目录的
-`artifacts/` 保存组件 SHA/dirty 和构建环境。PX4 接口回放器只允许隔离 Domain：
-
-```bash
 python3 Scripts/test/px4_interface_replay.py --self-test
 ROS_DOMAIN_ID=231 python3 Scripts/test/px4_interface_replay.py --duration 65
 ```
 
-回放器明确拒绝 Domain 0，也不被任何生产 launch 引用。
+回放脚本拒绝 Domain 0，不得加入生产 launch。
 
-## 生产 DDS Agent 启动门禁
+## 运行工具
 
-禁止直接从开发环境启动 Agent。生产窗口必须先关闭 VS Code extension host、Pylance 和
-cpptools，再通过固定二进制 SHA 的门禁启动：
+- `runtime/px4_dds_agent_guard.py`：检查内存、串口、Domain 和 Agent SHA 后启动唯一 Agent。
+- `runtime/px4_param_snapshot.py`：只读导出 PX4 参数快照。
+- `runtime/px4_mavftp_get_ulog.py`：按需下载 PX4 ULog。
+- `runtime/px4_log_inventory.py`：生成日志清单。
+
+生产 Agent 先执行只检查：
 
 ```bash
 ROS_DOMAIN_ID=0 python3 Scripts/runtime/px4_dds_agent_guard.py \
@@ -94,20 +45,4 @@ ROS_DOMAIN_ID=0 python3 Scripts/runtime/px4_dds_agent_guard.py \
   --check-only
 ```
 
-去掉 `--check-only` 才会以同样参数 `exec` 唯一 Agent。默认要求
-`MemAvailable >= 1024 MiB`、DMA zone 的 free-above-high >= 256 MiB，并拒绝 VS Code
-extension host/Pylance/cpptools、错误 Domain、非精确 Agent SHA 和已占用串口。任一检查失败均不
-启动 Agent。
-
-## Evidence
-
-以下脚本只检查记录格式，不访问飞控和相机：
-
-```bash
-python3 Scripts/evidence/validate_evidence.py --help
-python3 Scripts/evidence/validate_index.py
-python3 Scripts/evidence/validate_manifest.py --help
-```
-
-格式定义见
-[`docs/evidence/SCHEMA.md`](../docs/evidence/SCHEMA.md)。
+去掉 `--check-only` 才会启动 Agent。任一检查失败都不得绕过。

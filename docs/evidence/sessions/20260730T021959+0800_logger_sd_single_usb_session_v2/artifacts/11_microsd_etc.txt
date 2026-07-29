@@ -1,3 +1,0 @@
-ls -l /fs/microsd/etc
-nsh: ls: stat failed: No such file or directory
-nsh> [K

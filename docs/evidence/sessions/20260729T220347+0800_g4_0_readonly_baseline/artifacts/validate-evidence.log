@@ -1,5 +1,0 @@
-usage: validate_evidence.py [-h] [--repo-root REPO_ROOT] [--schema SCHEMA]
-                            [--expected-head EXPECTED_HEAD]
-                            [--no-artifact-hash-check]
-                            metadata [metadata ...]
-validate_evidence.py: error: the following arguments are required: metadata

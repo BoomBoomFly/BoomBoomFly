@@ -1,2 +1,0 @@
-PASS px4_interface_replay self-test: duration=60s counts={'timesync': 60, 'status': 120, 'land_detected': 60, 'odometry': 3000, 'setpoint_mode': 3000} ack=['accept', 'reject', 'timeout']
-{"fmu_writers": 4, "gate": "dds_integration_contract", "launches": 3, "production_packages": 4, "status": "PASS", "topics": 5}
