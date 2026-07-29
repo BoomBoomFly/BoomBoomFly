@@ -1,0 +1,49 @@
+2026-07-29T19:11:31+08:00
+133cf05fd49deb55b072bd061b310aaf7f7310e7
+?? docs/2026.7.29.params
+?? docs/evidence/sessions/20260729T190953+0800_agent_memory_guard/artifacts/agent-guard-unit-tests.log
+?? docs/evidence/sessions/20260729T190953+0800_agent_memory_guard/artifacts/authoritative-build-test.console.log
+?? docs/evidence/sessions/20260729T190953+0800_agent_memory_guard/artifacts/build-environment.txt
+?? docs/evidence/sessions/20260729T190953+0800_agent_memory_guard/artifacts/colcon-logs-and-test-results.tar.gz
+?? docs/evidence/sessions/20260729T190953+0800_agent_memory_guard/artifacts/colcon-test-result.verbose.log
+?? docs/evidence/sessions/20260729T190953+0800_agent_memory_guard/artifacts/component-shas.tsv
+?? docs/evidence/sessions/20260729T190953+0800_agent_memory_guard/artifacts/final-repository-and-memory-state.log
+?? docs/evidence/sessions/20260729T190953+0800_agent_memory_guard/artifacts/production-preflight-check-only.log
+?? docs/px4_fmu-v3_default.px4
+REPO src/px4_msgs
+392e831c1f659429ca83902e66820d7094591410
+REPO src/offboard_cpp
+e24bb3facfcf4126ad7b3d216a768a040758e895
+REPO src/vision_to_dds
+470cf59cf8fbcddd17b12e9d31f084e87f5f2fac
+REPO src/communication
+e6d6126acd16050216e5f091e61d58a96ef3ed65
+74c817c5daed001d2c719ac71ecf08ea7527d76e4d4589ed260a1a3788decfc4  Scripts/runtime/px4_dds_agent_guard.py
+1a64daa54225a41c8e0e1f333481b7d9c4341c20939b1dce44b43e7ea45580b3  /tmp/boomboomfly_g2_agent/install/bin/MicroXRCEAgent
+    PID    PPID   RSS STAT COMMAND
+ 115580  115075 200240 Sl+ codex resume
+   1507       1 22688 Ssl  /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+    892       1 16296 Ssl  /usr/lib/snapd/snapd
+   2147    2146 16000 Sl   /usr/sbin/unity-greeter
+   1477       1 12504 Ssl  /usr/bin/containerd
+   2180       1 11636 Sl   nm-applet
+ 114988    1485  7356 Ss   sshd: c [priv]
+  81394       1  7336 Sl   /usr/bin/python3 /opt/ros/foxy/bin/_ros2_daemon --rmw-implementation rmw_fastrtps_cpp --ros-domain-id 0
+    787       1  7084 Ssl  /usr/sbin/NetworkManager --no-daemon
+ 114986    1485  7076 Ss   sshd: c [priv]
+ 115031  114986  6392 S    sshd: c@pts/0
+ 115073  114988  6300 S    sshd: c@notty
+   2190    1972  5644 Ssl  /usr/lib/aarch64-linux-gnu/indicator-keyboard/indicator-keyboard-service --use-gtk
+      1       0  5460 Ss   /sbin/init 2
+   2184       1  5400 Sl   /usr/lib/unity-settings-daemon/unity-settings-daemon
+    871       1  5384 Ssl  /usr/lib/policykit-1/polkitd --no-debug
+   1470       1  4752 Ssl  /usr/bin/whoopsie -f
+    769       1  4372 Ssl  /usr/lib/accountsservice/accounts-daemon
+   1506    1500  3780 Ssl+ /usr/lib/xorg/Xorg -core :0 -seat seat0 -auth /var/run/lightdm/root/:0 -nolisten tcp vt7 -novtswitch
+              total        used        free      shared  buff/cache   available
+Mem:        3390196      649240     1979048        1380      761908     2529656
+Swap:       5889372      327276     5562096
+  pages free     395413
+        min      6005
+        low      7506
+        high     9007

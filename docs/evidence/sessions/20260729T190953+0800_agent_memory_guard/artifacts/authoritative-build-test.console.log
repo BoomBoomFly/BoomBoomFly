@@ -1,0 +1,23 @@
+PASS px4_interface_replay self-test: duration=60s counts={'timesync': 60, 'status': 120, 'land_detected': 60, 'odometry': 3000, 'setpoint_mode': 3000} ack=['accept', 'reject', 'timeout']
+{"self_test": "px4_dds_agent_guard", "status": "PASS"}
+{"fmu_writers": 4, "gate": "dds_integration_contract", "launches": 3, "production_packages": 4, "status": "PASS", "topics": 5}
+Starting >>> px4_msgs
+Finished <<< px4_msgs [3.50s]
+Starting >>> mission_bridge
+Finished <<< mission_bridge [0.37s]
+Starting >>> offboard_cpp
+Finished <<< offboard_cpp [0.90s]
+Starting >>> vision_to_dds
+Finished <<< vision_to_dds [0.74s]
+
+Summary: 4 packages finished [5.84s]
+Starting >>> mission_bridge
+Starting >>> offboard_cpp
+Starting >>> vision_to_dds
+Finished <<< mission_bridge [0.15s]
+Finished <<< offboard_cpp [1.87s]
+Finished <<< vision_to_dds [3.50s]
+
+Summary: 3 packages finished [4.35s]
+Summary: 50 tests, 0 errors, 0 failures, 0 skipped
+{"status":"PASS","action":"build_test","output_root":"/tmp/boomboomfly_guard_validation","build_packages":4,"test_packages":3}

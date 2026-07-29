@@ -1,0 +1,12 @@
+test_agent_requires_absolute_path_and_exact_sha (test_px4_dds_agent_guard.Px4DdsAgentGuardTest) ... ok
+test_development_processes_are_detected (test_px4_dds_agent_guard.Px4DdsAgentGuardTest) ... ok
+test_memory_and_dma_parsing (test_px4_dds_agent_guard.Px4DdsAgentGuardTest) ... ok
+test_missing_or_low_watermarks_fail_closed (test_px4_dds_agent_guard.Px4DdsAgentGuardTest) ... ok
+test_preflight_rejects_low_memory_before_launch (test_px4_dds_agent_guard.Px4DdsAgentGuardTest) ... ok
+test_preflight_requires_explicit_domain_zero (test_px4_dds_agent_guard.Px4DdsAgentGuardTest) ... ok
+test_serial_owner_is_detected (test_px4_dds_agent_guard.Px4DdsAgentGuardTest) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.032s
+
+OK

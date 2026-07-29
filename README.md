@@ -31,10 +31,12 @@ BoomBoomFly 是面向室内无人机实机验证的 ROS 2 / PX4 DDS 工作区。
 
 1. `EKF2_EV_CTRL=0`，PX4 尚未融合外部视觉。
 2. T265 到机体坐标系的外参尚未测量和验证。
-3. `vision_to_dds` 默认帧名与实机 T265 帧名尚未统一。
-4. 普通垂直 flight sequence 已进入本轮软件验证，但尚无 SITL 之外或实机证据。
-5. RC/operator adapter 已进入本轮软件验证，真实通道号、阈值和物理边沿仍须刷写后拆桨确认。
-6. 新固件已构建但未刷写；历史实机记录中 `/fmu/out/rc_channels` 仍没有 publisher。
+3. `vision_to_dds` 已强制生产 frame 契约，但 T265 实测外参尚未提供和验收。
+4. 普通垂直 flight sequence 已通过 Domain 231 隔离回放，尚无实机控制闭环证据。
+5. 真实 RC publisher、类型、18 通道变化和 `signal_lost` 已拆桨验证；生产通道号、阈值和物理
+   边沿仍须按最终 YAML 逐项验收。
+6. 指定 SHA 固件已刷写；DDS 约 50 秒冻结已定位为 Jetson 低内存下 UART RX DMA 分配失败，
+   生产 Agent 启动门禁已补，但干净重启长稳态 soak 尚未通过，因此 G2 仍 BLOCKED。
 7. Offboard 丢失、RC 丢失、视觉丢失和低电量动作尚未完成拆桨验证。
 8. 电机序号、旋向、传感器校准和首次室内运动包线没有形成实机证据。
 
@@ -126,8 +128,9 @@ bash Scripts/build/build_dds_only.sh
 
 ## 最短实机推进顺序
 
-1. 完成本轮 G0 源码/构建和 G1 隔离回放 evidence。
-2. 经用户另行批准后刷写已校验固件，拆桨确认真实 RC 和 DDS/Agent 唯一性（G2）。
+1. G0 源码/构建和 G1 隔离回放 evidence 已完成。
+2. G2 已完成固件刷写和真实 RC 契约；下一步须经明确批准执行干净 Jetson 重启后的拆桨
+   DDS/Agent 长稳态 soak，不得启动 `/fmu/in/*` writer。
 3. 测量 T265 外参，并逐步验证位置分量和 EKF 实际融合（G3）。
 4. 拆桨逐项验证 RC/Offboard/T265/Agent/ACK/kill/低电/围栏失效结果（G4）。
 5. 只有 G0–G4 全 PASS 后重新请求当次装桨、Arm、0.5 m 悬停授权；本轮禁止 G5。

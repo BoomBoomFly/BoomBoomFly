@@ -42,6 +42,8 @@ G2 刷写和失败诊断证据见
 [`docs/evidence/sessions/20260729T174904+0800_g2_flash_rc_dds`](docs/evidence/sessions/20260729T174904+0800_g2_flash_rc_dds)。
 Jetson UART RX DMA 根因和 120 秒内存对照见
 [`docs/evidence/sessions/20260729T183138+0800_g2_uart_dma_diagnostic`](docs/evidence/sessions/20260729T183138+0800_g2_uart_dma_diagnostic)。
+生产 Agent 内存/DMA 门禁、单 job 构建和复验结果见
+[`docs/evidence/sessions/20260729T190953+0800_agent_memory_guard`](docs/evidence/sessions/20260729T190953+0800_agent_memory_guard)。
 
 ## 参数纪律
 

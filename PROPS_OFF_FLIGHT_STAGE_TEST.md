@@ -20,7 +20,10 @@
 - 后续 Agent 只允许经 `Scripts/runtime/px4_dds_agent_guard.py` 启动；门禁默认要求
   MemAvailable 至少 1024 MiB、DMA free-above-high 至少 256 MiB，并拒绝开发语言服务；
 - Agent 已停止且 UART 已释放；
-- 证据见 `docs/evidence/sessions/20260729T174904+0800_g2_flash_rc_dds`。
+- 刷写/RC、UART DMA 根因和生产门禁证据分别见
+  `docs/evidence/sessions/20260729T174904+0800_g2_flash_rc_dds`、
+  `docs/evidence/sessions/20260729T183138+0800_g2_uart_dma_diagnostic` 和
+  `docs/evidence/sessions/20260729T190953+0800_agent_memory_guard`。
 
 后续重新执行 G2 前停止并记录：
 

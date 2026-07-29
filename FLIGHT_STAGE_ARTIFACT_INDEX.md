@@ -21,6 +21,7 @@
 | 本轮软件 evidence | `docs/evidence/sessions/20260729T162319+0800_vertical_flight_stage` | 四包 build PASS；50 tests 0 failure；Domain 231 回放运行时与 Domain 0 拒绝均有日志/哈希 |
 | G2 刷写/实机 evidence | `docs/evidence/sessions/20260729T174904+0800_g2_flash_rc_dds` | 刷写、唯一 Agent、真实 RC publisher/类型/变化/loss PASS；XRCE 数据面约 49–50 秒后冻结，G2 FAIL/BLOCKED |
 | G2 UART DMA 诊断 | `docs/evidence/sessions/20260729T183138+0800_g2_uart_dma_diagnostic` | 内核证明 Jetson 低内存时 UART RX DMA descriptor 分配失败；释放语言服务后 120 秒 RC/timesync 对照 PASS；生产内存约束待验收 |
+| Agent 内存/DMA 门禁 | `docs/evidence/sessions/20260729T190953+0800_agent_memory_guard` | 根 SHA `133cf05fd49deb55b072bd061b310aaf7f7310e7`；精确 Agent SHA、唯一串口、Domain 0、内存/DMA 水位和开发进程 fail-closed；7 项单测与四包 50 tests PASS；干净重启长稳态 soak 待验收 |
 
-固件已刷写不等于 `/fmu/out/rc_channels` 已在实机验证。当前备份与目标逐字节相同，不是旧行为
-回滚证据；G2 仍为 FAIL/BLOCKED。
+固件已刷写且真实 `/fmu/out/rc_channels` 契约已验证。当前备份与目标逐字节相同，不是旧行为
+回滚证据；生产内存门禁不能替代干净重启长稳态验证，G2 仍为 FAIL/BLOCKED。
