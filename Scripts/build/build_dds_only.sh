@@ -5,8 +5,9 @@ usage() {
   cat <<'EOF'
 Usage: build_dds_only.sh [options]
 
-Build the exact BoomBoomFly DDS-only package allowlist. All colcon output is
-required to resolve below /tmp.
+Run the root integration gate, then build and test the exact BoomBoomFly
+DDS-only package allowlist. All colcon output is required to resolve below
+/tmp.
 
 Options:
   --workspace-root PATH  Repository root (default: script's Git worktree)
@@ -81,8 +82,11 @@ command -v colcon >/dev/null || {
   exit 2
 }
 
-mkdir -p -- "$OUTPUT_ROOT"/{artifacts,build,install,log}
+mkdir -p -- "$OUTPUT_ROOT"/{artifacts,build,install,log,log/ros}
 SELECTION="$OUTPUT_ROOT/artifacts/package-selection.tsv"
+export ROS_LOG_DIR="$OUTPUT_ROOT/log/ros"
+
+python3 "$WORKSPACE_ROOT/Scripts/ci/check_integration_contract.py"
 
 set +u
 # Do not inherit packages from an unrelated ROS workspace. The only underlay
@@ -105,29 +109,40 @@ seen = set()
 for item in packages:
     name = item.get("name")
     relative = item.get("path")
+    test_enabled = item.get("test")
     if not isinstance(name, str) or not name or name in seen:
         raise SystemExit("ERROR: invalid or duplicate package name")
     if not isinstance(relative, str) or not relative.startswith("src/"):
         raise SystemExit("ERROR: invalid package path for {}".format(name))
+    if not isinstance(test_enabled, bool):
+        raise SystemExit("ERROR: package {} must declare boolean test".format(name))
     path = (root / relative).resolve()
     if root not in path.parents or not (path / "package.xml").is_file():
         raise SystemExit("ERROR: package {} is missing {}".format(name, path / "package.xml"))
     seen.add(name)
-    print("{}\t{}".format(name, path))' \
+    print("{}\t{}\t{}".format(name, path, int(test_enabled)))' \
   "$PROFILE" "$WORKSPACE_ROOT" >"$SELECTION"
 
 PACKAGE_NAMES=()
 PACKAGE_PATHS=()
-while IFS=$'\t' read -r package_name package_path; do
-  [[ -n "$package_name" && -n "$package_path" ]] || {
+TEST_PACKAGE_NAMES=()
+while IFS=$'\t' read -r package_name package_path test_enabled; do
+  [[ -n "$package_name" && -n "$package_path" && "$test_enabled" =~ ^[01]$ ]] || {
     echo "ERROR: invalid package selection record" >&2
     exit 2
   }
   PACKAGE_NAMES+=("$package_name")
   PACKAGE_PATHS+=("$package_path")
+  if [[ "$test_enabled" == "1" ]]; then
+    TEST_PACKAGE_NAMES+=("$package_name")
+  fi
 done <"$SELECTION"
 [[ ${#PACKAGE_NAMES[@]} -gt 0 ]] || {
   echo "ERROR: DDS-only selection is empty" >&2
+  exit 2
+}
+[[ ${#TEST_PACKAGE_NAMES[@]} -gt 0 ]] || {
+  echo "ERROR: DDS-only test selection is empty" >&2
   exit 2
 }
 
@@ -142,5 +157,16 @@ CMAKE_BUILD_PARALLEL_LEVEL=1 colcon \
   --install-base "$OUTPUT_ROOT/install" \
   --packages-select "${PACKAGE_NAMES[@]}"
 
-printf '{"status":"PASS","action":"build","output_root":"%s","packages":%d}\n' \
-  "$OUTPUT_ROOT" "${#PACKAGE_NAMES[@]}"
+colcon \
+  --log-base "$OUTPUT_ROOT/log/test" \
+  test \
+  --build-base "$OUTPUT_ROOT/build" \
+  --install-base "$OUTPUT_ROOT/install" \
+  --packages-select "${TEST_PACKAGE_NAMES[@]}"
+
+colcon test-result \
+  --test-result-base "$OUTPUT_ROOT/build" \
+  --verbose
+
+printf '{"status":"PASS","action":"build_test","output_root":"%s","build_packages":%d,"test_packages":%d}\n' \
+  "$OUTPUT_ROOT" "${#PACKAGE_NAMES[@]}" "${#TEST_PACKAGE_NAMES[@]}"

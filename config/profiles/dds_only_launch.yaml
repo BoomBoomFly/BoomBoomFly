@@ -153,9 +153,39 @@
           "executable": "offboard_node",
           "name": "offboard_control_node",
           "package": "offboard_cpp"
+        },
+        {
+          "executable": "flight_sequence_node",
+          "name": "flight_sequence_node",
+          "package": "offboard_cpp"
+        },
+        {
+          "executable": "offboard_authority_node",
+          "name": "offboard_authority_node",
+          "package": "offboard_cpp"
         }
       ],
-      "note": "Static inventory only. The current launch starts offboard_node but does not provide its required trajectory, RC, kill or control-state inputs."
+      "note": "The integrated flight launch contains the safety-gate writer, flight sequence, and authority publisher."
+    },
+    "src/communication/Serial/Serial_ROS2/mission_bridge/launch/mission_bridge.launch.py": {
+      "nodes": [
+        {
+          "executable": "mission_bridge_node",
+          "name": "mission_bridge",
+          "package": "mission_bridge"
+        }
+      ],
+      "note": "Ground-station serial protocol bridge; it has no /fmu/in writer."
+    },
+    "src/vision_to_dds/launch/vision_to_dds.launch.py": {
+      "nodes": [
+        {
+          "executable": "vision_to_dds_node",
+          "name": "vision_to_dds_node",
+          "package": "vision_to_dds"
+        }
+      ],
+      "note": "Fail-closed default launch; enable_vision_dds remains false unless explicitly overridden."
     }
   },
   "production_enabled": false,

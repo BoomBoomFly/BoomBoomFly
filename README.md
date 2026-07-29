@@ -105,19 +105,22 @@ bash Scripts/installation/uav_px4_dds_install.sh \
   --require-colcon
 ```
 
-## 构建
+## 构建与测试
 
 ```bash
 bash Scripts/build/build_dds_only.sh
 ```
 
-构建入口只选择：
+权威入口先执行根仓集成门禁，再只选择以下包进行 `colcon build`：
 
 - `px4_msgs`
 - `offboard_cpp`
 - `vision_to_dds`
+- `mission_bridge`
 
-构建成功只表示代码可以编译，不表示可以启动电机或装桨飞行。
+三个项目包 `offboard_cpp`、`vision_to_dds`、`mission_bridge` 还会执行
+`colcon test`；接口依赖 `px4_msgs` 只构建。构建和测试成功不表示可以
+启动电机或装桨飞行。
 
 ## 最短实机推进顺序
 

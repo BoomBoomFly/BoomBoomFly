@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "description": "Ground-station and cross-package ROS 2 data contract. JSON syntax is valid YAML 1.2.",
+  "topics": [
+    {
+      "name": "/mission/start",
+      "type": "std_msgs/msg/Bool",
+      "semantics": "Rising start event for the selected mission; true means start.",
+      "endpoints": [
+        {
+          "package": "mission_bridge",
+          "role": "publisher",
+          "path": "src/communication/Serial/Serial_ROS2/mission_bridge/src/mission_bridge_node.cpp",
+          "evidence": [
+            "create_publisher<std_msgs::msg::Bool>(\"/mission/start\""
+          ]
+        },
+        {
+          "package": "offboard_cpp",
+          "role": "subscriber",
+          "path": "src/offboard_cpp/src/flight_sequence_node.cpp",
+          "evidence": [
+            "bool_subscription(offboard_topics::kMissionStart",
+            "rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr start_sub_"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "/mission/id",
+      "type": "std_msgs/msg/UInt32",
+      "semantics": "Mission identifier decoded from the accepted START frame.",
+      "endpoints": [
+        {
+          "package": "mission_bridge",
+          "role": "publisher",
+          "path": "src/communication/Serial/Serial_ROS2/mission_bridge/src/mission_bridge_node.cpp",
+          "evidence": [
+            "create_publisher<std_msgs::msg::UInt32>(\"/mission/id\""
+          ]
+        }
+      ]
+    },
+    {
+      "name": "/uav/mission_state",
+      "type": "std_msgs/msg/String",
+      "semantics": "Current UAV task-state-machine state name; published on state transitions.",
+      "endpoints": [
+        {
+          "package": "offboard_cpp",
+          "role": "publisher",
+          "path": "src/offboard_cpp/src/flight_sequence_node.cpp",
+          "evidence": [
+            "create_publisher<std_msgs::msg::String>(offboard_topics::kUavMissionState"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "/car/link_state",
+      "type": "std_msgs/msg/String",
+      "semantics": "Compact car-link/session/heartbeat diagnostics snapshot.",
+      "endpoints": [
+        {
+          "package": "mission_bridge",
+          "role": "publisher",
+          "path": "src/communication/Serial/Serial_ROS2/mission_bridge/src/mission_bridge_node.cpp",
+          "evidence": [
+            "create_publisher<std_msgs::msg::String>(\"/car/link_state\""
+          ]
+        }
+      ]
+    },
+    {
+      "name": "/mission/fault",
+      "type": "std_msgs/msg/String",
+      "semantics": "Event-oriented integration fault text, including serial loss, heartbeat timeout and mission abort.",
+      "endpoints": [
+        {
+          "package": "mission_bridge",
+          "role": "publisher",
+          "path": "src/communication/Serial/Serial_ROS2/mission_bridge/src/mission_bridge_node.cpp",
+          "evidence": [
+            "create_publisher<std_msgs::msg::String>(\"/mission/fault\""
+          ]
+        }
+      ]
+    }
+  ],
+  "vision_default": {
+    "config": "src/vision_to_dds/config/vision_to_dds.yaml",
+    "required_text": "enable_vision_dds: false"
+  }
+}

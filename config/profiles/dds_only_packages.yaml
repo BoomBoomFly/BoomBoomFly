@@ -10,9 +10,10 @@
     "workspace.lock.repos"
   ],
   "production_packages": [
-    {"name": "px4_msgs", "path": "src/px4_msgs"},
-    {"name": "offboard_cpp", "path": "src/offboard_cpp"},
-    {"name": "vision_to_dds", "path": "src/vision_to_dds"}
+    {"name": "px4_msgs", "path": "src/px4_msgs", "test": false},
+    {"name": "offboard_cpp", "path": "src/offboard_cpp", "test": true},
+    {"name": "vision_to_dds", "path": "src/vision_to_dds", "test": true},
+    {"name": "mission_bridge", "path": "src/communication/Serial/Serial_ROS2/mission_bridge", "test": true}
   ],
   "forbidden_packages": [
     {"name": "offboard_py", "path": "src/offboard_py"},
