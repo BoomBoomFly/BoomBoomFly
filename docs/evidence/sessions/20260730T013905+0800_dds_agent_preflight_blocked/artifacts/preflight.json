@@ -1,0 +1,18 @@
+{
+  "agent_path": "/tmp/boomboomfly_g4_a2_agent/bin/MicroXRCEAgent",
+  "agent_sha256": "4cbc5038cb74391a8ecec3ed6cd94e588530cae937b5498d6796bf2c68433995",
+  "agent_started": false,
+  "check_only": true,
+  "dma_free_above_high_kib": 30152,
+  "guard_error": "DMA free-above-high 30152 KiB is below required 262144 KiB",
+  "guard_result": "FAIL",
+  "mem_available_kib_near_preflight": 2103136,
+  "recorded_at": "2026-07-30T01:39:05.875353+08:00",
+  "required_dma_free_above_high_kib": 262144,
+  "result": "BLOCKED_NO_SAFE_OBSERVATION_TRANSPORT",
+  "ros_domain_id_for_preflight": 0,
+  "serial_device": "/dev/ttyTHS0",
+  "serial_owner_count_before": 0,
+  "session": "20260730T013905+0800_dds_agent_preflight_blocked",
+  "usb_shell_available": false
+}

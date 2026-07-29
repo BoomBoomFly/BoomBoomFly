@@ -1,0 +1,18 @@
+ver all
+HW arch: PX4_FMU_V3
+HW type: V30
+HW version: 0x9000E
+HW revision: 0x000
+PX4 git-hash: a8f2dbdfff4792c92f576060ab947f8e588d6f8b
+PX4 version: 1.16.2 0 (17826304)
+PX4 git-branch: flight/rc-channels-dds-v1.16.2
+OS: NuttX
+OS version: Release 11.0.0 (184549631)
+OS git-hash: 886acbbdb4f061e5c0ce1a76afbcfa7cb7df9849
+Build datetime: Jul 29 2026 12:37:51
+Build uri: localhost
+Build variant: default
+Toolchain: GNU GCC, 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599]
+PX4GUID: 000100000000363335373233511700180029
+MCU: STM32F42x, rev. 5
+nsh> [K

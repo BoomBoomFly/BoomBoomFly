@@ -1,0 +1,6 @@
+param show SDLOG_MODE
+Symbols: x = used, + = saved, * = unsaved
+x   SDLOG_MODE [872,1535] : 0
+
+ 974/2099 parameters used.
+nsh> [K

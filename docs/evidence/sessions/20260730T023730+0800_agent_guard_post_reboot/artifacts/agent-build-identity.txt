@@ -1,0 +1,15 @@
+capture_time=2026-07-30T02:37:30+08:00
+source_path=/home/c/px4_ws/BoomBoomFly/src/Micro-XRCE-DDS-Agent
+source_head=57d086216d01ec43121845d385894a25987f8a2c
+source_status=clean
+build_type=Release
+UAGENT_BUILD_TESTS=OFF
+UAGENT_P2P_PROFILE=OFF
+UAGENT_SUPERBUILD=OFF
+UAGENT_USE_SYSTEM_FASTCDR=ON
+UAGENT_USE_SYSTEM_FASTDDS=ON
+UAGENT_USE_SYSTEM_LOGGER=ON
+binary_path=/tmp/boomboomfly_g2_agent_system/install/bin/MicroXRCEAgent
+binary_sha256=4cbc5038cb74391a8ecec3ed6cd94e588530cae937b5498d6796bf2c68433995
+agent_started=false
+serial_owner_after_check=none

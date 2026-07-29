@@ -1,0 +1,3 @@
+cat /fs/microsd/etc/ext_autostart
+nsh: cat: open failed: Not a directory
+nsh> [K

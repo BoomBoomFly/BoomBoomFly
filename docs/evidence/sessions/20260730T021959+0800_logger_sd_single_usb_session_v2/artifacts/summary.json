@@ -1,0 +1,272 @@
+{
+  "capture_time": "2026-07-30T02:19:59.315637+08:00",
+  "commands": [
+    {
+      "bytes": 556,
+      "command": "ver all",
+      "label": "01_ver_all",
+      "prompt_observed": true,
+      "reply_sources": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sha256": "dc96608928df725d0507603531db8cd05b5e927bba4410bddf42f2f6aad9f48c"
+    },
+    {
+      "bytes": 579,
+      "command": "param status",
+      "label": "02_param_status",
+      "prompt_observed": true,
+      "reply_sources": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sha256": "e6e9502b1e6749b18d67193f5e398c4c55214e1b1b91deafc90cd8a4b47145c2"
+    },
+    {
+      "bytes": 130,
+      "command": "param show SDLOG_MODE",
+      "label": "03_sdlog_mode",
+      "prompt_observed": true,
+      "reply_sources": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sha256": "df8bc31bcd84b5413a12c07f62b6b0ba1e60d9a082f312743aebdd990c739b3d"
+    },
+    {
+      "bytes": 138,
+      "command": "param show SDLOG_BOOT_BAT",
+      "label": "04_sdlog_boot_bat",
+      "prompt_observed": true,
+      "reply_sources": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sha256": "899f00681a5b2e1da5c6d7f534e0a87417e14f5993e4944d1baa0e9dc16d9306"
+    },
+    {
+      "bytes": 136,
+      "command": "param show SDLOG_PROFILE",
+      "label": "05_sdlog_profile",
+      "prompt_observed": true,
+      "reply_sources": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sha256": "147889a64ec3438d555776b0ae5e5c758299bf82f869a324324a9b26f9be75a5"
+    },
+    {
+      "bytes": 2830,
+      "command": "ps",
+      "label": "06_processes",
+      "prompt_observed": true,
+      "reply_sources": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sha256": "3b6441ae55b9d59d4a40e87867d82b086351e70cdfbb7d02b0b5f59ef6f28dd7"
+    },
+    {
+      "bytes": 142,
+      "command": "logger status",
+      "label": "07_logger_status",
+      "prompt_observed": true,
+      "reply_sources": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sha256": "ac4ac8b5eafb909ff9cb5ab2164426363b036d2ba11e458010d33ada9199c5f9"
+    },
+    {
+      "bytes": 273,
+      "command": "df",
+      "label": "08_filesystems",
+      "prompt_observed": true,
+      "reply_sources": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sha256": "a063b7fb01454d60af1d7d2dbd183d79fe3dccea02b8833c76001807c5320db9"
+    },
+    {
+      "bytes": 189,
+      "command": "ls -l /fs/microsd",
+      "label": "09_microsd_root",
+      "prompt_observed": true,
+      "reply_sources": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sha256": "feaf85777bdfa67f0a0cf97293aae60c92ba40742d2a7fb5e05bc040e29a1e2e"
+    },
+    {
+      "bytes": 230,
+      "command": "ls -l /fs/microsd/log",
+      "label": "10_microsd_log",
+      "prompt_observed": true,
+      "reply_sources": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sha256": "a7d30e433a3cef0bbe33cdf8ea4fb7614f8dd905d9de67b87de8e0c66373198a"
+    },
+    {
+      "bytes": 78,
+      "command": "ls -l /fs/microsd/etc",
+      "label": "11_microsd_etc",
+      "prompt_observed": true,
+      "reply_sources": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sha256": "e53c02c68a92c292f3626261d6114620b94cd873e340fa136f07212bc30c19cd"
+    },
+    {
+      "bytes": 420,
+      "command": "cat /etc/init.d/rc.logging",
+      "label": "12_romfs_rc_logging",
+      "prompt_observed": true,
+      "reply_sources": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sha256": "a435f2fc677bbac0466f91e86b0a439ac1112ff0d137549695b469a66c296f66"
+    },
+    {
+      "bytes": 78,
+      "command": "cat /fs/microsd/etc/config.txt",
+      "label": "13_sd_config",
+      "prompt_observed": true,
+      "reply_sources": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sha256": "0377f8aa134f7552040597ad3d9eba32b92676670d7d7fac3c58dbc57335c8d4"
+    },
+    {
+      "bytes": 78,
+      "command": "cat /fs/microsd/etc/extras.txt",
+      "label": "14_sd_extras",
+      "prompt_observed": true,
+      "reply_sources": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sha256": "39d4ac3a6c0c534af8c1e5d73f17cd5dc1f205129897fa3dc7f9aa1092f18452"
+    },
+    {
+      "bytes": 74,
+      "command": "cat /fs/microsd/etc/rc.txt",
+      "label": "15_sd_rc",
+      "prompt_observed": true,
+      "reply_sources": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sha256": "f3304f1ee5afd2f763e2750414c9a6e47078c2d6bbd2c34d455fc5d05731207e"
+    },
+    {
+      "bytes": 81,
+      "command": "cat /fs/microsd/etc/ext_autostart",
+      "label": "16_sd_ext_autostart",
+      "prompt_observed": true,
+      "reply_sources": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sha256": "e770ab6e4263b655822d45bafffb544a9513065cd55ff84b270dc54b06c935b2"
+    }
+  ],
+  "device": "/dev/serial/by-id/usb-3D_Robotics_PX4_FMU_v2.x_0-if00",
+  "error": null,
+  "gcs_heartbeat": {
+    "autopilot": 8,
+    "base_mode": 192,
+    "src_component": 190,
+    "src_system": 255,
+    "system_status": 4,
+    "type": 6
+  },
+  "heartbeats": [
+    {
+      "autopilot": 12,
+      "base_mode": 81,
+      "mavlink_version": 3,
+      "sequence": 144,
+      "src_component": 1,
+      "src_system": 1,
+      "system_status": 0,
+      "type": 2
+    },
+    {
+      "autopilot": 12,
+      "base_mode": 81,
+      "mavlink_version": 3,
+      "sequence": 17,
+      "src_component": 1,
+      "src_system": 1,
+      "system_status": 0,
+      "type": 2
+    },
+    {
+      "autopilot": 12,
+      "base_mode": 81,
+      "mavlink_version": 3,
+      "sequence": 41,
+      "src_component": 1,
+      "src_system": 1,
+      "system_status": 0,
+      "type": 2
+    }
+  ],
+  "px4_heartbeat_count": 3,
+  "result": "PASS_CAPTURE",
+  "session": "20260730T021959+0800_logger_sd_single_usb_session_v2",
+  "shell_open": {
+    "bytes": 47,
+    "prompt_observed": true,
+    "reply_sources": [
+      [
+        1,
+        1
+      ]
+    ],
+    "sha256": "fdb5e18e8ca9f22c7952ddc5e4feb7084abd6ef65e0cce336582ce34bff43431"
+  },
+  "shell_open_sent": true,
+  "shell_release_attempted": true,
+  "transport": "one uninterrupted direct pyserial 57600 session; GCS heartbeat before identity gate and shell; no 1200-baud pre-open"
+}

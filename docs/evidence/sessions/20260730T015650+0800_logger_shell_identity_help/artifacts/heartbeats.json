@@ -1,0 +1,29 @@
+[
+  {
+    "autopilot": 12,
+    "base_mode": 81,
+    "mavlink_version": 3,
+    "src_component": 1,
+    "src_system": 1,
+    "system_status": 0,
+    "type": 2
+  },
+  {
+    "autopilot": 12,
+    "base_mode": 81,
+    "mavlink_version": 3,
+    "src_component": 1,
+    "src_system": 1,
+    "system_status": 0,
+    "type": 2
+  },
+  {
+    "autopilot": 12,
+    "base_mode": 81,
+    "mavlink_version": 3,
+    "src_component": 1,
+    "src_system": 1,
+    "system_status": 0,
+    "type": 2
+  }
+]

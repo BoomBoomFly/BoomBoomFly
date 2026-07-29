@@ -1,0 +1,6 @@
+cc7263520e752d48c1176366cd2125d651ac596f4de29f4cbe3552d0b09ab62c  ./artifacts/heartbeats.json
+015965e58f06976f960db6d3d6938ba3a1c1a23b5ec1a97463f575ed26355b6d  ./artifacts/help-analysis.json
+9f2e855e19d01bdbc05ea0c35b749f4a580d8e88dd254eeb466ccb507a0fd8ea  ./artifacts/help-serial-control-packets.json
+36f131be4af3a0cae00d5a789431cbf94f1e42ac31f6db7232e64524c4b47ae3  ./artifacts/help-serial-control.raw
+36f131be4af3a0cae00d5a789431cbf94f1e42ac31f6db7232e64524c4b47ae3  ./artifacts/help-serial-control.txt
+c52967bd2922230bdf38e6add93044fed932cf678f6c61ae4677c2330c2bef69  ./artifacts/summary.json
