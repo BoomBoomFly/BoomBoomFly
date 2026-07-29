@@ -1,20 +1,30 @@
-# 普通飞行阶段拆桨验证卡（未来操作，未执行）
+# 普通飞行阶段拆桨验证卡与执行状态
 
-状态：**BLOCKED / NOT AUTHORIZED / NOT RUN**。本卡不授权刷写、写参数、Domain 0 输入 writer、
-Offboard、Arm、Land、Disarm、Kill 或电机动作。每个有状态改变的步骤都必须由用户对当次动作
-另行明确批准。G2 未 PASS 前不得进入 G3，G3 未 PASS 前不得进入 G4。
+状态：**G2 FAIL/BLOCKED**。用户已对 2026-07-29 当次指定 SHA 固件刷写和仅 G2 拆桨验证
+明确授权；刷写和真实 RC 契约通过，但 XRCE 数据面持续性失败。本授权不延伸到再次刷写、
+写参数、Domain 0 输入 writer、Offboard、Arm、Land、Disarm、Kill 或电机动作。G2 未 PASS
+前不得进入 G3，G3 未 PASS 前不得进入 G4。
 
 ## G2：刷写后真实 RC/DDS 验证
 
-刷写前停止并记录：
+2026-07-29 当次执行结果：
+
+- 指定固件 Erase/Program/Verify/Reboot PASS；
+- 唯一 Agent 和唯一 `/dev/ttyTHS0` owner PASS；
+- `/fmu/out/rc_channels` publisher=1、类型正确、约 44 Hz，18 通道真实变化 PASS；
+- RC `signal_lost` 丢失/恢复转换 PASS，关键 `/fmu/in/*` publisher=0 PASS；
+- XRCE 数据面约 49–50 秒后冻结，RC 与 timesync 同时停止，G2 因此 FAIL/BLOCKED；
+- Agent 已停止且 UART 已释放；
+- 证据见 `docs/evidence/sessions/20260729T174904+0800_g2_flash_rc_dds`。
+
+后续重新执行 G2 前停止并记录：
 
 1. 拆除全部桨叶，两人确认；机体固定，ESC 动力隔离，准备独立硬断电。
 2. 重新记录当前参数导出及 SHA-256、`ver all`、飞控板型、当前运行固件、目标固件和原固件
    回滚产物 SHA-256。任一无法校验即停止。
 3. 只允许一个已识别的 Micro-XRCE-DDS Agent 使用飞控串口；刷写前停止所有
    `/fmu/in/*` writer。
-4. 用户明确批准“刷写指定 SHA-256 的 FMUv3 固件”后，才由现场操作者执行刷写。Codex
-   本阶段不代执行。
+4. 如果诊断需要再次刷写、回滚或写参数，必须重新取得对应当次动作的明确批准。
 
 刷写并重启后，先只读验证：
 
@@ -47,4 +57,3 @@ G2 为 FAIL 并按已验证原固件回滚流程停止。
 拒绝/超时、kill、低电和围栏。每项都以 PX4 实际 `vehicle_status_v1`、arming state、failsafe、
 land detector、ACK 和 ULog 结果验收，不能依据参数值推断。测试中出现未批准的 mode、Return、
 电机输出、writer、时间倒退或 estimator reset 时立即停止并断开生产 writer。
-
