@@ -1,0 +1,44 @@
+{
+  "capture_time": "2026-07-30T02:14:20.437929+08:00",
+  "device": "/dev/serial/by-id/usb-3D_Robotics_PX4_FMU_v2.x_0-if00",
+  "duration_limit_s": 15,
+  "error": null,
+  "heartbeats": [
+    {
+      "autopilot": 12,
+      "base_mode": 81,
+      "mavlink_version": 3,
+      "sequence": 219,
+      "src_component": 1,
+      "src_system": 1,
+      "system_status": 0,
+      "type": 2
+    },
+    {
+      "autopilot": 12,
+      "base_mode": 81,
+      "mavlink_version": 3,
+      "sequence": 72,
+      "src_component": 1,
+      "src_system": 1,
+      "system_status": 0,
+      "type": 2
+    },
+    {
+      "autopilot": 12,
+      "base_mode": 81,
+      "mavlink_version": 3,
+      "sequence": 82,
+      "src_component": 1,
+      "src_system": 1,
+      "system_status": 0,
+      "type": 2
+    }
+  ],
+  "packets": 406,
+  "px4_heartbeat_count": 3,
+  "px4_identity_consistent": true,
+  "result": "PASS",
+  "session": "20260730T021420+0800_px4_post_power_cycle_passive_heartbeat",
+  "transport": "direct pyserial 57600 receive-only; zero application writes"
+}

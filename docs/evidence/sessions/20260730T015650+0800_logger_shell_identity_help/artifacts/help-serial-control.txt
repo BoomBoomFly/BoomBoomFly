@@ -1,0 +1,90 @@
+
+NuttShell (NSH) NuttX-11.0.0
+nsh> [Khelp
+help usage:  help [-v] [<cmd>]
+
+  .        cd       echo     free     mkfatfs  pwd      source   unset    
+  [        cp       exec     help     mount    rm       test     usleep   
+  ?        date     exit     kill     mv       rmdir    time     
+  break    df       export   ls       printf   set      true     
+  cat      dmesg    false    mkdir    ps       sleep    umount   
+
+Builtin Apps:
+  sh                            tfmini                        
+  sercon                        thoneflow                     
+  septentrio                    tone_alarm                    
+  ads1115                       uavcan                        
+  bmp280                        fw_autotune_attitude_control  
+  bmp388                        mc_autotune_attitude_control  
+  bmp581                        airspeed_selector             
+  dps310                        attitude_estimator_q          
+  lps22hb                       battery_status                
+  lps33hw                       camera_feedback               
+  ms5611                        commander                     
+  spa06                         control_allocator             
+  spl06                         dataman                       
+  batmon                        ekf2                          
+  batt_smbus                    esc_battery                   
+  board_adc                     send_event                    
+  bst                           fake_gps                      
+  camera_capture                flight_mode_manager           
+  camera_trigger                fw_att_control                
+  cdcacm_autostart              fw_pos_control                
+  cm8jl65                       fw_rate_control               
+  ms4525do                      gyro_calibration              
+  ms5525dso                     land_detector                 
+  sdp3x                         landing_target_estimator      
+  lightware_laser_i2c           load_mon                      
+  lightware_laser_serial        local_position_estimator      
+  teraranger                    logger                        
+  tf02pro                       mag_bias_estimator            
+  ulanding_radar                manual_control                
+  vl53l0x                       mavlink                       
+  vl53l1x                       mc_att_control                
+  dshot                         mc_hover_thrust_estimator     
+  frsky_telemetry               mc_pos_control                
+  gimbal                        mc_rate_control               
+  gps                           navigator                     
+  heater                        rc_update                     
+  hmc5883                       rover_pos_control             
+  hott_sensors                  sensors                       
+  hott_telemetry                pwm_out_sim                   
+  adis16448                     sensor_mag_sim                
+  icm20608g                     sensor_baro_sim               
+  icm20948                      sensor_gps_sim                
+  icm20948_i2c_passthrough      simulator_sih                 
+  mpu6000                       temperature_compensation      
+  mpu9250                       uuv_att_control               
+  mpu9250_i2c                   uuv_pos_control               
+  l3gd20                        uxrce_dds_client              
+  vectornav                     vtol_att_control              
+  icp101xx                      actuator_test                 
+  icp201xx                      bl_update                     
+  irlock                        bsondump                      
+  ll40ls                        dumpfile                      
+  lsm303d                       gpio                          
+  ak09916                       hardfault_log                 
+  ak8963                        i2cdetect                     
+  bmm150                        led_control                   
+  ist8308                       mft                           
+  ist8310                       mtd                           
+  lis3mdl                       nshterm                       
+  lsm303agr                     param                         
+  mmc5983ma                     perf                          
+  qmc5883l                      reboot                        
+  iis2mdc                       reflect                       
+  mpc2520                       sd_bench                      
+  paa3905                       sd_stress                     
+  paw3902                       serial_test                   
+  pmw3901                       system_time                   
+  pca9685_pwm_out               top                           
+  pwm_input                     listener                      
+  pwm_out                       tune_control                  
+  px4flow                       uorb                          
+  px4io                         usb_connected                 
+  rgbled                        ver                           
+  rgbled_is31fl3195             work_queue                    
+  rgbled_lp5562                 calib_udelay                  
+  rgbled_ncp5623c               nsh                           
+  rm3100                        serdis                        
+nsh> [K

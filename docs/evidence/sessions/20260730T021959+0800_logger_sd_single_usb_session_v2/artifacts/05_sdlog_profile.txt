@@ -1,0 +1,6 @@
+param show SDLOG_PROFILE
+Symbols: x = used, + = saved, * = unsaved
+x   SDLOG_PROFILE [873,1536] : 1
+
+ 974/2099 parameters used.
+nsh> [K

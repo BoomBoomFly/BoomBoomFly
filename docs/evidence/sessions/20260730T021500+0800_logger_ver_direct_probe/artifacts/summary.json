@@ -1,0 +1,14 @@
+{
+  "capture_time": "2026-07-30T02:15:00.781050+08:00",
+  "device": "/dev/serial/by-id/usb-3D_Robotics_PX4_FMU_v2.x_0-if00",
+  "error": "RuntimeError: PX4 heartbeat identity gate failed",
+  "heartbeats": [],
+  "px4_heartbeat_count": 0,
+  "reply_sources": [],
+  "result": "FAIL_CLOSED",
+  "session": "20260730T021500+0800_logger_ver_direct_probe",
+  "shell_open_sent": false,
+  "shell_release_attempted": true,
+  "transport": "direct pyserial 57600; no 1200-baud pre-open",
+  "ver_all_sent": false
+}

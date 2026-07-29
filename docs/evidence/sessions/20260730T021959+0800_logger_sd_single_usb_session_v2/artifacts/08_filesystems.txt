@@ -1,0 +1,8 @@
+df
+  Block    Number
+  Size     Blocks       Used   Available Mounted on
+     0          0          0           0 /bin
+   512        471        471           0 /etc
+ 32768     122624        468      122156 /fs/microsd
+     0          0          0           0 /proc
+nsh> [K
