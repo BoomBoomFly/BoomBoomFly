@@ -1,0 +1,59 @@
+2026-07-30T00:09:27+08:00
+TOPIC /fmu/out/vehicle_status_v1
+TOPIC /fmu/out/vehicle_land_detected
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+WARNING: topic [/fmu/out/vehicle_land_detected] does not appear to be published yet
+Could not determine the type for the passed topic
+TOPIC /fmu/out/failsafe_flags
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+WARNING: topic [/fmu/out/failsafe_flags] does not appear to be published yet
+Could not determine the type for the passed topic
+TOPIC /fmu/out/rc_channels
+timestamp: 1785341374414046
+timestamp_last_valid: 0
+channels:
+- 0.0
+- -0.0
+- 0.0
+- 0.0
+- 0.0
+- 0.0
+- -1.0
+- -1.0
+- 0.7599999308586121
+- 0.9999999403953552
+- -1.0
+- -1.0
+- -1.0
+- -1.0
+- -1.0
+- -1.0
+- -1.0
+- -1.0
+channel_count: 18
+function:
+- 2
+- 0
+- 1
+- 3
+- -1
+- -1
+- 5
+- -1
+- -1
+- -1
+- -1
+- -1
+- -1
+- -1
+- -1
+- -1
+- -1
+- 7
+- -1
+- -1
+- -1
+- -1
+TOPIC /fmu/out/timesync_status

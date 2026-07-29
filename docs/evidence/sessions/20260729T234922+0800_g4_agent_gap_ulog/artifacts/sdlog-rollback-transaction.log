@@ -1,0 +1,10 @@
+{
+  "difference_names": [
+    "SDLOG_MODE",
+    "_HASH_CHECK"
+  ],
+  "direction": "rollback",
+  "post_snapshot_sha256": "1f548bbf87a476522cbec1d0b5e40e04a34c71e87130a860c1c1eb4d920b83eb",
+  "status": "PASS",
+  "transaction_sha256": "5ed666f7f2d89fa7ff1ff190601749ac50e55fa070a18bb802daee953eb9b5dd"
+}

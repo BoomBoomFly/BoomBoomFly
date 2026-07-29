@@ -1,0 +1,46 @@
+test_action_sequence_is_explicit (test_g4_a2_rc_agent_loss_probe.G4A2ProbeTest) ... ok
+test_armed_or_input_writer_fails_closed (test_g4_a2_rc_agent_loss_probe.G4A2ProbeTest) ... ok
+test_complete_disarmed_loss_recovery_and_agent_exit_passes (test_g4_a2_rc_agent_loss_probe.G4A2ProbeTest) ... ok
+test_missing_loss_and_timestamp_regression_fail_closed (test_g4_a2_rc_agent_loss_probe.G4A2ProbeTest) ... ok
+test_baseline_hash_mismatch_fails_before_connection (test_px4_apply_approved_circuit_breakers.ApprovedCircuitBreakerTransactionTest) ... ok
+test_baseline_requires_974_unique_parameters_and_old_values (test_px4_apply_approved_circuit_breakers.ApprovedCircuitBreakerTransactionTest) ... ok
+test_group_is_exact_and_excludes_flight_termination (test_px4_apply_approved_circuit_breakers.ApprovedCircuitBreakerTransactionTest) ... ok
+test_post_diff_allows_only_group_and_hash (test_px4_apply_approved_circuit_breakers.ApprovedCircuitBreakerTransactionTest) ... ok
+test_precheck_failure_is_not_mislabeled_as_rollback (test_px4_apply_approved_circuit_breakers.ApprovedCircuitBreakerTransactionTest) ... ok
+test_unexpected_or_missing_diff_fails_closed (test_px4_apply_approved_circuit_breakers.ApprovedCircuitBreakerTransactionTest) ... ok
+test_baseline_hash_mismatch_fails_before_connection (test_px4_apply_sdlog_mode.SdlogModeTransactionTest) ... ok
+test_baseline_requires_full_snapshot_and_companion_values (test_px4_apply_sdlog_mode.SdlogModeTransactionTest) ... ok
+test_directions_are_exactly_zero_to_two_and_two_to_zero (test_px4_apply_sdlog_mode.SdlogModeTransactionTest) ... ok
+test_explicit_execute_flag_is_required (test_px4_apply_sdlog_mode.SdlogModeTransactionTest) ... usage: python3 -m unittest [-h] [--device DEVICE] --direction
+                           {enable,rollback} --baseline BASELINE
+                           --baseline-sha256 BASELINE_SHA256 --post-output
+                           POST_OUTPUT --transaction-output TRANSACTION_OUTPUT
+                           [--heartbeat-timeout-s HEARTBEAT_TIMEOUT_S]
+                           [--idle-timeout-s IDLE_TIMEOUT_S]
+                           [--overall-timeout-s OVERALL_TIMEOUT_S]
+                           [--max-recovery-rounds MAX_RECOVERY_ROUNDS]
+                           [--recovery-batch-size RECOVERY_BATCH_SIZE]
+                           [--execute-approved-sdlog-transaction]
+python3 -m unittest: error: explicit --execute-approved-sdlog-transaction required
+ok
+test_post_diff_allows_only_sdlog_mode_and_hash (test_px4_apply_sdlog_mode.SdlogModeTransactionTest) ... ok
+test_unexpected_or_missing_diff_fails_closed (test_px4_apply_sdlog_mode.SdlogModeTransactionTest) ... ok
+test_agent_requires_absolute_path_and_exact_sha (test_px4_dds_agent_guard.Px4DdsAgentGuardTest) ... ok
+test_development_processes_are_detected (test_px4_dds_agent_guard.Px4DdsAgentGuardTest) ... ok
+test_memory_and_dma_parsing (test_px4_dds_agent_guard.Px4DdsAgentGuardTest) ... ok
+test_missing_or_low_watermarks_fail_closed (test_px4_dds_agent_guard.Px4DdsAgentGuardTest) ... ok
+test_preflight_rejects_low_memory_before_launch (test_px4_dds_agent_guard.Px4DdsAgentGuardTest) ... ok
+test_preflight_requires_explicit_domain_zero (test_px4_dds_agent_guard.Px4DdsAgentGuardTest) ... ok
+test_serial_owner_is_detected (test_px4_dds_agent_guard.Px4DdsAgentGuardTest) ... ok
+test_initial_parameter_service_silence_retries_full_list (test_px4_param_snapshot.Px4ParamSnapshotTest) ... ok
+test_int32_minus_one_nan_bit_pattern_decodes (test_px4_param_snapshot.Px4ParamSnapshotTest) ... ok
+test_integer_encode_decode_round_trip (test_px4_param_snapshot.Px4ParamSnapshotTest) ... ok
+test_integer_types_use_bytewise_encoding (test_px4_param_snapshot.Px4ParamSnapshotTest) ... ok
+test_param_name_accepts_bytes_and_text (test_px4_param_snapshot.Px4ParamSnapshotTest) ... ok
+test_real32_requires_finite_value (test_px4_param_snapshot.Px4ParamSnapshotTest) ... ok
+test_unsupported_and_64_bit_types_fail_closed (test_px4_param_snapshot.Px4ParamSnapshotTest) ... ok
+
+----------------------------------------------------------------------
+Ran 30 tests in 0.092s
+
+OK

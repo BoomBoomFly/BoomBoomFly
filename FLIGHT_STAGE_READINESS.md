@@ -63,6 +63,9 @@ G4 circuit-breaker A1 原子写入、写后全量 diff 和冷启动持久化回�
 
 G4-A2 真实 RC 丢失/恢复、Agent 退出/重连和观测限制见
 [`docs/evidence/sessions/20260729T232726+0800_g4_a2_rc_agent_loss`](docs/evidence/sessions/20260729T232726+0800_g4_a2_rc_agent_loss)。
+
+G4 Agent gap 临时日志事务、完整参数回滚、旧 ULog 审计和当前阻塞见
+[`docs/evidence/sessions/20260729T234922+0800_g4_agent_gap_ulog`](docs/evidence/sessions/20260729T234922+0800_g4_agent_gap_ulog)。
 ## 参数纪律
 
 
@@ -72,6 +75,10 @@ G3/G4-0 实测保持零 PX4 参数写入。随后经用户逐项授权，G4 circ
 `_HASH_CHECK` 外无差异。受监控 USB 重枚举后的写前 974/974 当前参数
 导出，SHA-256 为 `7ff75ac24b0f91d5dcd931ad39c18eda8db068ba22316f71c227cd693e3e99fb`，并与历史文件完成逐项
 diff；普通打开 USB 时数据面仍会静默，必须保留该限制证据。
+经用户另行批准的 G4 Agent-gap 补证临时将 `SDLOG_MODE` 从 `0` 改为 `2`，冷启动确认后
+执行约 49.063 秒 Agent 退出/恢复，再回滚为 `0`。启用和回滚写后全量 diff 均只包含
+`SDLOG_MODE` 与派生 `_HASH_CHECK`；最终冷启动 974/974 参数字典与写前逐项零差异。
+由于没有生成 2026-07-29/30 的当次 ULog，gap 内 PX4 状态继续 BLOCKED。
 实际 estimator flags 证明 G3 仅融合 EV position/height，未融合 EV velocity/yaw。任何后续
 候选修改前必须重新导出完整参数并计算
 SHA-256；记录旧值、新值、单项理由、验证方法和回滚值；一次只改一个风险组；写后重新导出并

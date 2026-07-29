@@ -1,0 +1,98 @@
+{
+  "approved_change": {
+    "after": 2,
+    "before": 0,
+    "name": "SDLOG_MODE",
+    "type": 6
+  },
+  "baseline": {
+    "path": "docs/evidence/sessions/20260729T234922+0800_g4_agent_gap_ulog/artifacts/parameters-prewrite.json",
+    "sha256": "3754450ffd3f971e87a18f8828833d921312bac638c98ddcc7cce5df962c1e3c"
+  },
+  "completed_at": "2026-07-29T23:59:49.285488+08:00",
+  "device": "/dev/ttyACM0",
+  "differences": [
+    {
+      "after": {
+        "index": 872,
+        "type": 6,
+        "value": 2
+      },
+      "before": {
+        "index": 872,
+        "type": 6,
+        "value": 0
+      },
+      "name": "SDLOG_MODE"
+    },
+    {
+      "after": {
+        "index": 65535,
+        "type": 5,
+        "value": 2917537903
+      },
+      "before": {
+        "index": 65535,
+        "type": 5,
+        "value": 2216811414
+      },
+      "name": "_HASH_CHECK"
+    }
+  ],
+  "direction": "enable",
+  "heartbeat": {
+    "autopilot": 12,
+    "base_mode": 81,
+    "source_component": 1,
+    "source_system": 1,
+    "system_status": 0
+  },
+  "live_after": {
+    "SDLOG_MODE": {
+      "index": 872,
+      "type": 6,
+      "value": 2
+    }
+  },
+  "live_before": {
+    "SDLOG_BOOT_BAT": {
+      "index": 869,
+      "type": 6,
+      "value": 0
+    },
+    "SDLOG_MODE": {
+      "index": 872,
+      "type": 6,
+      "value": 0
+    },
+    "SDLOG_PROFILE": {
+      "index": 873,
+      "type": 6,
+      "value": 1
+    }
+  },
+  "post_snapshot": {
+    "complete": true,
+    "count": 974,
+    "path": "docs/evidence/sessions/20260729T234922+0800_g4_agent_gap_ulog/artifacts/parameters-post-enable.json",
+    "sha256": "b703d969e6fd0bd6bedbdf319398de347c1e9cee38c38085921d8ffeb7191a2a"
+  },
+  "started_at": "2026-07-29T23:59:41.037990+08:00",
+  "status": "PASS",
+  "writes": [
+    {
+      "ack": {
+        "index": 872,
+        "type": 6,
+        "value": 2
+      },
+      "change": {
+        "after": 2,
+        "before": 0,
+        "name": "SDLOG_MODE",
+        "type": 6
+      },
+      "verified": true
+    }
+  ]
+}
