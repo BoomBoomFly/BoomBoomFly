@@ -17,6 +17,8 @@ Scripts/
 │   ├── validate_evidence.py
 │   ├── validate_index.py
 │   └── validate_manifest.py
+├── test/
+│   └── px4_interface_replay.py
 └── installation/
     ├── uav_px4_dds_install.sh
     ├── verify_environment.py
@@ -65,6 +67,16 @@ bash Scripts/build/build_dds_only.sh
 `vision_to_dds` 和 `mission_bridge` 执行权威 `colcon build`，并测试三个
 项目包。`px4_msgs` 是精确 SHA 锁定的接口依赖，仅构建；其 ROS Foxy
 生成代码 lint 不属于项目门禁。
+
+构建/测试入口强制使用 `ROS_DOMAIN_ID=231`，并在 `/tmp` 输出目录的
+`artifacts/` 保存组件 SHA/dirty 和构建环境。PX4 接口回放器只允许隔离 Domain：
+
+```bash
+python3 Scripts/test/px4_interface_replay.py --self-test
+ROS_DOMAIN_ID=231 python3 Scripts/test/px4_interface_replay.py --duration 65
+```
+
+回放器明确拒绝 Domain 0，也不被任何生产 launch 引用。
 
 ## Evidence
 

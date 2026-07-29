@@ -32,9 +32,9 @@ BoomBoomFly 是面向室内无人机实机验证的 ROS 2 / PX4 DDS 工作区。
 1. `EKF2_EV_CTRL=0`，PX4 尚未融合外部视觉。
 2. T265 到机体坐标系的外参尚未测量和验证。
 3. `vision_to_dds` 默认帧名与实机 T265 帧名尚未统一。
-4. `offboard_cpp` 只转发外部 setpoint，没有生成起飞、悬停和降落轨迹的节点。
-5. 当前 launch 没有提供安全门所需的 RC、kill、控制状态和人工触发输入。
-6. 最新记录中 `/fmu/out/rc_channels` 没有 publisher。
+4. 普通垂直 flight sequence 已进入本轮软件验证，但尚无 SITL 之外或实机证据。
+5. RC/operator adapter 已进入本轮软件验证，真实通道号、阈值和物理边沿仍须刷写后拆桨确认。
+6. 新固件已构建但未刷写；历史实机记录中 `/fmu/out/rc_channels` 仍没有 publisher。
 7. Offboard 丢失、RC 丢失、视觉丢失和低电量动作尚未完成拆桨验证。
 8. 电机序号、旋向、传感器校准和首次室内运动包线没有形成实机证据。
 
@@ -59,8 +59,8 @@ flight sequence
   -> PX4
 ```
 
-`flight sequence` 尚未在当前工作区实现。同一 `/fmu/in/*` 控制话题只能存在
-一个 ROS 2 writer。
+普通垂直 `flight sequence` 固定使用 task id `3`。同一 `/fmu/in/*` 控制话题只能存在
+一个 ROS 2 writer；测试回放固定在 `ROS_DOMAIN_ID=231`，不进入生产 launch。
 
 ## 源码组成
 
@@ -72,12 +72,12 @@ flight sequence
 
 - `px4_msgs`：精确提交
 - `Micro-XRCE-DDS-Agent`：精确提交
-- `offboard_cpp`：跟随 `DDS`
-- `vision_to_dds`：跟随 `master`
-- `communication`：跟随 `main`
+- `offboard_cpp`：经过权威构建的精确提交
+- `vision_to_dds`：BoomBoomFly 组织仓的精确提交
+- `communication`：包含 `mission_bridge` 的精确提交
 
-`communication` 用于后续机载计算机与单片机通信，不属于 PX4 控制链，不应
-发布 `/fmu/*` 或 `/offboard/*` 控制话题。其串口驱动位于
+`communication/mission_bridge` 解码带 session/seq 的地面链路 START，并只发布任务与故障
+话题；它不应发布 `/fmu/in/*` 或伪造 RC。其串口驱动位于
 `src/communication/Serial/serial_driver_ros`，由 `communication` 的 Git
 子模块提交固定；`serial-ros2` 仅作为 quarantine 来源记录。
 
@@ -126,13 +126,15 @@ bash Scripts/build/build_dds_only.sh
 
 ## 最短实机推进顺序
 
-1. 统一 T265 TF 帧并测量相机到机体外参。
-2. 启用 PX4 外部视觉融合，确认 local position 持续有效。
-3. 实现最小 flight-sequence 节点：起飞、定点悬停、下降、着陆确认和停桨。
-4. 补齐并验证 RC、kill、控制状态、command ACK 和失效回退。
-5. 拆桨检查电机序号、旋向、飞控模式切换和完整起降状态机。
-6. 设置保守的高度、速度、围栏和最长飞行时间。
-7. 装桨执行低高度、短时间的首次室内悬停。
+1. 完成本轮 G0 源码/构建和 G1 隔离回放 evidence。
+2. 经用户另行批准后刷写已校验固件，拆桨确认真实 RC 和 DDS/Agent 唯一性（G2）。
+3. 测量 T265 外参，并逐步验证位置分量和 EKF 实际融合（G3）。
+4. 拆桨逐项验证 RC/Offboard/T265/Agent/ACK/kill/低电/围栏失效结果（G4）。
+5. 只有 G0–G4 全 PASS 后重新请求当次装桨、Arm、0.5 m 悬停授权；本轮禁止 G5。
+
+当前准入和未来操作卡见 [FLIGHT_STAGE_READINESS.md](FLIGHT_STAGE_READINESS.md)、
+[PROPS_OFF_FLIGHT_STAGE_TEST.md](PROPS_OFF_FLIGHT_STAGE_TEST.md) 与
+[FIRST_HOVER_TEST_CARD.md](FIRST_HOVER_TEST_CARD.md)。
 
 ## 仓库结构
 

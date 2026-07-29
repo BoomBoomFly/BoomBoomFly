@@ -85,6 +85,9 @@ command -v colcon >/dev/null || {
 mkdir -p -- "$OUTPUT_ROOT"/{artifacts,build,install,log,log/ros}
 SELECTION="$OUTPUT_ROOT/artifacts/package-selection.tsv"
 export ROS_LOG_DIR="$OUTPUT_ROOT/log/ros"
+# Every build-time ROS graph, launch test, mock and replay is isolated from the
+# real aircraft domain.  This entry point never inherits Domain 0.
+export ROS_DOMAIN_ID=231
 
 python3 "$WORKSPACE_ROOT/Scripts/ci/check_integration_contract.py"
 
@@ -145,6 +148,37 @@ done <"$SELECTION"
   echo "ERROR: DDS-only test selection is empty" >&2
   exit 2
 }
+
+python3 -c \
+  'import pathlib, subprocess, sys
+selection = pathlib.Path(sys.argv[1])
+seen = set()
+print("package\trepository\thead\tdirty")
+for line in selection.read_text(encoding="utf-8").splitlines():
+    name, raw_path, _ = line.split("\t")
+    path = pathlib.Path(raw_path)
+    top = subprocess.check_output(
+        ["git", "-C", str(path), "rev-parse", "--show-toplevel"], text=True
+    ).strip()
+    if top in seen:
+        continue
+    seen.add(top)
+    head = subprocess.check_output(
+        ["git", "-C", top, "rev-parse", "HEAD"], text=True
+    ).strip()
+    dirty = bool(subprocess.check_output(
+        ["git", "-C", top, "status", "--porcelain"], text=True
+    ).strip())
+    print("{}\t{}\t{}\t{}".format(name, top, head, str(dirty).lower()))' \
+  "$SELECTION" >"$OUTPUT_ROOT/artifacts/component-shas.tsv"
+
+{
+  printf 'ROS_DOMAIN_ID=%s\n' "$ROS_DOMAIN_ID"
+  printf 'ROS_DISTRO=%s\n' "${ROS_DISTRO:-unknown}"
+  printf 'python=%s\n' "$(python3 --version 2>&1)"
+  printf 'cmake=%s\n' "$(cmake --version | head -1)"
+  printf 'colcon=%s\n' "$(colcon version-check 2>&1 | head -1 || true)"
+} >"$OUTPUT_ROOT/artifacts/build-environment.txt"
 
 # Keep generated ROS interface compilation deterministic and bounded on both
 # WSL and the later ARM64 rebuild; px4_msgs must not race multiple generators.
