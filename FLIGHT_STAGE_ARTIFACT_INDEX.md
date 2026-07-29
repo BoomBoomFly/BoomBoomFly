@@ -31,7 +31,8 @@
 | G4-0 只读安全基线 | `docs/evidence/sessions/20260729T220347+0800_g4_0_readonly_baseline` | Domain 0 真实 DDS 30 秒、27 个输入话题零 writer 和最终资源释放 PASS；当前参数导出无 USB MAVLink heartbeat、ULog/SD 卡未验证、`pre_flight_checks_pass=false`，故 G4 保持 BLOCKED |
 | G4-0 USB/参数审计 | `docs/evidence/sessions/20260729T221803+0800_g4_0_usb_recovery` | 受监控重插后当前参数 974/974、历史 diff 和 19 个日志目录条目 PASS；四个 circuit breaker 命中禁用魔数、围栏/时限未配置、Agent DMA 门禁拒绝，G4 继续 BLOCKED |
 | G4 breaker A1 | `docs/evidence/sessions/20260729T224426+0800_g4_circuit_breaker_a1` | 精确三参数事务、DISARMED 心跳、逐项 ACK、写后 974/974、冷启动 974/974 和 20 项工具测试 PASS；其他 G4 主动失效测试未完成 |
+| G4-A2 RC/Agent loss | `docs/evidence/sessions/20260729T232726+0800_g4_a2_rc_agent_loss` | RC loss/recovery ground/disarmed 与 Agent DDS 退出/恢复 PASS；全程零输入 writer、DISARMED、landed；Agent gap 内 PX4 mode/failsafe/Land 因唯一观测链中断且无 ULog，保持 BLOCKED |
 
 真实 `/fmu/out/rc_channels`、生产内存门禁、干净 boot soak 和 G3 视觉/EKF 强制证据均通过，
-G0–G3 PASS。用户备份可回刷上一个 RC-only 固件；G4 breaker A1 已完成，但其余主动 G4 失效
-测试及真实 PX4 mode/failsafe/Land 结果未完成，整体 NO-GO，禁止装桨飞行。
+G0–G3 PASS。用户备份可回刷上一个 RC-only 固件；G4 breaker A1 和 RC loss ground/disarmed
+已完成，但 Agent gap 内行为与其余主动 G4 结果未完成，整体 NO-GO，禁止装桨飞行。

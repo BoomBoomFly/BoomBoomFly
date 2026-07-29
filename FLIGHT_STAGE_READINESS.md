@@ -32,7 +32,7 @@
 | G1 SITL/隔离回放 | **PASS（Domain 231 软件证据）** | 60 秒历史频率无误锁；VERTICAL_TEST、ACK/超时/kill/断流/Land/Disarm 场景 PASS；回放器运行时 PASS |
 | G2 拆桨 H1 | **PASS（真实拆桨证据）** | 指定固件、真实 RC、唯一 Agent/串口和零输入 writer PASS；干净 boot 下 620.011 秒 RC/timesync 连续，125 次图检查无 writer 违例，内核 UART/DMA 错误 0；最低内存/DMA 水位守住门限 |
 | G3 拆桨视觉/EKF | **PASS（真实拆桨证据）** | 新固件导出 EV position/height aid source；两段 30 秒融合、innovation/test ratio/time_last_fuse、断流退出、epoch 防重放和显式复位恢复全部 PASS |
-| G4 拆桨失效测试 | **BLOCKED / circuit-breaker A1 已验证** | 三项已授权 breaker 恢复为 0 且冷启动 974/974 回读 PASS；`CBRK_FLIGHTTERM` 未改；其余主动失效测试及真实 mode/failsafe/Land 证据尚未完成 |
+| G4 拆桨失效测试 | **BLOCKED / A1 与 RC-loss 已验证** | breaker A1 与真实 RC ground/disarmed 丢失恢复 PASS；Agent DDS 退出/恢复 PASS，但 gap 内 PX4 行为无独立观测/ULog；其余主动失效测试尚未完成 |
 | G5 装桨首次悬停 | **PROHIBITED / 本任务绝不执行** | 仅 G0–G4 全 PASS 后重新 go/no-go，并取得当次装桨、Arm、0.5 m 悬停明确授权 |
 
 软件测试 PASS 不能替代刷写后 RC、T265/EKF 或拆桨失效的实机证据，也不能表述为“可以飞行”。
@@ -60,6 +60,9 @@ G4-0 USB 即时恢复、974/974 当前参数、circuit breaker 和 ULog 目录�
 
 G4 circuit-breaker A1 原子写入、写后全量 diff 和冷启动持久化回读见
 [`docs/evidence/sessions/20260729T224426+0800_g4_circuit_breaker_a1`](docs/evidence/sessions/20260729T224426+0800_g4_circuit_breaker_a1)。
+
+G4-A2 真实 RC 丢失/恢复、Agent 退出/重连和观测限制见
+[`docs/evidence/sessions/20260729T232726+0800_g4_a2_rc_agent_loss`](docs/evidence/sessions/20260729T232726+0800_g4_a2_rc_agent_loss)。
 ## 参数纪律
 
 

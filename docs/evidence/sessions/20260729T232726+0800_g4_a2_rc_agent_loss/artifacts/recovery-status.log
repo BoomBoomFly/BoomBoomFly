@@ -1,0 +1,104 @@
+TOPIC=/fmu/out/vehicle_status_v1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+usage: ros2 [-h] Call `ros2 <command> -h` for more detailed usage. ...
+ros2: error: unrecognized arguments: --once
+TOPIC=/fmu/out/failsafe_flags
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+usage: ros2 [-h] Call `ros2 <command> -h` for more detailed usage. ...
+ros2: error: unrecognized arguments: --once
+TOPIC=/fmu/out/vehicle_land_detected
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+usage: ros2 [-h] Call `ros2 <command> -h` for more detailed usage. ...
+ros2: error: unrecognized arguments: --once
+TOPIC=/fmu/out/rc_channels
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+usage: ros2 [-h] Call `ros2 <command> -h` for more detailed usage. ...
+ros2: error: unrecognized arguments: --once
+INPUT_WRITERS
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/actuator_motors Type: px4_msgs/msg/ActuatorMotors Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/actuator_servos Type: px4_msgs/msg/ActuatorServos Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/arming_check_reply Type: px4_msgs/msg/ArmingCheckReply Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/aux_global_position Type: px4_msgs/msg/VehicleGlobalPosition Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/config_control_setpoints Type: px4_msgs/msg/VehicleControlMode Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/config_overrides_request Type: px4_msgs/msg/ConfigOverrides Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/distance_sensor Type: px4_msgs/msg/DistanceSensor Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/goto_setpoint Type: px4_msgs/msg/GotoSetpoint Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/manual_control_input Type: px4_msgs/msg/ManualControlSetpoint Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/message_format_request Type: px4_msgs/msg/MessageFormatRequest Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/mode_completed Type: px4_msgs/msg/ModeCompleted Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/obstacle_distance Type: px4_msgs/msg/ObstacleDistance Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/offboard_control_mode Type: px4_msgs/msg/OffboardControlMode Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/onboard_computer_status Type: px4_msgs/msg/OnboardComputerStatus Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/register_ext_component_request Type: px4_msgs/msg/RegisterExtComponentRequest Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/sensor_optical_flow Type: px4_msgs/msg/SensorOpticalFlow Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/telemetry_status Type: px4_msgs/msg/TelemetryStatus Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/trajectory_setpoint Type: px4_msgs/msg/TrajectorySetpoint Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/unregister_ext_component Type: px4_msgs/msg/UnregisterExtComponent Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/vehicle_attitude_setpoint Type: px4_msgs/msg/VehicleAttitudeSetpoint Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/vehicle_command Type: px4_msgs/msg/VehicleCommand Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/vehicle_command_mode_executor Type: px4_msgs/msg/VehicleCommand Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/vehicle_mocap_odometry Type: px4_msgs/msg/VehicleOdometry Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/vehicle_rates_setpoint Type: px4_msgs/msg/VehicleRatesSetpoint Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/vehicle_thrust_setpoint Type: px4_msgs/msg/VehicleThrustSetpoint Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/vehicle_torque_setpoint Type: px4_msgs/msg/VehicleTorqueSetpoint Publisher count: 0 Subscription count: 1
+/opt/ros/foxy/bin/ros2:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+/fmu/in/vehicle_visual_odometry Type: px4_msgs/msg/VehicleOdometry Publisher count: 0 Subscription count: 1

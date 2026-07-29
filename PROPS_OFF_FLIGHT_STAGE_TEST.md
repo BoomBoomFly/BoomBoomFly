@@ -1,10 +1,11 @@
 # 普通飞行阶段拆桨验证卡与执行状态
 
-状态：**G2 PASS / G3 PASS / G4 未授权且未执行**。用户已明确授权两次固件刷写、G2 拆桨验证
-及 G3 真实 Domain 0 视觉位置融合。真实 RC、UART DMA 门禁、干净 boot 620 秒 soak、实测外参、
-EV position/height aid-source、innovation/test ratio/time_last_fuse、断流和恢复均取得真实证据。
-未授权后续刷写、写参数、Offboard、Arm、Land、Disarm、Kill 或电机动作。进入 G4 前必须对每个
-真实失效场景逐项取得明确授权。
+状态：**G2 PASS / G3 PASS / G4 部分执行且仍 BLOCKED**。用户已明确授权两次固件刷写、G2 拆桨
+验证、G3 真实 Domain 0 视觉位置融合、G4 breaker A1，以及 G4-A2 真实 RC 丢失/恢复和 Agent
+退出。真实 RC、UART DMA 门禁、干净 boot 620 秒 soak、实测外参、EV position/height aid-source、
+innovation/test ratio/time_last_fuse、视觉断流恢复、breaker 写后持久化和 RC loss ground/disarmed
+响应均取得真实证据。未授权后续刷写、写参数、Offboard、Arm、Land、Disarm、Kill 或电机动作。
+其余 G4 场景仍须逐项取得明确授权。
 
 ## G2：刷写后真实 RC/DDS 验证
 
@@ -80,3 +81,14 @@ PX4 进入惯性推算；恢复后 source epoch 从 2 变为 3，显式 reset �
 拒绝/超时、kill、低电和围栏。每项都以 PX4 实际 `vehicle_status_v1`、arming state、failsafe、
 land detector、ACK 和 ULog 结果验收，不能依据参数值推断。测试中出现未批准的 mode、Return、
 电机输出、writer、时间倒退或 estimator reset 时立即停止并断开生产 writer。
+
+2026-07-29 G4-A2 结果：RC 在线→丢失→恢复由 `RcChannels.signal_lost` 和
+`FailsafeFlags.manual_control_signal_lost` 双重确认；可观察窗口内 PX4 始终 DISARMED、POSCTL、
+`failsafe=false`、landed，五类时间戳倒退 0，104 次图检查的 `/fmu/in/*` writer 违例 0，RC
+ground/disarmed 场景 PASS。Agent Ctrl-C 后数据停止且五个 publisher 在 DDS 租约到期后变为 0；
+重连后直接读取状态仍为 DISARMED/POSCTL/non-failsafe/landed，RC 恢复在线，最终 Agent/串口释放。
+
+但 Agent 退出同时切断唯一观测链；`SDLOG_MODE=0` 且本次从未 Arm，因此 gap 内没有 ULog 可证明
+PX4 内部 mode/failsafe/Land。Agent 数据面断流/恢复 PASS，gap 内行为补证仍 BLOCKED，不得把
+publisher 消失写成已经验证的 PX4 failsafe/Land。完整证据见
+`docs/evidence/sessions/20260729T232726+0800_g4_a2_rc_agent_loss`。
