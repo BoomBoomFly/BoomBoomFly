@@ -119,6 +119,17 @@ class ApprovedCircuitBreakerTransactionTest(unittest.TestCase):
             ):
                 self.transaction.load_baseline(path, "0" * 64)
 
+    def test_precheck_failure_is_not_mislabeled_as_rollback(self):
+        self.assertEqual(
+            self.transaction.failure_status(0, True), "FAIL_PRECHECK"
+        )
+        self.assertEqual(
+            self.transaction.failure_status(1, True), "FAIL_ROLLED_BACK"
+        )
+        self.assertEqual(
+            self.transaction.failure_status(1, False), "FAIL_ROLLBACK_UNVERIFIED"
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

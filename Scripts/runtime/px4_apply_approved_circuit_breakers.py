@@ -219,6 +219,14 @@ def validate_post_snapshot(baseline, post):
     return differences
 
 
+def failure_status(changed_count, rollback_ok):
+    if changed_count == 0:
+        return "FAIL_PRECHECK"
+    if rollback_ok:
+        return "FAIL_ROLLED_BACK"
+    return "FAIL_ROLLBACK_UNVERIFIED"
+
+
 def collect_full_snapshot(connection, args, source_system, source_component):
     return snapshot.collect_parameters(
         connection,
@@ -367,9 +375,7 @@ def execute(args):
                     }
                 )
         transaction["rollback"] = rollback_results
-        transaction["status"] = (
-            "FAIL_ROLLED_BACK" if rollback_ok else "FAIL_ROLLBACK_UNVERIFIED"
-        )
+        transaction["status"] = failure_status(len(changed), rollback_ok)
         transaction["completed_at"] = now_iso8601()
         write_json(args.transaction_output, transaction)
         raise TransactionError(
