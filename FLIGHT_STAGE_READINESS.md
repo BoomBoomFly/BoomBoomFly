@@ -30,7 +30,7 @@
 |---|---|---|
 | G0 源码与构建 | **PASS（软件证据）** | 精确 SHA；四包 clean build；50 tests 全 PASS；launch、单 writer、无生产 mock 门禁 PASS |
 | G1 SITL/隔离回放 | **PASS（Domain 231 软件证据）** | 60 秒历史频率无误锁；VERTICAL_TEST、ACK/超时/kill/断流/Land/Disarm 场景 PASS；回放器运行时 PASS |
-| G2 拆桨 H1 | **FAIL/BLOCKED（已刷写、验收未通过）** | 固件、唯一 Agent、RC publisher/类型、约 44 Hz 通道变化和 loss/recovery 均 PASS；但 XRCE 数据面约 49–50 秒后冻结，RC 与 timesync 同时停止 |
+| G2 拆桨 H1 | **FAIL/BLOCKED（根因已定位）** | 固件、唯一 Agent、RC publisher/类型、约 44 Hz 通道变化和 loss/recovery PASS；冻结由 Jetson 低内存导致 UART RX DMA descriptor 分配失败。释放开发语言服务后 120 秒对照 PASS，但生产内存约束和干净启动 soak 尚未验收 |
 | G3 拆桨视觉/EKF | **BLOCKED / 未执行** | G2 PASS、实测外参 PASS；先位置分量，再逐步速度和航向，并保存 estimator 接受证据 |
 | G4 拆桨失效测试 | **BLOCKED / 未执行** | G3 PASS；逐项取得授权并以 PX4 实际 mode/failsafe/Land 结果验收 |
 | G5 装桨首次悬停 | **PROHIBITED / 本任务绝不执行** | 仅 G0–G4 全 PASS 后重新 go/no-go，并取得当次装桨、Arm、0.5 m 悬停明确授权 |
@@ -40,6 +40,8 @@ G0/G1 原始输出见
 [`docs/evidence/sessions/20260729T162319+0800_vertical_flight_stage`](docs/evidence/sessions/20260729T162319+0800_vertical_flight_stage)。
 G2 刷写和失败诊断证据见
 [`docs/evidence/sessions/20260729T174904+0800_g2_flash_rc_dds`](docs/evidence/sessions/20260729T174904+0800_g2_flash_rc_dds)。
+Jetson UART RX DMA 根因和 120 秒内存对照见
+[`docs/evidence/sessions/20260729T183138+0800_g2_uart_dma_diagnostic`](docs/evidence/sessions/20260729T183138+0800_g2_uart_dma_diagnostic)。
 
 ## 参数纪律
 

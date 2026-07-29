@@ -1,0 +1,23 @@
+first_failure=2026-07-29T18:26:05+08:00
+first_dma_free_kb=50100
+first_dma_min_kb=78060
+second_failure=2026-07-29T18:32:30+08:00
+second_dma_free_kb=65544
+second_dma_min_kb=78060
+device=serial-tegra 3100000.serial
+linux_device=/dev/ttyTHS0
+kernel=5.10.104-tegra
+
+common_stack:
+page allocation failure: order:0, mode=GFP_NOWAIT
+allocate_slab
+__kmalloc
+tegra_dma_prep_slave_sg
+tegra_uart_start_rx_dma
+tegra_uart_isr
+SLUB: Unable to allocate memory; cache kmalloc-256; free objects 0
+serial-tegra 3100000.serial: Not able to get desc for Rx
+
+errors_since_2026-07-29T18:36:00_after_120s_control:
+page_allocation_failure=0
+uart_rx_descriptor_failure=0

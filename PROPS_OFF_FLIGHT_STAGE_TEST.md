@@ -13,7 +13,10 @@
 - 唯一 Agent 和唯一 `/dev/ttyTHS0` owner PASS；
 - `/fmu/out/rc_channels` publisher=1、类型正确、约 44 Hz，18 通道真实变化 PASS；
 - RC `signal_lost` 丢失/恢复转换 PASS，关键 `/fmu/in/*` publisher=0 PASS；
-- XRCE 数据面约 49–50 秒后冻结，RC 与 timesync 同时停止，G2 因此 FAIL/BLOCKED；
+- XRCE 数据面约 49–50 秒后冻结，RC 与 timesync 同时停止；后续内核诊断确认 Jetson 低内存
+  导致 `/dev/ttyTHS0` UART RX DMA descriptor 分配失败；
+- 临时暂停开发语言服务、将 available memory 提升至约 1.3 GiB 后，120 秒 RC/timesync 对照
+  PASS 且内核无新增分配错误；生产内存约束和干净启动 soak 仍待验收，G2 继续 FAIL/BLOCKED；
 - Agent 已停止且 UART 已释放；
 - 证据见 `docs/evidence/sessions/20260729T174904+0800_g2_flash_rc_dds`。
 
