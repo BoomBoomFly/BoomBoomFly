@@ -1,9 +1,9 @@
 # 普通飞行阶段拆桨验证卡与执行状态
 
-状态：**G2 FAIL/BLOCKED**。用户已对 2026-07-29 当次指定 SHA 固件刷写和仅 G2 拆桨验证
-明确授权；刷写和真实 RC 契约通过，但 XRCE 数据面持续性失败。本授权不延伸到再次刷写、
-写参数、Domain 0 输入 writer、Offboard、Arm、Land、Disarm、Kill 或电机动作。G2 未 PASS
-前不得进入 G3，G3 未 PASS 前不得进入 G4。
+状态：**G2 PASS / G3 BLOCKED**。用户已对 2026-07-29 当次指定 SHA 固件刷写和仅 G2 拆桨
+验证明确授权；刷写、真实 RC 契约、UART DMA 根因修复门禁和干净 boot 620 秒 soak 均通过。
+本授权不延伸到再次刷写、写参数、G3、Domain 0 输入 writer、Offboard、Arm、Land、Disarm、
+Kill 或电机动作。G3 未另行批准且未 PASS 前不得进入 G4。
 
 ## G2：刷写后真实 RC/DDS 验证
 
@@ -16,14 +16,19 @@
 - XRCE 数据面约 49–50 秒后冻结，RC 与 timesync 同时停止；后续内核诊断确认 Jetson 低内存
   导致 `/dev/ttyTHS0` UART RX DMA descriptor 分配失败；
 - 临时暂停开发语言服务、将 available memory 提升至约 1.3 GiB 后，120 秒 RC/timesync 对照
-  PASS 且内核无新增分配错误；生产内存约束和干净启动 soak 仍待验收，G2 继续 FAIL/BLOCKED；
+  PASS 且内核无新增分配错误；随后生产门禁和干净启动 soak 已验收；
 - 后续 Agent 只允许经 `Scripts/runtime/px4_dds_agent_guard.py` 启动；门禁默认要求
   MemAvailable 至少 1024 MiB、DMA free-above-high 至少 256 MiB，并拒绝开发语言服务；
+- 新 boot `3268e759-5043-48a8-92ae-44afb959ae95` 下完成 620.011 秒只读 soak：RC
+  44.364 Hz、timesync 0.990 Hz，最大间隔分别 57.0 ms 和 1.033 s；时间戳倒退 0，125 次
+  图检查的输入/输出 writer 违例 0，本次 boot 内核 page-allocation/UART RX descriptor 错误 0；
+- soak 最低 MemAvailable 2,266,704 KiB，最低 DMA free-above-high 271,228 KiB，均高于门限；
 - Agent 已停止且 UART 已释放；
 - 刷写/RC、UART DMA 根因和生产门禁证据分别见
   `docs/evidence/sessions/20260729T174904+0800_g2_flash_rc_dds`、
   `docs/evidence/sessions/20260729T183138+0800_g2_uart_dma_diagnostic` 和
-  `docs/evidence/sessions/20260729T190953+0800_agent_memory_guard`。
+  `docs/evidence/sessions/20260729T190953+0800_agent_memory_guard`；干净 boot soak 见
+  `docs/evidence/sessions/20260729T195311+0800_g2_clean_boot_soak`。
 
 后续重新执行 G2 前停止并记录：
 

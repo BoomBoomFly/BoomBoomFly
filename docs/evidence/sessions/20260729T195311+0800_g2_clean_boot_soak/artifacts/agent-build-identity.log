@@ -1,0 +1,34 @@
+agent_source_head=57d086216d01ec43121845d385894a25987f8a2c
+agent_source_status_begin
+agent_source_status_end
+4cbc5038cb74391a8ecec3ed6cd94e588530cae937b5498d6796bf2c68433995  /tmp/boomboomfly_g2_agent_system/install/bin/MicroXRCEAgent
+CMAKE_BUILD_TYPE:STRING=Release
+CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/c++
+CMAKE_C_COMPILER:FILEPATH=/usr/bin/cc
+UAGENT_BUILD_TESTS:BOOL=OFF
+UAGENT_P2P_PROFILE:BOOL=OFF
+UAGENT_SUPERBUILD:BOOL=OFF
+UAGENT_USE_SYSTEM_FASTCDR:BOOL=ON
+UAGENT_USE_SYSTEM_FASTDDS:BOOL=ON
+UAGENT_USE_SYSTEM_LOGGER:BOOL=ON
+	/lib/ld-linux-aarch64.so.1 (0x0000ffffb9f13000)
+	libc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ffffb992f000)
+	libcrypto.so.1.1 => /lib/aarch64-linux-gnu/libcrypto.so.1.1 (0x0000ffffb8c3d000)
+	libdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x0000ffffb8f8d000)
+	libfastcdr.so.1 => /opt/ros/foxy/lib/libfastcdr.so.1 (0x0000ffffb9070000)
+	libfastrtps.so.2 => /opt/ros/foxy/lib/libfastrtps.so.2 (0x0000ffffb90c3000)
+	libgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000ffffb904c000)
+	libm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000ffffb8fa1000)
+	libmicroxrcedds_agent.so.2.4 => /tmp/boomboomfly_g2_agent_system/install/lib/libmicroxrcedds_agent.so.2.4 (0x0000ffffb9cd5000)
+	libpthread.so.0 => /lib/aarch64-linux-gnu/libpthread.so.0 (0x0000ffffb9092000)
+	librt.so.1 => /lib/aarch64-linux-gnu/librt.so.1 (0x0000ffffb8c25000)
+	libspdlog.so.1 => /lib/aarch64-linux-gnu/libspdlog.so.1 (0x0000ffffb9883000)
+	libssl.so.1.1 => /lib/aarch64-linux-gnu/libssl.so.1.1 (0x0000ffffb8ecf000)
+	libstdc++.so.6 => /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000ffffb9aa2000)
+	libtinyxml2.so.6 => /lib/aarch64-linux-gnu/libtinyxml2.so.6 (0x0000ffffb8f69000)
+	linux-vdso.so.1 (0x0000ffffb9f43000)
+cmake version 3.16.3
+g++ (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0
+libspdlog1	1:1.5.0-1
+ros-foxy-fastcdr	1.0.13-1focal.20230527.033526
+ros-foxy-fastrtps	2.1.4-1focal.20230527.042032

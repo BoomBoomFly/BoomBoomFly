@@ -35,8 +35,8 @@ BoomBoomFly 是面向室内无人机实机验证的 ROS 2 / PX4 DDS 工作区。
 4. 普通垂直 flight sequence 已通过 Domain 231 隔离回放，尚无实机控制闭环证据。
 5. 真实 RC publisher、类型、18 通道变化和 `signal_lost` 已拆桨验证；生产通道号、阈值和物理
    边沿仍须按最终 YAML 逐项验收。
-6. 指定 SHA 固件已刷写；DDS 约 50 秒冻结已定位为 Jetson 低内存下 UART RX DMA 分配失败，
-   生产 Agent 启动门禁已补，但干净重启长稳态 soak 尚未通过，因此 G2 仍 BLOCKED。
+6. 指定 SHA 固件已刷写；DDS 约 50 秒冻结已定位为 Jetson 低内存下 UART RX DMA 分配失败。
+   生产 Agent 门禁和干净重启后的 620 秒只读 soak 已通过，G2 PASS；G3 视觉/EKF 尚未执行。
 7. Offboard 丢失、RC 丢失、视觉丢失和低电量动作尚未完成拆桨验证。
 8. 电机序号、旋向、传感器校准和首次室内运动包线没有形成实机证据。
 
@@ -129,9 +129,8 @@ bash Scripts/build/build_dds_only.sh
 ## 最短实机推进顺序
 
 1. G0 源码/构建和 G1 隔离回放 evidence 已完成。
-2. G2 已完成固件刷写和真实 RC 契约；下一步须经明确批准执行干净 Jetson 重启后的拆桨
-   DDS/Agent 长稳态 soak，不得启动 `/fmu/in/*` writer。
-3. 测量 T265 外参，并逐步验证位置分量和 EKF 实际融合（G3）。
+2. G2 固件、真实 RC 契约和干净重启后的拆桨 DDS/Agent 长稳态 soak 已完成。
+3. 下一步须另行批准 G3；先测量 T265 外参，再逐步验证位置分量和 EKF 实际融合。
 4. 拆桨逐项验证 RC/Offboard/T265/Agent/ACK/kill/低电/围栏失效结果（G4）。
 5. 只有 G0–G4 全 PASS 后重新请求当次装桨、Arm、0.5 m 悬停授权；本轮禁止 G5。
 
