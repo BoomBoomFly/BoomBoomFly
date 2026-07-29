@@ -14,9 +14,10 @@ BoomBoomFly 是面向室内无人机任务的 ROS 2 / PX4 DDS 工作区。当前
 - 定位：Intel RealSense T265
 - DDS：TELEM2，921600 baud，`ROS_DOMAIN_ID=0`
 - PX4 参数：[docs/2026.7.30.params](docs/2026.7.30.params)
-- 依赖锁：[workspace.lock.repos](workspace.lock.repos)
+- 依赖清单：[workspace.repos](workspace.repos)
 
-依赖均固定到精确提交。根仓库不保存 `src/`，由安装脚本恢复。
+`offboard_cpp`、`vision_to_dds` 和 `communication` 跟随各自远端默认分支的
+最新提交；第三方依赖仍固定到精确提交。根仓库不保存 `src/`，由安装脚本恢复。
 
 ## 恢复与构建
 
@@ -31,6 +32,9 @@ bash Scripts/installation/uav_px4_dds_install.sh \
 
 bash Scripts/build/build_dds_only.sh
 ```
+
+`--update` 只允许项目分支快进，不会丢弃本地提交或覆盖脏工作树。每次恢复后，
+安装脚本会把实际使用的分支和提交记录到 `log/repository-versions.tsv`。
 
 只检查现有工作区：
 
@@ -56,8 +60,8 @@ mission START -> flight sequence -> offboard_cpp
 ## 下一步
 
 先完成 `offboard_cpp` 的 QGC 控制边界和垂直轨迹闭环，再接入任务协调、目标感知、
-抛投管理和地面站功能。功能包版本确定后更新 `workspace.lock.repos`，并通过统一构建
-入口完成工作区集成。
+抛投管理和地面站功能。项目仓直接跟随已审核的默认分支；只有第三方依赖版本变化时
+才更新 `workspace.lock.repos` 中的精确提交，并通过统一构建入口完成工作区集成。
 
 ## 目录
 
@@ -69,7 +73,7 @@ Scripts/test/           隔离回放
 config/profiles/        构建与启动包清单
 docs/contracts/         通信契约
 tools/authority/        控制状态检查工具
-workspace.lock.repos    唯一依赖清单
+workspace.lock.repos    项目分支与第三方锁定版本清单
 ```
 
 脚本用途见 [Scripts/README.md](Scripts/README.md)。

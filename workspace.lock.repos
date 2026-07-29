@@ -1,5 +1,5 @@
-# Single governed source manifest. Every production and third-party dependency
-# is exact-SHA locked; no production restore follows a mutable branch.
+# Single governed source manifest. The three project repositories follow their
+# approved default branches; third-party dependencies remain exact-SHA locked.
 # Project tooling consumes the profile markers below and never selects
 # quarantine. Use Scripts/installation/uav_px4_dds_install.sh rather than a
 # generic vcs import: the quarantined serial_driver_ros checkout is nested in
@@ -17,15 +17,15 @@ repositories:
   src/offboard_cpp:
     type: git
     url: https://github.com/BoomBoomFly/offboard_cpp.git
-    version: e24bb3facfcf4126ad7b3d216a768a040758e895
+    version: DDS
   src/vision_to_dds:
     type: git
     url: https://github.com/BoomBoomFly/vision_to_dds.git
-    version: 470cf59cf8fbcddd17b12e9d31f084e87f5f2fac
+    version: master
   src/communication:
     type: git
     url: https://github.com/BoomBoomFly/communication.git
-    version: e6d6126acd16050216e5f091e61d58a96ef3ed65
+    version: main
 
 # profile: archive
   src/px4_bringup:

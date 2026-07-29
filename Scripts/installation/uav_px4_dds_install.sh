@@ -29,16 +29,18 @@ usage() {
 Usage:
   ${SCRIPT_NAME} [options]
 
-Restore the active profile declared by workspace.lock.repos. Project-owned
-flight packages follow approved default branches; third-party dependencies use
-exact commit SHAs. Archive and optional sources are composed only when their
-explicit flags are present. src/communication is restored from main as a normal
-manifest repository and is not stored in the root Git tree.
+Restore the active profile declared by workspace.lock.repos. The project-owned
+offboard_cpp, vision_to_dds and communication repositories follow their
+approved default branches as normal tracking branches; third-party dependencies
+use exact commit SHAs. Archive and optional sources are composed only when
+their explicit flags are present. src/communication is restored from main as a
+normal manifest repository and is not stored in the root Git tree.
 Its Serial/serial_driver_ros checkout is pinned by the communication Git
 submodule and is also recorded as quarantine provenance in the manifest.
 Quarantine entries are never selected, including through --manifest.
-Locked commits are checked out in detached-HEAD state; this script never creates
-dependency branches and never runs git pull.
+Locked third-party commits are checked out in detached-HEAD state. Project
+branches are fetched explicitly and advanced only by fast-forward; this script
+never runs git pull.
 
 Options:
   --src-dir <path>       Target ROS 2 src directory. Default: ${SRC_DIR}
@@ -47,7 +49,7 @@ Options:
   --with-archive         Add archive entries from ${DEFAULT_MANIFEST}
   --with-optional <name> Add an optional profile: perception or navigation.
                          Repeat to select both profiles.
-  --update               Sync existing clean repositories to the manifest ref.
+  --update               Fast-forward project branches and restore locked refs.
   --verify-only          Audit all repositories without cloning/updating.
   --dry-run              Audit and print planned actions without changing files or Git refs.
   --skip-submodules      Do not initialize dependency submodules.
@@ -58,12 +60,16 @@ Options:
 Safety:
   * Existing dirty repositories are never checked out or updated.
   * Existing repositories with a different origin URL are rejected.
-  * src/communication is restored at the latest origin/main commit; its recorded
-    submodule URL and commit come from that repository's .gitmodules/gitlink.
+  * offboard_cpp, vision_to_dds and communication track the latest commit on
+    their approved remote default branches.
+  * communication's recorded submodule URL and commit come from that
+    repository's .gitmodules/gitlink.
   * Active/archive/optional target paths must be globally unique.
   * Only the declared project paths may use their approved latest branches.
   * Every other governed or custom manifest entry requires an exact commit SHA.
-  * Without --update, a repository at the wrong commit is rejected.
+  * Project branches never discard local commits or accept non-fast-forward
+    updates; a clean checkout is required before switching or advancing.
+  * Without --update, a repository behind its selected ref is rejected.
   * Exact lock SHAs are verified after checkout.
   * Audit modes inspect every entry, summarize all blockers, then exit non-zero.
 EOF
@@ -403,7 +409,7 @@ log "Profiles:     ${SELECTED_PROFILES[*]}"
 log "Manifest:     ${MANIFEST}"
 log "Target src:  ${SRC_DIR}"
 log "Repositories:${#REPOSITORIES[@]}"
-log "Checkout:    detached HEAD"
+log "Checkout:    tracking project branches; detached third-party locks"
 
 resolve_ref() {
 	local full_path="$1"
@@ -462,11 +468,12 @@ ensure_ref_available() {
 		die "Locked ref ${ref} is not reachable from advertised heads or tags in ${full_path}"
 }
 
-checkout_detached() {
+checkout_locked_detached() {
 	local full_path="$1"
 	local ref="$2"
 	local resolved_ref
 
+	is_locked_sha "${ref}" || die "Detached checkout requires an exact SHA: ${ref}"
 	ensure_ref_available "${full_path}" "${ref}"
 	if [[ ${DRY_RUN} -eq 1 ]]; then
 		run_cmd git -C "${full_path}" checkout --detach "${ref}"
@@ -475,6 +482,44 @@ checkout_detached() {
 
 	resolved_ref="$(resolve_ref "${full_path}" "${ref}")" || die "Unable to resolve ${ref} in ${full_path}"
 	run_cmd git -C "${full_path}" checkout --detach "${resolved_ref}"
+}
+
+checkout_latest_branch() {
+	local full_path="$1"
+	local ref="$2"
+	local local_ref="refs/heads/${ref}"
+	local remote_ref="refs/remotes/origin/${ref}"
+
+	is_locked_sha "${ref}" && die "Branch checkout received an exact SHA: ${ref}"
+	ensure_ref_available "${full_path}" "${ref}"
+
+	if [[ ${DRY_RUN} -eq 1 ]]; then
+		run_cmd git -C "${full_path}" checkout "${ref}"
+		run_cmd git -C "${full_path}" merge --ff-only "origin/${ref}"
+		return 0
+	fi
+
+	if git -C "${full_path}" show-ref --verify --quiet "${local_ref}"; then
+		if ! git -C "${full_path}" merge-base --is-ancestor "${local_ref}" "${remote_ref}"; then
+			die "Local ${ref} in ${full_path} is ahead of or diverged from origin/${ref}; refusing to discard commits"
+		fi
+		run_cmd git -C "${full_path}" checkout "${ref}"
+		run_cmd git -C "${full_path}" branch --set-upstream-to="origin/${ref}" "${ref}"
+		run_cmd git -C "${full_path}" merge --ff-only "origin/${ref}"
+	else
+		run_cmd git -C "${full_path}" checkout -b "${ref}" --track "origin/${ref}"
+	fi
+}
+
+checkout_selected_ref() {
+	local full_path="$1"
+	local ref="$2"
+
+	if is_locked_sha "${ref}"; then
+		checkout_locked_detached "${full_path}" "${ref}"
+	else
+		checkout_latest_branch "${full_path}" "${ref}"
+	fi
 }
 
 sync_submodules() {
@@ -503,6 +548,8 @@ process_repository() {
 	local full_path
 	local current_head
 	local expected_head
+	local current_branch
+	local current_upstream
 
 	local repo_blocked=0
 	target_dir="${manifest_path#src/}"
@@ -525,17 +572,22 @@ process_repository() {
 		fi
 
 		log "[CLONE] ${target_dir}"
-		# Use init + exact fetch instead of git clone so the restored dependency
-		# has no implicit local default branch. Only remote refs/tags and the
-		# requested detached commit are created.
+		# Use init + an explicit fetch so project repositories track only their
+		# approved default branch while locked dependencies remain detached.
 		run_cmd mkdir -p "${full_path}"
 		run_cmd git -C "${full_path}" init
 		run_cmd git -C "${full_path}" remote add origin "${repo_url}"
 		if [[ ${DRY_RUN} -eq 1 ]]; then
-			run_cmd git -C "${full_path}" fetch --tags origin "${repo_ref}"
-			log "[DRY] fallback if the exact ref is not advertised:"
-			run_cmd git -C "${full_path}" fetch --tags origin '+refs/heads/*:refs/remotes/origin/*'
-			run_cmd git -C "${full_path}" checkout --detach "${repo_ref}"
+			if is_locked_sha "${repo_ref}"; then
+				run_cmd git -C "${full_path}" fetch --tags origin "${repo_ref}"
+				log "[DRY] fallback if the exact ref is not advertised:"
+				run_cmd git -C "${full_path}" fetch --tags origin '+refs/heads/*:refs/remotes/origin/*'
+				run_cmd git -C "${full_path}" checkout --detach "${repo_ref}"
+			else
+				run_cmd git -C "${full_path}" fetch --prune origin \
+					"refs/heads/${repo_ref}:refs/remotes/origin/${repo_ref}"
+				run_cmd git -C "${full_path}" checkout -b "${repo_ref}" --track "origin/${repo_ref}"
+			fi
 			if [[ ${WITH_SUBMODULES} -eq 1 ]]; then
 				run_cmd git -C "${full_path}" submodule update --init --recursive
 			fi
@@ -543,7 +595,7 @@ process_repository() {
 			return 0
 		fi
 
-		checkout_detached "${full_path}" "${repo_ref}"
+		checkout_selected_ref "${full_path}" "${repo_ref}"
 		sync_submodules "${full_path}"
 		CLONED_COUNT=$((CLONED_COUNT + 1))
 	else
@@ -568,6 +620,11 @@ process_repository() {
 			ensure_ref_available "${full_path}" "${repo_ref}"
 		fi
 		current_head="$(git -C "${full_path}" rev-parse HEAD)"
+		current_branch="$(git -C "${full_path}" symbolic-ref --short --quiet HEAD || true)"
+		current_upstream="$(
+			git -C "${full_path}" rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' \
+				2>/dev/null || true
+		)"
 		if is_locked_sha "${repo_ref}"; then
 			expected_head="${repo_ref,,}"
 		else
@@ -575,20 +632,31 @@ process_repository() {
 		fi
 
 		if [[ -n "${expected_head}" && "${current_head,,}" == "${expected_head,,}" ]]; then
-			log "[OK] ${target_dir} already at selected ref"
-			if [[ ${VERIFY_ONLY} -eq 0 ]]; then
-				sync_submodules "${full_path}"
+			if is_locked_sha "${repo_ref}" ||
+				[[ "${current_branch}" == "${repo_ref}" &&
+					"${current_upstream}" == "origin/${repo_ref}" ]]; then
+				log "[OK] ${target_dir} already at selected ref"
+				if [[ ${VERIFY_ONLY} -eq 0 ]]; then
+					sync_submodules "${full_path}"
+				fi
+				VERIFIED_COUNT=$((VERIFIED_COUNT + 1))
+				return 0
 			fi
-			VERIFIED_COUNT=$((VERIFIED_COUNT + 1))
-			return 0
 		fi
 
 		if [[ ${DO_UPDATE} -eq 0 ]]; then
+			local mismatch_reason
+			if ! is_locked_sha "${repo_ref}" &&
+				[[ -n "${expected_head}" && "${current_head,,}" == "${expected_head,,}" ]]; then
+				mismatch_reason="${target_dir} is not tracking origin/${repo_ref}; use --update"
+			else
+				mismatch_reason="${target_dir} HEAD ${current_head} does not match ${repo_ref}; use --update"
+			fi
 			if [[ ${DRY_RUN} -eq 1 || ${VERIFY_ONLY} -eq 1 ]]; then
-				record_blocker "${target_dir} HEAD ${current_head} does not match ${repo_ref}; use --update"
+				record_blocker "${mismatch_reason}"
 				return 0
 			fi
-			die "${target_dir} HEAD ${current_head} does not match ${repo_ref}; use --update"
+			die "${mismatch_reason}"
 		fi
 
 		if [[ ${repo_blocked} -eq 1 ]]; then
@@ -596,8 +664,12 @@ process_repository() {
 			return 0
 		fi
 
-		log "[SYNC] ${target_dir} -> ${repo_ref} (detached HEAD)"
-		checkout_detached "${full_path}" "${repo_ref}"
+		if is_locked_sha "${repo_ref}"; then
+			log "[SYNC] ${target_dir} -> ${repo_ref} (detached HEAD)"
+		else
+			log "[SYNC] ${target_dir} -> latest origin/${repo_ref} (fast-forward only)"
+		fi
+		checkout_selected_ref "${full_path}" "${repo_ref}"
 		sync_submodules "${full_path}"
 		UPDATED_COUNT=$((UPDATED_COUNT + 1))
 	fi
@@ -612,6 +684,17 @@ process_repository() {
 		fi
 		[[ "${current_head,,}" == "${expected_head,,}" ]] ||
 			die "Post-checkout verification failed for ${target_dir}: ${current_head} != ${expected_head}"
+		if ! is_locked_sha "${repo_ref}"; then
+			current_branch="$(git -C "${full_path}" symbolic-ref --short --quiet HEAD || true)"
+			current_upstream="$(
+				git -C "${full_path}" rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' \
+					2>/dev/null || true
+			)"
+			[[ "${current_branch}" == "${repo_ref}" ]] ||
+				die "Post-checkout branch verification failed for ${target_dir}: ${current_branch:-DETACHED} != ${repo_ref}"
+			[[ "${current_upstream}" == "origin/${repo_ref}" ]] ||
+				die "Post-checkout upstream verification failed for ${target_dir}: ${current_upstream:-unset}"
+		fi
 	fi
 }
 
@@ -674,12 +757,49 @@ verify_ros_packages() {
 	fi
 }
 
+record_resolved_revisions() {
+	local report_path="${PROJECT_ROOT}/log/repository-versions.tsv"
+	local manifest_path
+	local repo_url
+	local repo_ref
+	local target_dir
+	local full_path
+	local checkout_name
+	local head
+
+	if [[ ${DRY_RUN} -eq 0 && ${VERIFY_ONLY} -eq 0 ]]; then
+		mkdir -p "$(dirname "${report_path}")"
+		printf 'path\tselected_ref\tcheckout\thead\n' >"${report_path}"
+	fi
+
+	log "Resolved repository revisions:"
+	for record in "${REPOSITORIES[@]}"; do
+		IFS=$'\t' read -r manifest_path repo_url repo_ref <<<"${record}"
+		target_dir="${manifest_path#src/}"
+		full_path="${SRC_DIR}/${target_dir}"
+		git -C "${full_path}" rev-parse --is-inside-work-tree >/dev/null 2>&1 || continue
+		head="$(git -C "${full_path}" rev-parse HEAD)"
+		checkout_name="$(git -C "${full_path}" symbolic-ref --short --quiet HEAD || true)"
+		checkout_name="${checkout_name:-DETACHED}"
+		log "[REV] ${manifest_path} selected=${repo_ref} checkout=${checkout_name} head=${head}"
+		if [[ ${DRY_RUN} -eq 0 && ${VERIFY_ONLY} -eq 0 ]]; then
+			printf '%s\t%s\t%s\t%s\n' \
+				"${manifest_path}" "${repo_ref}" "${checkout_name}" "${head}" >>"${report_path}"
+		fi
+	done
+
+	if [[ ${DRY_RUN} -eq 0 && ${VERIFY_ONLY} -eq 0 ]]; then
+		log "Revision report: ${report_path}"
+	fi
+}
+
 for record in "${REPOSITORIES[@]}"; do
 	IFS=$'\t' read -r manifest_path repo_url repo_ref <<<"${record}"
 	process_repository "${manifest_path}" "${repo_url}" "${repo_ref}"
 done
 
 verify_ros_packages
+record_resolved_revisions
 
 log "Summary: planned=${PLANNED_COUNT} cloned=${CLONED_COUNT} updated=${UPDATED_COUNT} verified=${VERIFIED_COUNT} blockers=${BLOCKER_COUNT}"
 
