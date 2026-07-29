@@ -1,0 +1,20 @@
+{
+  "downloaded": [
+    {
+      "local_path": "docs/evidence/sessions/20260729T234922+0800_g4_agent_gap_ulog/artifacts/ulogs/00_log100.ulg",
+      "remote_path": "/fs/microsd/log/sess101/log100.ulg",
+      "sha256": "b39d9510a53d00f3e6fac89517179fc84472050916fbcf2480cf7d462427e263",
+      "size_bytes": 718383
+    },
+    {
+      "local_path": "docs/evidence/sessions/20260729T234922+0800_g4_agent_gap_ulog/artifacts/ulogs/01_log100.ulg",
+      "remote_path": "/fs/microsd/log/sess102/log100.ulg",
+      "sha256": "e41f00b99acf46df6e9792c8a32901428b33424a50e5bd43fb35c2c62bbc6566",
+      "size_bytes": 2575246
+    }
+  ],
+  "inventory_sha256": "03e38ee291e675595aa3651d323de293da71277d5a9bf2cec007d87838bad67a",
+  "parameter_count": 974,
+  "snapshot_sha256": "cfce95638c1db887bd27fd0d240bb26af69578bc131d9fbc41ed81bf45681336",
+  "status": "PASS"
+}

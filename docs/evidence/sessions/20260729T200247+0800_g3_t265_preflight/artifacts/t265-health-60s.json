@@ -1,0 +1,15 @@
+{
+  "serial": "952322110550",
+  "elapsed_s": 60.029499,
+  "samples": 11876,
+  "device_span_s": 59.506807,
+  "rate_hz": 199.557001,
+  "max_gap_ms": 5.104736,
+  "timestamp_regressions": 0,
+  "frame_regressions": 0,
+  "non_finite_values": 0,
+  "invalid_quaternion_samples": 0,
+  "quaternion_norm_min": 1.000000,
+  "quaternion_norm_max": 1.000000,
+  "tracker_confidence_counts": [1, 0, 11875, 0]
+}

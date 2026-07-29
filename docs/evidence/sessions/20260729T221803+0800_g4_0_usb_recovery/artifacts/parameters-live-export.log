@@ -1,0 +1,19 @@
+{
+  "complete": false,
+  "expected_count": null,
+  "output": "docs/evidence/sessions/20260729T221803+0800_g4_0_usb_recovery/artifacts/parameters-live.json",
+  "received_count": 0,
+  "selected": {
+    "EKF2_EVP_NOISE": null,
+    "EKF2_EVV_NOISE": null,
+    "EKF2_EV_CTRL": null,
+    "EKF2_EV_DELAY": null,
+    "EKF2_EV_NOISE_MD": null,
+    "EKF2_HGT_REF": null,
+    "UXRCE_DDS_CFG": null,
+    "UXRCE_DDS_DOM_ID": null,
+    "UXRCE_DDS_SYNCT": null
+  },
+  "sha256": "a99d177e220ff678afbe83416065798ede6e11977bf8a6a1b94859bf342c46b7",
+  "status": "FAIL"
+}

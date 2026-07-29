@@ -13,10 +13,14 @@ cd "$(git rev-parse --show-toplevel)"
 Scripts/
 ├── build/
 │   └── build_dds_only.sh
+├── runtime/
+│   └── px4_dds_agent_guard.py
 ├── evidence/
 │   ├── validate_evidence.py
 │   ├── validate_index.py
 │   └── validate_manifest.py
+├── test/
+│   └── px4_interface_replay.py
 └── installation/
     ├── uav_px4_dds_install.sh
     ├── verify_environment.py
@@ -65,6 +69,35 @@ bash Scripts/build/build_dds_only.sh
 `vision_to_dds` 和 `mission_bridge` 执行权威 `colcon build`，并测试三个
 项目包。`px4_msgs` 是精确 SHA 锁定的接口依赖，仅构建；其 ROS Foxy
 生成代码 lint 不属于项目门禁。
+
+构建/测试入口强制使用 `ROS_DOMAIN_ID=231`，并在 `/tmp` 输出目录的
+`artifacts/` 保存组件 SHA/dirty 和构建环境。PX4 接口回放器只允许隔离 Domain：
+
+```bash
+python3 Scripts/test/px4_interface_replay.py --self-test
+ROS_DOMAIN_ID=231 python3 Scripts/test/px4_interface_replay.py --duration 65
+```
+
+回放器明确拒绝 Domain 0，也不被任何生产 launch 引用。
+
+## 生产 DDS Agent 启动门禁
+
+禁止直接从开发环境启动 Agent。生产窗口必须先关闭 VS Code extension host、Pylance 和
+cpptools，再通过固定二进制 SHA 的门禁启动：
+
+```bash
+ROS_DOMAIN_ID=0 python3 Scripts/runtime/px4_dds_agent_guard.py \
+  --agent /absolute/path/to/MicroXRCEAgent \
+  --agent-sha256 <64-hex-sha256> \
+  --serial-dev /dev/ttyTHS0 \
+  --baudrate 921600 \
+  --check-only
+```
+
+去掉 `--check-only` 才会以同样参数 `exec` 唯一 Agent。默认要求
+`MemAvailable >= 1024 MiB`、DMA zone 的 free-above-high >= 256 MiB，并拒绝 VS Code
+extension host/Pylance/cpptools、错误 Domain、非精确 Agent SHA 和已占用串口。任一检查失败均不
+启动 Agent。
 
 ## Evidence
 

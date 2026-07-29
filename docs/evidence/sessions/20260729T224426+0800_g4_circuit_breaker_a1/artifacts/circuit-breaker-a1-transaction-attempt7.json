@@ -1,0 +1,175 @@
+{
+  "approved_changes": [
+    {
+      "after": 0,
+      "before": 894281,
+      "name": "CBRK_SUPPLY_CHK",
+      "type": 6
+    },
+    {
+      "after": 0,
+      "before": 22027,
+      "name": "CBRK_IO_SAFETY",
+      "type": 6
+    },
+    {
+      "after": 0,
+      "before": 197848,
+      "name": "CBRK_USB_CHK",
+      "type": 6
+    }
+  ],
+  "baseline": {
+    "path": "docs/evidence/sessions/20260729T221803+0800_g4_0_usb_recovery/artifacts/parameters-live-bytewise-after-replug.json",
+    "sha256": "7ff75ac24b0f91d5dcd931ad39c18eda8db068ba22316f71c227cd693e3e99fb"
+  },
+  "completed_at": "2026-07-29T23:01:34.993630+08:00",
+  "device": "/dev/ttyACM0",
+  "differences": [
+    {
+      "after": {
+        "index": 196,
+        "type": 6,
+        "value": 0
+      },
+      "before": {
+        "index": 196,
+        "type": 6,
+        "value": 22027
+      },
+      "name": "CBRK_IO_SAFETY"
+    },
+    {
+      "after": {
+        "index": 197,
+        "type": 6,
+        "value": 0
+      },
+      "before": {
+        "index": 197,
+        "type": 6,
+        "value": 894281
+      },
+      "name": "CBRK_SUPPLY_CHK"
+    },
+    {
+      "after": {
+        "index": 198,
+        "type": 6,
+        "value": 0
+      },
+      "before": {
+        "index": 198,
+        "type": 6,
+        "value": 197848
+      },
+      "name": "CBRK_USB_CHK"
+    },
+    {
+      "after": {
+        "index": 65535,
+        "type": 5,
+        "value": 2216811414
+      },
+      "before": {
+        "index": 65535,
+        "type": 5,
+        "value": 711143106
+      },
+      "name": "_HASH_CHECK"
+    }
+  ],
+  "heartbeat": {
+    "autopilot": 12,
+    "base_mode": 81,
+    "source_component": 1,
+    "source_system": 1,
+    "system_status": 0
+  },
+  "live_after": {
+    "CBRK_IO_SAFETY": {
+      "index": 196,
+      "type": 6,
+      "value": 0
+    },
+    "CBRK_SUPPLY_CHK": {
+      "index": 197,
+      "type": 6,
+      "value": 0
+    },
+    "CBRK_USB_CHK": {
+      "index": 198,
+      "type": 6,
+      "value": 0
+    }
+  },
+  "live_before": {
+    "CBRK_IO_SAFETY": {
+      "index": 196,
+      "type": 6,
+      "value": 22027
+    },
+    "CBRK_SUPPLY_CHK": {
+      "index": 197,
+      "type": 6,
+      "value": 894281
+    },
+    "CBRK_USB_CHK": {
+      "index": 198,
+      "type": 6,
+      "value": 197848
+    }
+  },
+  "post_snapshot": {
+    "complete": true,
+    "count": 974,
+    "path": "docs/evidence/sessions/20260729T224426+0800_g4_circuit_breaker_a1/artifacts/parameters-live-post-approved-circuit-breakers-attempt7.json",
+    "sha256": "01f41a7f2b437105be2bb77b2d4b15ee50e8f4276e77c23b32f7729c6e1bb8c1"
+  },
+  "started_at": "2026-07-29T23:01:27.690247+08:00",
+  "status": "PASS",
+  "writes": [
+    {
+      "ack": {
+        "index": 197,
+        "type": 6,
+        "value": 0
+      },
+      "change": {
+        "after": 0,
+        "before": 894281,
+        "name": "CBRK_SUPPLY_CHK",
+        "type": 6
+      },
+      "verified": true
+    },
+    {
+      "ack": {
+        "index": 196,
+        "type": 6,
+        "value": 0
+      },
+      "change": {
+        "after": 0,
+        "before": 22027,
+        "name": "CBRK_IO_SAFETY",
+        "type": 6
+      },
+      "verified": true
+    },
+    {
+      "ack": {
+        "index": 198,
+        "type": 6,
+        "value": 0
+      },
+      "change": {
+        "after": 0,
+        "before": 197848,
+        "name": "CBRK_USB_CHK",
+        "type": 6
+      },
+      "verified": true
+    }
+  ]
+}

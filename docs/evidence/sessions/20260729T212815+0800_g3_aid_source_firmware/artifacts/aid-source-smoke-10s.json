@@ -1,0 +1,85 @@
+{
+  "counts": {
+    "epoch": 0,
+    "hgt": 1,
+    "local": 973,
+    "pos": 1,
+    "quality": 0,
+    "status": 11,
+    "vehicle": 21,
+    "vio": 0
+  },
+  "elapsed_s": 10.003531055999701,
+  "hgt": {
+    "fused": 1,
+    "last": {
+      "fused": true,
+      "innovation": -0.003141850233078003,
+      "innovation_rejected": false,
+      "innovation_variance": 0.09356359392404556,
+      "test_ratio": 4.220112714392599e-06,
+      "time_last_fuse": 403341258
+    },
+    "max_abs_innovation": 0.003141850233078003,
+    "max_test_ratio": 4.220112714392599e-06,
+    "nonfinite": 0,
+    "rejected": 0,
+    "time_last_fuse_regressions": 0
+  },
+  "local_last": {
+    "dead_reckoning": true,
+    "v_xy_valid": false,
+    "v_z_valid": true,
+    "xy_valid": false,
+    "z_valid": true
+  },
+  "pos": {
+    "fused": 1,
+    "last": {
+      "fused": true,
+      "innovation": [
+        -0.0006317645311355591,
+        -0.0008777603507041931
+      ],
+      "innovation_rejected": false,
+      "innovation_variance": [
+        0.04260406643152237,
+        0.04260505363345146
+      ],
+      "test_ratio": [
+        3.747308596757648e-07,
+        7.233538781292737e-07
+      ],
+      "time_last_fuse": 403341258
+    },
+    "max_abs_innovation": [
+      0.0006317645311355591,
+      0.0008777603507041931
+    ],
+    "max_test_ratio": [
+      3.747308596757648e-07,
+      7.233538781292737e-07
+    ],
+    "nonfinite": 0,
+    "rejected": 0,
+    "time_last_fuse_regressions": 0
+  },
+  "status_last": {
+    "cs_ev_hgt": false,
+    "cs_ev_pos": false,
+    "cs_ev_vel": false,
+    "cs_ev_yaw": false,
+    "cs_inertial_dead_reckoning": true
+  },
+  "vehicle_last": {
+    "arming_state": 1,
+    "failsafe": false,
+    "nav_state": 1
+  },
+  "writer_counts": {
+    "/fmu/in/offboard_control_mode": 0,
+    "/fmu/in/trajectory_setpoint": 0,
+    "/fmu/in/vehicle_command": 0,
+    "/fmu/in/vehicle_visual_odometry": 1
+  }
+}

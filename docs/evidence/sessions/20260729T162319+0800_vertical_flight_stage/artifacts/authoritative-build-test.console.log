@@ -1,0 +1,47 @@
+PASS px4_interface_replay self-test: duration=60s counts={'timesync': 60, 'status': 120, 'land_detected': 60, 'odometry': 3000, 'setpoint_mode': 3000} ack=['accept', 'reject', 'timeout']
+{"fmu_writers": 4, "gate": "dds_integration_contract", "launches": 3, "production_packages": 4, "status": "PASS", "topics": 5}
+Starting >>> px4_msgs
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+[Processing: px4_msgs]
+Finished <<< px4_msgs [11min 18s]
+Starting >>> mission_bridge
+Finished <<< mission_bridge [16.0s]
+Starting >>> offboard_cpp
+[Processing: offboard_cpp]
+[Processing: offboard_cpp]
+Finished <<< offboard_cpp [1min 21s]
+Starting >>> vision_to_dds
+[Processing: vision_to_dds]
+Finished <<< vision_to_dds [40.6s]
+
+Summary: 4 packages finished [13min 35s]
+Starting >>> mission_bridge
+Starting >>> offboard_cpp
+Starting >>> vision_to_dds
+Finished <<< mission_bridge [0.20s]
+Finished <<< offboard_cpp [1.95s]
+Finished <<< vision_to_dds [4.04s]
+
+Summary: 3 packages finished [5.04s]
+Summary: 50 tests, 0 errors, 0 failures, 0 skipped
+{"status":"PASS","action":"build_test","output_root":"/tmp/boomboomfly_vertical_stage_20260729T162319","build_packages":4,"test_packages":3}

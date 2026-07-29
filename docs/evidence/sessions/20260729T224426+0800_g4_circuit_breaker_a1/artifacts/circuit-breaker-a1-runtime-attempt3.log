@@ -1,0 +1,1 @@
+{"error": "TransactionError: no MAVLink heartbeat; rollback_status=FAIL_PRECHECK", "status": "FAIL"}

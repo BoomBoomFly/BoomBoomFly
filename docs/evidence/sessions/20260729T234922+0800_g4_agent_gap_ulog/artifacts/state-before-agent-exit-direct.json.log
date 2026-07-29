@@ -1,0 +1,62 @@
+{
+  "captured_at": 1785341429.403859,
+  "failures": [],
+  "input_publishers": {
+    "/fmu/in/actuator_motors": 0,
+    "/fmu/in/actuator_servos": 0,
+    "/fmu/in/arming_check_reply": 0,
+    "/fmu/in/aux_global_position": 0,
+    "/fmu/in/config_control_setpoints": 0,
+    "/fmu/in/config_overrides_request": 0,
+    "/fmu/in/distance_sensor": 0,
+    "/fmu/in/goto_setpoint": 0,
+    "/fmu/in/manual_control_input": 0,
+    "/fmu/in/message_format_request": 0,
+    "/fmu/in/mode_completed": 0,
+    "/fmu/in/obstacle_distance": 0,
+    "/fmu/in/offboard_control_mode": 0,
+    "/fmu/in/onboard_computer_status": 0,
+    "/fmu/in/register_ext_component_request": 0,
+    "/fmu/in/sensor_optical_flow": 0,
+    "/fmu/in/telemetry_status": 0,
+    "/fmu/in/trajectory_setpoint": 0,
+    "/fmu/in/unregister_ext_component": 0,
+    "/fmu/in/vehicle_attitude_setpoint": 0,
+    "/fmu/in/vehicle_command": 0,
+    "/fmu/in/vehicle_command_mode_executor": 0,
+    "/fmu/in/vehicle_mocap_odometry": 0,
+    "/fmu/in/vehicle_rates_setpoint": 0,
+    "/fmu/in/vehicle_thrust_setpoint": 0,
+    "/fmu/in/vehicle_torque_setpoint": 0,
+    "/fmu/in/vehicle_visual_odometry": 0
+  },
+  "samples": {
+    "failsafe": {
+      "manual_control_signal_lost": false,
+      "offboard_control_signal_lost": true,
+      "timestamp": 1785341429182670
+    },
+    "land": {
+      "at_rest": true,
+      "landed": true,
+      "timestamp": 1785341428963611
+    },
+    "rc": {
+      "channel_count": 18,
+      "signal_lost": false,
+      "timestamp": 1785341429378119
+    },
+    "status": {
+      "arming_state": 1,
+      "failsafe": false,
+      "nav_state": 2,
+      "pre_flight_checks_pass": false,
+      "timestamp": 1785341429091788
+    },
+    "timesync": {
+      "remote_timestamp": 1785341429311786,
+      "timestamp": 1785341429327106
+    }
+  },
+  "status": "PASS"
+}

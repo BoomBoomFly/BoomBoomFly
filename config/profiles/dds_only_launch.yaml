@@ -163,9 +163,14 @@
           "executable": "offboard_authority_node",
           "name": "offboard_authority_node",
           "package": "offboard_cpp"
+        },
+        {
+          "executable": "rc_operator_adapter_node",
+          "name": "rc_operator_adapter_node",
+          "package": "offboard_cpp"
         }
       ],
-      "note": "The integrated flight launch contains the safety-gate writer, flight sequence, and authority publisher."
+      "note": "The integrated flight launch contains the sole control writer, flight sequence, real PX4 RC/operator adapter, and authority publisher."
     },
     "src/communication/Serial/Serial_ROS2/mission_bridge/launch/mission_bridge.launch.py": {
       "nodes": [

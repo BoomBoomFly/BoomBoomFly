@@ -1,0 +1,48 @@
+2026-07-29T20:23:09+08:00
+boot_id=3268e759-5043-48a8-92ae-44afb959ae95
+--- processes ---
+--- DDS serial owners ---
+--- T265 device ---
+Device Name                   Serial Number       Firmware Version
+Intel RealSense D435          241122070080        05.13.00.50
+Intel RealSense T265          952322110550        0.2.0.951
+--- current parameter snapshot ---
+2c3b9c6ea6efa4e5fdbb25fa0edc3cd0261f883408b7ae10729ca8c52e1105b0  docs/2026.7.29.params
+326:1	1	EKF2_EV_CTRL	3	6
+327:1	1	EKF2_EV_DELAY	0.000000000000000000	9
+328:1	1	EKF2_EV_NOISE_MD	0	6
+355:1	1	EKF2_HGT_REF	3	6
+--- measured extrinsic candidates ---
+--- locked perception sources ---
+36:# profile: optional-perception
+37-  src/librealsense:
+38-    type: git
+39-    url: https://github.com/IntelRealSense/librealsense.git
+40-    version: c94410a420b74e5fb6a414bd12215c05ddd82b69
+41-  src/realsense-ros:
+42-    type: git
+43-    url: https://github.com/IntelRealSense/realsense-ros.git
+44-    version: 8abb4657c0add15f87b0edbfb67eaba2c1c2c439
+45-  src/vision_opencv:
+46-    type: git
+47-    url: https://github.com/ros-perception/vision_opencv.git
+--- repository heads/status ---
+7c01dc9f2bbee55c209af50d045988efc2a24d8a
+?? Testing/
+?? docs/2026.7.29.params
+?? docs/evidence/sessions/20260729T200247+0800_g3_t265_preflight/
+?? docs/px4_fmu-v3_default.px4
+470cf59cf8fbcddd17b12e9d31f084e87f5f2fac
+8abb4657c0add15f87b0edbfb67eaba2c1c2c439
+ M realsense2_description/urdf/_r410.urdf.xacro
+ M realsense2_description/urdf/_r430.urdf.xacro
+ M realsense2_description/urdf/_usb_plug.urdf.xacro
+ M realsense2_description/urdf/test_d415_camera.urdf.xacro
+ M realsense2_description/urdf/test_d435_camera.urdf.xacro
+ M realsense2_description/urdf/test_d435_multiple_cameras.urdf.xacro
+ M realsense2_description/urdf/test_d435i_camera.urdf.xacro
+ M realsense2_description/urdf/test_d455_camera.urdf.xacro
+ M realsense2_description/urdf/test_l515_camera.urdf.xacro
+ M realsense2_description/urdf/test_r410_camera.urdf.xacro
+ M realsense2_description/urdf/test_r430_camera.urdf.xacro
+?? realsense2_camera/launch/rs_t265_launch.py

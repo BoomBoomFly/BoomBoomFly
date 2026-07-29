@@ -1,0 +1,16 @@
+2026-07-29T22:37:33+08:00
+=== processes ===
+=== serial owners ===
+=== devices ===
+lrwxrwxrwx 1 root root        13 Jul 29 22:29 /dev/serial/by-id/usb-3D_Robotics_PX4_FMU_v2.x_0-if00 -> ../../ttyACM0
+crw-rw---- 1 root dialout 166, 0 Jul 29 22:30 /dev/ttyACM0
+crw-rw---- 1 root dialout 239, 0 Jul 29 22:10 /dev/ttyTHS0
+=== git root ===
+778c1a3fb8d6c3325a0df51ed5078aca381f1a0f
+ M FLIGHT_STAGE_ARTIFACT_INDEX.md
+ M FLIGHT_STAGE_READINESS.md
+?? Scripts/runtime/px4_param_snapshot.py
+?? docs/2026.7.29.params
+?? docs/evidence/sessions/20260729T221803+0800_g4_0_usb_recovery/
+?? docs/px4_fmu-v3_default.px4
+?? test/runtime/test_px4_param_snapshot.py

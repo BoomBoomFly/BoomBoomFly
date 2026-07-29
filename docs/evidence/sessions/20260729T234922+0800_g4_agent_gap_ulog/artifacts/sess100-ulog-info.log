@@ -1,0 +1,83 @@
+Logging start time: 0:02:12, duration: 0:00:28
+Dropouts: count: 1, total duration: 0.0 s, max: 35 ms, mean: 35 ms
+Info Messages:
+ metadata_events_sha256: e0c83dce8394abf74056d8916dda8d3577ceb21cb93939193cfc6a4f37a913d2
+ sys_mcu: STM32F42x, rev. 5
+ sys_name: PX4
+ sys_os_name: NuttX
+ sys_os_ver: de41e7feaeffaec3ce65327e9569e8fdb553ca3d
+ sys_os_ver_release: 184549631
+ sys_toolchain: GNU GCC
+ sys_toolchain_ver: 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599]
+ sys_uuid: 000100000000363335373233511700180029
+ time_ref_utc: 0
+ ver_data_format: 1
+ ver_hw: PX4_FMU_V3
+ ver_hw_subtype: V30
+ ver_sw: 1dacb4cdef2d7145754fc788fa8dc482eed74b40
+ ver_sw_release: 17695488
+Info Multiple Messages: [excluded_optional_topics: 34], [metadata_events: 1], [perf_counter_postflight: 1], [perf_counter_preflight: 1], [perf_top_postflight: 1], [perf_top_preflight: 1]
+
+Name (multi id, message size in bytes)    number of data points, total bytes
+ action_request (0, 11)                         2         22
+ actuator_armed (0, 15)                        55        825
+ actuator_motors (0, 66)                      277      18282
+ actuator_outputs (0, 76)                     277      21052
+ battery_status (0, 167)                      138      23046
+ control_allocator_status (0, 52)             138       7176
+ cpuload (0, 16)                               56        896
+ estimator_ev_pos_bias (0, 80)                 20       1600
+ estimator_event_flags (0, 53)                 27       1431
+ estimator_innovation_test_ratios (0, 152)      55       8360
+ estimator_innovation_variances (0, 152)       55       8360
+ estimator_innovations (0, 152)                55       8360
+ estimator_sensor_bias (0, 118)                64       7552
+ estimator_states (0, 209)                     27       5643
+ estimator_status (0, 114)                    138      15732
+ estimator_status_flags (0, 91)                29       2639
+ event (0, 40)                                  3        120
+ failsafe_flags (0, 85)                        55       4675
+ failure_detector_status (0, 22)               55       1210
+ home_position (0, 48)                          3        144
+ hover_thrust_estimate (0, 41)                125       5125
+ input_rc (0, 71)                              55       3905
+ landing_gear (0, 9)                            1          9
+ magnetometer_bias_estimate (0, 64)             4        256
+ manual_control_setpoint (0, 63)              139       8757
+ manual_control_switches (0, 31)               29        899
+ parameter_update (0, 34)                       1         34
+ position_setpoint_triplet (0, 224)             1        224
+ px4io_status (0, 141)                         28       3948
+ rate_ctrl_status (0, 24)                     138       3312
+ rtl_time_estimate (0, 17)                     27        459
+ sensor_accel (0, 44)                          27       1188
+ sensor_baro (0, 32)                           27        864
+ sensor_combined (0, 48)                     6154     295392
+ sensor_gyro (0, 44)                           27       1188
+ sensor_mag (0, 40)                            27       1080
+ sensor_selection (0, 16)                       1         16
+ sensors_status_imu (0, 96)                   139      13344
+ system_power (0, 37)                          55       2035
+ takeoff_status (0, 13)                        12        156
+ telemetry_status (0, 86)                      27       2322
+ telemetry_status (1, 86)                      27       2322
+ trajectory_setpoint (0, 64)                  139       8896
+ transponder_report (0, 78)                     1         78
+ vehicle_acceleration (0, 28)                 555      15540
+ vehicle_air_data (0, 37)                     140       5180
+ vehicle_angular_velocity (0, 40)            1387      55480
+ vehicle_attitude (0, 49)                     555      27195
+ vehicle_attitude_setpoint (0, 54)            555      29970
+ vehicle_command (0, 54)                        1         54
+ vehicle_command_ack (0, 21)                    1         21
+ vehicle_constraints (0, 17)                   27        459
+ vehicle_control_mode (0, 21)                  55       1155
+ vehicle_imu (0, 56)                           55       3080
+ vehicle_imu_status (0, 132)                   27       3564
+ vehicle_land_detected (0, 20)                 33        660
+ vehicle_local_position (0, 167)              277      46259
+ vehicle_local_position_setpoint (0, 64)      277      17728
+ vehicle_rates_setpoint (0, 33)              1386      45738
+ vehicle_status (0, 66)                        54       3564
+ vehicle_thrust_setpoint (0, 28)             1386      38808
+ vehicle_torque_setpoint (0, 28)             1386      38808

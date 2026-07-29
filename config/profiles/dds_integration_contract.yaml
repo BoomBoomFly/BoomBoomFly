@@ -4,15 +4,16 @@
   "topics": [
     {
       "name": "/mission/start",
-      "type": "std_msgs/msg/Bool",
-      "semantics": "Rising start event for the selected mission; true means start.",
+      "type": "std_msgs/msg/UInt32",
+      "semantics": "One-shot task event: 0 invalid, 1 contest task 1, 2 contest task 2, 3 VERTICAL_TEST; accepted only with the immediately preceding fresh context.",
       "endpoints": [
         {
           "package": "mission_bridge",
           "role": "publisher",
           "path": "src/communication/Serial/Serial_ROS2/mission_bridge/src/mission_bridge_node.cpp",
           "evidence": [
-            "create_publisher<std_msgs::msg::Bool>(\"/mission/start\""
+            "create_publisher<std_msgs::msg::UInt32>(",
+            "\"/mission/start\", start_event_qos"
           ]
         },
         {
@@ -20,23 +21,37 @@
           "role": "subscriber",
           "path": "src/offboard_cpp/src/flight_sequence_node.cpp",
           "evidence": [
-            "bool_subscription(offboard_topics::kMissionStart",
-            "rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr start_sub_"
+            "create_subscription<std_msgs::msg::UInt32>(",
+            "offboard_topics::kMissionStart, qos",
+            "rclcpp::Subscription<std_msgs::msg::UInt32>::SharedPtr start_sub_"
           ]
         }
       ]
     },
     {
-      "name": "/mission/id",
-      "type": "std_msgs/msg/UInt32",
-      "semantics": "Mission identifier decoded from the accepted START frame.",
+      "name": "/mission/start/context",
+      "type": "std_msgs/msg/UInt64",
+      "semantics": "Volatile context published immediately before START: mission_id[15:0], session_id[23:16], seq[31:24], bridge source_epoch[63:32].",
       "endpoints": [
         {
           "package": "mission_bridge",
           "role": "publisher",
           "path": "src/communication/Serial/Serial_ROS2/mission_bridge/src/mission_bridge_node.cpp",
           "evidence": [
-            "create_publisher<std_msgs::msg::UInt32>(\"/mission/id\""
+            "create_publisher<std_msgs::msg::UInt64>(",
+            "\"/mission/start/context\", start_event_qos",
+            "start_context_pub_->publish(context_msg)",
+            "start_pub_->publish(start_msg)"
+          ]
+        },
+        {
+          "package": "offboard_cpp",
+          "role": "subscriber",
+          "path": "src/offboard_cpp/src/flight_sequence_node.cpp",
+          "evidence": [
+            "create_subscription<std_msgs::msg::UInt64>(",
+            "offboard_topics::kMissionStartContext, qos",
+            "rclcpp::Subscription<std_msgs::msg::UInt64>::SharedPtr start_context_sub_"
           ]
         }
       ]

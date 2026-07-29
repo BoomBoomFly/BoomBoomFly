@@ -1,0 +1,33 @@
+==========================================================================================================
+WARNING: You should uninstall ModemManager as it conflicts with any non-modem serial device (like Pixhawk)
+==========================================================================================================
+Waiting for bootloader...
+
+Found board id: 9,0 bootloader protocol revision 5 on /dev/ttyACM1
+Loaded firmware for board id: 9,0 size: 2053049 bytes (98.67%) 
+
+Bootloader version: unknown
+Sn: [REDACTED]
+Chip: 20036419
+Family: STM32F42x
+Revision: ?
+Flash: 2080768 bytes
+Windowed mode: False
+
+
+Erase  : [                    ] 0.0%
+Erase  : [                    ] 3.3%
+Erase  : [=                   ] 6.7%
+Erase  : [==                  ] 10.0%
+Erase  : [==                  ] 13.4%
+Erase  : [===                 ] 16.7%
+Erase  : [====                ] 20.0%
+Erase  : [====                ] 23.4%
+Erase  : [=====               ] 26.7%
+Erase  : [======              ] 30.0%
+Erase  : [======              ] 33.4%
+Erase  : [=======             ] 36.7%
+Erase  : [========            ] 40.1%
+Erase  : [========            ] 43.4%
+Erase  : [=========           ] 46.7%
+Erase  : [==========          ] 50.1%

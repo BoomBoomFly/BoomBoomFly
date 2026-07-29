@@ -1,0 +1,34 @@
+--- relevant kernel messages this boot ---
+Jun 18 04:29:39 orinnano kernel: tegra-xusb 3610000.xhci: Adding to iommu group 0
+Jun 18 04:29:39 orinnano kernel: 3100000.serial: ttyTHS0 at MMIO 0x3100000 (irq = 17, base_baud = 0) is a TEGRA_UART
+Jun 18 04:29:39 orinnano kernel: 3110000.serial: ttyTHS1 at MMIO 0x3110000 (irq = 63, base_baud = 0) is a TEGRA_UART
+Jun 18 04:29:39 orinnano kernel: 3130000.serial: ttyTHS3 at MMIO 0x3130000 (irq = 64, base_baud = 0) is a TEGRA_UART
+Jun 18 04:29:39 orinnano kernel: 3140000.serial: ttyTHS4 at MMIO 0x3140000 (irq = 65, base_baud = 0) is a TEGRA_UART
+Jun 18 04:29:39 orinnano kernel: tegra-xusb 3610000.xhci: Firmware timestamp: 2021-12-01 05:27:10 UTC, Version: 80.03 release
+Jun 18 04:29:39 orinnano kernel: tegra-xusb 3610000.xhci: xHCI Host Controller
+Jun 18 04:29:39 orinnano kernel: tegra-xusb 3610000.xhci: new USB bus registered, assigned bus number 1
+Jun 18 04:29:39 orinnano kernel: tegra-xusb 3610000.xhci: hcc params 0x0180ff05 hci version 0x120 quirks 0x0000000000050810
+Jun 18 04:29:39 orinnano kernel: tegra-xusb 3610000.xhci: irq 220, io mem 0x03610000
+Jun 18 04:29:39 orinnano kernel: usb usb1: Product: xHCI Host Controller
+Jun 18 04:29:39 orinnano kernel: usb usb1: Manufacturer: Linux 5.10.104-tegra xhci-hcd
+Jun 18 04:29:39 orinnano kernel: usb usb1: SerialNumber: 3610000.xhci
+Jun 18 04:29:39 orinnano kernel: tegra-xusb 3610000.xhci: xHCI Host Controller
+Jun 18 04:29:39 orinnano kernel: tegra-xusb 3610000.xhci: new USB bus registered, assigned bus number 2
+Jun 18 04:29:39 orinnano kernel: tegra-xusb 3610000.xhci: Host supports USB 3.1 Enhanced SuperSpeed
+Jun 18 04:29:39 orinnano kernel: usb usb2: Product: xHCI Host Controller
+Jun 18 04:29:39 orinnano kernel: usb usb2: Manufacturer: Linux 5.10.104-tegra xhci-hcd
+Jun 18 04:29:39 orinnano kernel: usb usb2: SerialNumber: 3610000.xhci
+Jun 18 04:29:39 orinnano kernel: usb 1-2.2: Product: Intel(R) RealSense(TM) Depth Camera 435
+Jun 18 04:29:39 orinnano kernel: usb 1-2.2: Manufacturer: Intel(R) RealSense(TM) Depth Camera 435
+Jun 18 04:29:41 orinnano kernel: uvcvideo: Found UVC 1.50 device Intel(R) RealSense(TM) Depth Camera 435  (8086:0b07)
+Jun 18 04:29:42 orinnano kernel: input: Intel(R) RealSense(TM) Depth Ca as /devices/platform/3610000.xhci/usb1/1-2/1-2.2/1-2.2:1.0/input/input5
+Jun 18 04:29:42 orinnano kernel: uvcvideo: Found UVC 1.50 device Intel(R) RealSense(TM) Depth Camera 435  (8086:0b07)
+Jun 18 04:29:42 orinnano kernel: usbcore: registered new interface driver uvcvideo
+Jul 29 19:20:03 orinnano kernel: usb 1-2.2: Product: Intel(R) RealSense(TM) Depth Camera 435
+Jul 29 19:20:03 orinnano kernel: usb 1-2.2: Manufacturer: Intel(R) RealSense(TM) Depth Camera 435
+Jul 29 19:20:03 orinnano kernel: uvcvideo: Found UVC 1.50 device Intel(R) RealSense(TM) Depth Camera 435  (8086:0b07)
+Jul 29 19:20:03 orinnano kernel: input: Intel(R) RealSense(TM) Depth Ca as /devices/platform/3610000.xhci/usb1/1-2/1-2.2/1-2.2:1.0/input/input6
+Jul 29 19:20:03 orinnano kernel: uvcvideo: Found UVC 1.50 device Intel(R) RealSense(TM) Depth Camera 435  (8086:0b07)
+Jul 29 19:57:35 orinnano kernel: usb 2-1.1: Product: Intel(R) RealSense(TM) Tracking Camera T265
+--- exact UART/DMA error count ---
+0

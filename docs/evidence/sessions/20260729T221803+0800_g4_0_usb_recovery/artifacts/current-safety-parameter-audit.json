@@ -1,0 +1,309 @@
+{
+  "complete": true,
+  "parameter_count": 974,
+  "selected": {
+    "BAT1_I_CHANNEL": {
+      "index": 4,
+      "type": 6,
+      "value": -1
+    },
+    "BAT1_N_CELLS": {
+      "index": 6,
+      "type": 6,
+      "value": 4
+    },
+    "BAT1_SOURCE": {
+      "index": 8,
+      "type": 6,
+      "value": 0
+    },
+    "BAT1_V_CHANNEL": {
+      "index": 9,
+      "type": 6,
+      "value": -1
+    },
+    "BAT_CRIT_THR": {
+      "index": 15,
+      "type": 9,
+      "value": 0.07000000029802322
+    },
+    "BAT_EMERGEN_THR": {
+      "index": 16,
+      "type": 9,
+      "value": 0.05000000074505806
+    },
+    "BAT_LOW_THR": {
+      "index": 17,
+      "type": 9,
+      "value": 0.15000000596046448
+    },
+    "CBRK_BUZZER": {
+      "index": 194,
+      "type": 6,
+      "value": 0
+    },
+    "CBRK_FLIGHTTERM": {
+      "index": 195,
+      "type": 6,
+      "value": 121212
+    },
+    "CBRK_IO_SAFETY": {
+      "index": 196,
+      "type": 6,
+      "value": 22027
+    },
+    "CBRK_SUPPLY_CHK": {
+      "index": 197,
+      "type": 6,
+      "value": 894281
+    },
+    "CBRK_USB_CHK": {
+      "index": 198,
+      "type": 6,
+      "value": 197848
+    },
+    "CBRK_VTOLARMING": {
+      "index": 199,
+      "type": 6,
+      "value": 0
+    },
+    "COM_ARM_SDCARD": {
+      "index": 215,
+      "type": 6,
+      "value": 1
+    },
+    "COM_ARM_WO_GPS": {
+      "index": 217,
+      "type": 6,
+      "value": 1
+    },
+    "COM_DISARM_LAND": {
+      "index": 219,
+      "type": 9,
+      "value": 2.0
+    },
+    "COM_DISARM_PRFLT": {
+      "index": 221,
+      "type": 9,
+      "value": 10.0
+    },
+    "COM_DLL_EXCEPT": {
+      "index": 222,
+      "type": 6,
+      "value": 0
+    },
+    "COM_DL_LOSS_T": {
+      "index": 223,
+      "type": 6,
+      "value": 10
+    },
+    "COM_FAIL_ACT_T": {
+      "index": 224,
+      "type": 9,
+      "value": 5.0
+    },
+    "COM_FLT_TIME_MAX": {
+      "index": 234,
+      "type": 6,
+      "value": -1
+    },
+    "COM_KILL_DISARM": {
+      "index": 241,
+      "type": 9,
+      "value": 5.0
+    },
+    "COM_LOW_BAT_ACT": {
+      "index": 243,
+      "type": 6,
+      "value": 2
+    },
+    "COM_OBC_LOSS_T": {
+      "index": 246,
+      "type": 9,
+      "value": 5.0
+    },
+    "COM_OBL_RC_ACT": {
+      "index": 247,
+      "type": 6,
+      "value": 4
+    },
+    "COM_OF_LOSS_T": {
+      "index": 248,
+      "type": 9,
+      "value": 0.5
+    },
+    "COM_RCL_EXCEPT": {
+      "index": 258,
+      "type": 6,
+      "value": 0
+    },
+    "COM_RC_IN_MODE": {
+      "index": 260,
+      "type": 6,
+      "value": 3
+    },
+    "COM_RC_LOSS_T": {
+      "index": 261,
+      "type": 9,
+      "value": 0.5
+    },
+    "EKF2_EV_CTRL": {
+      "index": 317,
+      "type": 6,
+      "value": 3
+    },
+    "EKF2_HGT_REF": {
+      "index": 346,
+      "type": 6,
+      "value": 3
+    },
+    "EKF2_RNG_CTRL": {
+      "index": 396,
+      "type": 6,
+      "value": 0
+    },
+    "GF_ACTION": {
+      "index": 441,
+      "type": 6,
+      "value": 2
+    },
+    "GF_MAX_HOR_DIST": {
+      "index": 442,
+      "type": 9,
+      "value": 0.0
+    },
+    "GF_MAX_VER_DIST": {
+      "index": 443,
+      "type": 9,
+      "value": 0.0
+    },
+    "GF_PREDICT": {
+      "index": 444,
+      "type": 6,
+      "value": 0
+    },
+    "GF_SOURCE": {
+      "index": 445,
+      "type": 6,
+      "value": 0
+    },
+    "MAV_0_CONFIG": {
+      "index": 488,
+      "type": 6,
+      "value": 101
+    },
+    "MAV_1_CONFIG": {
+      "index": 494,
+      "type": 6,
+      "value": 0
+    },
+    "MAV_2_CONFIG": {
+      "index": 495,
+      "type": 6,
+      "value": 0
+    },
+    "MIS_TAKEOFF_ALT": {
+      "index": 560,
+      "type": 9,
+      "value": 1.5
+    },
+    "MPC_XY_VEL_MAX": {
+      "index": 613,
+      "type": 9,
+      "value": 3.0
+    },
+    "MPC_Z_VEL_MAX_DN": {
+      "index": 624,
+      "type": 9,
+      "value": 0.5
+    },
+    "MPC_Z_VEL_MAX_UP": {
+      "index": 625,
+      "type": 9,
+      "value": 1.0
+    },
+    "MPC_Z_V_AUTO_DN": {
+      "index": 627,
+      "type": 9,
+      "value": 0.5
+    },
+    "MPC_Z_V_AUTO_UP": {
+      "index": 628,
+      "type": 9,
+      "value": 1.0
+    },
+    "NAV_DLL_ACT": {
+      "index": 630,
+      "type": 6,
+      "value": 0
+    },
+    "NAV_RCL_ACT": {
+      "index": 638,
+      "type": 6,
+      "value": 3
+    },
+    "RTL_DESCEND_ALT": {
+      "index": 860,
+      "type": 9,
+      "value": 10.0
+    },
+    "RTL_LAND_DELAY": {
+      "index": 861,
+      "type": 9,
+      "value": 0.0
+    },
+    "RTL_RETURN_ALT": {
+      "index": 865,
+      "type": 9,
+      "value": 30.0
+    },
+    "SDLOG_BOOT_BAT": {
+      "index": 869,
+      "type": 6,
+      "value": 0
+    },
+    "SDLOG_MISSION": {
+      "index": 871,
+      "type": 6,
+      "value": 0
+    },
+    "SDLOG_MODE": {
+      "index": 872,
+      "type": 6,
+      "value": 0
+    },
+    "SDLOG_PROFILE": {
+      "index": 873,
+      "type": 6,
+      "value": 1
+    },
+    "SYS_USB_AUTO": {
+      "index": 947,
+      "type": 6,
+      "value": 2
+    },
+    "USB_MAV_MODE": {
+      "index": 959,
+      "type": 6,
+      "value": 2
+    },
+    "UXRCE_DDS_CFG": {
+      "index": 960,
+      "type": 6,
+      "value": 102
+    },
+    "UXRCE_DDS_DOM_ID": {
+      "index": 961,
+      "type": 6,
+      "value": 0
+    },
+    "UXRCE_DDS_SYNCT": {
+      "index": 966,
+      "type": 6,
+      "value": 1
+    }
+  },
+  "source": "docs/evidence/sessions/20260729T221803+0800_g4_0_usb_recovery/artifacts/parameters-live-bytewise-after-replug.json",
+  "source_sha256": "7ff75ac24b0f91d5dcd931ad39c18eda8db068ba22316f71c227cd693e3e99fb",
+  "status": "PASS"
+}

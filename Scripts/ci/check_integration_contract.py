@@ -13,7 +13,15 @@ PACKAGE_PROFILE = ROOT / "config/profiles/dds_only_packages.yaml"
 LAUNCH_PROFILE = ROOT / "config/profiles/dds_only_launch.yaml"
 TOPIC_CONTRACT = ROOT / "config/profiles/dds_integration_contract.yaml"
 LOCK_MANIFEST = ROOT / "workspace.lock.repos"
+REPLAY_TOOL = ROOT / "Scripts/test/px4_interface_replay.py"
+AGENT_GUARD = ROOT / "Scripts/runtime/px4_dds_agent_guard.py"
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
+EXPECTED_PRODUCTION_PACKAGES = {
+    "px4_msgs",
+    "offboard_cpp",
+    "vision_to_dds",
+    "mission_bridge",
+}
 
 
 class GateError(RuntimeError):
@@ -67,6 +75,27 @@ def check_exact_production_shas(package_profile):
             if head != version:
                 raise GateError("{} HEAD {} does not match lock SHA {}".format(
                     repo_path, head, version))
+            dirty = subprocess.check_output(
+                ["git", "-C", str(git_dir), "status", "--porcelain"],
+                text=True).strip()
+            if dirty:
+                raise GateError("{} has uncommitted production changes".format(repo_path))
+
+
+def check_package_boundary(package_profile):
+    production = package_profile["production_packages"]
+    names = {record["name"] for record in production}
+    if names != EXPECTED_PRODUCTION_PACKAGES:
+        raise GateError("authoritative package set must be {}, got {}".format(
+            sorted(EXPECTED_PRODUCTION_PACKAGES), sorted(names)))
+    tested = {record["name"] for record in production if record.get("test") is True}
+    required_tests = EXPECTED_PRODUCTION_PACKAGES - {"px4_msgs"}
+    if not required_tests.issubset(tested):
+        raise GateError("production tests omit {}".format(sorted(required_tests - tested)))
+
+    forbidden = {record["name"] for record in package_profile["forbidden_packages"]}
+    if not {"serial", "serial_driver"}.issubset(forbidden):
+        raise GateError("serial_driver_ros and legacy serial must remain quarantined")
 
 
 def node_blocks(text):
@@ -123,6 +152,10 @@ def check_launch_inventory(launch_profile):
         if actual != expected:
             raise GateError("launch inventory mismatch for {}: expected {}, actual {}".format(
                 relative, expected, actual))
+        source = path.read_text(encoding="utf-8").lower()
+        if "px4_interface_replay" in source or re.search(r"\bmock[_-]?(?:px4|rc)\b", source):
+            raise GateError("test replay/mock is forbidden in production launch {}".format(
+                relative))
 
 
 def check_topic_contract(contract):
@@ -152,6 +185,47 @@ def check_vision_default(contract):
     if record["required_text"] not in text:
         raise GateError("vision default must create no PX4 writer: missing {!r}".format(
             record["required_text"]))
+
+
+def check_isolated_replay():
+    if not REPLAY_TOOL.is_file():
+        raise GateError("isolated PX4 replay tool is missing")
+    source = REPLAY_TOOL.read_text(encoding="utf-8")
+    required = (
+        'os.environ.get("ROS_DOMAIN_ID"',
+        "actual == 0",
+        "default=231",
+        '"/fmu/out/timesync_status"',
+        '"/fmu/out/vehicle_status_v1"',
+        '"/fmu/out/vehicle_land_detected"',
+        '"/fmu/out/vehicle_odometry"',
+        '"/fmu/out/rc_channels"',
+        '"/fmu/out/vehicle_command_ack"',
+    )
+    missing = [item for item in required if item not in source]
+    if missing:
+        raise GateError("replay isolation/frequency contract lacks {}".format(missing))
+    subprocess.check_call([sys.executable, str(REPLAY_TOOL), "--self-test"])
+
+
+def check_agent_runtime_guard():
+    if not AGENT_GUARD.is_file():
+        raise GateError("production DDS Agent runtime guard is missing")
+    source = AGENT_GUARD.read_text(encoding="utf-8")
+    required = (
+        'os.environ.get("ROS_DOMAIN_ID") != "0"',
+        "DEFAULT_MIN_MEM_AVAILABLE_MIB = 1024",
+        "DEFAULT_MIN_DMA_HEADROOM_MIB = 256",
+        '"pages free"',
+        '"--type=extensionHost"',
+        "serial_owners",
+        "validate_agent",
+        "os.execv",
+    )
+    missing = [item for item in required if item not in source]
+    if missing:
+        raise GateError("production DDS Agent guard lacks {}".format(missing))
+    subprocess.check_call([sys.executable, str(AGENT_GUARD), "--self-test"])
 
 
 def check_single_writer(package_profile, launch_profile):
@@ -186,10 +260,13 @@ def main():
     package_profile = load_json(PACKAGE_PROFILE)
     launch_profile = load_json(LAUNCH_PROFILE)
     contract = load_json(TOPIC_CONTRACT)
+    check_package_boundary(package_profile)
     check_exact_production_shas(package_profile)
     check_launch_inventory(launch_profile)
     check_topic_contract(contract)
     check_vision_default(contract)
+    check_isolated_replay()
+    check_agent_runtime_guard()
     check_single_writer(package_profile, launch_profile)
     print(json.dumps({
         "status": "PASS",

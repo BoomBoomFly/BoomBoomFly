@@ -1,0 +1,5 @@
+package	repository	head	dirty
+px4_msgs	/home/c/px4_ws/BoomBoomFly/src/px4_msgs	392e831c1f659429ca83902e66820d7094591410	false
+offboard_cpp	/home/c/px4_ws/BoomBoomFly/src/offboard_cpp	e24bb3facfcf4126ad7b3d216a768a040758e895	false
+vision_to_dds	/home/c/px4_ws/BoomBoomFly/src/vision_to_dds	470cf59cf8fbcddd17b12e9d31f084e87f5f2fac	false
+mission_bridge	/home/c/px4_ws/BoomBoomFly/src/communication	e6d6126acd16050216e5f091e61d58a96ef3ed65	false
