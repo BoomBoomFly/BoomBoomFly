@@ -88,6 +88,8 @@ export ROS_LOG_DIR="$OUTPUT_ROOT/log/ros"
 # Every build-time ROS graph, launch test, mock and replay is isolated from the
 # real aircraft domain.  This entry point never inherits Domain 0.
 export ROS_DOMAIN_ID=231
+# Launch/pytest imports must not dirty exact-SHA production repositories.
+export PYTHONDONTWRITEBYTECODE=1
 
 python3 "$WORKSPACE_ROOT/Scripts/ci/check_integration_contract.py"
 
