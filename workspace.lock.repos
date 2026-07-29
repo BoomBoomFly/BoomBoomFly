@@ -1,8 +1,9 @@
 # Single governed source manifest. Every production and third-party dependency
 # is exact-SHA locked; no production restore follows a mutable branch.
 # Project tooling consumes the profile markers below and never selects
-# quarantine. A generic vcs import ignores profile comments and imports all
-# entries.
+# quarantine. Use Scripts/installation/uav_px4_dds_install.sh rather than a
+# generic vcs import: the quarantined serial_driver_ros checkout is nested in
+# the active communication repository and pinned there as a Git submodule.
 repositories:
 # profile: active
   src/px4_msgs:
@@ -19,8 +20,8 @@ repositories:
     version: 26fa6ff567f8da76e3ca53c787859755975dc285
   src/vision_to_dds:
     type: git
-    url: https://github.com/wanone111/vision_to_dds.git
-    version: 72bd68251f209b6ce6e82ebe8a2e089dad927fd1
+    url: https://github.com/BoomBoomFly/vision_to_dds.git
+    version: 0815c85b047d27b158d3869ab6ecf3926f28e6fe
   src/communication:
     type: git
     url: https://github.com/BoomBoomFly/communication.git
@@ -29,7 +30,7 @@ repositories:
 # profile: archive
   src/px4_bringup:
     type: git
-    url: https://github.com/AyasOwen/px4_bringup.git
+    url: https://github.com/BoomBoomFly/px4_bringup.git
     version: DDS
 
 # profile: optional-perception
@@ -81,7 +82,11 @@ repositories:
     version: 4786e90c06a4dc6fa811c5057d4e88387fba3829
 
 # profile: quarantine
-  src/serial_driver_ros:
+  src/communication/Serial/serial_driver_ros:
     type: git
     url: https://github.com/BoomBoomFly/serial_driver_ros.git
     version: 9d8c07814ad0f64f76c5fd8fe12072aebcbef431
+  src/serial-ros2:
+    type: git
+    url: https://github.com/RoverRobotics-forks/serial-ros2.git
+    version: ae46504ae7d4a199ea9bba0e73a6f083bf172f80

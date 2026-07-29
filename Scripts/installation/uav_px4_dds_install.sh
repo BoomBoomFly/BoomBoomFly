@@ -34,6 +34,8 @@ flight packages follow approved default branches; third-party dependencies use
 exact commit SHAs. Archive and optional sources are composed only when their
 explicit flags are present. src/communication is restored from main as a normal
 manifest repository and is not stored in the root Git tree.
+Its Serial/serial_driver_ros checkout is pinned by the communication Git
+submodule and is also recorded as quarantine provenance in the manifest.
 Quarantine entries are never selected, including through --manifest.
 Locked commits are checked out in detached-HEAD state; this script never creates
 dependency branches and never runs git pull.
@@ -56,7 +58,8 @@ Options:
 Safety:
   * Existing dirty repositories are never checked out or updated.
   * Existing repositories with a different origin URL are rejected.
-  * src/communication is restored at the latest origin/main commit.
+  * src/communication is restored at the latest origin/main commit; its recorded
+    submodule URL and commit come from that repository's .gitmodules/gitlink.
   * Active/archive/optional target paths must be globally unique.
   * Only the declared project paths may use their approved latest branches.
   * Every other governed or custom manifest entry requires an exact commit SHA.
