@@ -161,8 +161,15 @@ def collect_parameters(connection, device, source_system, source_component,
         if message is None:
             if now - last_new < idle_timeout_s:
                 continue
-            if expected_count is None or recovery_rounds >= max_recovery_rounds:
+            if recovery_rounds >= max_recovery_rounds:
                 break
+            if expected_count is None:
+                connection.mav.param_request_list_send(
+                    target_system, target_component
+                )
+                recovery_rounds += 1
+                last_new = now
+                continue
             missing = [
                 index for index in range(expected_count)
                 if index not in seen_indexes

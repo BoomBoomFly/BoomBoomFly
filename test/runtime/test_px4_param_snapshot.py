@@ -100,6 +100,57 @@ class Px4ParamSnapshotTest(unittest.TestCase):
             "TEST",
         )
 
+    def test_initial_parameter_service_silence_retries_full_list(self):
+        messages = [
+            None,
+            types.SimpleNamespace(
+                param_id=b"FIRST\0",
+                param_type=self.snapshot.MAV_PARAM_TYPE_INT32,
+                param_value=raw_float("<i", 11),
+                param_index=0,
+                param_count=2,
+            ),
+            types.SimpleNamespace(
+                param_id=b"SECOND\0",
+                param_type=self.snapshot.MAV_PARAM_TYPE_INT32,
+                param_value=raw_float("<i", 22),
+                param_index=1,
+                param_count=2,
+            ),
+        ]
+
+        class FakeMav:
+            def __init__(self):
+                self.list_requests = []
+
+            def param_request_list_send(self, system, component):
+                self.list_requests.append((system, component))
+
+            def param_request_read_send(self, *args):
+                raise AssertionError("indexed recovery is not expected")
+
+        class FakeConnection:
+            def __init__(self):
+                self.mav = FakeMav()
+
+            def recv_match(self, **unused):
+                return messages.pop(0)
+
+        connection = FakeConnection()
+        result = self.snapshot.collect_parameters(
+            connection, "/dev/test", 1, 1, 1, 1,
+            idle_timeout_s=0.0,
+            overall_timeout_s=1.0,
+            max_recovery_rounds=2,
+            recovery_batch_size=64,
+        )
+
+        self.assertTrue(result["capture"]["complete"])
+        self.assertEqual(result["capture"]["recovery_rounds"], 1)
+        self.assertEqual(connection.mav.list_requests, [(1, 1), (1, 1)])
+        self.assertEqual(result["parameters"]["FIRST"]["value"], 11)
+        self.assertEqual(result["parameters"]["SECOND"]["value"], 22)
+
 
 if __name__ == "__main__":
     unittest.main()

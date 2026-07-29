@@ -32,7 +32,7 @@
 | G1 SITL/隔离回放 | **PASS（Domain 231 软件证据）** | 60 秒历史频率无误锁；VERTICAL_TEST、ACK/超时/kill/断流/Land/Disarm 场景 PASS；回放器运行时 PASS |
 | G2 拆桨 H1 | **PASS（真实拆桨证据）** | 指定固件、真实 RC、唯一 Agent/串口和零输入 writer PASS；干净 boot 下 620.011 秒 RC/timesync 连续，125 次图检查无 writer 违例，内核 UART/DMA 错误 0；最低内存/DMA 水位守住门限 |
 | G3 拆桨视觉/EKF | **PASS（真实拆桨证据）** | 新固件导出 EV position/height aid source；两段 30 秒融合、innovation/test ratio/time_last_fuse、断流退出、epoch 防重放和显式复位恢复全部 PASS |
-| G4 拆桨失效测试 | **BLOCKED / G4-0 当前参数审计完成** | circuit breaker、围栏、任务时限、电池/ULog 与 Agent DMA 门禁均有阻塞；主动失效测试尚未逐项授权或执行 |
+| G4 拆桨失效测试 | **BLOCKED / circuit-breaker A1 已验证** | 三项已授权 breaker 恢复为 0 且冷启动 974/974 回读 PASS；`CBRK_FLIGHTTERM` 未改；其余主动失效测试及真实 mode/failsafe/Land 证据尚未完成 |
 | G5 装桨首次悬停 | **PROHIBITED / 本任务绝不执行** | 仅 G0–G4 全 PASS 后重新 go/no-go，并取得当次装桨、Arm、0.5 m 悬停明确授权 |
 
 软件测试 PASS 不能替代刷写后 RC、T265/EKF 或拆桨失效的实机证据，也不能表述为“可以飞行”。
@@ -57,10 +57,16 @@ G4-0 Domain 0 只读安全基线、零输入 writer、当前参数导出失败�
 
 G4-0 USB 即时恢复、974/974 当前参数、circuit breaker 和 ULog 目录审计见
 [`docs/evidence/sessions/20260729T221803+0800_g4_0_usb_recovery`](docs/evidence/sessions/20260729T221803+0800_g4_0_usb_recovery)。
+
+G4 circuit-breaker A1 原子写入、写后全量 diff 和冷启动持久化回读见
+[`docs/evidence/sessions/20260729T224426+0800_g4_circuit_breaker_a1`](docs/evidence/sessions/20260729T224426+0800_g4_circuit_breaker_a1)。
 ## 参数纪律
 
 
-G3/G4-0 实测明确保持零 PX4 参数写入。受监控 USB 重枚举后的即时窗口已完成 974/974 当前参数
+G3/G4-0 实测保持零 PX4 参数写入。随后经用户逐项授权，G4 circuit-breaker A1 仅将
+`CBRK_SUPPLY_CHK`、`CBRK_IO_SAFETY`、`CBRK_USB_CHK` 从各自禁用魔数恢复为 `0`；
+`CBRK_FLIGHTTERM` 保持 `121212`。写后及冷启动后均完成 974/974 回读，除三项目标参数和派生
+`_HASH_CHECK` 外无差异。受监控 USB 重枚举后的写前 974/974 当前参数
 导出，SHA-256 为 `7ff75ac24b0f91d5dcd931ad39c18eda8db068ba22316f71c227cd693e3e99fb`，并与历史文件完成逐项
 diff；普通打开 USB 时数据面仍会静默，必须保留该限制证据。
 实际 estimator flags 证明 G3 仅融合 EV position/height，未融合 EV velocity/yaw。任何后续
