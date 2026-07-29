@@ -1,5 +1,5 @@
-# Single governed source manifest. Project-owned flight packages track their
-# declared default branches; third-party dependencies remain exact-SHA locked.
+# Single governed source manifest. Every production and third-party dependency
+# is exact-SHA locked; no production restore follows a mutable branch.
 # Project tooling consumes the profile markers below and never selects
 # quarantine. A generic vcs import ignores profile comments and imports all
 # entries.
@@ -16,15 +16,15 @@ repositories:
   src/offboard_cpp:
     type: git
     url: https://github.com/BoomBoomFly/offboard_cpp.git
-    version: DDS
+    version: f3ad731a48a74fa0e4381bd487b644d957d12232
   src/vision_to_dds:
     type: git
     url: https://github.com/wanone111/vision_to_dds.git
-    version: master
+    version: 72bd68251f209b6ce6e82ebe8a2e089dad927fd1
   src/communication:
     type: git
     url: https://github.com/BoomBoomFly/communication.git
-    version: main
+    version: 0ed2a98164fbcb35a33642cf646017ebdd34b314
 
 # profile: archive
   src/px4_bringup:

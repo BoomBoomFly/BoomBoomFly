@@ -60,8 +60,10 @@ bash Scripts/build/build_dds_only.sh --help
 bash Scripts/build/build_dds_only.sh
 ```
 
-构建入口会检查 profile、功能包路径和 `package.xml`，随后只构建
-`px4_msgs`、`offboard_cpp` 和 `vision_to_dds`。
+构建入口会先执行根仓通信/集成门禁，再对 `px4_msgs`、`offboard_cpp`、
+`vision_to_dds` 和 `mission_bridge` 执行权威 `colcon build`，并测试三个
+项目包。`px4_msgs` 是精确 SHA 锁定的接口依赖，仅构建；其 ROS Foxy
+生成代码 lint 不属于项目门禁。
 
 ## Evidence
 
