@@ -183,8 +183,12 @@ for line in selection.read_text(encoding="utf-8").splitlines():
 } >"$OUTPUT_ROOT/artifacts/build-environment.txt"
 
 # Keep generated ROS interface compilation deterministic and bounded on both
-# WSL and the later ARM64 rebuild; px4_msgs must not race multiple generators.
-CMAKE_BUILD_PARALLEL_LEVEL=1 colcon \
+# WSL and the later ARM64 rebuild.  colcon-cmake adds CPU-count -j/-l arguments
+# unless MAKEFLAGS already contains a jobs limit, so both variables are needed
+# to prevent px4_msgs from racing multiple generators.
+export CMAKE_BUILD_PARALLEL_LEVEL=1
+export MAKEFLAGS=-j1
+colcon \
   --log-base "$OUTPUT_ROOT/log/build" \
   build \
   --parallel-workers 1 \

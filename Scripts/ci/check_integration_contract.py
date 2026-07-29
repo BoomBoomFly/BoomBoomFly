@@ -14,6 +14,7 @@ LAUNCH_PROFILE = ROOT / "config/profiles/dds_only_launch.yaml"
 TOPIC_CONTRACT = ROOT / "config/profiles/dds_integration_contract.yaml"
 LOCK_MANIFEST = ROOT / "workspace.lock.repos"
 REPLAY_TOOL = ROOT / "Scripts/test/px4_interface_replay.py"
+AGENT_GUARD = ROOT / "Scripts/runtime/px4_dds_agent_guard.py"
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 EXPECTED_PRODUCTION_PACKAGES = {
     "px4_msgs",
@@ -207,6 +208,26 @@ def check_isolated_replay():
     subprocess.check_call([sys.executable, str(REPLAY_TOOL), "--self-test"])
 
 
+def check_agent_runtime_guard():
+    if not AGENT_GUARD.is_file():
+        raise GateError("production DDS Agent runtime guard is missing")
+    source = AGENT_GUARD.read_text(encoding="utf-8")
+    required = (
+        'os.environ.get("ROS_DOMAIN_ID") != "0"',
+        "DEFAULT_MIN_MEM_AVAILABLE_MIB = 1024",
+        "DEFAULT_MIN_DMA_HEADROOM_MIB = 256",
+        '"pages free"',
+        '"--type=extensionHost"',
+        "serial_owners",
+        "validate_agent",
+        "os.execv",
+    )
+    missing = [item for item in required if item not in source]
+    if missing:
+        raise GateError("production DDS Agent guard lacks {}".format(missing))
+    subprocess.check_call([sys.executable, str(AGENT_GUARD), "--self-test"])
+
+
 def check_single_writer(package_profile, launch_profile):
     inventory = launch_profile["writer_inventory"]
     owners = {}
@@ -245,6 +266,7 @@ def main():
     check_topic_contract(contract)
     check_vision_default(contract)
     check_isolated_replay()
+    check_agent_runtime_guard()
     check_single_writer(package_profile, launch_profile)
     print(json.dumps({
         "status": "PASS",

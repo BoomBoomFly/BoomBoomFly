@@ -17,6 +17,8 @@
   导致 `/dev/ttyTHS0` UART RX DMA descriptor 分配失败；
 - 临时暂停开发语言服务、将 available memory 提升至约 1.3 GiB 后，120 秒 RC/timesync 对照
   PASS 且内核无新增分配错误；生产内存约束和干净启动 soak 仍待验收，G2 继续 FAIL/BLOCKED；
+- 后续 Agent 只允许经 `Scripts/runtime/px4_dds_agent_guard.py` 启动；门禁默认要求
+  MemAvailable 至少 1024 MiB、DMA free-above-high 至少 256 MiB，并拒绝开发语言服务；
 - Agent 已停止且 UART 已释放；
 - 证据见 `docs/evidence/sessions/20260729T174904+0800_g2_flash_rc_dds`。
 

@@ -13,6 +13,8 @@ cd "$(git rev-parse --show-toplevel)"
 Scripts/
 ├── build/
 │   └── build_dds_only.sh
+├── runtime/
+│   └── px4_dds_agent_guard.py
 ├── evidence/
 │   ├── validate_evidence.py
 │   ├── validate_index.py
@@ -77,6 +79,25 @@ ROS_DOMAIN_ID=231 python3 Scripts/test/px4_interface_replay.py --duration 65
 ```
 
 回放器明确拒绝 Domain 0，也不被任何生产 launch 引用。
+
+## 生产 DDS Agent 启动门禁
+
+禁止直接从开发环境启动 Agent。生产窗口必须先关闭 VS Code extension host、Pylance 和
+cpptools，再通过固定二进制 SHA 的门禁启动：
+
+```bash
+ROS_DOMAIN_ID=0 python3 Scripts/runtime/px4_dds_agent_guard.py \
+  --agent /absolute/path/to/MicroXRCEAgent \
+  --agent-sha256 <64-hex-sha256> \
+  --serial-dev /dev/ttyTHS0 \
+  --baudrate 921600 \
+  --check-only
+```
+
+去掉 `--check-only` 才会以同样参数 `exec` 唯一 Agent。默认要求
+`MemAvailable >= 1024 MiB`、DMA zone 的 free-above-high >= 256 MiB，并拒绝 VS Code
+extension host/Pylance/cpptools、错误 Domain、非精确 Agent SHA 和已占用串口。任一检查失败均不
+启动 Agent。
 
 ## Evidence
 
