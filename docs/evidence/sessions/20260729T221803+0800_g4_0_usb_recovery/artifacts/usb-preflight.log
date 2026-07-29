@@ -1,0 +1,30 @@
+2026-07-29T22:18:14+08:00
+lrwxrwxrwx 1 root root        13 Jul 29 22:17 /dev/serial/by-id/usb-3D_Robotics_PX4_FMU_v2.x_0-if00 -> ../../ttyACM0
+crw-rw---- 1 root dialout 166, 0 Jul 29 22:17 /dev/ttyACM0
+DEVPATH=/devices/platform/3610000.xhci/usb1/1-2/1-2.4/1-2.4:1.0/tty/ttyACM0
+DEVNAME=/dev/ttyACM0
+MAJOR=166
+MINOR=0
+SUBSYSTEM=tty
+USEC_INITIALIZED=10620164085
+ID_VENDOR=3D_Robotics
+ID_VENDOR_ENC=3D\x20Robotics
+ID_VENDOR_ID=26ac
+ID_MODEL=PX4_FMU_v2.x
+ID_MODEL_ENC=PX4\x20FMU\x20v2.x
+ID_MODEL_ID=0011
+ID_REVISION=0101
+ID_SERIAL=3D_Robotics_PX4_FMU_v2.x_0
+ID_SERIAL_SHORT=0
+ID_TYPE=generic
+ID_BUS=usb
+ID_USB_INTERFACES=:020201:0a0000:
+ID_USB_INTERFACE_NUM=00
+ID_USB_DRIVER=cdc_acm
+ID_USB_CLASS_FROM_DATABASE=Communications
+ID_PATH=platform-3610000.xhci-usb-0:2.4:1.0
+ID_PATH_TAG=platform-3610000_xhci-usb-0_2_4_1_0
+ID_MM_CANDIDATE=1
+DEVLINKS=/dev/serial/by-id/usb-3D_Robotics_PX4_FMU_v2.x_0-if00 /dev/serial/by-path/platform-3610000.xhci-usb-0:2.4:1.0
+TAGS=:snap_cups_ippeveprinter:snap_cups_cupsd:systemd:
+Bus 001 Device 015: ID 26ac:0011  

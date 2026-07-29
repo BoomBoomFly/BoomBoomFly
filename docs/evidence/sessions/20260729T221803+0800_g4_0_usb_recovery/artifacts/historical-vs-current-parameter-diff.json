@@ -1,0 +1,33 @@
+{
+  "added": [
+    "_HASH_CHECK"
+  ],
+  "changed": [
+    {
+      "current": 100.0,
+      "historical": 95.0,
+      "name": "COM_RAM_MAX"
+    },
+    {
+      "current": 4000.0,
+      "historical": 1200.0,
+      "name": "MAV_0_RATE"
+    }
+  ],
+  "changed_count": 2,
+  "current": {
+    "complete": true,
+    "count": 974,
+    "path": "docs/evidence/sessions/20260729T221803+0800_g4_0_usb_recovery/artifacts/parameters-live-bytewise-after-replug.json",
+    "sha256": "7ff75ac24b0f91d5dcd931ad39c18eda8db068ba22316f71c227cd693e3e99fb"
+  },
+  "historical": {
+    "count": 974,
+    "path": "docs/2026.7.29.params",
+    "sha256": "2c3b9c6ea6efa4e5fdbb25fa0edc3cd0261f883408b7ae10729ca8c52e1105b0"
+  },
+  "removed": [
+    "WV_YRATE_MAX"
+  ],
+  "status": "PASS"
+}

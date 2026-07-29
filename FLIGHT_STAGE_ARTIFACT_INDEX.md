@@ -12,7 +12,7 @@
 | 同构建 BIN | `/home/c/px4_ws/external/PX4-Autopilot/build/px4_fmu-v3_default/px4_fmu-v3_default.bin` | 2,053,049 bytes；SHA-256 `1a8ac7c019ab781eb334417be1c4b839334e5b4e1f9fa896120ca7e77ccb83ab` |
 | PX4 工具链 | 当前工作区命令输出 | `arm-none-eabi-gcc 9.2.1 20191025`；CMake `3.16.3`；Ninja `1.11.1.git.kitware.jobserver-1` |
 | 用户提供备份 | `docs/px4_fmu-v3_default.px4`（未跟踪、未修改） | 1,900,443 bytes；SHA-256 `e67291b...`；可回刷上一个已验证的 RC-only DDS 固件 |
-| 刷写后参数快照 | 临时完整 JSON + G2 evidence 摘要 | 974 参数；SHA-256 `522652317...`; aid-source 固件刷写后 USB 参数列表未稳定重导出，未声称完成 diff |
+| 当前完整参数快照 | `docs/evidence/sessions/20260729T221803+0800_g4_0_usb_recovery/artifacts/parameters-live-bytewise-after-replug.json` | 974/974，PX4 bytewise 解码；SHA-256 `7ff75ac24b0f91d5dcd931ad39c18eda8db068ba22316f71c227cd693e3e99fb`；与历史文件逐项 diff 已保存 |
 | 根集成构建提交 | `292cdc1717ae57db2f68b695e1c8a66c6d66c16c` | 权威四包 clean build/test 使用的根集成基线；后续根提交仅修复回放器固定数组和防 pycache 污染 |
 | `px4_msgs` | `src/px4_msgs` | `392e831c1f659429ca83902e66820d7094591410`，clean/detached |
 | `offboard_cpp` | `src/offboard_cpp` | `e24bb3facfcf4126ad7b3d216a768a040758e895`，clean，DDS ahead 1 |
@@ -28,7 +28,8 @@
 | G3 真实位置融合 | `docs/evidence/sessions/20260729T210816+0800_g3_t265_position_fusion` | Domain 0 唯一视觉 writer、位置/高度融合、零速度/航向融合、零拒绝、T265 断流退出、epoch 递增和显式 reset 恢复 PASS；该 session 当时缺 aid-source，已由下一行补证解除 |
 | G3 aid-source 补证 | `docs/evidence/sessions/20260729T212815+0800_g3_aid_source_firmware` | 新固件刷写；EV position/height innovation、variance、test ratio、time_last_fuse；两段 30 秒融合、断流、epoch 防重放、显式复位恢复和最终 writer 释放全部 PASS |
 | G4-0 只读安全基线 | `docs/evidence/sessions/20260729T220347+0800_g4_0_readonly_baseline` | Domain 0 真实 DDS 30 秒、27 个输入话题零 writer 和最终资源释放 PASS；当前参数导出无 USB MAVLink heartbeat、ULog/SD 卡未验证、`pre_flight_checks_pass=false`，故 G4 保持 BLOCKED |
+| G4-0 USB/参数审计 | `docs/evidence/sessions/20260729T221803+0800_g4_0_usb_recovery` | 受监控重插后当前参数 974/974、历史 diff 和 19 个日志目录条目 PASS；四个 circuit breaker 命中禁用魔数、围栏/时限未配置、Agent DMA 门禁拒绝，G4 继续 BLOCKED |
 
 真实 `/fmu/out/rc_channels`、生产内存门禁、干净 boot soak 和 G3 视觉/EKF 强制证据均通过，
-G0–G3 PASS。用户备份可回刷上一个 RC-only 固件；G4-0 只读预检未解除实时参数、ULog 和
-preflight 阻塞，主动 G4 失效测试未执行，整体继续 NO-GO，禁止装桨飞行。
+G0–G3 PASS。用户备份可回刷上一个 RC-only 固件；G4-0 已完成当前参数审计，但 circuit breaker、
+围栏/时限、电池/ULog 和 Agent DMA 门禁仍阻塞，主动 G4 未执行，整体 NO-GO，禁止装桨飞行。
