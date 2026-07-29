@@ -24,7 +24,10 @@
 | Agent 内存/DMA 门禁 | `docs/evidence/sessions/20260729T190953+0800_agent_memory_guard` | 根 SHA `133cf05fd49deb55b072bd061b310aaf7f7310e7`；精确 Agent SHA、唯一串口、Domain 0、内存/DMA 水位和开发进程 fail-closed；7 项单测与四包 50 tests PASS |
 | G2 干净 boot soak | `docs/evidence/sessions/20260729T195311+0800_g2_clean_boot_soak` | Boot ID `3268e759-5043-48a8-92ae-44afb959ae95`；guard 启动 Agent SHA `4cbc5038...433995`；620.011 秒 RC/timesync、零输入 writer、内核错误 0、最终串口释放 PASS；保存运行 bundle 和构建依赖身份 |
 | G3 T265 预检 | `docs/evidence/sessions/20260729T200247+0800_g3_t265_preflight` | T265 原始与 ROS odometry 约 200 Hz、严格 `odom_frame → t265_pose_frame`、断流质量 0/恢复 epoch 递增、Domain 0 零输入 writer；缺实测机体外参，未启动生产 writer/EKF，G3 BLOCKED |
+| T265 实测外参 | `/home/c/px4_ws/measured_extrinsics/t265_to_base_link.measured.yaml` | Pixhawk IMU 中心为 `base_link`；`t265_pose_frame → base_link` 平移 `[-0.082,-0.015,0.108] m`、单位四元数；SHA-256 `42e48f773f771af91b2b3106b9a48ede6cc60fc29b0267157ae4c2f684f54295` |
+| G3 真实位置融合 | `docs/evidence/sessions/20260729T210816+0800_g3_t265_position_fusion` | Domain 0 唯一视觉 writer、位置/高度融合、零速度/航向融合、零拒绝、T265 断流退出、epoch 递增和显式 reset 恢复 PASS；未导出的 aid-source innovation/test-ratio/time-last-fuse 仍阻塞 G3 |
 
 固件已刷写且真实 `/fmu/out/rc_channels` 契约、生产内存门禁和干净 boot 长稳态验证均通过，
-G2 PASS。当前备份与目标逐字节相同，仍不是旧行为回滚证据；G3 仅完成 T265 预检，因缺实测
-机体外参保持 BLOCKED，G4 未执行，整体继续 NO-GO。
+G2 PASS。当前备份与目标逐字节相同，仍不是旧行为回滚证据；G3 已完成实测外参和真实
+位置融合，但缺 aid-source innovation/test-ratio/time-last-fuse 强制证据，仍为 PARTIAL
+PASS/BLOCKED；G4 未执行，整体继续 NO-GO。

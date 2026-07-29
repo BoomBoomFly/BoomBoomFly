@@ -31,7 +31,7 @@
 | G0 源码与构建 | **PASS（软件证据）** | 精确 SHA；四包 clean build；50 tests 全 PASS；launch、单 writer、无生产 mock 门禁 PASS |
 | G1 SITL/隔离回放 | **PASS（Domain 231 软件证据）** | 60 秒历史频率无误锁；VERTICAL_TEST、ACK/超时/kill/断流/Land/Disarm 场景 PASS；回放器运行时 PASS |
 | G2 拆桨 H1 | **PASS（真实拆桨证据）** | 指定固件、真实 RC、唯一 Agent/串口和零输入 writer PASS；干净 boot 下 620.011 秒 RC/timesync 连续，125 次图检查无 writer 违例，内核 UART/DMA 错误 0；最低内存/DMA 水位守住门限 |
-| G3 拆桨视觉/EKF | **BLOCKED / 预检部分完成** | 已批准并实测 T265/ROS 200 Hz 流与断流恢复；仍缺 `t265_pose_frame → base_link` 实测外参，故零生产 writer、零 EKF 融合证据 |
+| G3 拆桨视觉/EKF | **PARTIAL PASS / BLOCKED** | 实测外参、真实 Domain 0 位置/高度融合、断流退出、epoch 递增和显式复位恢复 PASS；当前固件未通过 DDS 导出 aid-source innovation/test-ratio/time-last-fuse，强制证据仍缺 |
 | G4 拆桨失效测试 | **BLOCKED / 未执行** | G3 PASS；逐项取得授权并以 PX4 实际 mode/failsafe/Land 结果验收 |
 | G5 装桨首次悬停 | **PROHIBITED / 本任务绝不执行** | 仅 G0–G4 全 PASS 后重新 go/no-go，并取得当次装桨、Arm、0.5 m 悬停明确授权 |
 
@@ -48,10 +48,13 @@ Jetson UART RX DMA 根因和 120 秒内存对照见
 [`docs/evidence/sessions/20260729T195311+0800_g2_clean_boot_soak`](docs/evidence/sessions/20260729T195311+0800_g2_clean_boot_soak)。
 G3 T265 真实流、隔离驱动构建/测试、断流恢复和外参 fail-closed 预检见
 [`docs/evidence/sessions/20260729T200247+0800_g3_t265_preflight`](docs/evidence/sessions/20260729T200247+0800_g3_t265_preflight)。
+G3 实测外参、真实 Domain 0 位置融合、断流和恢复证据见
+[`docs/evidence/sessions/20260729T210816+0800_g3_t265_position_fusion`](docs/evidence/sessions/20260729T210816+0800_g3_t265_position_fusion)。
 
 ## 参数纪律
 
-本阶段未授权写 PX4 参数。任何候选修改前必须重新导出完整参数并计算 SHA-256；记录旧值、
+G3 实测明确保持零 PX4 参数写入；参数快照哈希在 session 前后不变。任何后续候选修改前必须
+重新导出完整参数并计算 SHA-256；记录旧值、
 新值、单项理由、验证方法和回滚值；一次只改一个风险组；写后重新导出并 diff。首次测试包线
 为 0.5 m、上升不超过 0.3 m/s、下降不超过 0.2 m/s。无测距仪时不得假设 range aid 可用，
 circuit breaker 必须逐项确认。

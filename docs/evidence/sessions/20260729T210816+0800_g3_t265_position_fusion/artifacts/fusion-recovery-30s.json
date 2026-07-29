@@ -1,0 +1,72 @@
+{
+  "arming_states": [
+    1
+  ],
+  "duration_s": 30.001,
+  "epoch_values": [
+    3
+  ],
+  "estimator_count": 30,
+  "estimator_last": {
+    "control_status_changes": 607,
+    "dead_reckoning": false,
+    "ev_hgt": true,
+    "ev_pos": true,
+    "ev_vel": false,
+    "ev_yaw": false,
+    "innovation_fault_status_changes": 195,
+    "reject_hor_pos": false,
+    "reject_ver_pos": false
+  },
+  "failsafe_values": [
+    false
+  ],
+  "faults": [],
+  "local_last": {
+    "dead_reckoning": false,
+    "eph": 0.07409243285655975,
+    "epv": 0.06175427511334419,
+    "vx": -0.004327922593802214,
+    "vy": -0.0025655559729784727,
+    "vz": 0.0014673479599878192,
+    "x": -0.022550037130713463,
+    "y": -0.08290791511535645,
+    "z": -0.10735050588846207
+  },
+  "local_reset_counters": {
+    "heading": [
+      14
+    ],
+    "vxy": [
+      109
+    ],
+    "vz": [
+      1
+    ],
+    "xy": [
+      111
+    ],
+    "z": [
+      3
+    ]
+  },
+  "local_validity_counts": {
+    "(True, True, True, True, False)": 2988
+  },
+  "output_count": 600,
+  "output_nonincreasing": 0,
+  "output_quality": [
+    66
+  ],
+  "output_rate_hz": 19.999,
+  "output_reset_counter": [
+    2
+  ],
+  "position_reject_samples": 0,
+  "quality_values": [
+    66
+  ],
+  "vehicle_command_writer_max": 0,
+  "visual_writer_max": 1,
+  "visual_writer_min": 1
+}

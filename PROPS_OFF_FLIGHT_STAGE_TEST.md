@@ -1,9 +1,10 @@
 # 普通飞行阶段拆桨验证卡与执行状态
 
-状态：**G2 PASS / G3 BLOCKED**。用户已对 2026-07-29 当次指定 SHA 固件刷写和仅 G2 拆桨
-验证明确授权；刷写、真实 RC 契约、UART DMA 根因修复门禁和干净 boot 620 秒 soak 均通过。
-本授权不延伸到再次刷写、写参数、G3、Domain 0 输入 writer、Offboard、Arm、Land、Disarm、
-Kill 或电机动作。G3 未另行批准且未 PASS 前不得进入 G4。
+状态：**G2 PASS / G3 PARTIAL PASS、仍 BLOCKED**。用户已分别明确授权 2026-07-29 当次指定
+SHA 固件刷写/G2 拆桨验证，以及后续 G3 真实 Domain 0 视觉位置融合。刷写、真实 RC 契约、
+UART DMA 门禁、干净 boot 620 秒 soak、实测 T265 外参、位置融合、断流和恢复均取得真实证据。
+未授权再次刷写、写参数、Offboard、Arm、Land、Disarm、Kill 或电机动作。G3 强制证据未补齐
+前不得进入 G4。
 
 ## G2：刷写后真实 RC/DDS 验证
 
@@ -54,9 +55,11 @@ G2 为 FAIL 并按已验证原固件回滚流程停止。
 
 ## G3：T265 与 EKF（仅 G2 PASS 后）
 
-2026-07-29 用户已批准进入 G3 拆桨预检。真实 T265 原始/ROS 流和健康适配器断流恢复已验证，
-但工作区没有实测 `t265_pose_frame -> base_link` 外参；生产 writer 与 EKF 融合保持关闭，
-G3 仍为 BLOCKED。该批准不包含 PX4 参数写入、Arm、Offboard 或电机动作。
+2026-07-29 用户已批准 G3 拆桨真实位置融合。实测 `t265_pose_frame -> base_link` 外参、唯一
+Domain 0 视觉 writer、PX4 位置/高度融合、T265 断流退出、source epoch 递增及显式复位恢复均
+通过；全程零 PX4 参数写入、零 VehicleCommand、Disarmed、无电机动作。当前固件 DDS 清单没有
+导出 estimator aid-source/innovation 主题，故仍缺 innovation/test ratio 和 `time_last_fuse`，
+G3 保持 PARTIAL PASS/BLOCKED。
 
 1. 实测并复核 `odom_frame → t265_pose_frame → base_link` 外参；模板中的 TBD 不得带入生产。
 2. 先验证静止、前、右、上、顺时针偏航的符号、尺度、时间戳、质量和 source epoch；断流、

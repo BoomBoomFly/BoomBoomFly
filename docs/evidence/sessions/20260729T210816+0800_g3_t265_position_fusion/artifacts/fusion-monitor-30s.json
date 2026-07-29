@@ -1,0 +1,145 @@
+{
+  "arming_states": [
+    1
+  ],
+  "duration_s": 30.001,
+  "epoch_values": [
+    2
+  ],
+  "estimator_count": 30,
+  "estimator_last": {
+    "control_status_changes": 603,
+    "cs_baro_hgt": true,
+    "cs_ev_hgt": true,
+    "cs_ev_pos": true,
+    "cs_ev_vel": false,
+    "cs_ev_yaw": false,
+    "cs_gnss_pos": false,
+    "cs_inertial_dead_reckoning": false,
+    "innovation_fault_status_changes": 195,
+    "reject_hor_pos": false,
+    "reject_hor_vel": false,
+    "reject_ver_pos": false,
+    "reject_ver_vel": false,
+    "reject_yaw": false,
+    "timestamp": 1785330735067817
+  },
+  "estimator_observed": {
+    "cs_baro_hgt": [
+      true
+    ],
+    "cs_ev_hgt": [
+      true
+    ],
+    "cs_ev_pos": [
+      true
+    ],
+    "cs_ev_vel": [
+      false
+    ],
+    "cs_ev_yaw": [
+      false
+    ],
+    "cs_gnss_pos": [
+      false
+    ],
+    "cs_inertial_dead_reckoning": [
+      false
+    ],
+    "reject_hor_pos": [
+      false
+    ],
+    "reject_hor_vel": [
+      false
+    ],
+    "reject_ver_pos": [
+      false
+    ],
+    "reject_ver_vel": [
+      false
+    ],
+    "reject_yaw": [
+      false
+    ]
+  },
+  "failsafe_values": [
+    false
+  ],
+  "faults": [],
+  "local_count": 2992,
+  "local_last": {
+    "dead_reckoning": false,
+    "eph": 0.07413570582866669,
+    "epv": 0.06180817261338234,
+    "timestamp": 1785330735922120,
+    "v_xy_valid": true,
+    "v_z_valid": true,
+    "vx": 0.0004863654903601855,
+    "vy": 0.0018348033772781491,
+    "vz": -0.0032841754145920277,
+    "x": -0.018763311207294464,
+    "xy_valid": true,
+    "y": -0.08067842572927475,
+    "z": -0.11035440117120743,
+    "z_valid": true
+  },
+  "local_validity_counts": {
+    "(True, True, True, True)": 2992
+  },
+  "nav_states": [
+    1
+  ],
+  "out_count": 600,
+  "out_nonincreasing": 0,
+  "out_quality": [
+    66
+  ],
+  "out_rate_hz": 19.999,
+  "out_reset": [
+    1
+  ],
+  "preflight_values": [
+    false
+  ],
+  "quality_values": [
+    66
+  ],
+  "reject_counts": {
+    "hor_pos": 0,
+    "hor_vel": 0,
+    "ver_pos": 0,
+    "ver_vel": 0,
+    "yaw": 0
+  },
+  "reset_counters": {
+    "heading": [
+      14
+    ],
+    "vxy": [
+      108
+    ],
+    "vz": [
+      1
+    ],
+    "xy": [
+      109
+    ],
+    "z": [
+      2
+    ]
+  },
+  "status_count": 60,
+  "timesync_count": 31,
+  "writer_max": {
+    "/fmu/in/offboard_control_mode": 0,
+    "/fmu/in/trajectory_setpoint": 0,
+    "/fmu/in/vehicle_command": 0,
+    "/fmu/in/vehicle_visual_odometry": 1
+  },
+  "writer_min": {
+    "/fmu/in/offboard_control_mode": 0,
+    "/fmu/in/trajectory_setpoint": 0,
+    "/fmu/in/vehicle_command": 0,
+    "/fmu/in/vehicle_visual_odometry": 1
+  }
+}
