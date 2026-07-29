@@ -13,8 +13,6 @@ bash Scripts/installation/uav_px4_dds_install.sh \
 bash Scripts/installation/uav_px4_dds_install.sh \
   --with-optional perception --verify-only --require-colcon
 
-# 校验机载环境快照
-python3 Scripts/installation/verify_environment.py
 ```
 
 ## 构建与回放

@@ -713,20 +713,30 @@ def compare_current(expected: Dict[str, Any], actual: Dict[str, Any]) -> List[st
 def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Validate the checked-in environment inventory and PX4 lock placeholder, "
+            "Validate an explicitly supplied environment inventory and PX4 lock, "
             "or explicitly capture a read-only host inventory."
         )
     )
     parser.add_argument("--repository-root", help="Explicit BoomBoomFly repository root")
-    parser.add_argument("--inventory", help="Environment inventory JSON path")
-    parser.add_argument("--schema", help="Environment JSON Schema path")
-    parser.add_argument("--px4-lock", help="PX4 source/toolchain lock JSON path")
-    parser.add_argument("--px4-lock-schema", help="PX4 lock JSON Schema path")
+    parser.add_argument(
+        "--inventory", required=True, help="Explicit environment inventory JSON path"
+    )
+    parser.add_argument(
+        "--schema", required=True, help="Explicit environment JSON Schema path"
+    )
+    parser.add_argument(
+        "--px4-lock", required=True, help="Explicit PX4 source/toolchain lock JSON path"
+    )
+    parser.add_argument(
+        "--px4-lock-schema",
+        required=True,
+        help="Explicit PX4 lock JSON Schema path",
+    )
     parser.add_argument("--px4-source", help="Explicit PX4-Autopilot source path")
     parser.add_argument(
         "--check-current",
         action="store_true",
-        help="Compare current read-only probes with the checked-in inventory",
+        help="Compare current read-only probes with the supplied inventory",
     )
     parser.add_argument(
         "--capture",
@@ -749,27 +759,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     try:
         args = parse_args(argv)
         root = discover_repository_root(args.repository_root)
-        inventory_path = (
-            Path(args.inventory).expanduser().resolve()
-            if args.inventory
-            else root / "docs/evidence/environment/current_environment.json"
-        )
-        schema_path = (
-            Path(args.schema).expanduser().resolve()
-            if args.schema
-            else root / "docs/evidence/schemas/environment.schema.json"
-        )
-        lock_path = (
-            Path(args.px4_lock).expanduser().resolve()
-            if args.px4_lock
-            else root
-            / "docs/evidence/environment/px4_source_toolchain_lock.template.json"
-        )
-        lock_schema_path = (
-            Path(args.px4_lock_schema).expanduser().resolve()
-            if args.px4_lock_schema
-            else root / "docs/evidence/schemas/px4_source_toolchain_lock.schema.json"
-        )
+        inventory_path = Path(args.inventory).expanduser().resolve()
+        schema_path = Path(args.schema).expanduser().resolve()
+        lock_path = Path(args.px4_lock).expanduser().resolve()
+        lock_schema_path = Path(args.px4_lock_schema).expanduser().resolve()
 
         environment_schema = load_json(schema_path)
         lock_schema = load_json(lock_schema_path)

@@ -7,10 +7,6 @@ BoomBoomFly 是面向室内无人机任务的 ROS 2 / PX4 DDS 工作区。当前
 3. ROS 2 只负责持续轨迹、任务路径以及降落请求；
 4. 首次闭环只做 0.5 m 垂直起飞、悬停和降落。
 
-> 当前结论：**NO-GO，禁止直接装桨试飞。**
-> G0–G3 已通过；G4 拆桨失效闭环仍未完成。当前锁定的 `offboard_cpp`
-> 也不是可直接执行上述流程的最终版本。
-
 ## 基线
 
 - 机载计算机：Jetson Orin Nano，Ubuntu 20.04，ROS 2 Foxy
@@ -59,12 +55,9 @@ mission START -> flight sequence -> offboard_cpp
 
 ## 下一步
 
-先完成 `offboard_cpp` 的 QGC 控制边界和垂直轨迹闭环，再按
-[Offboard 最短路径](docs/OFFBOARD_QUICKSTART.md) 做拆桨验证。只有
-[安全清单](docs/SAFETY_CHECKLIST.md) 全部通过，才讨论首次装桨。
-
-详细状态见 [STATUS.md](STATUS.md)。旧实机日志已从工作分支移除，恢复方式见
-[历史证据说明](docs/EVIDENCE_ARCHIVE.md)。
+先完成 `offboard_cpp` 的 QGC 控制边界和垂直轨迹闭环，再接入任务协调、目标感知、
+抛投管理和地面站功能。功能包版本确定后更新 `workspace.lock.repos`，并通过统一构建
+入口完成工作区集成。
 
 ## 目录
 
