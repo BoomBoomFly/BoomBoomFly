@@ -27,7 +27,8 @@
 | T265 实测外参 | `/home/c/px4_ws/measured_extrinsics/t265_to_base_link.measured.yaml` | Pixhawk IMU 中心为 `base_link`；`t265_pose_frame → base_link` 平移 `[-0.082,-0.015,0.108] m`、单位四元数；SHA-256 `42e48f773f771af91b2b3106b9a48ede6cc60fc29b0267157ae4c2f684f54295` |
 | G3 真实位置融合 | `docs/evidence/sessions/20260729T210816+0800_g3_t265_position_fusion` | Domain 0 唯一视觉 writer、位置/高度融合、零速度/航向融合、零拒绝、T265 断流退出、epoch 递增和显式 reset 恢复 PASS；该 session 当时缺 aid-source，已由下一行补证解除 |
 | G3 aid-source 补证 | `docs/evidence/sessions/20260729T212815+0800_g3_aid_source_firmware` | 新固件刷写；EV position/height innovation、variance、test ratio、time_last_fuse；两段 30 秒融合、断流、epoch 防重放、显式复位恢复和最终 writer 释放全部 PASS |
+| G4-0 只读安全基线 | `docs/evidence/sessions/20260729T220347+0800_g4_0_readonly_baseline` | Domain 0 真实 DDS 30 秒、27 个输入话题零 writer 和最终资源释放 PASS；当前参数导出无 USB MAVLink heartbeat、ULog/SD 卡未验证、`pre_flight_checks_pass=false`，故 G4 保持 BLOCKED |
 
 真实 `/fmu/out/rc_channels`、生产内存门禁、干净 boot soak 和 G3 视觉/EKF 强制证据均通过，
-G0–G3 PASS。用户备份可回刷上一个 RC-only 固件；G4 未执行，整体继续 NO-GO，禁止装桨
-飞行。
+G0–G3 PASS。用户备份可回刷上一个 RC-only 固件；G4-0 只读预检未解除实时参数、ULog 和
+preflight 阻塞，主动 G4 失效测试未执行，整体继续 NO-GO，禁止装桨飞行。
