@@ -12,8 +12,12 @@
 | 同构建 BIN | `/home/c/px4_ws/external/PX4-Autopilot/build/px4_fmu-v3_default/px4_fmu-v3_default.bin` | 2,052,073 bytes；SHA-256 `a280d9999829a5132524b352c69ba107bc3c6bd9140125bb54dd119f35e86065` |
 | PX4 工具链 | 当前工作区命令输出 | `arm-none-eabi-gcc 9.2.1 20191025`；CMake `3.16.3`；Ninja `1.11.1.git.kitware.jobserver-1` |
 | 原固件回滚产物 | 用户声明已保存并校验；当前工作区未发现路径 | **外部证据待绑定**。刷写批准前必须给出可读路径、大小和 SHA-256，并再次校验；不得以目标固件或历史截图代替 |
-| 本轮四仓代码 | `workspace.lock.repos` 与本轮 evidence session | 以本轮完成后的精确 SHA、dirty 状态和构建日志为准；禁止移动分支进入 production receipt |
+| 根集成构建提交 | `292cdc1717ae57db2f68b695e1c8a66c6d66c16c` | 权威四包 clean build/test 使用的根集成基线；后续根提交仅修复回放器固定数组和防 pycache 污染 |
+| `px4_msgs` | `src/px4_msgs` | `392e831c1f659429ca83902e66820d7094591410`，clean/detached |
+| `offboard_cpp` | `src/offboard_cpp` | `e24bb3facfcf4126ad7b3d216a768a040758e895`，clean，DDS ahead 1 |
+| `vision_to_dds` | `src/vision_to_dds` | `470cf59cf8fbcddd17b12e9d31f084e87f5f2fac`，clean，master ahead 1 |
+| `communication` | `src/communication` | `e6d6126acd16050216e5f091e61d58a96ef3ed65`，clean，main ahead 1 |
+| 本轮软件 evidence | `docs/evidence/sessions/20260729T162319+0800_vertical_flight_stage` | 四包 build PASS；50 tests 0 failure；Domain 231 回放运行时与 Domain 0 拒绝均有日志/哈希 |
 
 本索引不表示固件已刷写，也不表示 `/fmu/out/rc_channels` 已在实机验证。目标固件和原固件回滚
 产物必须同时可读且哈希匹配，才可请求 G2 的当次拆桨刷写批准。
-

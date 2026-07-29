@@ -28,14 +28,16 @@
 
 | 门 | 当前状态 | 进入下一门的客观条件 |
 |---|---|---|
-| G0 源码与构建 | 待本会话最终 evidence | 精确 SHA、四包构建、全部测试、launch 清单、单 writer、无生产 mock |
-| G1 SITL/隔离回放 | 待本会话最终 evidence | 60 秒历史频率无误锁、完整 VERTICAL_TEST、全部 ACK/超时/kill/断流场景 |
+| G0 源码与构建 | **PASS（软件证据）** | 精确 SHA；四包 clean build；50 tests 全 PASS；launch、单 writer、无生产 mock 门禁 PASS |
+| G1 SITL/隔离回放 | **PASS（Domain 231 软件证据）** | 60 秒历史频率无误锁；VERTICAL_TEST、ACK/超时/kill/断流/Land/Disarm 场景 PASS；回放器运行时 PASS |
 | G2 拆桨 H1 | **BLOCKED / 未执行** | 用户另行批准刷写；刷写后证明真实 RC publisher/类型/变化/loss 和 Agent/串口唯一性 |
 | G3 拆桨视觉/EKF | **BLOCKED / 未执行** | G2 PASS、实测外参 PASS；先位置分量，再逐步速度和航向，并保存 estimator 接受证据 |
 | G4 拆桨失效测试 | **BLOCKED / 未执行** | G3 PASS；逐项取得授权并以 PX4 实际 mode/failsafe/Land 结果验收 |
 | G5 装桨首次悬停 | **PROHIBITED / 本任务绝不执行** | 仅 G0–G4 全 PASS 后重新 go/no-go，并取得当次装桨、Arm、0.5 m 悬停明确授权 |
 
 软件测试 PASS 不能替代刷写后 RC、T265/EKF 或拆桨失效的实机证据，也不能表述为“可以飞行”。
+G0/G1 原始输出见
+[`docs/evidence/sessions/20260729T162319+0800_vertical_flight_stage`](docs/evidence/sessions/20260729T162319+0800_vertical_flight_stage)。
 
 ## 参数纪律
 
@@ -49,4 +51,3 @@ circuit breaker 必须逐项确认。
 - [PROPS_OFF_FLIGHT_STAGE_TEST.md](PROPS_OFF_FLIGHT_STAGE_TEST.md)
 - [FIRST_HOVER_TEST_CARD.md](FIRST_HOVER_TEST_CARD.md)
 - [FLIGHT_STAGE_ARTIFACT_INDEX.md](FLIGHT_STAGE_ARTIFACT_INDEX.md)
-
