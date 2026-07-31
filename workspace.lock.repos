@@ -36,12 +36,12 @@ repositories:
 # profile: optional-perception
   src/librealsense:
     type: git
-    url: https://github.com/IntelRealSense/librealsense.git
-    version: c94410a420b74e5fb6a414bd12215c05ddd82b69
+    url: https://github.com/realsenseai/librealsense.git
+    version: bf2778061d5dd29776e9aca8765f75852671760b
   src/realsense-ros:
     type: git
-    url: https://github.com/IntelRealSense/realsense-ros.git
-    version: 8abb4657c0add15f87b0edbfb67eaba2c1c2c439
+    url: https://github.com/realsenseai/realsense-ros.git
+    version: 2a65533ee7431bdc05fe5744798efc7f5713f866
   src/vision_opencv:
     type: git
     url: https://github.com/ros-perception/vision_opencv.git
