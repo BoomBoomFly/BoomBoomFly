@@ -10,6 +10,7 @@ DEFAULT_MANIFEST="${PROJECT_ROOT}/workspace.lock.repos"
 MANIFEST="${DEFAULT_MANIFEST}"
 MANIFEST_EXPLICIT=0
 WITH_ARCHIVE=0
+WITH_CURRENT_SRC=0
 WITH_OPTIONAL=()
 DO_UPDATE=0
 DRY_RUN=0
@@ -49,6 +50,8 @@ Options:
   --with-archive         Add archive entries from ${DEFAULT_MANIFEST}
   --with-optional <name> Add an optional profile: perception or navigation.
                          Repeat to select both profiles.
+  --with-current-src     Add every non-quarantine profile: active, archive,
+                         optional-perception and optional-navigation.
   --update               Fast-forward project branches and restore locked refs.
   --verify-only          Audit all repositories without cloning/updating.
   --dry-run              Audit and print planned actions without changing files or Git refs.
@@ -182,6 +185,10 @@ while [[ $# -gt 0 ]]; do
 			esac
 			shift 2
 			;;
+		--with-current-src)
+			WITH_CURRENT_SRC=1
+			shift
+			;;
 		--update)
 			DO_UPDATE=1
 			shift
@@ -218,8 +225,8 @@ done
 
 [[ ${DO_UPDATE} -eq 0 || ${VERIFY_ONLY} -eq 0 ]] || die "--update and --verify-only cannot be combined"
 [[ ${SKIP_PACKAGE_CHECK} -eq 0 || ${REQUIRE_COLCON} -eq 0 ]] || die "--skip-package-check and --require-colcon cannot be combined"
-if [[ ${MANIFEST_EXPLICIT} -eq 1 && (${WITH_ARCHIVE} -eq 1 || ${#WITH_OPTIONAL[@]} -gt 0) ]]; then
-	die "--manifest cannot be combined with --with-archive or --with-optional"
+if [[ ${MANIFEST_EXPLICIT} -eq 1 && (${WITH_ARCHIVE} -eq 1 || ${WITH_CURRENT_SRC} -eq 1 || ${#WITH_OPTIONAL[@]} -gt 0) ]]; then
+	die "--manifest cannot be combined with profile-selection options"
 fi
 require_command git
 require_command awk
@@ -231,6 +238,10 @@ if [[ ${MANIFEST_EXPLICIT} -eq 1 ]]; then
 	SELECTED_PROFILES+=("custom")
 else
 	MANIFEST="${DEFAULT_MANIFEST}"
+	if [[ ${WITH_CURRENT_SRC} -eq 1 ]]; then
+		WITH_ARCHIVE=1
+		WITH_OPTIONAL+=("perception" "navigation")
+	fi
 	SELECTED_PROFILES+=("active")
 	if [[ ${WITH_ARCHIVE} -eq 1 ]]; then
 		SELECTED_PROFILES+=("archive")
