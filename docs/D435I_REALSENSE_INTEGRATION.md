@@ -1,6 +1,6 @@
 # D435i RealSense 集成记录
 
-更新时间：2026-07-31。本文记录当前 Jetson Orin Nano / Ubuntu 20.04 / ROS 2 Foxy
+更新时间：2026-08-01。本文记录当前 Jetson Orin Nano / Ubuntu 20.04 / ROS 2 Foxy
 工作区中 D435i 的可复现状态，不把已退役的 T265 流程当作当前配置。
 
 ## 锁定的软件版本
@@ -96,7 +96,8 @@ rs-enumerate-devices
    ```
 
    若该配置稳定，再逐步开启 RGB；若仍失败，检查直连 USB 3 数据线、供电和固件。
-3. D435i 不是 T265 的即插即用替代品：它不产生位姿话题。当前仓库没有已验证的
-   D435i VIO/里程计到 `/fmu/in/vehicle_visual_odometry` 的适配器，也没有完成飞行验证。
-   在这条链路建立并验证前，禁止依赖 D435i 进行自主起飞、悬停或降落。
-
+3. D435i 不是 T265 的即插即用替代品：它不原生产生位姿话题。仓库现通过双目 VIO 与
+   `vision_to_dds` 适配器产生 `/fmu/in/vehicle_visual_odometry`，并已在 USB 3.2、无桨
+   台架上确认 PX4 EKF2 融合位置、高度和航向。USB 2.1 会导致 VIO 数据超时，不能用于
+   此用途。动态验证、Offboard 安全演练和带桨飞行仍未完成；在获得单独飞行授权前，禁止
+   依赖 D435i 进行自主起飞、悬停或降落。
