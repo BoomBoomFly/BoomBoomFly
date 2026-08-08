@@ -10,7 +10,7 @@
 | librealsense | v2.58.1 | `bf2778061d5dd29776e9aca8765f75852671760b` |
 | realsense-ros | 4.51.1 | `2a65533ee7431bdc05fe5744798efc7f5713f866` |
 
-这两个版本均由根目录的 `workspace.lock.repos` 锁定。librealsense 以默认
+这两个版本均由`manifests/perception.repos` 锁定。librealsense 以默认
 V4L2/HID 后端构建，`FORCE_RSUSB_BACKEND=OFF`；不要在该主机上改用 RSUSB
 后端，因为此前该后端会枚举到设备却收不到 IMU 帧，并出现 libusb
 `Resource temporarily unavailable` 控制传输警告。

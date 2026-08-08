@@ -1,35 +1,14 @@
-build/
-install/
-log/
+# Generated build and runtime artifacts.
+/log/
+/px4/px4_ws/build/
+/px4/px4_ws/install/
+/px4/px4_ws/log/
+
+# Independently versioned repositories restored from manifests.
+/px4/upstream/
+/px4/px4_ws/src/
+
+# Local language and log artifacts.
 __pycache__/
 *.py[cod]
-
-Micro-XRCE-DDS-Agent/
-px4_msgs/
-vision_to_dds/
-offboard_cpp/
-realsense-ros/
-librealsense/
-rplidar_ros/
-px4_bringup/
-cv_yolo_paddle_pkg/
-gazebo_ros_pkgs/
-imu_tools/
-navigation_msgs/
-navigation2/
-offboard_py/
-opencv_cpp/
-rtabmap/
-rtabmap_ros/
-serial_driver_ros/
-serial-ros2/
-slam_toolbox/
-vision_opencv/
-communication/
-
-# Keep the current DDS-only build entrypoint even though its parent directory
-# matches the broad workspace build ignore rule above.
-!Scripts/build/
-!Scripts/build/build_dds_only.sh
-
-src/communication/
+*.log
