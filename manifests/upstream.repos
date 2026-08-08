@@ -1,0 +1,10 @@
+# Independently built, non-colcon repositories imported under px4/upstream.
+repositories:
+  PX4-Autopilot:
+    type: git
+    url: https://github.com/PX4/PX4-Autopilot.git
+    version: 54f0455ffcd755534539a7cf33a09a20bf71d29d
+  Micro-XRCE-DDS-Agent:
+    type: git
+    url: https://github.com/eProsima/Micro-XRCE-DDS-Agent.git
+    version: 57d086216d01ec43121845d385894a25987f8a2c
