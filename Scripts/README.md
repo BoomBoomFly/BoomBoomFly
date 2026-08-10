@@ -38,8 +38,8 @@ source Scripts/workspace/setup_env.sh
 Micro-XRCE-DDS-Agent 不属于 colcon 源码树，按各自上游说明独立构建和运行。
 `update_repos.sh` 不覆盖未提交修改；上游仓库按 manifest 固定版本，只执行 fetch。
 
-`manifests/perception.repos` 保存当前 RealSense、IMU filter 和 RTAB-Map 源码依赖的精确
-版本；只有需要从源码恢复感知环境时才使用 `--with-perception`。
+`manifests/perception.repos` 保存当前 RealSense SDK 和 ROS wrapper 源码依赖的精确版本；
+只有需要从源码恢复 RealSense 感知环境时才使用 `--with-perception`。
 
 ## 仿真
 

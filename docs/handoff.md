@@ -87,6 +87,18 @@ Legacy T265、MAVROS、比赛 launch、START/session/epoch、authority lease、�
   实体并传输上述关键样本；它不再是当前 SITL DDS 阻塞。该依赖组合仍不能替代 Foxy/Jetson
   或实机验证。
 
+### 2026-08-11 Jetson/Foxy 感知依赖基线
+
+- `manifests/perception.repos` 已固定 `librealsense v2.56.5`
+  (`38a41441971387197193ad3aeae3cefe6a11f2cb`) 与 `realsense-ros 4.56.4`
+  (`bafc21080c5c8e259dadbb309797949aee0dd950`)。该 Wrapper 的 CMake 要求
+  `realsense2 >= 2.56`，与机载端现有 `2.56.5` 匹配。
+- Humble 开发机已成功构建 `librealsense2 2.56.5`；`realsense2_camera` 配置已越过
+  SDK 版本检查，当前仅因本机缺少 `diagnostic_updater` 停止。Jetson/Foxy 部署前需安装
+  `ros-foxy-diagnostic-updater`，并在目标机重新完成 Wrapper 构建与相机运行验证。
+- `px4_vision_bridge` 仍只接收标准 `nav_msgs/Odometry` 的 `/vision/odometry`，不直接调用
+  RealSense API，因此本次版本适配不改变 PX4 DDS 注入接口。
+
 ### 已验证的正常飞行步骤（仅 SITL）
 
 - 已使用 QGroundControl 虚拟摇杆完成一次允许来源的解锁沿、Offboard 握手、1.5 m 起飞、
