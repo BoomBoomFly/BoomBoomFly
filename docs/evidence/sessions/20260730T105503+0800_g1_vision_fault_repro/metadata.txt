@@ -1,6 +1,0 @@
-gate=G1
-phase=vision_fault_repro
-props=removed
-armed=no
-nav_state=POSCTL
-action=explicit_vision_reset_fault

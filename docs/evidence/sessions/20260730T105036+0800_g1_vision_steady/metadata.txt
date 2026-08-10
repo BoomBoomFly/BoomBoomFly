@@ -1,7 +1,0 @@
-gate=G1
-phase=vision_steady
-props=removed
-armed=no
-nav_state=POSCTL
-agent=/usr/local/bin/MicroXRCEAgent serial --dev /dev/ttyTHS0 --baudrate 921600 --verbose 4
-t265=/t265/pose/sample

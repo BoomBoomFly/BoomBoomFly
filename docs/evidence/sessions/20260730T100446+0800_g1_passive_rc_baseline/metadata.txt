@@ -1,6 +1,0 @@
-gate=G1
-phase=passive_rc_baseline
-props=removed
-armed=no
-control_nodes=none
-agent=/usr/local/bin/MicroXRCEAgent serial --dev /dev/ttyTHS0 --baudrate 921600 --verbose 4

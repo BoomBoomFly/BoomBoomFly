@@ -1,6 +1,0 @@
-repository	branch	head
-BoomBoomFly	master	fb7f6aa02810e1a110ee50aad303346739c6880e
-offboard_cpp	DDS	9daa6ddae2bce61251a6cb74ba8d0ab256441e8d
-vision_to_dds	master	449cd5b5f96aa24bf85fe844c184bfd6c0abc690
-communication	main	2e4b0506d147388c641cea506c147ff44a499c09
-px4_bringup	DDS	fcc409f0f140ffe494e87d574d2cc2f77f3caba3

@@ -61,11 +61,26 @@ PX4-Autopilot 和 Micro-XRCE-DDS-Agent 不由 colcon 构建：分别在
 - 自动解锁和飞行不属于本仓库脚本的授权范围。飞行前须由操作员完成 Kill、遥控器、QGC
   preflight、机体和桨叶检查。
 
-当前 D435i/VIO 状态、验证步骤和已知限制见
-[D435i RealSense 集成记录](docs/D435I_REALSENSE_INTEGRATION.md) 与
-[D435i VIO → PX4 交接](docs/D435I_VIO_HANDOFF.md)。
+第一阶段的实现范围、验证门和现场限制见
+[第一阶段实施计划](docs/第一阶段实施计划.md)。
 
 ## 当前边界
 
-`common`、`offboard_cpp`、`vision_to_dds` 和 `px4_bringup` 保持各自独立的 Git 历史与
-远端。当前整理不包含业务代码合并或重构。
+`common`、`offboard_cpp`、`px4_vision_bridge` 和 `px4_bringup` 保持各自独立的 Git 历史与
+远端；`communication` 也保留独立仓库，但第一阶段不是 ROS 2 运行包。视觉 bridge 的 Git
+远端仍为原 `vision_to_dds` 仓库，以保留历史。
+
+## 可复现性检查
+
+核心 manifests 使用精确提交而不是浮动分支。恢复脚本会递归初始化自研仓库所声明的
+Git submodule。构建或飞行验证前运行：
+
+```bash
+cd /home/aa/BoomBoomFly
+./Scripts/workspace/pull_repos.sh
+./Scripts/workspace/verify_repos.py
+```
+
+`verify_repos.py` 会检查 manifest 是否全部为 40 位提交、远端 URL、现场 HEAD、脏工作树、
+自研仓库 submodule，以及是否存在未被 manifest 管理的 ROS 包。任何检查失败都表示当前
+源码树不能被称为可复现基线。Humble 环境还必须提供各包声明的系统依赖；当前基线首次

@@ -8,6 +8,12 @@
 /px4/upstream/
 /px4/px4_ws/src/
 
+# Local TI repositories are intentionally outside the root repository scope.
+/TI/
+
+# Local YOLO sources and weights are intentionally outside the root repository scope.
+/yolo/
+
 # Local language and log artifacts.
 __pycache__/
 *.py[cod]
