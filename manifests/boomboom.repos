@@ -1,5 +1,5 @@
 # ROS 2 workspace repositories imported under px4/px4_ws/src.
-# Versions intentionally follow the currently checked-out project branches.
+# Versions are pinned to the audited Phase 0 baseline commits.
 repositories:
   external/px4_msgs:
     type: git
@@ -8,16 +8,16 @@ repositories:
   boomboom/common:
     type: git
     url: https://github.com/BoomBoomFly/common.git
-    version: main
+    version: 17bbdd52f9e8057cb85d4c96e867425fe8d303fc
   boomboom/offboard_cpp:
     type: git
     url: https://github.com/BoomBoomFly/offboard_cpp.git
-    version: DDS
-  boomboom/vision_to_dds:
+    version: 3090814a68eba6d200283d15bfbd98a48cdbb16c
+  boomboom/px4_vision_bridge:
     type: git
     url: https://github.com/BoomBoomFly/vision_to_dds.git
-    version: master
+    version: a2b1df1388fffa976e12f1592fdbf660c768ade4
   boomboom/px4_bringup:
     type: git
     url: https://github.com/BoomBoomFly/px4_bringup.git
-    version: DDS
+    version: d9b47925dc2d62ad8584d55f9921ebb9ac551d07

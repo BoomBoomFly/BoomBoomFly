@@ -51,9 +51,9 @@ if ((WITH_PERCEPTION)) && [[ ! -f "${PERCEPTION_MANIFEST}" ]]; then
 fi
 
 mkdir -p "${SRC_DIR}" "${UPSTREAM_DIR}"
-vcs import --skip-existing "${SRC_DIR}" < "${ROS_MANIFEST}"
-vcs import --skip-existing "${UPSTREAM_DIR}" < "${UPSTREAM_MANIFEST}"
+vcs import --recursive --skip-existing "${SRC_DIR}" < "${ROS_MANIFEST}"
+vcs import --recursive --skip-existing "${UPSTREAM_DIR}" < "${UPSTREAM_MANIFEST}"
 
 if ((WITH_PERCEPTION)); then
-  vcs import --skip-existing "${SRC_DIR}" < "${PERCEPTION_MANIFEST}"
+  vcs import --recursive --skip-existing "${SRC_DIR}" < "${PERCEPTION_MANIFEST}"
 fi

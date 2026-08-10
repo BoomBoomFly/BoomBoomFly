@@ -1,8 +1,0 @@
-gate=G1
-phase=rc_sweep
-props=removed
-armed=no
-allowed_switches=CH5,CH6
-prohibited_switches=CH7,CH8
-control_nodes=none
-agent=/usr/local/bin/MicroXRCEAgent serial --dev /dev/ttyTHS0 --baudrate 921600 --verbose 4
