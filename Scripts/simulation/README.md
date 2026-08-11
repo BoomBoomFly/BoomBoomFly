@@ -24,6 +24,19 @@ bash Scripts/simulation/run_px4_sitl.sh gazebo-classic
 bash Scripts/simulation/clean_px4_sitl.sh
 ```
 
+在 PX4 已运行后，另开终端启动第一阶段 ROS 链路：
+
+```bash
+cd px4/px4_ws
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+ros2 launch px4_bringup sitl.launch.py
+```
+
+该 launch 默认启动唯一的 UDP 8888 Micro XRCE-DDS Agent、vision bridge 和 mission node。
+若 Agent 已由其他终端管理，先用 `ss -lunp | rg ':8888'` 核对后，改用
+`start_agent:=false`；不得启动第二个 Agent 或第二个生产 mission writer。
+
 脚本不安装系统依赖。Ubuntu 20.04 和 22.04 分别使用 PX4 v1.16 官方推荐的
 Gazebo Classic 与新 Gazebo 默认目标；其他系统必须显式传入 simulation target。
 `HEADLESS=1`、`PX4_GZ_WORLD` 等 PX4 环境变量会原样传递给 `make`。

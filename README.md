@@ -38,6 +38,13 @@ cd /home/aa/BoomBoomFly
 ./Scripts/workspace/build.sh
 ./Scripts/workspace/build.sh offboard_cpp
 
+# 只重建自研 boomboom ROS 2 包，不扫描 upstream 或 external
+cd px4/px4_ws
+source /opt/ros/humble/setup.bash
+colcon build --base-paths src/boomboom --symlink-install
+source install/setup.bash
+cd ../..
+
 # 在当前 shell 加载 ROS 2 与已构建工作区
 source Scripts/workspace/setup_env.sh
 
@@ -66,7 +73,17 @@ PX4-Autopilot 和 Micro-XRCE-DDS-Agent 不由 colcon 构建：分别在
   preflight、机体和桨叶检查。
 
 第一阶段的实现范围、验证门和现场限制见
-[第一阶段实施计划](docs/第一阶段实施计划.md)。
+[第一阶段实施计划](docs/第一阶段实施计划.md)，当前交接和运行时证据见
+[handoff](docs/handoff.md)。
+
+## 第一阶段 SITL 状态
+
+Humble `gz_x500` 已验证真实 RC 解锁沿触发的 Offboard 正常闭环：1.5 m 起飞、约 60 s
+悬停、返回本地 home、Land 和解除解锁。`/offboard/cancel_mission` 也已在 HOVER 中完成
+SITL 验证，记录了 `CANCELLED`、Land ACK 和新的 `landed = true` 样本。
+
+受控 Micro XRCE-DDS Agent 重连后，`TimesyncStatus` 恢复为 DDS source；这只说明重连后的
+恢复，不能替代自然 time-jump 根因分析，也不能外推到 Foxy、Jetson 或实机。
 
 ## 当前边界
 
@@ -91,4 +108,5 @@ cd /home/aa/BoomBoomFly
 
 `verify_repos.py` 会检查 manifest 是否全部为 40 位提交、远端 URL、现场 HEAD、脏工作树、
 自研仓库 submodule，以及是否存在未被 manifest 管理的 ROS 包。任何检查失败都表示当前
-源码树不能被称为可复现基线。Humble 环境还必须提供各包声明的系统依赖；当前基线首次
+源码树不能被称为可复现基线。Humble 环境还必须提供各包声明的系统依赖；构建 `boomboom`
+前应先构建并加载工作区中的 `px4_msgs`。

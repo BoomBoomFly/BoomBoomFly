@@ -12,12 +12,12 @@ repositories:
   boomboom/offboard_cpp:
     type: git
     url: https://github.com/BoomBoomFly/offboard_cpp.git
-    version: 9a41328cbb0718ce39d3c5bee2f71a3f08f39d84
+    version: 0bf74a6b030ebc3f39d2aba84b727003816307f7
   boomboom/px4_vision_bridge:
     type: git
     url: https://github.com/BoomBoomFly/px4_vision_bridge.git
-    version: 1daeceda1f25ac16eaa85edf0f8c4687fc5651c1
+    version: adb22e948875218b71ae92207db9b3abac2d970a
   boomboom/px4_bringup:
     type: git
     url: https://github.com/BoomBoomFly/px4_bringup.git
-    version: 8716f8d54e35967eecc35ac9d2f4505754b269e3
+    version: bdb4e1754bb1e657cd1cac3161e76c1a4c7c3884
