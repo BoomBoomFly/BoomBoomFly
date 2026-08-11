@@ -17,6 +17,10 @@ Scripts/
 # 同时导入可选感知源码依赖
 ./Scripts/workspace/pull_repos.sh --with-perception
 
+# 校验核心仓库，或同时校验感知依赖
+./Scripts/workspace/verify_repos.py
+./Scripts/workspace/verify_repos.py --with-perception
+
 # 查看受管理仓库的分支、提交和脏状态
 ./Scripts/workspace/repo_status.sh
 
@@ -43,5 +47,14 @@ Micro-XRCE-DDS-Agent 不属于 colcon 源码树，按各自上游说明独立构
 
 ## 仿真
 
-仿真脚本放在 `Scripts/simulation/`，与 ROS 2 工作区脚本分开维护。目录约定见
+仿真脚本放在 `Scripts/simulation/`，与 ROS 2 工作区脚本分开维护：
+
+```bash
+bash Scripts/simulation/build_px4_sitl.sh
+bash Scripts/simulation/run_px4_sitl.sh
+bash Scripts/simulation/clean_px4_sitl.sh
+```
+
+Ubuntu 20.04 默认使用 Gazebo Classic，Ubuntu 22.04 默认使用 `gz_x500`；也可以把 PX4
+simulation target 作为 `run_px4_sitl.sh` 的参数。详细说明见
 `Scripts/simulation/README.md`。

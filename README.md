@@ -40,6 +40,10 @@ cd /home/aa/BoomBoomFly
 
 # 在当前 shell 加载 ROS 2 与已构建工作区
 source Scripts/workspace/setup_env.sh
+
+# 构建并运行 PX4 SITL（20.04 默认 Gazebo Classic，22.04 默认 gz_x500）
+bash Scripts/simulation/build_px4_sitl.sh
+bash Scripts/simulation/run_px4_sitl.sh
 ```
 
 PX4-Autopilot 和 Micro-XRCE-DDS-Agent 不由 colcon 构建：分别在
@@ -79,6 +83,10 @@ Git submodule。构建或飞行验证前运行：
 cd /home/aa/BoomBoomFly
 ./Scripts/workspace/pull_repos.sh
 ./Scripts/workspace/verify_repos.py
+
+# 使用可选感知源码依赖时
+./Scripts/workspace/pull_repos.sh --with-perception
+./Scripts/workspace/verify_repos.py --with-perception
 ```
 
 `verify_repos.py` 会检查 manifest 是否全部为 40 位提交、远端 URL、现场 HEAD、脏工作树、

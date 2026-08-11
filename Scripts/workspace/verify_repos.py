@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import re
 import subprocess
 import sys
@@ -13,9 +14,13 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCES = ROOT / "px4" / "px4_ws" / "src"
-MANIFEST_ROOTS = (
+CORE_MANIFEST_ROOTS = (
     (ROOT / "manifests" / "boomboom.repos", SOURCES),
     (ROOT / "manifests" / "upstream.repos", ROOT / "px4" / "upstream"),
+)
+PERCEPTION_MANIFEST_ROOT = (
+    ROOT / "manifests" / "perception.repos",
+    SOURCES,
 )
 FULL_SHA = re.compile(r"[0-9a-f]{40}")
 
@@ -109,11 +114,24 @@ def unmanaged_ros_packages(managed: set[Path], errors: list[str]) -> None:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="verify that checked-out repositories match the exact manifests"
+    )
+    parser.add_argument(
+        "--with-perception",
+        action="store_true",
+        help="also verify repositories from manifests/perception.repos",
+    )
+    args = parser.parse_args()
+
     errors: list[str] = []
     managed: set[Path] = set()
     repository_count = 0
+    manifest_roots = list(CORE_MANIFEST_ROOTS)
+    if args.with_perception:
+        manifest_roots.append(PERCEPTION_MANIFEST_ROOT)
 
-    for manifest, base in MANIFEST_ROOTS:
+    for manifest, base in manifest_roots:
         try:
             repositories = load_manifest(manifest)
         except (OSError, ValueError, yaml.YAMLError) as exc:
