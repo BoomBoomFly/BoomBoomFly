@@ -9,17 +9,17 @@ SRC_DIR="${WS_DIR}/src"
 UPSTREAM_DIR="${PX4_DIR}/upstream"
 ROS_MANIFEST="${ROOT_DIR}/manifests/boomboom.repos"
 UPSTREAM_MANIFEST="${ROOT_DIR}/manifests/upstream.repos"
-PERCEPTION_MANIFEST="${ROOT_DIR}/manifests/perception.repos"
-WITH_PERCEPTION=0
+PERCEPTION_DEPS_MANIFEST="${ROOT_DIR}/manifests/perception_deps.repos"
+WITH_PERCEPTION_DEPS=0
 
 usage() {
-  echo "usage: $0 [--with-perception]" >&2
+  echo "usage: $0 [--with-perception-deps]" >&2
 }
 
 while (($#)); do
   case "$1" in
-    --with-perception)
-      WITH_PERCEPTION=1
+    --with-perception-deps|--with-perception)
+      WITH_PERCEPTION_DEPS=1
       ;;
     -h|--help)
       usage
@@ -45,8 +45,8 @@ for manifest in "${ROS_MANIFEST}" "${UPSTREAM_MANIFEST}"; do
   fi
 done
 
-if ((WITH_PERCEPTION)) && [[ ! -f "${PERCEPTION_MANIFEST}" ]]; then
-  echo "error: manifest not found: ${PERCEPTION_MANIFEST}" >&2
+if ((WITH_PERCEPTION_DEPS)) && [[ ! -f "${PERCEPTION_DEPS_MANIFEST}" ]]; then
+  echo "error: manifest not found: ${PERCEPTION_DEPS_MANIFEST}" >&2
   exit 1
 fi
 
@@ -54,6 +54,6 @@ mkdir -p "${SRC_DIR}" "${UPSTREAM_DIR}"
 vcs import --recursive --skip-existing "${SRC_DIR}" < "${ROS_MANIFEST}"
 vcs import --recursive --skip-existing "${UPSTREAM_DIR}" < "${UPSTREAM_MANIFEST}"
 
-if ((WITH_PERCEPTION)); then
-  vcs import --recursive --skip-existing "${SRC_DIR}" < "${PERCEPTION_MANIFEST}"
+if ((WITH_PERCEPTION_DEPS)); then
+  vcs import --recursive --skip-existing "${SRC_DIR}" < "${PERCEPTION_DEPS_MANIFEST}"
 fi

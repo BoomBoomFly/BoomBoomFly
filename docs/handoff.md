@@ -1,67 +1,109 @@
 ---
 title: BoomBoomFly 当前交接
-status: phase-1-sitl-partially-validated
-updated: 2026-08-11
+status: h-fake-runtime-validated-gateway-sitl-unvalidated
+updated: 2026-08-13
 ---
 
 # BoomBoomFly 当前交接
 
-这是当前工作的唯一交接入口。优先级为：当前用户确认的任务与硬件约束 > 本文 >
-[统一技术路线](BoomBoomFly_统一技术路线.md) > 历史资料与旧代码。
+这是当前工作的唯一状态入口。长期不变量见[工作区架构](工作区架构.md)，参考项目采用决策与阶段路线见
+[参考框架采用与演进路线](参考框架采用与演进路线.md)，实机操作只按
+[第一阶段实机门禁清单](第一阶段实机门禁清单.md)推进。当前用户确认的要求优先于本文。
 
-## 当前目标
+## 当前结论
 
-第一阶段仅验证最小飞行闭环：观察一次 PX4 未解锁 → 等待 EKF2 本地定位健康 → RC 解锁上升沿
-→ Offboard → 相对本地 home 起飞 1.5 m → 悬停 60 s → 返回 home → Land。
+目标工作区架构已落到代码、接口、launch、测试和文档层；八个自研嵌套仓库的变更已分别通过 PR
+合并到默认分支，并由核心 manifest 锁定精确 merge commit。H 任务已完成不连接 PX4 的 fake Action
+纵向闭环，但新 gateway 和 D 任务链仍未完成运行时闭环。本轮没有启动 SITL、DDS Agent、QGC
+或任何飞行动作。
 
-目标追踪、投放、串口 START、实机飞行均不在当前范围。
+旧 `TI` 路径已迁移为 `px4/px4_ws/src/boomboom/ti`，原独立 Git 历史、远端和用户已有删除记录均保留。
+
+自有框架路线已冻结为“稳定能力接口 + 单一飞行执行器 + 可替换 navigation backend + 任务应用”。
+Aerostack2、BehaviorTree.CPP、EGO-Planner 和 GCOPTER 当前都不加入核心依赖；PX4 ROS 2 Interface
+Library 只保留为 direct-Offboard 基线完成后的隔离 A/B 候选。
 
 ## 当前实现
 
-| 范围 | 已实现边界 |
+| 范围 | 当前状态 |
 |---|---|
-| `common` | `boomboom_common` 的 C99 core 和 ROS 2 转换层；core 不依赖 ROS、PX4、Linux、HAL、动态内存、文件系统或 UART。 |
-| `offboard_cpp` | 单个 20 Hz `offboard_mission_node`，内部为 `MissionController + Px4Interface`，是三个生产 PX4 控制输入的唯一 writer。 |
-| `px4_vision_bridge` | `nav_msgs/Odometry → VehicleOdometry → DDS`；负责坐标、时间、协方差和输入健康。 |
-| `communication` | 保留独立仓库边界；第一阶段没有运行节点或协议。 |
-| `px4_bringup` | SITL/hardware launch 与分层参数；只编排进程和节点，不承载任务状态机。 |
+| `common` | 保留 ROS-free C99 core；新增 `LocalPose`、`FlightState`、目标观测、设备命令/回执和 `ExecuteFlight` Action。 |
+| `offboard_cpp` | 新默认 `offboard_gateway_node` 提供 `/offboard/execute_flight` 与 `/boomboom/flight_state`；legacy mission 仅作兼容回放。两者共享 PX4 I/O 边界，但不可同时运行。 |
+| `px4_vision_bridge` | DDS/MAVROS backend 互斥；hardware MAVROS 默认要求已标定机体 TF。 |
+| `px4_bringup` | SITL/hardware 默认 `start_gateway=true`、`start_mission=false`；launch guard 拒绝双控制 writer。 |
+| `communication` | 已定义 Ground/UAV/Car 的版本、session、sequence、幂等和断连语义；未选择传输或线格式。 |
+| `ti` | 已建立 `mission_core`、`navigation`、H、D、任务 bringup 五包及模板；H 已接通外部 START/取消、覆盖路径、串行 Action 结果和观测统计，D 仍是接口模板；无 `px4_msgs` 或 `/fmu/in/*`。 |
+| `perception` | 独立仓库和初始 README 已纳入工作区；动物、小车和降落标志感知实现尚未建立和验证。 |
+| `embedded_systems` | 现有驱动已统一整理到 `drivers/`，固件、小车、载荷和共享代码占位已建立；设备命令/回执集成尚未建立和验证。 |
+| manifests | 核心 manifest 已锁定 `common`、`communication`、`embedded_systems`、`offboard_cpp`、`px4_vision_bridge`、`px4_bringup`、`perception` 和 `ti` 的已合并精确提交。 |
 
-PX4 与 `px4_msgs` 固定为 v1.16.2，Micro XRCE-DDS Agent 为 v2.4.2。PX4 v1.16 的状态话题使用
+PX4 与 `px4_msgs` 基线为 v1.16.2，Micro XRCE-DDS Agent 为 v2.4.2；PX4 v1.16 状态话题使用
 `/fmu/out/vehicle_status_v1`。
 
-## 必须保持的行为
+目标机 Jetson Orin Nano 已由用户确认升级为 Ubuntu 22.04 / ROS 2 Humble。该升级解除旧 ROS 2 版本约束，
+但升级后的目标机工作区构建、依赖、DDS、VIO 和无桨地面联调仍须重新验证。
 
-- 先观察一次 `DISARMED`；只有 `STICK_GESTURE` 或 `RC_SWITCH` 的解锁上升沿能启动任务。
-- 程序不发送 ARM、DISARM 或 Kill；Kill、人工接管和 Offboard 退出由 RC/PX4 决定。
-- 飞行反馈只使用 PX4 EKF2 的 `VehicleLocalPosition`；定位失效时原地请求 Land，不盲目返航。
-- 进入 Offboard 前，以 20 Hz 预发送至少 1 s，并同时等待匹配 ACK 和实际 `nav_state == OFFBOARD`。
-- home 在启动沿冻结；坐标 reset 同步修正 home 和目标；用户或 PX4 使系统退出 Offboard 后不抢回控制权。
-- `/offboard/cancel_mission`（`std_srvs/srv/Trigger`）仅在 `HOVER` 接受；随后返回冻结本地 home 并 Land。Land 请求后不可取消，RC 接管、failsafe 与定位失效优先。
-- vision bridge 仅在 `TimesyncStatus` 新鲜且输入有效时写入 PX4；任务控制不绕过 EKF2 使用原始 VIO。
+## 当前架构离线证据
 
-## 已有证据
+- 九个目标包已在空的标准 `px4/px4_ws/build|install|log` 完成一次性依赖顺序构建：
+  `px4_msgs`、common、mission_core、navigation、H、D、gateway、vision bridge 和 bringup。
+- 55 个包级 CTest 条目及 `px4_bringup` 7 个 pytest 全部通过；其中包含 `px4_msgs` 29 个生成代码
+  lint 条目和 H 的 9 个测试。聚合 `colcon test` 仍有包间固定长等待，包级测试结果已经分别核实。
+- common、communication 合约检查和 `Scripts/workspace/verify_architecture.py` 通过。
+- gateway、TI 总入口、SITL bringup、hardware bringup 四组 launch 参数解析通过。
+- 架构检查确认：TI 不依赖 `px4_msgs`，H/D 互不依赖且都经 navigation 使用飞行 Action，
+  `offboard_cpp` 不依赖 TI，三个 PX4 控制输入只出现在 `offboard_cpp` 生产代码。
+- gateway 单测覆盖非法/NaN goal、单 goal、RC 启动门、取消转 HOLD、定位或 heading 失效、原地 Land、
+  Land 不可取消和新落地样本门禁。
+- H 网格覆盖测试确认执行路径只经过四邻接自由格，并覆盖单洞、窄条、不连通和确定性场景。
+- H 节点现提供 `/boomboom/task_h/start`、`/boomboom/task_h/cancel` 和
+  `/boomboom/task_h/state`；`auto_start` 仍默认关闭，任务层只经 navigation adapter 请求飞行能力。
+- H fake 成功场景以 3 个连续禁飞格跑通 60 个自由格、119 个连续 GOTO 航点及
+  `TAKEOFF -> GOTO* -> RETURN_HOME -> LAND -> COMPLETE`，逐段确认 0.5 m 四邻接和不穿越禁飞格；
+  节点级 reject、abort、timeout、巡航取消、Land 取消拒绝和假观测统计场景也通过。
+- fake H ROS 图检查未发现 `/fmu/in/*` publisher；`verify_architecture.py` 和 `git diff --check` 通过。
 
-- Humble 工作区已构建 `px4_msgs`、`boomboom_common`、`px4_vision_bridge`、`offboard_cpp` 和 `px4_bringup`；相关 CTest 通过。返航取消新增状态机测试和限定 `offboard_cpp` 构建也已通过。
-- Humble `gz_x500` 中，真实 RC 解锁沿已完成 Offboard、1.5 m 起飞、约 60 s 悬停、返回、Land 与解除解锁；程序未发送 ARM、DISARM 或 Kill。
-- 外部 ARM 不触发任务；人工切出 Offboard、mission node 退出、以及仅中断 Offboard 心跳时，PX4 接管且 mission 不重抢控制权。
-- mission 的本地位置订阅副本断流后，约 238 ms 请求 Land；PX4 接受并完成落地。此证据只覆盖 mission 输入断流，不替代真实 VIO、bridge 或 EKF2 失效。
-- 静止合成 `/vision/odometry` 已在未解锁 SITL 被 EKF2 融合；它不代表真实 VIO，且不得在飞行中继续发布。
-- Offboard ACK timeout 与拒绝 ACK 的 mission 分支已通过注入验证；PX4 原生模式拒绝已见到，但不是 mission 自身 Offboard 请求的原生拒绝。
-- 在 HOVER 调用 `/offboard/cancel_mission` 已完成 SITL 验证：服务成功返回，mission 记录 `RETURN_HOME` 与 `CANCELLED` 原因，随后返航、PX4 接受 Land 命令、收到新的 `landed = true` 样本并解除解锁。状态、事件、ACK 和落地样本已录入独立 rosbag。
-- 在 PX4 已解除解锁且无飞行任务时完成一次受控 Micro XRCE-DDS Agent 重连；新 session 建立后 `TimesyncStatus` 恢复为 DDS source，连续样本间隔约为 1.004–1.008 s。本次只证明重连后的恢复，不推断时间域异常根因。
+以上证明 H 任务层到 fake Action server 的开发机 Humble 运行时闭环，不是新 gateway 的 SITL、真实感知、
+Jetson 或实机证据。
 
-## 未验证与停止条件
+## 仍有效的 legacy 运行证据
 
-- mission 自身 Offboard 请求的 PX4 原生拒绝 ACK，以及 ACK 接受但 `nav_state` 未进入 Offboard 的 timeout。
-- `TimesyncStatus` 周期性 ROS epoch/PX4 boot 时间域切换的根因；受控重连后已恢复 DDS 样本，但缺少同一异常前的连续基线，尚不能与自然 time-jump 对比。
-- 真实 VIO 的动态、延迟、reset、外参与 EKF2 稳定性；Jetson Orin Nano / Foxy 构建和无桨联调。
-- 所有实机解锁、Kill、人工接管、系留和受控飞行步骤。
+以下证据属于显式 legacy `offboard_mission_node` 或视觉 bridge，不会自动转移到新 Action gateway：
 
-任一实机前停止条件未通过，均不得进入自主飞行；Humble SITL 结果不能推断 Foxy、Jetson 或 Pixhawk
-2.4.8 已通过。
+- Humble `gz_x500` 已以真实 RC 解锁沿完成 Offboard、1.5 m 起飞、约 60 s 悬停、本地 home 返回、Land
+  和解除解锁；程序未发送 ARM、DISARM 或 Kill。
+- 外部 ARM 不触发任务；人工切出 Offboard、mission 退出或 PX4 failsafe 后，legacy mission 不重抢控制权。
+- legacy HOVER 取消已完成返回、Land ACK、新 `landed = true` 样本和解除解锁。
+- Offboard ACK target 关联、拒绝、timeout 计时和 Land 新样本保护已有回归；accepted ACK 后始终不进入
+  Offboard 的原生运行时分支仍未复现。
+- 合成静止 Odometry 的 DDS EKF2 融合和合成静止 TF 的 MAVROS 链路已在未解锁 SITL 通过；这不是
+  真实 VIO、动态外参、速度融合、目标 Jetson/Humble 或飞行证据。
+- WSL 周期 realtime 后跳已归因到 `systemd-timesyncd` 的 32 s NTP 校时；临时停止后的 host 与原样 A/B
+  稳定，但持久 mask 和 Windows suspend/resume 仍未验证。
 
-## 下一工作窗口
+## 停止条件
 
-1. 为自然 time-jump 建立连续的 `TimesyncStatus` 基线，再与已完成的受控 Agent 重连样本比较，定位时间域异常根因。
-2. 为 mission 自身的 PX4 原生 Offboard 拒绝和 state-timeout 分别采集匹配 ACK、原始 `nav_state`、mission state/event 与 ulog。
-3. 真实 VIO 与 Foxy/Jetson 无桨地面联调通过后，才可按[实机门禁](第一阶段实机门禁清单.md)推进。
+- 新 `/offboard/execute_flight` 的 ROS 图、Action 时序、QoS、PX4 ACK 和故障分支尚未运行 SITL。
+- H 当前只验证 fake flight/perception：没有真实动物识别、地面站显示保存、激光设备、场地坐标标定、
+  真实飞行时限或新 gateway/PX4 证据，不得称为 H 赛题或飞行闭环。
+- D wrapper 已声明 Action、订阅和设备 publisher，但尚未把 FSM 接到外部 START、Action 结果、目标观测
+  和设备回执，不得称为 D 赛题闭环。
+- 八个自研嵌套仓库已合并并回到干净默认分支；核心 manifest 已纳管 `communication` 和 `ti`。
+  完整 `verify_repos.py` 仍被上游 `Micro-XRCE-DDS-Agent` 中既有未跟踪目录
+  `build-system-fastdds/` 阻塞；本轮未删除或忽略该用户/上游构建状态。
+- 真实 VIO 动态、延迟、reset、相机到机体外参，以及升级后的 Jetson Orin Nano Ubuntu 22.04/Humble
+  构建和无桨地面联调均未完成。
+- 所有实机解锁、Kill、人工接管、系留和受控飞行步骤都必须停在现场操作员逐项批准之前。
+
+任一停止条件未解除，均不得把开发机 Humble 离线或 legacy SITL 结果外推为新 gateway、TI、目标
+Jetson/Humble 或实机通过。
+
+## 下一步顺序
+
+1. 在未解锁 SITL 中核对新 gateway 的 ROS 图、单 writer、状态、Action 接受/取消和错误分支；进入 RC
+   解锁阶段前必须另行取得操作员确认。
+2. 再用模拟目标和设备回执冻结 D 任务的 `FollowTarget`、动态降落和轨迹接口；在接口、
+   地图和实时预算明确前不引入 GCOPTER、EGO-Planner 或 BehaviorTree.CPP。
+3. 处理开发机持久授时策略、真实 VIO，并在升级后的 Jetson Orin Nano Ubuntu 22.04/Humble 上完成构建、
+   DDS 和无桨联调，再进入实机门禁。BehaviorTree.ROS2 的 ROS 版本条件已满足，但仍只在任务复杂度达到
+   引入门槛后评估，不进入当前 H 闭环。
