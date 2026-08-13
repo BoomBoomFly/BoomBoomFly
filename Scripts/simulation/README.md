@@ -1,4 +1,4 @@
-# Simulation
+# 仿真
 
 本目录提供 PX4 SITL 的构建、运行和定向清理入口，使用以下工程路径：
 
@@ -16,7 +16,7 @@ bash Scripts/simulation/build_px4_sitl.sh
 # Ubuntu 20.04 默认运行 Gazebo Classic；Ubuntu 22.04 默认运行 gz_x500
 bash Scripts/simulation/run_px4_sitl.sh
 
-# 也可显式指定 PX4 simulation target
+# 也可显式指定 PX4 仿真目标
 bash Scripts/simulation/run_px4_sitl.sh gz_x500_vision
 bash Scripts/simulation/run_px4_sitl.sh gazebo-classic
 
@@ -33,10 +33,10 @@ source install/setup.bash
 ros2 launch px4_bringup sitl.launch.py
 ```
 
-该 launch 默认启动唯一的 UDP 8888 Micro XRCE-DDS Agent、vision bridge 和 mission node。
-若 Agent 已由其他终端管理，先用 `ss -lunp | rg ':8888'` 核对后，改用
-`start_agent:=false`；不得启动第二个 Agent 或第二个生产 mission writer。
+该启动文件默认启动唯一的 UDP 8888 Micro XRCE-DDS Agent、视觉桥接节点和任务节点。
+若该代理已由其他终端管理，先用 `ss -lunp | rg ':8888'` 核对后，改用
+`start_agent:=false`；不得启动第二个代理或第二个生产任务写入方。
 
 脚本不安装系统依赖。Ubuntu 20.04 和 22.04 分别使用 PX4 v1.16 官方推荐的
-Gazebo Classic 与新 Gazebo 默认目标；其他系统必须显式传入 simulation target。
+Gazebo Classic 与新 Gazebo 默认目标；其他系统必须显式传入仿真目标。
 `HEADLESS=1`、`PX4_GZ_WORLD` 等 PX4 环境变量会原样传递给 `make`。

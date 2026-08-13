@@ -18,8 +18,8 @@ CORE_MANIFEST_ROOTS = (
     (ROOT / "manifests" / "boomboom.repos", SOURCES),
     (ROOT / "manifests" / "upstream.repos", ROOT / "px4" / "upstream"),
 )
-PERCEPTION_MANIFEST_ROOT = (
-    ROOT / "manifests" / "perception.repos",
+PERCEPTION_DEPS_MANIFEST_ROOT = (
+    ROOT / "manifests" / "perception_deps.repos",
     SOURCES,
 )
 FULL_SHA = re.compile(r"[0-9a-f]{40}")
@@ -118,9 +118,11 @@ def main() -> int:
         description="verify that checked-out repositories match the exact manifests"
     )
     parser.add_argument(
+        "--with-perception-deps",
         "--with-perception",
+        dest="with_perception_deps",
         action="store_true",
-        help="also verify repositories from manifests/perception.repos",
+        help="also verify repositories from manifests/perception_deps.repos",
     )
     args = parser.parse_args()
 
@@ -128,8 +130,8 @@ def main() -> int:
     managed: set[Path] = set()
     repository_count = 0
     manifest_roots = list(CORE_MANIFEST_ROOTS)
-    if args.with_perception:
-        manifest_roots.append(PERCEPTION_MANIFEST_ROOT)
+    if args.with_perception_deps:
+        manifest_roots.append(PERCEPTION_DEPS_MANIFEST_ROOT)
 
     for manifest, base in manifest_roots:
         try:

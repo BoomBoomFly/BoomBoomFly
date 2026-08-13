@@ -1,4 +1,4 @@
-# Optional RealSense dependencies imported under px4/px4_ws/src.
+# Optional third-party perception dependencies imported under px4/px4_ws/src.
 repositories:
   external/librealsense:
     type: git
