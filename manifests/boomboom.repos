@@ -8,27 +8,27 @@ repositories:
   boomboom/common:
     type: git
     url: https://github.com/BoomBoomFly/common.git
-    version: 4c9e9bc7da24427a2423a7f36246d2ec0ca0bf55
+    version: dc6e5a949d631e1c3865f48a9716c112cc903790
   boomboom/communication:
     type: git
     url: https://github.com/BoomBoomFly/communication.git
-    version: 4e50364ffe3c7dceaaa8eab70aa451aed25388b5
+    version: da24977b232d986408927c692ba3762cfbd26bcd
   boomboom/embedded_systems:
     type: git
     url: https://github.com/BoomBoomFly/embedded_systems.git
-    version: 929cef46f27ed75c626f8d8fc26143cbdf88db0c
+    version: b773f7c76400b7506de5ca5e43fcef1a39cc8e98
   boomboom/offboard_cpp:
     type: git
     url: https://github.com/BoomBoomFly/offboard_cpp.git
-    version: 49731852af3cf16b2738d8227324007684e0dd7b
+    version: 7bedfad12a1313827231d4d3219a5f262699e582
   boomboom/px4_vision_bridge:
     type: git
     url: https://github.com/BoomBoomFly/px4_vision_bridge.git
-    version: 622f7c6a5fd51023ad60d658c9d62ae5b6cded1b
+    version: 42ecd60a8539d145ce582429b611e27cc3e5ecd0
   boomboom/px4_bringup:
     type: git
     url: https://github.com/BoomBoomFly/px4_bringup.git
-    version: db7138dbc7a0c28a1b0181b692bc3b726c966b98
+    version: 92a0880a40e70e6f745a140ec510cb192f49b7ff
   boomboom/perception:
     type: git
     url: https://github.com/BoomBoomFly/perception.git
@@ -36,4 +36,4 @@ repositories:
   boomboom/ti:
     type: git
     url: https://github.com/BoomBoomFly/TI.git
-    version: 7a2fb64a9fbea17e5ed09a6df7f571790e94f95e
+    version: 1a8d4f9f66e9b1945974a8dd56d663903496bfa2

@@ -12,12 +12,12 @@ updated: 2026-08-14
 
 ## 当前结论
 
-上一发布基线的八个自研嵌套仓库仍由核心 manifest 锁定精确 merge commit。本轮顶层及 `common`、
-`communication`、`embedded_systems`、`offboard_cpp`、`px4_bringup`、`px4_vision_bridge`、`ti` 的改动已分别
-提交并推送到 `agent/simplify-workspace-20260814` 草稿 PR；`perception` 保持干净且无需发布。当前改动删除
-无消费者代码和空运行入口，复用现有 ROS/native 能力，并通过隔离构建与离线测试。H 任务继续保有不连接
-PX4 的 fake Action 纵向闭环；新 gateway 和 D 任务链仍未完成运行时闭环。本轮没有启动 SITL、DDS Agent、
-QGC 或任何飞行动作。
+本轮发布已按嵌套仓库优先、顶层仓库最后的顺序完成合并。`common`、`communication`、
+`embedded_systems`、`offboard_cpp`、`px4_bringup`、`px4_vision_bridge` 和 `ti` 的精确 merge commit 已写入
+核心 manifest；对应远端与本地工作分支均已删除。`perception` 保持干净且无需发布。当前改动删除无消费者
+代码和空运行入口，复用现有 ROS/native 能力，并通过隔离构建与离线测试。H 任务继续保有不连接 PX4 的
+fake Action 纵向闭环；新 gateway 和 D 任务链仍未完成运行时闭环。本轮没有启动 SITL、DDS Agent、QGC
+或任何飞行动作。
 
 旧 `TI` 路径已迁移为 `px4/px4_ws/src/boomboom/ti`，原独立 Git 历史、远端和用户已有删除记录均保留。
 年份目录使用 `ti_2025/ti_2026`，ROS 包名和节点入口仍保持 `boomboom_task_h/boomboom_task_d`，避免目录整理
@@ -39,7 +39,7 @@ Library 只保留为 direct-Offboard 基线完成后的隔离 A/B 候选。
 | `ti` | 删除无必要的公共生命周期包、H 的重复 FSM 层和任务模板。H 协调器直接管理状态/结果并接通 fake Action；D 只保留 ROS-free FSM，不提供空节点；无 `px4_msgs` 或 `/fmu/in/*`。 |
 | `perception` | 独立仓库和初始 README 已纳入工作区；动物、小车和降落标志感知实现尚未建立和验证。 |
 | `embedded_systems` | 删除未绑定目标板卡、无构建消费者的旧平台驱动；目标硬件确定后优先采用 Linux `gpiolib`/`libgpiod`、`i2c-dev`、`leds-gpio`。 |
-| manifests | 仍锁定上一已合并发布基线；当前七个嵌套仓库的未提交改动尚未形成可复现 manifest。 |
+| manifests | 锁定本轮八个自研嵌套仓库的精确已合并 commit；`perception` 沿用未变基线。 |
 
 PX4 与 `px4_msgs` 基线为 v1.16.2，Micro XRCE-DDS Agent 为 v2.4.2；PX4 v1.16 状态话题使用
 `/fmu/out/vehicle_status_v1`。
@@ -49,13 +49,12 @@ PX4 与 `px4_msgs` 基线为 v1.16.2，Micro XRCE-DDS Agent 为 v2.4.2；PX4 v1.
 
 ## 当前架构离线证据
 
-- 删除旧版闭包后的 `offboard_cpp` 与 `px4_bringup` 已在 `/tmp` 隔离目录构建通过，未写入现有
+- 删除旧版闭包后的 8 个 ROS 包已在 `/tmp` 全新隔离目录构建通过，48 个测试全部通过，未写入现有
   `px4/px4_ws/build|install|log`。
-- `offboard_cpp` 2 个 CTest 入口和 `px4_bringup` 5 个 pytest 全部通过；临时安装树只包含
-  `offboard_gateway_node` 和 5 个现行 launch 文件。
+- `offboard_gateway.launch.py`、`sitl.launch.py`、`hardware.launch.py` 和 `ti_task.launch.py` 的
+  `--show-args` 全部通过；临时安装树只包含现行运行入口。
 - common、communication 合约检查和 `Scripts/workspace/verify_architecture.py` 通过。
-- `offboard_gateway.launch.py`、`sitl.launch.py`、`hardware.launch.py` 和 `ti_task.launch.py`
-  的 `--show-args` 均解析通过，且不再暴露 D 的空运行入口。
+- 现行 launch 不再暴露 D 的空运行入口。
 - 架构检查确认：TI 不依赖 `px4_msgs`，H/D 互不依赖，已接入飞行的 H 经 navigation 使用 Action，
   `offboard_cpp` 不依赖 TI，三个 PX4 控制输入只出现在 `offboard_cpp` 生产代码。
 - gateway 单测覆盖非法/NaN goal、单 goal、RC 启动门、取消转 HOLD、定位或 heading 失效、原地 Land、
@@ -84,8 +83,9 @@ Jetson 或实机证据。
 - H 当前只验证 fake flight/perception：没有真实动物识别、地面站显示保存、激光设备、场地坐标标定、
   真实飞行时限或新 gateway/PX4 证据，不得称为 H 赛题或飞行闭环。
 - D 只有 ROS-free FSM；外部 START、Action、感知、设备回执和节点均未实现，不得称为 D 赛题闭环。
-- 八个草稿 PR 尚未合并，manifest 仍只指向上一发布基线，因此当前工作分支不能称为新的可复现发布。上游
-  `Micro-XRCE-DDS-Agent/build-system-fastdds/` 仍未删除或忽略。
+- 本轮八个 PR 和核心 manifest 已形成新的可复现发布；上游
+  `Micro-XRCE-DDS-Agent/build-system-fastdds/` 仍是用户拥有的未跟踪目录，因此全量 `verify_repos.py` 仍会
+  报告该项，但本轮未删除、忽略或纳入提交。
 - 真实 VIO 动态、延迟、reset、相机到机体外参，以及升级后的 Jetson Orin Nano Ubuntu 22.04/Humble
   构建和无桨地面联调均未完成。
 - 所有实机解锁、Kill、人工接管、系留和受控飞行步骤都必须停在现场操作员逐项批准之前。
@@ -95,12 +95,12 @@ Jetson/Humble 或实机通过。
 
 ## 下一步顺序
 
-1. 审查并合并七个嵌套仓库 PR，再以其精确 merge commit 更新顶层 manifest；顶层 PR 最后合并。未经明确
-   要求不合并 PR 或删除分支。
-2. 在未解锁 SITL 中核对新 gateway 的 ROS 图、单 writer、状态、Action 接受/取消和错误分支；进入 RC
+1. 在未解锁 SITL 中核对新 gateway 的 ROS 图、单 writer、状态、Action 接受/取消和错误分支；进入 RC
    解锁阶段前必须另行取得操作员确认。
-3. 再用模拟目标和设备回执冻结 D 任务的 `FollowTarget`、动态降落和轨迹接口；在接口、
+2. 再用模拟目标和设备回执冻结 D 任务的 `FollowTarget`、动态降落和轨迹接口；在接口、
    地图和实时预算明确前不引入 GCOPTER、EGO-Planner 或 BehaviorTree.CPP。
-4. 处理开发机持久授时策略、真实 VIO，并在升级后的 Jetson Orin Nano Ubuntu 22.04/Humble 上完成构建、
+3. 处理开发机持久授时策略、真实 VIO，并在升级后的 Jetson Orin Nano Ubuntu 22.04/Humble 上完成构建、
    DDS 和无桨联调，再进入实机门禁。BehaviorTree.ROS2 的 ROS 版本条件已满足，但仍只在任务复杂度达到
    引入门槛后评估，不进入当前 H 闭环。
+4. 若要求全量 `verify_repos.py` 无告警，再单独审计并处理上游
+   `Micro-XRCE-DDS-Agent/build-system-fastdds/`；不得把该上游目录混入自研仓库发布。
