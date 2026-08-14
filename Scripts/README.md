@@ -34,6 +34,11 @@ Scripts/
 ./Scripts/workspace/build.sh
 ./Scripts/workspace/build.sh offboard_cpp
 
+# 查看 clangd 编译数据库摘要，或查询指定源码的真实编译命令
+./Scripts/workspace/read_compile_commands.py
+./Scripts/workspace/read_compile_commands.py \
+  px4/px4_ws/src/boomboom/offboard_cpp/src/gateway/gateway_executor.cpp
+
 # 在当前 shell 加载 ROS 2 和已构建的工作区
 source Scripts/workspace/setup_env.sh
 
@@ -54,6 +59,10 @@ Micro-XRCE-DDS-Agent 不属于 colcon 源码树，按各自上游说明独立构
 只有需要从源码恢复这些依赖时才使用 `--with-perception-deps`。旧参数 `--with-perception` 仍作为兼容别名。
 无参数 `build.sh` 使用 colcon 的 `--packages-up-to px4_bringup`，不会顺带构建当前源码树中的可选
 RealSense、MAVROS、RTAB-Map 或 IMU 工具；需要其中某包时显式传入包名。
+
+`read_compile_commands.py` 默认读取 `px4/px4_ws/build/compile_commands.json`，输出 JSON 摘要；
+传入源码路径或文件名时输出匹配的编译记录。使用 `--database` 可以读取其他数据库，例如
+`px4/upstream/PX4-Autopilot/build/px4_sitl_default/compile_commands.json`。
 
 `verify_architecture.py` 不连接 PX4，也不运行节点；它检查公共接口只由 `common` 提供、`ti` 不依赖
 `px4_msgs` 或 `/fmu/in/*`、H/D 任务不互相依赖，且已接入飞行的 H 任务通过
