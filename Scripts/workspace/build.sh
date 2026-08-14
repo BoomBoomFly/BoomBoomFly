@@ -38,5 +38,5 @@ cd "${WS_DIR}"
 if (($# == 1)); then
   colcon build --symlink-install --base-paths "${SRC_DIR}" --packages-up-to "$1"
 else
-  colcon build --symlink-install --base-paths "${SRC_DIR}"
+  colcon build --symlink-install --base-paths "${SRC_DIR}" --packages-up-to px4_bringup
 fi

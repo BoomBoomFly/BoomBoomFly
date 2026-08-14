@@ -38,7 +38,7 @@ cd /home/aa/BoomBoomFly
 # 同时恢复可选 RealSense 源码依赖
 ./Scripts/workspace/pull_repos.sh --with-perception-deps
 
-# 仅构建 ROS 2 工作区；可指定一个包及其依赖
+# 默认构建核心 bringup 及其依赖；也可指定一个包及其依赖
 ./Scripts/workspace/build.sh
 ./Scripts/workspace/build.sh offboard_cpp
 
@@ -79,15 +79,6 @@ PX4-Autopilot 和 Micro-XRCE-DDS-Agent 不由 colcon 构建：分别在
 当前实现、验证证据和停止条件见 [交接文档](docs/handoff.md)；长期接口和安全边界见
 [工作区架构](docs/工作区架构.md)，任何实机操作只按
 [第一阶段实机门禁清单](docs/第一阶段实机门禁清单.md)推进。
-
-## 第一阶段 SITL 状态
-
-Humble `gz_x500` 已验证真实 RC 解锁沿触发的 Offboard 正常闭环：1.5 m 起飞、约 60 s
-悬停、返回本地归航点、降落和解除解锁。`/offboard/cancel_mission` 也已在 HOVER 中完成
-SITL 验证，记录了 `CANCELLED`、降落 ACK 和新的 `landed = true` 样本。
-
-受控 Micro XRCE-DDS Agent 重连后，`TimesyncStatus` 恢复为 DDS source；这只说明重连后的
-恢复，不能替代自然时间跳变的根因分析，也不能外推到 Foxy、Jetson 或实机。
 
 ## 当前边界
 

@@ -14,10 +14,9 @@ TI = BOOMBOOM / "ti"
 BRINGUP_LAUNCH = BOOMBOOM / "px4_bringup" / "launch"
 
 TI_PACKAGE_DIRS = {
-    "boomboom_mission_core": "boomboom_mission_core",
     "boomboom_navigation": "boomboom_navigation",
-    "boomboom_task_h": "TI_2025",
-    "boomboom_task_d": "TI_2026",
+    "boomboom_task_h": "ti_2025",
+    "boomboom_task_d": "ti_2026",
 }
 COMMON_INTERFACES = (
     "msg/LocalPose.msg",
@@ -76,6 +75,11 @@ def main() -> int:
         if not manifest.is_file():
             errors.append(f"missing TI package manifest: {manifest.relative_to(ROOT)}")
             continue
+        manifest_name = (ET.parse(manifest).getroot().findtext("name") or "").strip()
+        if manifest_name != package:
+            errors.append(
+                f"{manifest.relative_to(ROOT)} must keep ROS package name {package}"
+            )
         package_deps = dependencies(manifest)
         ti_dependencies[package] = package_deps
         if "px4_msgs" in package_deps:
@@ -98,9 +102,8 @@ def main() -> int:
                     f"{source.relative_to(ROOT)} bypasses boomboom_navigation flight adapter"
                 )
 
-    for task_package in ("boomboom_task_h", "boomboom_task_d"):
-        if "boomboom_navigation" not in ti_dependencies.get(task_package, set()):
-            errors.append(f"{task_package} must depend on boomboom_navigation")
+    if "boomboom_navigation" not in ti_dependencies.get("boomboom_task_h", set()):
+        errors.append("boomboom_task_h must depend on boomboom_navigation")
 
     if "boomboom_task_d" in ti_dependencies.get("boomboom_task_h", set()):
         errors.append("boomboom_task_h must not depend on boomboom_task_d")
