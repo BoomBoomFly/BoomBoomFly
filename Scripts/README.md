@@ -30,7 +30,7 @@ Scripts/
 # 仅在所有受管理仓库干净时更新
 ./Scripts/workspace/update_repos.sh
 
-# 构建全部 ROS 2 包，或指定一个包及其依赖
+# 默认构建 px4_bringup 及其核心依赖，或指定一个包及其依赖
 ./Scripts/workspace/build.sh
 ./Scripts/workspace/build.sh offboard_cpp
 
@@ -52,9 +52,12 @@ Micro-XRCE-DDS-Agent 不属于 colcon 源码树，按各自上游说明独立构
 自研 `perception` 和 `embedded_systems` 由核心 `manifests/boomboom.repos` 恢复。
 `manifests/perception_deps.repos` 只保存 RealSense SDK 和 ROS 封装等可选第三方感知依赖的精确版本；
 只有需要从源码恢复这些依赖时才使用 `--with-perception-deps`。旧参数 `--with-perception` 仍作为兼容别名。
+无参数 `build.sh` 使用 colcon 的 `--packages-up-to px4_bringup`，不会顺带构建当前源码树中的可选
+RealSense、MAVROS、RTAB-Map 或 IMU 工具；需要其中某包时显式传入包名。
 
 `verify_architecture.py` 不连接 PX4，也不运行节点；它检查公共接口只由 `common` 提供、`ti` 不依赖
-`px4_msgs` 或 `/fmu/in/*`、H/D 任务不互相依赖且都通过 `boomboom_navigation` 使用飞行 Action，
+`px4_msgs` 或 `/fmu/in/*`、H/D 任务不互相依赖，且已接入飞行的 H 任务通过
+`boomboom_navigation` 使用 Action，
 以及三个 PX4 控制输入只在 `offboard_cpp` 生产代码中出现。
 
 `monitor_clocks.py` 只采样 Linux 三类时钟并写入 CSV，不查询或修改 systemd/NTP。检测到
