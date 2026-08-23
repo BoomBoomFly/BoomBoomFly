@@ -1,14 +1,24 @@
 ---
 title: BoomBoomFly 当前交接
 status: offline-validated-gateway-sitl-unvalidated
-updated: 2026-08-14
+updated: 2026-08-23
 ---
 
 # BoomBoomFly 当前交接
 
-这是当前工作的唯一状态入口。长期不变量见[工作区架构](工作区架构.md)，参考项目采用决策与阶段路线见
+这是当前工作的唯一状态入口。零基础接手者先读[零基础开源项目阅读与学习路线](零基础开源项目阅读与学习路线.md)，
+长期不变量见[工作区架构](工作区架构.md)，参考项目采用决策与阶段路线见
 [参考框架采用与演进路线](参考框架采用与演进路线.md)，实机操作只按
 [第一阶段实机门禁清单](第一阶段实机门禁清单.md)推进。当前用户确认的要求优先于本文。
+
+## 新人接手入口
+
+- 零基础接手者不以本工作区源码作为 C++、ROS 2、PX4 或 VIO 教材，先按学习路线阅读经过版本和许可证
+  核验的外部 GitHub 项目；路线不包含练习、构建、仿真或实机操作。
+- 已具备相关基础的接手者按“当前结论 -> 当前实现 -> 停止条件 -> 下一步顺序”阅读本文，再按需进入架构、
+  参考框架和实机门禁文档。
+- 学习完成只代表具备阅读背景，不改变安全权限。启动 SITL、DDS Agent、QGC、目标机联调、解锁或飞行前
+  仍须按本交接的停止条件重新取得批准。
 
 ## 当前结论
 
@@ -49,6 +59,9 @@ PX4 与 `px4_msgs` 基线为 v1.16.2，Micro XRCE-DDS Agent 为 v2.4.2；PX4 v1.
 
 ## 当前架构离线证据
 
+- 2026-08-23 只读复核确认：顶层和八个自研嵌套仓库工作树干净，
+  `Scripts/workspace/verify_architecture.py` 通过；`verify_repos.py` 仅因既有上游
+  `Micro-XRCE-DDS-Agent/build-system-fastdds/` 未跟踪目录失败，本轮未处理该用户拥有目录。
 - 删除旧版闭包后的 8 个 ROS 包已在 `/tmp` 全新隔离目录构建通过，48 个测试全部通过，未写入现有
   `px4/px4_ws/build|install|log`。
 - `offboard_gateway.launch.py`、`sitl.launch.py`、`hardware.launch.py` 和 `ti_task.launch.py` 的
