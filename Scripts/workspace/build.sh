@@ -35,8 +35,15 @@ elif [[ -f "/opt/ros/${ROS_DISTRO}/setup.bash" ]]; then
 fi
 
 cd "${WS_DIR}"
+build_options=()
+# Jetson 默认内核可能未启用 HID_SENSOR_HUB，原生后端会丢失 D435i IMU。
+# 仅在显式构建 RealSense 时选择用户态 USB 后端。
+if [[ "$(uname -r)" == *tegra* ]] &&
+   [[ "${1:-}" == realsense2_camera || "${1:-}" == librealsense2 ]]; then
+  build_options+=(--metas "${SCRIPT_DIR}/realsense_jetson.meta")
+fi
 if (($# == 1)); then
-  colcon build --symlink-install --base-paths "${SRC_DIR}" --packages-up-to "$1"
+  colcon build --symlink-install --base-paths "${SRC_DIR}" "${build_options[@]}" --packages-up-to "$1"
 else
   colcon build --symlink-install --base-paths "${SRC_DIR}" --packages-up-to px4_bringup
 fi

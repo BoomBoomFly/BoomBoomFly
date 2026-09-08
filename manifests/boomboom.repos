@@ -20,15 +20,15 @@ repositories:
   boomboom/offboard_cpp:
     type: git
     url: https://github.com/BoomBoomFly/offboard_cpp.git
-    version: 7bedfad12a1313827231d4d3219a5f262699e582
+    version: 1079550573733e46c4dbb7839ef767682ac6a38a
   boomboom/px4_vision_bridge:
     type: git
     url: https://github.com/BoomBoomFly/px4_vision_bridge.git
-    version: 42ecd60a8539d145ce582429b611e27cc3e5ecd0
+    version: b6caaa510430fc68dc305ba5ba692cd445d5db54
   boomboom/px4_bringup:
     type: git
     url: https://github.com/BoomBoomFly/px4_bringup.git
-    version: 92a0880a40e70e6f745a140ec510cb192f49b7ff
+    version: 665a8e60598365cd2c0ea9a3bf0449647a752af9
   boomboom/perception:
     type: git
     url: https://github.com/BoomBoomFly/perception.git
@@ -36,4 +36,4 @@ repositories:
   boomboom/ti:
     type: git
     url: https://github.com/BoomBoomFly/TI.git
-    version: 1a8d4f9f66e9b1945974a8dd56d663903496bfa2
+    version: 4a982a545b1ea45118af894d0818e53028e12309

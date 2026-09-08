@@ -1,0 +1,7 @@
+{
+  "names": {
+    "librealsense2": {
+      "cmake-args": ["-DFORCE_RSUSB_BACKEND=ON"]
+    }
+  }
+}

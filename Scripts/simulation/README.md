@@ -33,7 +33,8 @@ source install/setup.bash
 ros2 launch px4_bringup sitl.launch.py
 ```
 
-该启动文件默认启动唯一的 UDP 8888 Micro XRCE-DDS Agent、视觉桥接节点和任务节点。
+该启动文件默认启动唯一的 UDP 8888 Micro XRCE-DDS Agent、视觉桥接节点和飞行网关。H 任务需另用 `ti_task.launch.py` 作为统一入口；
+不要把两个入口同时启动，以免重复 Agent 和网关。
 若该代理已由其他终端管理，先用 `ss -lunp | rg ':8888'` 核对后，改用
 `start_agent:=false`；不得启动第二个代理或第二个生产任务写入方。
 

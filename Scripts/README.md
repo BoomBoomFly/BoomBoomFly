@@ -50,6 +50,14 @@ python3 Scripts/workspace/monitor_clocks.py --duration-sec 180 \
 ./Scripts/workspace/clean.sh
 ```
 
+`pull_repos.sh` 导入前仅移除所选清单中的空占位目录，避免 vcstool 将其跳过。已有 Git 仓库
+保留；非空非仓库目录或符号链接会报出路径并停止，不删除其中的数据。已有仓库仍使用
+`--skip-existing`，因此恢复后须运行版本校验。离线回归：
+
+```bash
+python3 -B Scripts/workspace/tests/test_pull_repos.py
+```
+
 工作区脚本管理 `px4/px4_ws/` 和 `px4/upstream/`。PX4 和
 Micro-XRCE-DDS-Agent 不属于 colcon 源码树，按各自上游说明独立构建和运行。
 `update_repos.sh` 不覆盖未提交修改；上游仓库按清单固定版本，只执行 `fetch`。
@@ -59,6 +67,11 @@ Micro-XRCE-DDS-Agent 不属于 colcon 源码树，按各自上游说明独立构
 只有需要从源码恢复这些依赖时才使用 `--with-perception-deps`。旧参数 `--with-perception` 仍作为兼容别名。
 无参数 `build.sh` 使用 colcon 的 `--packages-up-to px4_bringup`，不会顺带构建当前源码树中的可选
 RealSense、MAVROS、RTAB-Map 或 IMU 工具；需要其中某包时显式传入包名。
+
+Jetson 上执行 `./Scripts/workspace/build.sh realsense2_camera` 或 `librealsense2` 时，
+脚本通过 `realsense_jetson.meta` 为 SDK 启用 `FORCE_RSUSB_BACKEND=ON`，使相机 IMU 不依赖
+Jetson 内核的 HID Sensor Hub。桌面机和无参数核心构建保持原有选择。
+D435i 故障记录与启动命令见 [D435i 调试记录](../docs/D435i调试记录.md)。
 
 `read_compile_commands.py` 默认读取 `px4/px4_ws/build/compile_commands.json`，输出 JSON 摘要；
 传入源码路径或文件名时输出匹配的编译记录。使用 `--database` 可以读取其他数据库，例如

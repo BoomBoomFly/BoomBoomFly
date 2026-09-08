@@ -23,7 +23,7 @@ BoomBoomFly/
 顶层仓库不提交各嵌套仓库的源码或构建产物。使用 `manifests/` 和 vcstool 恢复、锁定
 各仓库版本；`px4/px4_ws/src/boomboom/` 中的项目包仍保持独立 Git 历史与远端。
 
-目标仓库职责、`ti` 五包结构和单一控制权边界见[工作区架构](docs/工作区架构.md)。
+目标仓库职责、`ti` 三包结构和单一控制权边界见[工作区架构](docs/工作区架构.md)。
 `embedded_systems` 已作为独立嵌套仓库保留，用于嵌入式驱动、小车和后续硬件扩展；`perception`
 也已建立独立仓库，用于任务级目标感知。当前迁移不会把 BehaviorTree.CPP 或第三方规划器变成核心依赖。
 
@@ -79,6 +79,14 @@ PX4-Autopilot 和 Micro-XRCE-DDS-Agent 不由 colcon 构建：分别在
 当前实现、验证证据和停止条件见 [交接文档](docs/handoff.md)；长期接口和安全边界见
 [工作区架构](docs/工作区架构.md)，任何实机操作只按
 [第一阶段实机门禁清单](docs/第一阶段实机门禁清单.md)推进。
+
+## 当前 VIO 接入状态
+
+D435i 图像与 IMU 已有采集记录，但本工作区尚未接入 OpenVINS 源码、启动项和标定配置。
+视觉桥目前等待 `/vision/odometry`（`nav_msgs/msg/Odometry`，ENU 世界 / FLU 机体），
+转换为 `px4_msgs/msg/VehicleOdometry` 后发布 `/fmu/in/vehicle_visual_odometry`。
+这段接口实现不等于 D435i → OpenVINS → PX4 EKF2 的真实链路已经贯通。
+本轮代码修复、保留项与验证结果见[代码审查与清理记录](docs/代码审查与清理记录.md)。
 
 ## 当前边界
 
