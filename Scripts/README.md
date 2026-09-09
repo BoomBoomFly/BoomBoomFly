@@ -11,11 +11,11 @@ Scripts/
 ## 工作区管理
 
 ```bash
-# 导入核心仓库（需要 vcstool）
-./Scripts/workspace/pull_repos.sh
+# 导入缺失仓库，并更新核心清单中的分支仓库（需要 Git、Python 3 和 PyYAML）
+python3 -B Scripts/workspace/sync_repos.py pull
 
 # 同时导入可选感知源码依赖
-./Scripts/workspace/pull_repos.sh --with-perception-deps
+python3 -B Scripts/workspace/sync_repos.py pull --with-perception-deps
 
 # 校验核心仓库，或同时校验感知依赖
 ./Scripts/workspace/verify_repos.py
@@ -27,8 +27,11 @@ Scripts/
 # 查看受管理仓库的分支、提交和脏状态
 ./Scripts/workspace/repo_status.sh
 
-# 仅在所有受管理仓库干净时更新
-./Scripts/workspace/update_repos.sh
+# 更新分支仓库（要求干净）；固定提交仓库仅 fetch
+python3 -B Scripts/workspace/sync_repos.py update
+
+# 推送 boomboom 下所有仓库当前分支的已提交改动
+./Scripts/workspace/push_repos.sh
 
 # 默认构建 px4_bringup 及其核心依赖，或指定一个包及其依赖
 ./Scripts/workspace/build.sh
@@ -50,17 +53,17 @@ python3 Scripts/workspace/monitor_clocks.py --duration-sec 180 \
 ./Scripts/workspace/clean.sh
 ```
 
-`pull_repos.sh` 导入前仅移除所选清单中的空占位目录，避免 vcstool 将其跳过。已有 Git 仓库
-保留；非空非仓库目录或符号链接会报出路径并停止，不删除其中的数据。已有仓库仍使用
-`--skip-existing`，因此恢复后须运行版本校验。离线回归：
-
-```bash
-python3 -B Scripts/workspace/tests/test_pull_repos.py
-```
+`manifests/boomboom.repos` 使用分支名：自研仓库跟随各自的 `main`、`master` 或 `DDS`，
+`px4_msgs` 跟随 `release/1.16`。`sync_repos.py pull` 导入缺失仓库后同步这些分支；
+`sync_repos.py update` 同步清单中已存在的仓库。统一入口直接调用 Git，
+无需安装 vcstool。每次同步都会 fetch 并快进到远端分支最新提交。
+旧清单产生的 detached HEAD 在可快进时自动切回指定分支；本地修改、分叉或额外提交会报错，
+不会自动 stash、reset 或强制覆盖。非空非仓库目录和符号链接也不会被删除。
+`verify_repos.py` 离线检查分支及本地已 fetch 的远端引用；要检查最新状态，先运行同步脚本。
 
 工作区脚本管理 `px4/px4_ws/` 和 `px4/upstream/`。PX4 和
 Micro-XRCE-DDS-Agent 不属于 colcon 源码树，按各自上游说明独立构建和运行。
-`update_repos.sh` 不覆盖未提交修改；上游仓库按清单固定版本，只执行 `fetch`。
+`sync_repos.py update` 不覆盖未提交修改；固定版本仓库只执行 `fetch`，本地修改或构建产物不会阻塞更新。
 
 自研 `perception` 和 `embedded_systems` 由核心 `manifests/boomboom.repos` 恢复。
 `manifests/perception_deps.repos` 只保存 RealSense SDK 和 ROS 封装等可选第三方感知依赖的精确版本；
@@ -98,3 +101,7 @@ bash Scripts/simulation/clean_px4_sitl.sh
 Ubuntu 20.04 默认使用 Gazebo Classic，Ubuntu 22.04 默认使用 `gz_x500`；也可以把 PX4
 仿真目标作为 `run_px4_sitl.sh` 的参数。详细说明见
 `Scripts/simulation/README.md`。
+
+`push_repos.sh` 仅推送 `px4/px4_ws/src/boomboom/` 下各仓库的当前分支到其跟踪分支，
+不自动提交，不使用强制推送，不包含主仓库或第三方依赖。存在未提交修改、detached HEAD
+或缺少跟踪分支时停止；多个仓库依次推送，若中途失败，先前成功的推送不会回滚。

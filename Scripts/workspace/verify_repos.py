@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify that the working tree matches the exact vcstool manifests."""
+"""Verify that the working tree matches the vcstool manifest commits or branches."""
 
 from __future__ import annotations
 
@@ -57,8 +57,6 @@ def verify_repository(
 ) -> Path:
     label = f"{manifest.name}:{relative}"
     version = str(specification.get("version", ""))
-    if FULL_SHA.fullmatch(version) is None:
-        errors.append(f"{label}: version is not an exact 40-character commit: {version!r}")
 
     repo = (base / relative).resolve()
     if not repo.is_dir():
@@ -71,7 +69,13 @@ def verify_repository(
         return repo
 
     head = git(repo, "rev-parse", "HEAD")
-    if head.returncode != 0 or head.stdout.strip() != version:
+    expected = version
+    if FULL_SHA.fullmatch(version) is None:
+        branch = git(repo, "branch", "--show-current").stdout.strip()
+        if branch != version:
+            errors.append(f"{label}: branch {branch!r} does not match {version!r}")
+        expected = git(repo, "rev-parse", "--verify", f"refs/remotes/origin/{version}").stdout.strip()
+    if head.returncode != 0 or head.stdout.strip() != expected:
         errors.append(f"{label}: HEAD {head.stdout.strip()!r} does not match {version}")
 
     expected_url = normalize_url(str(specification.get("url", "")))
@@ -115,7 +119,7 @@ def unmanaged_ros_packages(managed: set[Path], errors: list[str]) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="verify that checked-out repositories match the exact manifests"
+        description="verify that checked-out repositories match manifest commits or locally fetched branch tips"
     )
     parser.add_argument(
         "--with-perception-deps",
@@ -167,7 +171,7 @@ def main() -> int:
             print(f"- {error}", file=sys.stderr)
         return 1
 
-    print(f"verified {repository_count} exact, clean repositories")
+    print(f"verified {repository_count} clean repositories against local refs")
     return 0
 
 

@@ -1,39 +1,39 @@
 # ROS 2 workspace repositories imported under px4/px4_ws/src.
-# Versions are exact remote commits; validation boundaries are recorded in docs/handoff.md.
+# Follow the latest commits on these branches when importing or updating.
 repositories:
   external/px4_msgs:
     type: git
     url: https://github.com/PX4/px4_msgs.git
-    version: 392e831c1f659429ca83902e66820d7094591410
+    version: release/1.16
   boomboom/common:
     type: git
     url: https://github.com/BoomBoomFly/common.git
-    version: dc6e5a949d631e1c3865f48a9716c112cc903790
+    version: main
   boomboom/communication:
     type: git
     url: https://github.com/BoomBoomFly/communication.git
-    version: da24977b232d986408927c692ba3762cfbd26bcd
+    version: main
   boomboom/embedded_systems:
     type: git
     url: https://github.com/BoomBoomFly/embedded_systems.git
-    version: b773f7c76400b7506de5ca5e43fcef1a39cc8e98
+    version: master
   boomboom/offboard_cpp:
     type: git
     url: https://github.com/BoomBoomFly/offboard_cpp.git
-    version: 1079550573733e46c4dbb7839ef767682ac6a38a
+    version: DDS
   boomboom/px4_vision_bridge:
     type: git
     url: https://github.com/BoomBoomFly/px4_vision_bridge.git
-    version: b6caaa510430fc68dc305ba5ba692cd445d5db54
+    version: master
   boomboom/px4_bringup:
     type: git
     url: https://github.com/BoomBoomFly/px4_bringup.git
-    version: 665a8e60598365cd2c0ea9a3bf0449647a752af9
+    version: DDS
   boomboom/perception:
     type: git
     url: https://github.com/BoomBoomFly/perception.git
-    version: ccb4fd30d70b11dac15cdd21b0edea7f7e8b229f
+    version: main
   boomboom/ti:
     type: git
     url: https://github.com/BoomBoomFly/TI.git
-    version: 4a982a545b1ea45118af894d0818e53028e12309
+    version: master

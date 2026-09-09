@@ -32,11 +32,11 @@ BoomBoomFly/
 ```bash
 cd /home/aa/BoomBoomFly
 
-# 恢复核心仓库（需要 vcstool）
-./Scripts/workspace/pull_repos.sh
+# 恢复核心仓库（需要 Git、Python 3 和 PyYAML）
+python3 -B Scripts/workspace/sync_repos.py pull
 
 # 同时恢复可选 RealSense 源码依赖
-./Scripts/workspace/pull_repos.sh --with-perception-deps
+python3 -B Scripts/workspace/sync_repos.py pull --with-perception-deps
 
 # 默认构建核心 bringup 及其依赖；也可指定一个包及其依赖
 ./Scripts/workspace/build.sh
@@ -62,7 +62,7 @@ PX4-Autopilot 和 Micro-XRCE-DDS-Agent 不由 colcon 构建：分别在
 说明独立构建和运行。`Scripts/README.md` 说明各工程级脚本的范围。
 
 `./Scripts/workspace/repo_status.sh` 可查看受管理仓库的分支、提交和脏状态；
-`./Scripts/workspace/update_repos.sh` 只会在工作树干净时更新。ROS 2 构建产物位于
+`python3 -B Scripts/workspace/sync_repos.py update` 更新分支仓库前要求其工作树干净；固定提交仓库仅 fetch，允许保留本地修改。ROS 2 构建产物位于
 `px4/px4_ws/build/`、`px4/px4_ws/install/` 和 `px4/px4_ws/log/`，可使用
 `./Scripts/workspace/clean.sh` 删除。
 
@@ -91,22 +91,21 @@ D435i 图像与 IMU 已有采集记录，但本工作区尚未接入 OpenVINS �
 ## 当前边界
 
 `common`、`communication`、`offboard_cpp`、`px4_vision_bridge`、`px4_bringup`、`ti`、`perception`
-和 `embedded_systems` 保持各自独立的 Git 历史与远端。只有嵌套仓库形成真实提交并完成验证后，
-顶层清单才锁定新的 SHA。
+和 `embedded_systems` 保持各自独立的 Git 历史与远端，核心清单跟随指定分支的最新提交。
 
 ## 可复现性检查
 
-核心清单使用精确提交而不是浮动分支。恢复脚本会递归初始化自研仓库所声明的
-Git 子模块。构建或飞行验证前运行：
+核心清单使用分支名，第三方依赖清单保留固定提交。首次克隆会递归初始化 Git 子模块。
+校验脚本检查本地已获取的远端引用及工作区状态，不代表硬件或飞行验证。运行：
 
 ```bash
 cd /home/aa/BoomBoomFly
-./Scripts/workspace/pull_repos.sh
+python3 -B Scripts/workspace/sync_repos.py pull
 ./Scripts/workspace/verify_repos.py
 ./Scripts/workspace/verify_architecture.py
 
 # 使用可选感知源码依赖时
-./Scripts/workspace/pull_repos.sh --with-perception-deps
+python3 -B Scripts/workspace/sync_repos.py pull --with-perception-deps
 ./Scripts/workspace/verify_repos.py --with-perception-deps
 ```
 

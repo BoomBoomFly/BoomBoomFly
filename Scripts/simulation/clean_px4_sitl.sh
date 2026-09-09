@@ -12,7 +12,7 @@ PX4_DIR="${ROOT_DIR}/px4/upstream/PX4-Autopilot"
 BUILD_DIR="${PX4_DIR}/build/px4_sitl_default"
 
 if [[ ! -d "${PX4_DIR}" ]]; then
-  echo "error: PX4-Autopilot is missing; run Scripts/workspace/pull_repos.sh first." >&2
+  echo "error: PX4-Autopilot is missing; run python3 -B Scripts/workspace/sync_repos.py pull first." >&2
   exit 1
 fi
 

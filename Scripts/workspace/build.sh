@@ -42,8 +42,4 @@ if [[ "$(uname -r)" == *tegra* ]] &&
    [[ "${1:-}" == realsense2_camera || "${1:-}" == librealsense2 ]]; then
   build_options+=(--metas "${SCRIPT_DIR}/realsense_jetson.meta")
 fi
-if (($# == 1)); then
-  colcon build --symlink-install --base-paths "${SRC_DIR}" "${build_options[@]}" --packages-up-to "$1"
-else
-  colcon build --symlink-install --base-paths "${SRC_DIR}" --packages-up-to px4_bringup
-fi
+colcon build --symlink-install --base-paths "${SRC_DIR}" "${build_options[@]}" --packages-up-to "${1:-px4_bringup}"
