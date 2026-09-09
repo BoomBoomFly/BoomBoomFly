@@ -38,6 +38,9 @@ ros2 launch px4_bringup sitl.launch.py
 若该代理已由其他终端管理，先用 `ss -lunp | rg ':8888'` 核对后，改用
 `start_agent:=false`；不得启动第二个代理或第二个生产任务写入方。
 
-脚本不安装系统依赖。Ubuntu 20.04 和 22.04 分别使用 PX4 v1.16 官方推荐的
+脚本不安装系统依赖。运行脚本在 Ubuntu 20.04 和 22.04 分别选择
 Gazebo Classic 与新 Gazebo 默认目标；其他系统必须显式传入仿真目标。
 `HEADLESS=1`、`PX4_GZ_WORLD` 等 PX4 环境变量会原样传递给 `make`。
+
+仓库恢复、自动提交与推送见[工程脚本说明](../README.md#提交与推送)。推送范围包含自研子仓库和
+BoomBoomFly 根仓库，PX4 与 DDS Agent 上游仓库不在其中；运行仿真脚本本身不会提交或推送。

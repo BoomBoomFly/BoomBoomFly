@@ -4,7 +4,7 @@
 
 ```text
 Scripts/
-├── workspace/   # 仓库拉取、更新、状态、构建、清理和环境加载
+├── workspace/   # 仓库拉取、更新、提交、推送、状态、构建、清理和环境加载
 └── simulation/  # PX4 SITL 构建与运行入口
 ```
 
@@ -30,8 +30,10 @@ python3 -B Scripts/workspace/sync_repos.py pull --with-perception-deps
 # 更新分支仓库（要求干净）；固定提交仓库仅 fetch
 python3 -B Scripts/workspace/sync_repos.py update
 
-# 推送 boomboom 下所有仓库当前分支的已提交改动
-./Scripts/workspace/push_repos.sh
+# 自动暂存、提交并推送 boomboom 下所有仓库，最后处理 BoomBoomFly 根仓库
+./Scripts/push_git.sh boomboom "更新自研功能包"
+./Scripts/push_git.sh main "更新脚本与文档"
+./Scripts/push_git.sh all "更新工作区"
 
 # 默认构建 px4_bringup 及其核心依赖，或指定一个包及其依赖
 ./Scripts/workspace/build.sh
@@ -44,10 +46,6 @@ python3 -B Scripts/workspace/sync_repos.py update
 
 # 在当前 shell 加载 ROS 2 和已构建的工作区
 source Scripts/workspace/setup_env.sh
-
-# 记录 realtime/monotonic/boottime，检查校时跳变与 suspend/resume
-python3 Scripts/workspace/monitor_clocks.py --duration-sec 180 \
-  --output /tmp/boomboom-clocks.csv
 
 # 删除 ROS 2 工作区构建产物
 ./Scripts/workspace/clean.sh
@@ -85,9 +83,6 @@ D435i 故障记录与启动命令见 [D435i 调试记录](../docs/D435i调试记
 `boomboom_navigation` 使用 Action，
 以及三个 PX4 控制输入只在 `offboard_cpp` 生产代码中出现。
 
-`monitor_clocks.py` 只采样 Linux 三类时钟并写入 CSV，不查询或修改 systemd/NTP。检测到
-实时时钟跳变时返回 2；带 `--require-suspend` 但未观察到休眠/恢复时返回 3。
-
 ## 仿真
 
 仿真脚本放在 `Scripts/simulation/`，与 ROS 2 工作区脚本分开维护：
@@ -102,6 +97,19 @@ Ubuntu 20.04 默认使用 Gazebo Classic，Ubuntu 22.04 默认使用 `gz_x500`�
 仿真目标作为 `run_px4_sitl.sh` 的参数。详细说明见
 `Scripts/simulation/README.md`。
 
-`push_repos.sh` 仅推送 `px4/px4_ws/src/boomboom/` 下各仓库的当前分支到其跟踪分支，
-不自动提交，不使用强制推送，不包含主仓库或第三方依赖。存在未提交修改、detached HEAD
-或缺少跟踪分支时停止；多个仓库依次推送，若中途失败，先前成功的推送不会回滚。
+## 提交与推送
+
+从 BoomBoomFly 根目录运行 `./Scripts/push_git.sh <范围> "提交说明"`。
+`boomboom` 仅处理自研子仓库，`main` 仅处理根仓库，`all` 先处理自研子仓库再处理根仓库。
+范围名 `main` 不指定 Git 分支，仍推送仓库当前分支。
+原入口 `./Scripts/workspace/push_repos.sh` 保留为全量推送，使用默认提交说明 `chore: sync local changes`。
+脚本先检查所选目标仓库的当前分支和上游；全量模式按目录顺序处理
+`px4/px4_ws/src/boomboom/` 下具有 `.git` 的直接子目录，最后处理 BoomBoomFly 根仓库。
+
+每个仓库执行 `git add -A`，纳入所有未忽略的新增、修改和删除；有暂存改动时执行
+`git commit -m "提交说明"`，无改动则跳过提交，随后推送当前 HEAD 到配置的上游分支。
+运行前应确认这些改动均准备发布，并已配置 Git 提交身份和上游分支。
+
+脚本不推送 `px4/upstream/`、`external/` 等第三方依赖，不强制推送，也不自动拉取或解决冲突。
+任一目标处于 detached HEAD 或缺少上游时，在暂存前停止；提交或推送失败时立即停止，
+已经完成的暂存、提交和推送不会回滚。子仓库源码由根仓库的 `.gitignore` 排除，保留独立 Git 历史。

@@ -16,11 +16,11 @@ BoomBoomFly/
 ├── Scripts/
 │   ├── workspace/                  # 仓库与 ROS 2 工作区管理
 │   └── simulation/                 # PX4 SITL 仿真入口
-├── manifests/                      # vcstool 多仓库清单
+├── manifests/                      # Git 多仓库清单
 └── docs/                           # 硬件、验证和通信契约文档
 ```
 
-顶层仓库不提交各嵌套仓库的源码或构建产物。使用 `manifests/` 和 vcstool 恢复、锁定
+顶层仓库不提交各嵌套仓库的源码或构建产物。使用 `manifests/` 和 `sync_repos.py` 恢复、同步
 各仓库版本；`px4/px4_ws/src/boomboom/` 中的项目包仍保持独立 Git 历史与远端。
 
 目标仓库职责、`ti` 三包结构和单一控制权边界见[工作区架构](docs/工作区架构.md)。
@@ -37,6 +37,11 @@ python3 -B Scripts/workspace/sync_repos.py pull
 
 # 同时恢复可选 RealSense 源码依赖
 python3 -B Scripts/workspace/sync_repos.py pull --with-perception-deps
+
+# 自动暂存、提交并推送所有自研子仓库，最后处理 BoomBoomFly 根仓库
+./Scripts/push_git.sh boomboom "更新自研功能包"
+./Scripts/push_git.sh main "更新脚本与文档"
+./Scripts/push_git.sh all "更新工作区"
 
 # 默认构建核心 bringup 及其依赖；也可指定一个包及其依赖
 ./Scripts/workspace/build.sh
@@ -65,6 +70,10 @@ PX4-Autopilot 和 Micro-XRCE-DDS-Agent 不由 colcon 构建：分别在
 `python3 -B Scripts/workspace/sync_repos.py update` 更新分支仓库前要求其工作树干净；固定提交仓库仅 fetch，允许保留本地修改。ROS 2 构建产物位于
 `px4/px4_ws/build/`、`px4/px4_ws/install/` 和 `px4/px4_ws/log/`，可使用
 `./Scripts/workspace/clean.sh` 删除。
+
+推送脚本执行 `git add -A`，有暂存改动时以传入的提交说明提交，再推送当前分支到其上游。
+`boomboom` 仅处理自研子仓库，`main` 仅处理根仓库，`all` 处理两者。范围包含所选仓库所有未忽略的新增、修改和删除；不会推送第三方依赖。执行前确认改动均准备发布。
+上游要求及失败行为见[脚本说明](Scripts/README.md#提交与推送)。
 
 ## 飞行与感知边界
 
@@ -109,7 +118,7 @@ python3 -B Scripts/workspace/sync_repos.py pull --with-perception-deps
 ./Scripts/workspace/verify_repos.py --with-perception-deps
 ```
 
-`verify_repos.py` 会检查清单是否全部为 40 位提交、远端 URL、现场 HEAD、脏工作树、
+`verify_repos.py` 按清单中的固定提交或分支检查远端 URL、现场 HEAD、脏工作树、
 自研仓库子模块，以及是否存在未被清单管理的 ROS 包。任何检查失败都表示当前
-源码树不能被称为可复现基线。Humble 环境还必须提供各包声明的系统依赖；构建 `boomboom`
+源码树未通过清单一致性检查。分支会随远端更新；需要复现特定版本时应记录精确提交。Humble 环境还必须提供各包声明的系统依赖；构建 `boomboom`
 前应先构建并加载工作区中的 `px4_msgs`。
