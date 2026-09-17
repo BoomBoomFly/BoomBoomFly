@@ -1,0 +1,23 @@
+# ROS 2 / colcon 构建产物
+/ros_ws/build/
+/ros_ws/install/
+/ros_ws/log/
+
+# 第三方源码与参考仓库
+/ros_ws/upstream/
+/ros_ws/src/thirdparty/
+/references/
+/reference/
+/docker/kalibr/source/
+
+# 自写独立仓库：通过 Scripts/sync_ros_packages.sh 获取并单独提交
+# 不忽略整个 ros_ws/src，后续普通自写包仍可由主仓库跟踪。
+/ros_ws/src/uav_control/
+
+# Python 缓存与数据记录
+__pycache__/
+*.pyc
+*.bag
+*.db3
+*.mcap
+*.ulg
