@@ -10,9 +10,11 @@
 /reference/
 /docker/kalibr/source/
 
-# 自写独立仓库：通过 Scripts/sync_ros_packages.sh 获取并单独提交
+# 自写独立仓库：分别获取并单独提交，获取方式见 README
 # 不忽略整个 ros_ws/src，后续普通自写包仍可由主仓库跟踪。
 /ros_ws/src/uav_control/
+/ros_ws/src/uav_vio_bridge/
+/ros_ws/src/uav_bringup/
 
 # Python 缓存与数据记录
 __pycache__/

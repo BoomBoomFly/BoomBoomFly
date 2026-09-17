@@ -3,13 +3,13 @@ set -euo pipefail
 
 project_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 if [[ $# != 2 || -z "${2//[[:space:]]/}" ]]; then
-  echo "用法：$0 {main|uav_control} \"提交说明\"" >&2
+  echo "用法：$0 {main|uav_control|uav_vio_bridge|uav_bringup} \"提交说明\"" >&2
   exit 1
 fi
 
 case "$1" in
   main) target="${project_root}" ;;
-  uav_control) target="${project_root}/ros_ws/src/uav_control" ;;
+  uav_control|uav_vio_bridge|uav_bringup) target="${project_root}/ros_ws/src/$1" ;;
   *) echo "错误：未知仓库 $1" >&2; exit 1 ;;
 esac
 
@@ -21,7 +21,7 @@ branch="$(git -C "${target}" symbolic-ref --quiet --short HEAD)" || {
 git -C "${target}" remote get-url origin >/dev/null
 
 if [[ "$1" == main ]]; then
-  excluded=(ros_ws/src/uav_control ros_ws/src/thirdparty ros_ws/upstream
+  excluded=(ros_ws/src/uav_control ros_ws/src/uav_vio_bridge ros_ws/src/uav_bringup ros_ws/src/thirdparty ros_ws/upstream
             ros_ws/build ros_ws/install ros_ws/log references reference docker/kalibr/source)
   paths=(.)
   for path in "${excluded[@]}"; do

@@ -41,6 +41,12 @@ def main():
         package = root / 'ros_ws/src/uav_control'
         init_repo(package, temp / 'control.git')
         (package / 'control.txt').write_text('control\n')
+        bridge = root / 'ros_ws/src/uav_vio_bridge'
+        init_repo(bridge, temp / 'bridge.git')
+        (bridge / 'bridge.txt').write_text('bridge\n')
+        bringup = root / 'ros_ws/src/uav_bringup'
+        init_repo(bringup, temp / 'bringup.git')
+        (bringup / 'bringup.txt').write_text('bringup\n')
         for relative in ('ros_ws/src/thirdparty/mock/file', 'ros_ws/upstream/file',
                          'ros_ws/build/file', 'references/mock/file',
                          'docker/kalibr/source/file'):
@@ -61,6 +67,33 @@ def main():
         assert head in run('git', 'ls-remote', str(temp / 'control.git'), 'refs/heads/main')
         run('bash', str(push), 'uav_control', 'no changes')
         assert run('git', '-C', str(package), 'rev-parse', 'HEAD') == head
+        run('bash', str(push), 'uav_vio_bridge', 'bridge commit', cwd=temp)
+        bridge_head = run('git', '-C', str(bridge), 'rev-parse', 'HEAD')
+        assert bridge_head in run('git', 'ls-remote', str(temp / 'bridge.git'),
+                                  'refs/heads/main')
+        assert run('git', '-C', str(root), 'rev-parse', 'HEAD') == root_head
+        assert run('git', '-C', str(package), 'rev-parse', 'HEAD') == head
+        assert run('git', '-C', str(bridge), 'status', '--porcelain') == ''
+        run('bash', str(push), 'uav_vio_bridge', 'no changes')
+        assert run('git', '-C', str(bridge), 'rev-parse', 'HEAD') == bridge_head
+        run('bash', str(push), 'uav_bringup', 'bringup commit', cwd=temp)
+        bringup_head = run('git', '-C', str(bringup), 'rev-parse', 'HEAD')
+        assert bringup_head in run('git', 'ls-remote', str(temp / 'bringup.git'),
+                                   'refs/heads/main')
+        assert run('git', '-C', str(root), 'rev-parse', 'HEAD') == root_head
+        run('bash', str(push), 'uav_bringup', 'no changes')
+        assert run('git', '-C', str(bringup), 'rev-parse', 'HEAD') == bringup_head
+        run('git', '-C', str(root), 'add', 'ros_ws/src/uav_bringup')
+        index_before = run('git', '-C', str(root), 'diff', '--cached')
+        run('bash', str(push), 'main', 'must reject bringup', ok=False)
+        assert run('git', '-C', str(root), 'diff', '--cached') == index_before
+        run('git', '-C', str(root), 'reset', 'HEAD', '--', 'ros_ws/src/uav_bringup')
+        # 即使独立包误入主仓库暂存区，也必须停止并保留暂存内容。
+        run('git', '-C', str(root), 'add', 'ros_ws/src/uav_vio_bridge')
+        index_before = run('git', '-C', str(root), 'diff', '--cached')
+        run('bash', str(push), 'main', 'must reject bridge', ok=False)
+        assert run('git', '-C', str(root), 'diff', '--cached') == index_before
+        run('git', '-C', str(root), 'reset', 'HEAD', '--', 'ros_ws/src/uav_vio_bridge')
         run('git', '-C', str(root), 'add', 'ros_ws/src/thirdparty/mock/file')
         index_before = run('git', '-C', str(root), 'diff', '--cached')
         run('bash', str(push), 'main', 'must reject', ok=False)
@@ -71,26 +104,44 @@ def main():
         run('bash', str(push), 'uav_control', 'must reject', ok=False)
         run('git', '-C', str(package), 'checkout', 'main')
         # 远端新增提交后，同步脚本应只做快进。
-        peer = temp / 'peer'
-        run('git', 'clone', '-b', 'main', str(temp / 'control.git'), str(peer))
-        (peer / 'new.txt').write_text('remote update\n')
-        run('git', '-C', str(peer), 'add', 'new.txt')
-        run('git', '-C', str(peer), '-c', 'user.name=Test',
-            '-c', 'user.email=test@example.invalid', 'commit', '-m', 'update')
-        run('git', '-C', str(peer), 'push')
+        for remote in ('control.git', 'bridge.git', 'bringup.git'):
+            peer = temp / f'peer-{remote}'
+            run('git', 'clone', '-b', 'main', str(temp / remote), str(peer))
+            (peer / 'new.txt').write_text('remote update\n')
+            run('git', '-C', str(peer), 'add', 'new.txt')
+            run('git', '-C', str(peer), '-c', 'user.name=Test',
+                '-c', 'user.email=test@example.invalid', 'commit', '-m', 'update')
+            run('git', '-C', str(peer), 'push')
         sync = root / 'Scripts/sync_ros_packages.sh'
         run('bash', str(sync), cwd=temp)
         assert (package / 'new.txt').read_text() == 'remote update\n'
+        assert (bridge / 'new.txt').read_text() == 'remote update\n'
+        assert (bringup / 'new.txt').read_text() == 'remote update\n'
         # 首次 clone 通过 Git URL rewrite 转向本地 bare 仓库。
         shutil.rmtree(package)
+        shutil.rmtree(bridge)
+        shutil.rmtree(bringup)
         config = temp / 'gitconfig'
-        run('git', 'config', '--file', str(config),
-            f'url.{temp / "control.git"}.insteadOf',
-            'https://github.com/BoomBoomFly/uav_control.git')
-        run('git', '--git-dir', str(temp / 'control.git'), 'symbolic-ref', 'HEAD', 'refs/heads/main')
+        for name, remote in (('uav_control', 'control.git'), ('uav_vio_bridge', 'bridge.git'),
+                             ('uav_bringup', 'bringup.git')):
+            run('git', 'config', '--file', str(config),
+                f'url.{temp / remote}.insteadOf',
+                f'https://github.com/BoomBoomFly/{name}.git')
+            run('git', '--git-dir', str(temp / remote),
+                'symbolic-ref', 'HEAD', 'refs/heads/main')
         os.environ['GIT_CONFIG_GLOBAL'] = str(config)
         run('bash', str(sync), cwd=temp)
         assert (package / 'new.txt').exists()
+        assert (bridge / 'new.txt').exists()
+        assert (bringup / 'new.txt').exists()
+        shutil.rmtree(bringup / '.git')
+        run('bash', str(sync), ok=False)
+        run('bash', str(push), 'uav_bringup', 'must reject', ok=False)
+        assert (bringup / 'new.txt').exists()
+        shutil.rmtree(bridge / '.git')
+        run('bash', str(sync), ok=False)
+        run('bash', str(push), 'uav_vio_bridge', 'must reject', ok=False)
+        assert (bridge / 'new.txt').exists()
         shutil.rmtree(package / '.git')
         run('bash', str(sync), ok=False)
         run('bash', str(push), 'uav_control', 'must reject', ok=False)
