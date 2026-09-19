@@ -30,7 +30,10 @@ if [[ "$1" == main ]]; then
       echo "错误：暂存区包含独立仓库或第三方路径 ${path}，请先自行处理。" >&2
       exit 1
     fi
-    paths+=(":(exclude)${path}")
+    # 已由 ignore 规则排除的路径无需再传给 git add；显式传入会令 Git 报错。
+    if ! git -C "${target}" check-ignore -q -- "${path}"; then
+      paths+=(":(exclude)${path}")
+    fi
   done
   git -C "${target}" add -A -- "${paths[@]}"
 else
