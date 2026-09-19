@@ -1,0 +1,17 @@
+Script started on 2026-09-19 19:44:45+08:00 [TERM="dumb" TTY="/dev/pts/9" COLUMNS="80" LINES="24"]
+[INFO] [launch]: All log files can be found below /home/aa/.ros/log/2026-09-19-19-44-46-059012-rog-38613
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [mavros_interface_node-1]: process started with pid [38638]
+[INFO] [mission_node-2]: process started with pid [38640]
+[mission_node-2] [INFO] [1789818286.468703342] [uav_mission]: Mission started: climb 1.00 m, stable 2.0 s, hover 10.0 s
+[mission_node-2] [INFO] [1789818287.914907634] [uav_mission]: Flight stage: WAIT_READY
+[mavros_interface_node-1] [INFO] [1789818287.941677313] [mavros_interface]: MAVROS control ready: 20.0 Hz setpoint loop; target topic /uav_control/target
+[mavros_interface_node-1] [WARN] [1789818288.103416650] [mavros_interface]: New publisher discovered on topic '/mavros/local_position/pose', offering incompatible QoS. No messages will be sent to it. Last incompatible policy: RELIABILITY_QOS_POLICY
+[mavros_interface_node-1] [INFO] [1789818288.588639437] [mavros_interface]: FCU CONNECTED, mode=AUTO.LOITER, armed=false
+^C[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[mavros_interface_node-1] [INFO] [1789818300.696024756] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[mission_node-2] [INFO] [1789818300.696174741] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [mission_node-2]: process has finished cleanly [pid 38640]
+[INFO] [mavros_interface_node-1]: process has finished cleanly [pid 38638]
+
+Script done on 2026-09-19 19:45:00+08:00 [COMMAND_EXIT_CODE="0"]

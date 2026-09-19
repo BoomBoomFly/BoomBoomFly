@@ -1,0 +1,14 @@
+Script started on 2026-09-19 20:08:42+08:00 [<not executed on terminal>]
+[0m[INFO] [1789819722.772304689] [uav_mission]: Mission started: climb 1.00 m, stable 2.0 s, hover 10.0 s[0m
+[0m[INFO] [1789819722.822146540] [uav_mission]: Flight stage: PREPARE_OFFBOARD[0m
+[0m[INFO] [1789819724.033424825] [uav_mission]: Flight stage: REQUEST_OFFBOARD[0m
+[0m[INFO] [1789819724.081962495] [uav_mission]: Dispatching command id=1 code=1 (dispatch is not state confirmation)[0m
+[0m[INFO] [1789819724.082541307] [uav_mission]: Command id=1 dispatched=true: forwarded to MAVROS service[0m
+[0m[INFO] [1789819724.130306113] [uav_mission]: Flight stage: REQUEST_ARM[0m
+[0m[INFO] [1789819724.178919041] [uav_mission]: Dispatching command id=2 code=2 (dispatch is not state confirmation)[0m
+[0m[INFO] [1789819724.179346137] [uav_mission]: Command id=2 dispatched=true: forwarded to MAVROS service[0m
+[0m[INFO] [1789819724.469534482] [uav_mission]: Flight stage: TAKEOFF[0m
+[0m[INFO] [1789819732.707249879] [uav_mission]: Flight stage: STABILIZE[0m
+[0m[INFO] [1789819734.742284780] [uav_mission]: Flight stage: HOVER[0m
+
+Script done on 2026-09-19 20:09:05+08:00 [COMMAND_EXIT_CODE="0"]

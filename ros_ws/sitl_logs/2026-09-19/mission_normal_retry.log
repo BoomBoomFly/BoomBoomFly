@@ -1,0 +1,21 @@
+Script started on 2026-09-19 19:47:53+08:00 [TERM="dumb" TTY="/dev/pts/9" COLUMNS="80" LINES="24"]
+[INFO] [launch]: All log files can be found below /home/aa/.ros/log/2026-09-19-19-47-53-612721-rog-39700
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [mavros_interface_node-1]: process started with pid [39732]
+[INFO] [mission_node-2]: process started with pid [39734]
+[mavros_interface_node-1] [INFO] [1789818474.010509704] [mavros_interface]: MAVROS control ready: 20.0 Hz setpoint loop; target topic /uav_control/target
+[mission_node-2] [INFO] [1789818474.094450599] [uav_mission]: Mission started: climb 1.00 m, stable 2.0 s, hover 10.0 s
+[mission_node-2] [INFO] [1789818474.144541071] [uav_mission]: Flight stage: WAIT_READY
+[mavros_interface_node-1] [INFO] [1789818474.904549634] [mavros_interface]: FCU CONNECTED, mode=AUTO.LOITER, armed=false
+[mission_node-2] [INFO] [1789818475.067651785] [uav_mission]: Flight stage: PREPARE_OFFBOARD
+[mission_node-2] [INFO] [1789818476.283421122] [uav_mission]: Flight stage: REQUEST_OFFBOARD
+[mission_node-2] [INFO] [1789818476.332059891] [uav_mission]: Dispatching command id=1 code=1 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789818476.332444534] [uav_mission]: Command id=1 dispatched=false: MAVROS service unavailable or command unsupported
+[mission_node-2] [INFO] [1789818476.380628985] [uav_mission]: Flight stage: FINISHED
+[mission_node-2] [ERROR] [1789818476.380677036] [uav_mission]: FAIL: 控制命令未能转发: MAVROS service unavailable or command unsupported; no hover position measurements were recorded
+[INFO] [mission_node-2]: process has finished cleanly [pid 39734]
+^C[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[mavros_interface_node-1] [INFO] [1789818971.218781088] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [mavros_interface_node-1]: process has finished cleanly [pid 39732]
+
+Script done on 2026-09-19 19:56:11+08:00 [COMMAND_EXIT_CODE="0"]

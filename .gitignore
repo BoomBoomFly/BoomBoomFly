@@ -2,6 +2,7 @@
 /ros_ws/build/
 /ros_ws/install/
 /ros_ws/log/
+/log/
 
 # 第三方源码与参考仓库
 /ros_ws/upstream/
@@ -15,6 +16,7 @@
 /ros_ws/src/uav_control/
 /ros_ws/src/uav_vio_bridge/
 /ros_ws/src/uav_bringup/
+/ros_ws/src/uav_mission/
 
 # Python 缓存与数据记录
 __pycache__/

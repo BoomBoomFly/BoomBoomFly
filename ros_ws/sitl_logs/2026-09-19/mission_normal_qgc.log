@@ -1,0 +1,33 @@
+Script started on 2026-09-19 20:00:27+08:00 [<not executed on terminal>]
+[INFO] [launch]: All log files can be found below /home/aa/.ros/log/2026-09-19-20-00-27-565865-rog-44331
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [mavros_interface_node-1]: process started with pid [44332]
+[INFO] [mission_node-2]: process started with pid [44334]
+[mission_node-2] [INFO] [1789819227.965386493] [uav_mission]: Mission started: climb 1.00 m, stable 2.0 s, hover 10.0 s
+[mission_node-2] [INFO] [1789819228.015455248] [uav_mission]: Flight stage: WAIT_READY
+[mavros_interface_node-1] [INFO] [1789819228.053958340] [mavros_interface]: MAVROS control ready: 20.0 Hz setpoint loop; target topic /uav_control/target
+[mavros_interface_node-1] [INFO] [1789819228.358705176] [mavros_interface]: FCU CONNECTED, mode=OFFBOARD, armed=false
+[mission_node-2] [INFO] [1789819228.984216802] [uav_mission]: Flight stage: PREPARE_OFFBOARD
+[mission_node-2] [INFO] [1789819230.196747102] [uav_mission]: Flight stage: REQUEST_OFFBOARD
+[mission_node-2] [INFO] [1789819230.245351670] [uav_mission]: Dispatching command id=1 code=1 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819230.245831533] [uav_mission]: Command id=1 dispatched=true: forwarded to MAVROS service
+[mavros_interface_node-1] [INFO] [1789819230.246738102] [mavros_interface]: MAVROS command id=1 completed: accepted=true (MAVROS accepted OFFBOARD request)
+[mission_node-2] [INFO] [1789819230.293759928] [uav_mission]: Flight stage: REQUEST_ARM
+[mission_node-2] [INFO] [1789819230.342340670] [uav_mission]: Dispatching command id=2 code=2 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819230.342798024] [uav_mission]: Command id=2 dispatched=true: forwarded to MAVROS service
+[mavros_interface_node-1] [INFO] [1789819230.355701831] [mavros_interface]: MAVROS command id=2 completed: accepted=true (MAVROS accepted arm request)
+[mavros_interface_node-1] [INFO] [1789819231.331513998] [mavros_interface]: FCU CONNECTED, mode=OFFBOARD, armed=true
+[mission_node-2] [INFO] [1789819231.360818729] [uav_mission]: Flight stage: TAKEOFF
+[mission_node-2] [INFO] [1789819261.399934115] [uav_mission]: Flight stage: SAFETY_LAND
+[mission_node-2] [WARN] [1789819261.400037044] [uav_mission]: Safety landing active (起飞到 1.0 米目标超时); waiting for fresh landed and disarmed confirmation
+[mission_node-2] [INFO] [1789819261.448537584] [uav_mission]: Dispatching command id=3 code=3 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819261.449078811] [uav_mission]: Command id=3 dispatched=true: forwarded to MAVROS service
+[mavros_interface_node-1] [INFO] [1789819261.459534483] [mavros_interface]: MAVROS command id=3 completed: accepted=true (MAVROS accepted land request)
+[mavros_interface_node-1] [INFO] [1789819262.331392590] [mavros_interface]: FCU CONNECTED, mode=AUTO.LAND, armed=true
+[mission_node-2] [WARN] [1789819264.410876140] [uav_mission]: Safety landing active (起飞到 1.0 米目标超时); waiting for fresh landed and disarmed confirmation
+[mavros_interface_node-1] [INFO] [1789819265.331440462] [mavros_interface]: FCU CONNECTED, mode=OFFBOARD, armed=false
+[mission_node-2] [INFO] [1789819265.349963990] [uav_mission]: Flight stage: FINISHED
+[mission_node-2] [ERROR] [1789819265.350018966] [uav_mission]: FAIL: 起飞到 1.0 米目标超时; no hover position measurements were recorded
+[INFO] [mission_node-2]: process has finished cleanly [pid 44334]
+
+Script done on 2026-09-19 20:03:34+08:00 [COMMAND_EXIT_CODE="0"]

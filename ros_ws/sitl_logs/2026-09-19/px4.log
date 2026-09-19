@@ -1,0 +1,236 @@
+Script started on 2026-09-19 19:43:18+08:00 [TERM="dumb" TTY="/dev/pts/4" COLUMNS="80" LINES="24"]
+[0/1] cd /home/aa/BoomBoomFly/ros_ws/upstream/PX4-Autopilot/build/px4_sitl_default/src/modules/simulation/gz_bridge && /usr/bin/cmake -E env PX4_SIM_MODEL=gz_x500 GZ_IP=127.0.0.1 /home/aa/BoomBoomFly/ros_ws/upstream/PX4-Autopilot/build/px4_sitl_default/bin/px4
+
+______  __   __    ___ 
+| ___ \ \ \ / /   /   |
+| |_/ /  \ V /   / /| |
+|  __/   /   \  / /_| |
+| |     / /^\ \ \___  |
+\_|     \/   \/     |_/
+
+px4 starting.
+
+[0mINFO  [37m[px4] [0mstartup script: /bin/sh etc/init.d-posix/rcS 0[0m
+INFO  [init] found model autostart file as SYS_AUTOSTART=4001
+[0mINFO  [37m[param] [0mselected parameter default file parameters.bson[0m
+[0mINFO  [37m[param] [0mimporting from 'parameters.bson'[0m
+[0mINFO  [37m[parameters] [0mBSON document size 335 bytes, decoded 335 bytes (INT32:13, FLOAT:4)[0m
+[0mINFO  [37m[param] [0mselected parameter backup file parameters_backup.bson[0m
+[0mINFO  [37m[dataman] [0mdata manager file './dataman' size is 1208528 bytes[0m
+INFO  [init] Gazebo simulator 8.14.0
+INFO  [init] Starting gazebo with world: /home/aa/BoomBoomFly/ros_ws/upstream/PX4-Autopilot/Tools/simulation/gz/worlds/default.sdf
+INFO  [init] Waiting for Gazebo world...
+INFO  [init] Gazebo world is ready
+INFO  [init] Spawning Gazebo model
+[1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="x500_base"]/link[@name="base_link"]/sensor[@name="air_pressure_sensor"]/gz_frame_id:/home/aa/BoomBoomFly/ros_ws/upstream/PX4-Autopilot/Tools/simulation/gz/models/x500_base/model.sdf:L219]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+[1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="x500_base"]/link[@name="base_link"]/sensor[@name="magnetometer_sensor"]/gz_frame_id:/home/aa/BoomBoomFly/ros_ws/upstream/PX4-Autopilot/Tools/simulation/gz/models/x500_base/model.sdf:L233]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+[1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="x500_base"]/link[@name="base_link"]/sensor[@name="imu_sensor"]/gz_frame_id:/home/aa/BoomBoomFly/ros_ws/upstream/PX4-Autopilot/Tools/simulation/gz/models/x500_base/model.sdf:L259]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+[1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="x500_base"]/link[@name="base_link"]/sensor[@name="navsat_sensor"]/gz_frame_id:/home/aa/BoomBoomFly/ros_ws/upstream/PX4-Autopilot/Tools/simulation/gz/models/x500_base/model.sdf:L311]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+[0mINFO  [37m[gz_bridge] [0mworld: default, model: x500_0[0m
+[0mINFO  [37m[lockstep_scheduler] [0msetting initial absolute time to 4284000 us[0m
+[0mINFO  [37m[commander] [0mLED: open /dev/led0 failed (22)[0m
+[33mWARN  [37m[health_and_arming_checks] [33mPreflight Fail: ekf2 missing data[0m
+[33mWARN  [37m[health_and_arming_checks] [33mPreflight Fail: No connection to the GCS[0m
+[0mINFO  [37m[uxrce_dds_client] [0minit UDP agent IP:127.0.0.1, port:8888[0m
+[0mINFO  [37m[mavlink] [0mmode: Normal, data rate: 4000000 B/s on udp port 18570 remote port 14550[0m
+[0mINFO  [37m[mavlink] [0mmode: Onboard, data rate: 4000000 B/s on udp port 14580 remote port 14540[0m
+[0mINFO  [37m[mavlink] [0mmode: Onboard, data rate: 4000 B/s on udp port 14280 remote port 14030[0m
+[0mINFO  [37m[mavlink] [0mmode: Gimbal, data rate: 400000 B/s on udp port 13030 remote port 13280[0m
+[0mINFO  [37m[logger] [0mlogger started (mode=all)[0m
+[0mINFO  [37m[logger] [0mStart file log (type: full)[0m
+[0mINFO  [37m[logger] [0m[logger] ./log/2026-09-19/11_43_30.ulg	[0m
+[0mINFO  [37m[logger] [0mOpened full log file: ./log/2026-09-19/11_43_30.ulg[0m
+[0mINFO  [37m[mavlink] [0mMAVLink only on localhost (set param MAV_{i}_BROADCAST = 1 to enable network)[0m
+[0mINFO  [37m[mavlink] [0mMAVLink only on localhost (set param MAV_{i}_BROADCAST = 1 to enable network)[0m
+[0mINFO  [37m[px4] [0mStartup script returned successfully[0m
+pxh> [0mINFO  [37m[tone_alarm] [0mhome set[0m
+[33mWARN  [37m[health_and_arming_checks] [33mPreflight Fail: No connection to the GCS[0m
+[33mWARN  [37m[health_and_arming_checks] [33mPreflight Fail: No connection to the GCS[0m
+[0mINFO  [37m[mavlink] [0mpartner IP: 127.0.0.1[0m
+[0mINFO  [37m[mavlink] [0mIgnore command 512 from 1/191 to 0/0[0m
+[0mINFO  [37m[mavlink] [0mIgnore command 512 from 1/191 to 0/0[0m
+[0mINFO  [37m[mavlink] [0mIgnore command 512 from 1/191 to 0/0[0m
+[2Kpxh> p[2Kpxh> pa[2Kpxh> par[2Kpxh> para[2Kpxh> param[2Kpxh> param [2Kpxh> param s[2Kpxh> param sh[2Kpxh> param sho[2Kpxh> param show[2Kpxh> param show [2Kpxh> param show C[2Kpxh> param show CO[2Kpxh> param show COM[2Kpxh> param show COM_[2Kpxh> param show COM_O[2Kpxh> param show COM_OF[2Kpxh> param show COM_OF_[2Kpxh> param show COM_OF_L[2Kpxh> param show COM_OF_LO[2Kpxh> param show COM_OF_LOS[2Kpxh> param show COM_OF_LOSS[2Kpxh> param show COM_OF_LOSS_[2Kpxh> param show COM_OF_LOSS_T
+[0mSymbols: x = used, + = saved, * = unsaved
+[0m[0mx   COM_OF_LOSS_T [282,509] : [0m[0m1.0000
+[0m[0m
+ 1000/1920 parameters used.
+[0mpxh> [2Kpxh> p[2Kpxh> pa[2Kpxh> par[2Kpxh> para[2Kpxh> param[2Kpxh> param [2Kpxh> param s[2Kpxh> param sh[2Kpxh> param sho[2Kpxh> param show[2Kpxh> param show [2Kpxh> param show C[2Kpxh> param show CO[2Kpxh> param show COM[2Kpxh> param show COM_[2Kpxh> param show COM_O[2Kpxh> param show COM_OB[2Kpxh> param show COM_OBL[2Kpxh> param show COM_OBL_[2Kpxh> param show COM_OBL_R[2Kpxh> param show COM_OBL_RC[2Kpxh> param show COM_OBL_RC_[2Kpxh> param show COM_OBL_RC_A[2Kpxh> param show COM_OBL_RC_AC[2Kpxh> param show COM_OBL_RC_ACT
+[0mSymbols: x = used, + = saved, * = unsaved
+[0m[0mx   COM_OBL_RC_ACT [281,508] : [0m[0m0
+[0m[0m
+ 1000/1920 parameters used.
+[0mpxh> [33mWARN  [37m[health_and_arming_checks] [33mPreflight Fail: No connection to the GCS[0m
+[33mWARN  [37m[commander] [33mArming denied: Resolve system health failures first	[0m
+[0mINFO  [37m[tone_alarm] [0mnotify negative[0m
+[33mWARN  [37m[health_and_arming_checks] [33mPreflight Fail: No connection to the GCS[0m
+[2Kpxh> p[2Kpxh> pa[2Kpxh> par[2Kpxh> para[2Kpxh> param[2Kpxh> param [2Kpxh> param s[2Kpxh> param sh[2Kpxh> param sho[2Kpxh> param show[2Kpxh> param show [2Kpxh> param show N[2Kpxh> param show NA[2Kpxh> param show NAV[2Kpxh> param show NAV_[2Kpxh> param show NAV_D[2Kpxh> param show NAV_DL[2Kpxh> param show NAV_DLL[2Kpxh> param show NAV_DLL_[2Kpxh> param show NAV_DLL_A[2Kpxh> param show NAV_DLL_AC[2Kpxh> param show NAV_DLL_ACT
+[0mSymbols: x = used, + = saved, * = unsaved
+[0m[0mx   NAV_DLL_ACT [643,1115] : [0m[0m2
+[0m[0m
+ 1000/1920 parameters used.
+[0mpxh> [0mINFO  [37m[mavlink] [0mpartner IP: 127.0.0.1[0m
+[0mINFO  [37m[commander] [0m[32mReady for takeoff![0m[0m
+[31mERROR [37m[mavlink] [31mvehicle_command_ack lost, generation 26 -> 30[0m
+[31mERROR [37m[mavlink] [31mvehicle_command_ack lost, generation 26 -> 30[0m
+[31mERROR [37m[mavlink] [31mvehicle_command_ack lost, generation 26 -> 30[0m
+[31mERROR [37m[mavlink] [31mvehicle_command_ack lost, generation 26 -> 30[0m
+[2Kpxh> c[2Kpxh> co[2Kpxh> com[2Kpxh> comm[2Kpxh> comma[2Kpxh> comman[2Kpxh> command[2Kpxh> commande[2Kpxh> commander[2Kpxh> commander [2Kpxh> commander s[2Kpxh> commander st[2Kpxh> commander sta[2Kpxh> commander stat[2Kpxh> commander statu[2Kpxh> commander status
+[0mINFO  [37m[commander] [0mDisarmed[0m
+[0mINFO  [37m[commander] [0mnavigation mode: Offboard[0m
+[0mINFO  [37m[commander] [0muser intended navigation mode: Offboard[0m
+[0mINFO  [37m[commander] [0min failsafe: no[0m
+[0mcommander: cycle: 80126 events, 4000us elapsed, 0.05us avg, min 0us max 4000us 14.130us rms
+[0m[0mcommander: preflight check: 8905 events, 0us elapsed, 0.00us avg, min 0us max 0us 0.000us rms
+[0mpxh> [2Kpxh> m[2Kpxh> ma[2Kpxh> mav[2Kpxh> mavl[2Kpxh> mavli[2Kpxh> mavlin[2Kpxh> mavlink[2Kpxh> mavlink [2Kpxh> mavlink s[2Kpxh> mavlink st[2Kpxh> mavlink sta[2Kpxh> mavlink stat[2Kpxh> mavlink statu[2Kpxh> mavlink status
+
+instance #0:
+	GCS heartbeat valid
+	mavlink chan: #0
+	type:		GENERIC LINK OR RADIO
+	flow control: OFF
+	rates:
+	  tx: 15858.6 B/s
+	  txerr: 0.0 B/s
+	  tx rate mult: 1.000
+	  tx rate max: 4000000 B/s
+	  rx: 642.4 B/s
+	  rx loss: 0.0%
+	Received Messages:
+	  sysid:255, compid:190, Total: 2685 (lost: 0)
+	FTP enabled: YES, TX enabled: YES
+	mode: Normal
+	Forwarding: On
+	MAVLink version: 2
+	transport protocol: UDP (18570, remote port: 14550)
+	Broadcast enabled: NO
+	partner IP: 127.0.0.1
+	ping statistics:
+	  last: 0.00 ms
+	  mean: 0.00 ms
+	  max: 0.00 ms
+	  min: 0.00 ms
+	  dropped packets: 0
+
+instance #1:
+	mavlink chan: #1
+	type:		GENERIC LINK OR RADIO
+	flow control: OFF
+	rates:
+	  tx: 26465.1 B/s
+	  txerr: 0.0 B/s
+	  tx rate mult: 1.000
+	  tx rate max: 4000000 B/s
+	  rx: 269.9 B/s
+	  rx loss: 0.0%
+	Received Messages:
+	  sysid:  1, compid:191, Total: 10315 (lost: 0)
+	FTP enabled: YES, TX enabled: YES
+	mode: Onboard
+	Forwarding: On
+	MAVLink version: 2
+	transport protocol: UDP (14580, remote port: 14540)
+	Broadcast enabled: NO
+	partner IP: 127.0.0.1
+
+instance #2:
+	mavlink chan: #2
+	type:		GENERIC LINK OR RADIO
+	flow control: OFF
+	rates:
+	  tx: 5105.6 B/s
+	  txerr: 0.0 B/s
+	  tx rate mult: 0.141
+	  tx rate max: 4000 B/s
+	  rx: 0.0 B/s
+	  rx loss: 0.0%
+	FTP enabled: YES, TX enabled: YES
+	mode: Onboard
+	Forwarding: On
+	MAVLink version: 2
+	transport protocol: UDP (14280, remote port: 14030)
+	Broadcast enabled: NO
+
+instance #3:
+	mavlink chan: #3
+	type:		GENERIC LINK OR RADIO
+	flow control: OFF
+	rates:
+	  tx: 1333.7 B/s
+	  txerr: 0.0 B/s
+	  tx rate mult: 1.000
+	  tx rate max: 400000 B/s
+	  rx: 0.0 B/s
+	  rx loss: 0.0%
+	FTP enabled: YES, TX enabled: YES
+	mode: Gimbal
+	Forwarding: On
+	MAVLink version: 2
+	transport protocol: UDP (13030, remote port: 13280)
+	Broadcast enabled: NO
+pxh> [0mINFO  [37m[commander] [0mArmed by external command	[0m
+[0mINFO  [37m[tone_alarm] [0marming warning[0m
+[0mINFO  [37m[commander] [0mTakeoff detected	[0m
+[0mINFO  [37m[commander] [0mLanding at current position	[0m
+[0mINFO  [37m[commander] [0mLanding detected	[0m
+[0mINFO  [37m[commander] [0mDisarmed by landing	[0m
+[0mINFO  [37m[tone_alarm] [0mnotify neutral[0m
+[0mINFO  [37m[logger] [0mclosed logfile, bytes written: 298534199[0m
+[0mINFO  [37m[commander] [0mArmed by external command	[0m
+[0mINFO  [37m[tone_alarm] [0marming warning[0m
+[0mINFO  [37m[logger] [0mStart file log (type: full)[0m
+[0mINFO  [37m[logger] [0m[logger] ./log/2026-09-19/12_03_52.ulg	[0m
+[0mINFO  [37m[logger] [0mOpened full log file: ./log/2026-09-19/12_03_52.ulg[0m
+[0mINFO  [37m[commander] [0mTakeoff detected	[0m
+[0mINFO  [37m[commander] [0mLanding at current position	[0m
+[0mINFO  [37m[commander] [0mLanding detected	[0m
+[0mINFO  [37m[commander] [0mDisarmed by landing	[0m
+[0mINFO  [37m[tone_alarm] [0mnotify neutral[0m
+[0mINFO  [37m[logger] [0mclosed logfile, bytes written: 8212234[0m
+[0mINFO  [37m[commander] [0mArmed by external command	[0m
+[0mINFO  [37m[tone_alarm] [0marming warning[0m
+[0mINFO  [37m[logger] [0mStart file log (type: full)[0m
+[0mINFO  [37m[logger] [0m[logger] ./log/2026-09-19/12_07_12.ulg	[0m
+[0mINFO  [37m[logger] [0mOpened full log file: ./log/2026-09-19/12_07_12.ulg[0m
+[0mINFO  [37m[commander] [0mTakeoff detected	[0m
+[0mINFO  [37m[commander] [0mLanding at current position	[0m
+[0mINFO  [37m[commander] [0mLanding detected	[0m
+[0mINFO  [37m[commander] [0mDisarmed by external command	[0m
+[0mINFO  [37m[tone_alarm] [0mnotify neutral[0m
+[0mINFO  [37m[logger] [0mclosed logfile, bytes written: 7742492[0m
+[0mINFO  [37m[commander] [0mArmed by external command	[0m
+[0mINFO  [37m[tone_alarm] [0marming warning[0m
+[0mINFO  [37m[logger] [0mStart file log (type: full)[0m
+[0mINFO  [37m[logger] [0m[logger] ./log/2026-09-19/12_08_44.ulg	[0m
+[0mINFO  [37m[logger] [0mOpened full log file: ./log/2026-09-19/12_08_44.ulg[0m
+[0mINFO  [37m[commander] [0mTakeoff detected	[0m
+[0mINFO  [37m[commander] [0mLanding at current position	[0m
+[0mINFO  [37m[commander] [0mLanding detected	[0m
+[0mINFO  [37m[commander] [0mDisarmed by landing	[0m
+[0mINFO  [37m[tone_alarm] [0mnotify neutral[0m
+[0mINFO  [37m[logger] [0mclosed logfile, bytes written: 8144795[0m
+[2Kpxh> c[2Kpxh> co[2Kpxh> com[2Kpxh> comm[2Kpxh> comma[2Kpxh> comman[2Kpxh> command[2Kpxh> commande[2Kpxh> commander[2Kpxh> commander [2Kpxh> commander s[2Kpxh> commander st[2Kpxh> commander sta[2Kpxh> commander stat[2Kpxh> commander statu[2Kpxh> commander status
+[0mINFO  [37m[commander] [0mDisarmed[0m
+[0mINFO  [37m[commander] [0mnavigation mode: Offboard[0m
+[0mINFO  [37m[commander] [0muser intended navigation mode: Offboard[0m
+[0mINFO  [37m[commander] [0min failsafe: no[0m
+[0mcommander: cycle: 7063 events, 0us elapsed, 0.00us avg, min 0us max 0us 0.000us rms
+[0m[0mcommander: preflight check: 786 events, 0us elapsed, 0.00us avg, min 0us max 0us 0.000us rms
+[0mpxh> [2Kpxh> p[2Kpxh> pa[2Kpxh> par[2Kpxh> para[2Kpxh> param[2Kpxh> param [2Kpxh> param s[2Kpxh> param sh[2Kpxh> param sho[2Kpxh> param show[2Kpxh> param show [2Kpxh> param show C[2Kpxh> param show CO[2Kpxh> param show COM[2Kpxh> param show COM_[2Kpxh> param show COM_O[2Kpxh> param show COM_OF[2Kpxh> param show COM_OF_[2Kpxh> param show COM_OF_L[2Kpxh> param show COM_OF_LO[2Kpxh> param show COM_OF_LOS[2Kpxh> param show COM_OF_LOSS[2Kpxh> param show COM_OF_LOSS_[2Kpxh> param show COM_OF_LOSS_T
+[0mSymbols: x = used, + = saved, * = unsaved
+[0m[0mx   COM_OF_LOSS_T [282,509] : [0m[0m1.0000
+[0m[0m
+ 1000/1920 parameters used.
+[0mpxh> [2Kpxh> p[2Kpxh> pa[2Kpxh> par[2Kpxh> para[2Kpxh> param[2Kpxh> param [2Kpxh> param s[2Kpxh> param sh[2Kpxh> param sho[2Kpxh> param show[2Kpxh> param show [2Kpxh> param show C[2Kpxh> param show CO[2Kpxh> param show COM[2Kpxh> param show COM_[2Kpxh> param show COM_O[2Kpxh> param show COM_OB[2Kpxh> param show COM_OBL[2Kpxh> param show COM_OBL_[2Kpxh> param show COM_OBL_R[2Kpxh> param show COM_OBL_RC[2Kpxh> param show COM_OBL_RC_[2Kpxh> param show COM_OBL_RC_A[2Kpxh> param show COM_OBL_RC_AC[2Kpxh> param show COM_OBL_RC_ACT
+[0mSymbols: x = used, + = saved, * = unsaved
+[0m[0mx   COM_OBL_RC_ACT [281,508] : [0m[0m0
+[0m[0m
+ 1000/1920 parameters used.
+[0mpxh> [33mWARN  [37m[commander] [33mConnection to mission computer lost	[0m
+
+PX4 Exiting...
+[2Kpxh> Exiting NOW.
+ninja: build stopped: interrupted by user.
+make: *** [Makefile:227: px4_sitl] Interrupt
+
+Script done on 2026-09-19 20:11:52+08:00 [COMMAND_EXIT_CODE="130"]

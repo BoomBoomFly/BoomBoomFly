@@ -3,7 +3,7 @@ set -euo pipefail
 
 project_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 # 当前仅同步已存在远程仓库的自写包，不更新第三方或预留包。
-for package in uav_control uav_vio_bridge uav_bringup; do
+for package in uav_control uav_vio_bridge uav_bringup uav_mission; do
   target="${project_root}/ros_ws/src/${package}"
   url="https://github.com/BoomBoomFly/${package}.git"
   if [[ -e "${target}/.git" ]]; then

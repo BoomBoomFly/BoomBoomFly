@@ -1,0 +1,122 @@
+Script started on 2026-09-19 20:03:46+08:00 [<not executed on terminal>]
+[INFO] [launch]: All log files can be found below /home/aa/.ros/log/2026-09-19-20-03-47-088871-rog-45575
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [mavros_interface_node-1]: process started with pid [45576]
+[INFO] [mission_node-2]: process started with pid [45578]
+[mission_node-2] [INFO] [1789819427.475032249] [uav_mission]: Mission started: climb 1.00 m, stable 2.0 s, hover 10.0 s
+[mission_node-2] [INFO] [1789819427.525348475] [uav_mission]: Flight stage: WAIT_READY
+[mavros_interface_node-1] [INFO] [1789819427.565132307] [mavros_interface]: MAVROS control ready: 20.0 Hz setpoint loop; target topic /uav_control/target
+[mavros_interface_node-1] [INFO] [1789819427.894795978] [mavros_interface]: FCU CONNECTED, mode=OFFBOARD, armed=false
+[mission_node-2] [INFO] [1789819430.729658886] [uav_mission]: Flight stage: PREPARE_OFFBOARD
+[mission_node-2] [INFO] [1789819431.944888695] [uav_mission]: Flight stage: REQUEST_OFFBOARD
+[mission_node-2] [INFO] [1789819431.993496353] [uav_mission]: Dispatching command id=1 code=1 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819431.994303031] [uav_mission]: Command id=1 dispatched=true: forwarded to MAVROS service
+[mavros_interface_node-1] [INFO] [1789819431.994796353] [mavros_interface]: MAVROS command id=1 completed: accepted=true (MAVROS accepted OFFBOARD request)
+[mission_node-2] [INFO] [1789819432.042119632] [uav_mission]: Flight stage: REQUEST_ARM
+[mission_node-2] [INFO] [1789819432.090720835] [uav_mission]: Dispatching command id=2 code=2 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819432.091133655] [uav_mission]: Command id=2 dispatched=true: forwarded to MAVROS service
+[mavros_interface_node-1] [INFO] [1789819432.107034075] [mavros_interface]: MAVROS command id=2 completed: accepted=true (MAVROS accepted arm request)
+[mavros_interface_node-1] [INFO] [1789819432.895277090] [mavros_interface]: FCU CONNECTED, mode=OFFBOARD, armed=true
+[mission_node-2] [INFO] [1789819432.917103206] [uav_mission]: Flight stage: TAKEOFF
+[mission_node-2] [INFO] [1789819441.654814520] [uav_mission]: Flight stage: STABILIZE
+[mission_node-2] [INFO] [1789819443.703691860] [uav_mission]: Flight stage: HOVER
+[mission_node-2] [INFO] [1789819453.711324549] [uav_mission]: Flight stage: REQUEST_LAND
+[mission_node-2] [INFO] [1789819453.759353923] [uav_mission]: Dispatching command id=3 code=3 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819453.760038647] [uav_mission]: Command id=3 dispatched=true: forwarded to MAVROS service
+[mavros_interface_node-1] [INFO] [1789819453.770775034] [mavros_interface]: MAVROS command id=3 completed: accepted=true (MAVROS accepted land request)
+[mavros_interface_node-1] [INFO] [1789819453.990591725] [mavros_interface]: FCU CONNECTED, mode=AUTO.LAND, armed=true
+[mission_node-2] [INFO] [1789819453.998866653] [uav_mission]: Flight stage: LANDING
+[mavros_interface_node-1] [ERROR] [1789819454.999831604] [mavros_interface]: Safety latch: mission target timed out; target age limit 1.00 s, position age limit 0.50 s
+[mission_node-2] [INFO] [1789819456.999116941] [uav_mission]: Flight stage: REQUEST_DISARM
+[mission_node-2] [INFO] [1789819457.046531077] [uav_mission]: Dispatching command id=4 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.046712596] [uav_mission]: Command id=4 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.094003721] [uav_mission]: Flight stage: SAFETY_LAND
+[mission_node-2] [WARN] [1789819457.094051730] [uav_mission]: Safety landing active (控制命令未能转发: control safety latch is active); waiting for fresh landed and disarmed confirmation
+[mission_node-2] [INFO] [1789819457.094057401] [uav_mission]: Dispatching command id=5 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.094274705] [uav_mission]: Command id=5 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.141351368] [uav_mission]: Dispatching command id=6 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.141667140] [uav_mission]: Command id=6 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.188828835] [uav_mission]: Dispatching command id=7 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.189181425] [uav_mission]: Command id=7 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.236223502] [uav_mission]: Dispatching command id=8 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.236475895] [uav_mission]: Command id=8 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.284353415] [uav_mission]: Dispatching command id=9 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.284930593] [uav_mission]: Command id=9 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.331106607] [uav_mission]: Dispatching command id=10 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.331393289] [uav_mission]: Command id=10 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.378496069] [uav_mission]: Dispatching command id=11 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.378763199] [uav_mission]: Command id=11 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.425969321] [uav_mission]: Dispatching command id=12 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.426295145] [uav_mission]: Command id=12 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.473340457] [uav_mission]: Dispatching command id=13 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.473602758] [uav_mission]: Command id=13 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.520855618] [uav_mission]: Dispatching command id=14 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.521171687] [uav_mission]: Command id=14 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.568244704] [uav_mission]: Dispatching command id=15 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.568515484] [uav_mission]: Command id=15 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.615662625] [uav_mission]: Dispatching command id=16 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.615943219] [uav_mission]: Command id=16 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.663103428] [uav_mission]: Dispatching command id=17 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.663412328] [uav_mission]: Command id=17 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.710495551] [uav_mission]: Dispatching command id=18 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.710738342] [uav_mission]: Command id=18 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.758022117] [uav_mission]: Dispatching command id=19 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.758377432] [uav_mission]: Command id=19 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.805406046] [uav_mission]: Dispatching command id=20 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.805719594] [uav_mission]: Command id=20 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.852858168] [uav_mission]: Dispatching command id=21 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.853267797] [uav_mission]: Command id=21 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.900235021] [uav_mission]: Dispatching command id=22 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.900545997] [uav_mission]: Command id=22 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.947615165] [uav_mission]: Dispatching command id=23 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.947847992] [uav_mission]: Command id=23 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819457.995110712] [uav_mission]: Dispatching command id=24 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819457.995327263] [uav_mission]: Command id=24 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.042459043] [uav_mission]: Dispatching command id=25 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.042704804] [uav_mission]: Command id=25 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.089991601] [uav_mission]: Dispatching command id=26 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.090320526] [uav_mission]: Command id=26 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.137504292] [uav_mission]: Dispatching command id=27 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.137775906] [uav_mission]: Command id=27 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.184873713] [uav_mission]: Dispatching command id=28 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.185258903] [uav_mission]: Command id=28 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.232263253] [uav_mission]: Dispatching command id=29 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.232528787] [uav_mission]: Command id=29 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.279652199] [uav_mission]: Dispatching command id=30 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.279879658] [uav_mission]: Command id=30 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.327131572] [uav_mission]: Dispatching command id=31 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.327469657] [uav_mission]: Command id=31 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.374522324] [uav_mission]: Dispatching command id=32 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.374773804] [uav_mission]: Command id=32 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.422011522] [uav_mission]: Dispatching command id=33 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.422312713] [uav_mission]: Command id=33 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.469387333] [uav_mission]: Dispatching command id=34 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.469680760] [uav_mission]: Command id=34 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.516774279] [uav_mission]: Dispatching command id=35 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.517087914] [uav_mission]: Command id=35 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.564264362] [uav_mission]: Dispatching command id=36 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.564592179] [uav_mission]: Command id=36 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.611703355] [uav_mission]: Dispatching command id=37 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.611954967] [uav_mission]: Command id=37 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.659126681] [uav_mission]: Dispatching command id=38 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.659372290] [uav_mission]: Command id=38 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.706486467] [uav_mission]: Dispatching command id=39 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.706726432] [uav_mission]: Command id=39 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.754094185] [uav_mission]: Dispatching command id=40 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.754398307] [uav_mission]: Command id=40 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.801433066] [uav_mission]: Dispatching command id=41 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.801756266] [uav_mission]: Command id=41 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.848802114] [uav_mission]: Dispatching command id=42 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.849064807] [uav_mission]: Command id=42 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.896274964] [uav_mission]: Dispatching command id=43 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.896608261] [uav_mission]: Command id=43 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819458.943672497] [uav_mission]: Dispatching command id=44 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.943993292] [uav_mission]: Command id=44 dispatched=false: control safety latch is active
+[mavros_interface_node-1] [INFO] [1789819458.990652202] [mavros_interface]: FCU CONNECTED, mode=OFFBOARD, armed=false
+[mission_node-2] [INFO] [1789819458.991153502] [uav_mission]: Dispatching command id=45 code=4 (dispatch is not state confirmation)
+[mission_node-2] [INFO] [1789819458.991379889] [uav_mission]: Command id=45 dispatched=false: control safety latch is active
+[mission_node-2] [INFO] [1789819459.038548767] [uav_mission]: Flight stage: FINISHED
+[mission_node-2] [ERROR] [1789819459.038599012] [uav_mission]: FAIL: 控制命令未能转发: control safety latch is active; safety landing completed; hover_max_horizontal_error=0.030424 m, hover_max_height_error=0.067007 m, hover_max_yaw_error=0.000932 rad, final_xy_displacement=0.029895 m, final_z_from_takeoff=0.001636 m
+[INFO] [mission_node-2]: process has finished cleanly [pid 45578]
+
+Script done on 2026-09-19 20:06:06+08:00 [COMMAND_EXIT_CODE="0"]
