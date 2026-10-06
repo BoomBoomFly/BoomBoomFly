@@ -165,4 +165,4 @@ ros2 launch mavros px4.launch \
 
 仓库目录与 repo 获取流程见 [manifest 说明](manifests/README.md)。UGV 四个功能包独立管理，ROS 包名保持不变；集群与足式机器人目录仍是预留说明。
 
-UGV 独立包的本地拆分与待发布状态见 [拆分计划](docs/多仓库拆分计划.md)。
+UGV 独立包的拆分与发布记录见 [拆分计划](docs/多仓库拆分计划.md)。

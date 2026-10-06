@@ -19,6 +19,9 @@ repo sync
 请先在新目录验证，不在现有含未提交文件的工作目录直接初始化。
 只获取 UAV 时，使用 `repo init` 的 `-g core,uav`；UGV 为 `-g core,ugv`；集群为 `-g core,swarm`。
 仓库仍独立提交，GitHub 推送使用常规 Git 或 `Scripts/push_git.sh`，不依赖 Gerrit。
+repo 获取后项目可能处于 detached HEAD；开始修改前建立开发分支，例如在客户端根目录执行
+`repo start feature-navigation car_navigation`。推送脚本会拒绝 detached HEAD，并将开发分支推送到同名远程分支。
+清单仍跟随 main，开发分支需要合并到 main 后才能进入默认同步版本。
 
 ## 开发与验证版本
 
