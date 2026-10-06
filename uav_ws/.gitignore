@@ -1,0 +1,25 @@
+# ROS 2 / colcon 构建产物（仅当前工作区根目录）
+/build/
+/install/
+/log/
+
+# Python 缓存与测试缓存
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# 上游和第三方独立仓库
+/upstream/
+/src/thirdparty/
+
+# 自写独立仓库；sim 中的迁移文件由主仓库管理
+/src/uav_control/
+/src/uav_vio_bridge/
+/src/uav_bringup/
+/src/uav_mission/
+
+# 本地仿真记录，正式验证材料需显式选择后纳入版本管理
+*.bag
+*.db3
+*.mcap
+*.ulg

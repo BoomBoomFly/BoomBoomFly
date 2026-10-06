@@ -35,7 +35,7 @@ EGO-Swarm、DDS 迁移和完整任务框架属于后续工作。
 | PX4 | v1.17.0，关键 submodule 已初始化，`make px4_sitl gz_x500` 已实际启动成功 |
 | uav_control / uav_mission | MAVROS 控制节点与任务状态机已实现；SITL 编译、接口和飞行结果见本次测试记录 |
 | ROS 通信检查 | 隔离 ROS_DOMAIN_ID 下，统一状态、动态目标及 20 Hz MAVROS setpoint 路径通过 smoke 检查 |
-| 飞行控制 | 第一版起飞、位置稳定 2 秒、悬停 10 秒、AUTO.LAND 和上锁确认已实现；SITL 结果见 [测试记录](docs/PX4_SITL_起飞悬停降落验证.md) |
+| 飞行控制 | 第一版起飞、位置稳定 2 秒、悬停 10 秒、AUTO.LAND 和上锁确认已实现；SITL 结果见 [测试记录](uav_ws/sim/PX4_SITL_起飞悬停降落验证.md) |
 | 定位 | 最小 `uav_vio_bridge` 已实现，独立编译及 run/launch 启动通过；消息转发测试超时，OpenVINS → PX4 链路尚未验证 |
 | 启动编排 | `uav_bringup` 提供 VIO 与 SITL 测试 launch；VIO 消息链路仍未验证，飞行测试证据见下文 |
 | 实机 | 飞控尚未到货，H743 串口、固件、MAVLink 参数和 IMU 均未验证 |
@@ -45,13 +45,14 @@ EGO-Swarm、DDS 迁移和完整任务框架属于后续工作。
 ```text
 BoomBoomFly/
 ├── Scripts/                     # 同步、推送和环境加载
-├── ros_ws/
+├── uav_ws/
 │   ├── src/
 │   │   ├── uav_control/         # 独立 Git 仓库，内含 uav_interfaces ROS 包
 │   │   ├── uav_vio_bridge/      # OpenVINS 位姿桥接，独立 Git 仓库
 │   │   ├── uav_bringup/         # 启动与 YAML 配置编排，独立 Git 仓库
 │   │   ├── uav_mission/         # 起飞、悬停和降落状态机，独立 Git 仓库
 │   │   └── thirdparty/          # MAVROS、MAVLink、OpenVINS 等本地源码
+│   ├── sim/                    # 自有 SITL 入口和验证记录
 │   ├── upstream/PX4-Autopilot/  # PX4 源码
 │   ├── build/
 │   ├── install/
@@ -63,7 +64,7 @@ BoomBoomFly/
 父仓库忽略第三方、参考仓库、构建产物与四个自写独立仓库目录。
 各包源码在各自仓库中提交，不是 Git submodule；`uav_interfaces` 随
 `uav_control` 仓库提交。克隆主仓库后可用同步脚本获取四个自写仓库。
-其他自写包不会因整个 `ros_ws/src` 被忽略而丢失。
+其他自写包不会因整个 `uav_ws/src` 被忽略而丢失。
 
 ## 同步与编译
 
@@ -71,7 +72,7 @@ BoomBoomFly/
 cd /home/aa/BoomBoomFly
 ./Scripts/sync_ros_packages.sh
 source Scripts/setup_ros_environment.bash
-cd ros_ws
+cd uav_ws
 CMAKE_BUILD_PARALLEL_LEVEL=2 MAKEFLAGS="-j2" colcon build \
   --base-paths src/uav_control/uav_interfaces src \
   --packages-select uav_interfaces uav_control --symlink-install
@@ -89,19 +90,19 @@ ros2 launch uav_control setpoint.launch.py
 cd /home/aa/BoomBoomFly
 ./Scripts/sync_ros_packages.sh
 source /opt/ros/humble/setup.bash
-cd ros_ws
+cd uav_ws
 colcon build --base-paths src/uav_vio_bridge --packages-select uav_vio_bridge --symlink-install
 source install/setup.bash
 ros2 launch uav_vio_bridge uav_vio_bridge.launch.py
 ```
 
-已有独立仓库可执行 `git -C ros_ws/src/uav_vio_bridge pull --ff-only`。
+已有独立仓库可执行 `git -C uav_ws/src/uav_vio_bridge pull --ff-only`。
 桥接包参数、验证命令与证据边界见其 [README](https://github.com/BoomBoomFly/uav_vio_bridge#readme)。
 推送脚本支持 `uav_vio_bridge` 范围，见下方示例。
 
 ## 最小 VIO 启动编排
 
-在 `ros_ws` 下编译并启动：
+在 `uav_ws` 下编译并启动：
 
 ```bash
 source /opt/ros/humble/setup.bash
@@ -120,12 +121,12 @@ ros2 launch uav_bringup uav.launch.py
 ## SITL 与 MAVROS
 
 PX4 SITL 的版本、完整命令、参数、GCS 要求、正常测试和任务节点停止测试结果，记录在
-[PX4 SITL 起飞—悬停—降落验证文档](docs/PX4_SITL_起飞悬停降落验证.md)。
+[PX4 SITL 起飞—悬停—降落验证文档](uav_ws/sim/PX4_SITL_起飞悬停降落验证.md)。
 2026-09-19 已使用 PX4 v1.17.0、Gazebo Sim 8.14.0 和 ROS 2 Humble 完成正常 SITL
 PASS；没有连接实机。复现时先启动 PX4：
 
 ```bash
-cd /home/aa/BoomBoomFly/ros_ws/upstream/PX4-Autopilot
+cd /home/aa/BoomBoomFly/uav_ws/upstream/PX4-Autopilot
 HEADLESS=1 make px4_sitl gz_x500
 ```
 
@@ -156,3 +157,5 @@ ros2 launch mavros px4.launch \
 执行前检查对应仓库的 `git status`。`main` 是主仓库范围名，不是固定分支名。
 脚本不自动拉取或强制推送；推送失败会保留本地提交。
 详细范围、保护规则与离线检查见 [Scripts/README.md](Scripts/README.md)。
+
+三个工作区的仿真说明：[UAV](uav_ws/sim/README.md)、[UGV](ugv_ws/sim/README.md)、[集群](swarm_ws/sim/README.md)。

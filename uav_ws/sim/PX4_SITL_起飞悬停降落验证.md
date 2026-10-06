@@ -4,7 +4,7 @@
 
 ## 实现职责与接口
 
-`uav_mission` 和 `uav_control` 是独立 ROS 2 节点。任务节点通过 `uav_interfaces` 发送目标、读取状态并请求离散命令，不跨包持有控制对象。接口包位于 `ros_ws/src/uav_control/uav_interfaces/`，随 `uav_control` 仓库发布；colcon 构建通过额外 base path 发现该嵌套包。
+`uav_mission` 和 `uav_control` 是独立 ROS 2 节点。任务节点通过 `uav_interfaces` 发送目标、读取状态并请求离散命令，不跨包持有控制对象。接口包位于 `uav_ws/src/uav_control/uav_interfaces/`，随 `uav_control` 仓库发布；colcon 构建通过额外 base path 发现该嵌套包。
 
 | 接口 | 类型 | 方向与用途 |
 | --- | --- | --- |
@@ -49,7 +49,7 @@ PX4 v1.17 要求先连续发送超过 1 秒、频率高于 2 Hz 的 Offboard set
 
 ## 配置参数
 
-任务参数位于 `ros_ws/src/uav_mission/config/mission.yaml`：
+任务参数位于 `uav_ws/src/uav_mission/config/mission.yaml`：
 
 | 参数 | 值 |
 | --- | ---: |
@@ -64,7 +64,7 @@ PX4 v1.17 要求先连续发送超过 1 秒、频率高于 2 Hz 的 Offboard set
 | `landing_timeout_s` | 45 s |
 | `state_timeout_s` | 1.0 s |
 
-控制参数位于 `ros_ws/src/uav_control/config/control.yaml`：
+控制参数位于 `uav_ws/src/uav_control/config/control.yaml`：
 
 | 参数 | 值 |
 | --- | ---: |
@@ -79,12 +79,12 @@ PX4 v1.17 要求先连续发送超过 1 秒、频率高于 2 Hz 的 Offboard set
 
 ## 构建与接口验证
 
-为保留工作区原有 `ros_ws/build`、`install` 和 `log` 产物，本次构建使用 `/tmp/boomboomfly_sitl_20260919`：
+为保留工作区原有 `uav_ws/build`、`install` 和 `log` 产物，本次构建使用 `/tmp/boomboomfly_sitl_20260919`：
 
 ```bash
-cd /home/aa/BoomBoomFly/ros_ws
+cd /home/aa/BoomBoomFly/uav_ws
 source /opt/ros/humble/setup.bash
-source /home/aa/BoomBoomFly/ros_ws/install/setup.bash
+source /home/aa/BoomBoomFly/uav_ws/install/setup.bash
 colcon --log-base /tmp/boomboomfly_sitl_20260919/log build \
   --base-paths src/uav_control/uav_interfaces src \
   --packages-select uav_interfaces uav_control uav_mission uav_bringup \
@@ -98,7 +98,7 @@ source /tmp/boomboomfly_sitl_20260919/install/setup.bash
 隔离 domain 的 ROS smoke 命令及最终输出：
 
 ```bash
-ROS_DOMAIN_ID=42 python3 /home/aa/BoomBoomFly/ros_ws/src/uav_control/test/smoke_test.py
+ROS_DOMAIN_ID=42 python3 /home/aa/BoomBoomFly/uav_ws/src/uav_control/test/smoke_test.py
 ```
 
 ```text
@@ -114,7 +114,7 @@ PASS: fresh unified state; no default target; dynamic ENU target at 20.27 Hz
 终端一启动 PX4 SITL：
 
 ```bash
-cd /home/aa/BoomBoomFly/ros_ws/upstream/PX4-Autopilot
+cd /home/aa/BoomBoomFly/uav_ws/upstream/PX4-Autopilot
 HEADLESS=1 make px4_sitl gz_x500
 ```
 
@@ -122,7 +122,7 @@ HEADLESS=1 make px4_sitl gz_x500
 
 ```bash
 source /opt/ros/humble/setup.bash
-source /home/aa/BoomBoomFly/ros_ws/install/setup.bash
+source /home/aa/BoomBoomFly/uav_ws/install/setup.bash
 ros2 launch mavros px4.launch fcu_url:=udp://:14540@127.0.0.1:14580
 ```
 
@@ -130,7 +130,7 @@ ros2 launch mavros px4.launch fcu_url:=udp://:14540@127.0.0.1:14580
 
 ```bash
 source /opt/ros/humble/setup.bash
-source /home/aa/BoomBoomFly/ros_ws/install/setup.bash
+source /home/aa/BoomBoomFly/uav_ws/install/setup.bash
 source /tmp/boomboomfly_sitl_20260919/install/setup.bash
 ros2 launch uav_bringup sitl_flight.launch.py
 ```
@@ -149,14 +149,14 @@ ros2 topic echo /uav_control/state
 
 ```bash
 source /opt/ros/humble/setup.bash
-source /home/aa/BoomBoomFly/ros_ws/install/setup.bash
+source /home/aa/BoomBoomFly/uav_ws/install/setup.bash
 source /tmp/boomboomfly_sitl_20260919/install/setup.bash
 ros2 launch uav_control setpoint.launch.py
 ```
 
 ```bash
 source /opt/ros/humble/setup.bash
-source /home/aa/BoomBoomFly/ros_ws/install/setup.bash
+source /home/aa/BoomBoomFly/uav_ws/install/setup.bash
 source /tmp/boomboomfly_sitl_20260919/install/setup.bash
 ros2 run uav_mission mission_node --ros-args \
   --params-file /tmp/boomboomfly_sitl_20260919/install/uav_mission/share/uav_mission/config/mission.yaml
@@ -190,13 +190,13 @@ ros2 run uav_mission mission_node --ros-args \
 
 ### 日志路径
 
-- PX4 控制台：`ros_ws/sitl_logs/2026-09-19/px4.log`
-- MAVROS 控制台：`ros_ws/sitl_logs/2026-09-19/mavros.log`
-- 最终正常流程：`ros_ws/sitl_logs/2026-09-19/mission_normal_pass.log`
-- 任务停止试验：`ros_ws/sitl_logs/2026-09-19/mission_stop_task.log`
-- 对应控制节点日志：`ros_ws/sitl_logs/2026-09-19/mission_stop_control.log`
-- PX4 ULog：`ros_ws/upstream/PX4-Autopilot/build/px4_sitl_default/rootfs/log/2026-09-19/12_07_12.ulg`（正常流程）和 `12_08_44.ulg`（任务节点停止试验）。
-- 独立临时构建输出：`/tmp/boomboomfly_sitl_20260919/log/`；原工作区的 `ros_ws/build`、`install`、`log` 未清理或覆盖。
+- PX4 控制台：`uav_ws/sitl_logs/2026-09-19/px4.log`
+- MAVROS 控制台：`uav_ws/sitl_logs/2026-09-19/mavros.log`
+- 最终正常流程：`uav_ws/sitl_logs/2026-09-19/mission_normal_pass.log`
+- 任务停止试验：`uav_ws/sitl_logs/2026-09-19/mission_stop_task.log`
+- 对应控制节点日志：`uav_ws/sitl_logs/2026-09-19/mission_stop_control.log`
+- PX4 ULog：`uav_ws/upstream/PX4-Autopilot/build/px4_sitl_default/rootfs/log/2026-09-19/12_07_12.ulg`（正常流程）和 `12_08_44.ulg`（任务节点停止试验）。
+- 独立临时构建输出：`/tmp/boomboomfly_sitl_20260919/log/`；原工作区的 `uav_ws/build`、`install`、`log` 未清理或覆盖。
 
 ## 验证范围
 

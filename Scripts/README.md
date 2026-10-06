@@ -1,94 +1,86 @@
-# BoomBoomFly 工作区脚本
+# 工作区脚本
 
-根据 `FPGA_GOWIN/Scripts` 的同步、推送与环境加载方式，适配当前目录。
-可从任意目录执行脚本，工作区位置由脚本自身路径确定。
+脚本根据自身位置定位项目，可以从任意目录执行。
 
 | 脚本 | 用途 |
 | --- | --- |
-| `sync_ros_packages.sh` | 依次克隆或快进更新 `uav_control`、`uav_vio_bridge`、`uav_bringup`、`uav_mission` 到 `ros_ws/src/` 下各自目录 |
-| `push_git.sh` | 自动暂存、提交并推送指定仓库到 `origin` 同名分支 |
-| `setup_ros_environment.bash` | source 系统 ROS 2 Humble 和已编译的工作区 overlay |
+| `sync_ros_packages.sh [仓库…]` | 克隆或快进同步自写独立仓库 |
+| `push_git.sh 仓库 "提交说明"` | 暂存、提交并推送指定仓库 |
+| `setup_ros_environment.bash [工作区]` | 加载 Humble 与指定工作区 overlay |
+| `test_scripts.py` | 用临时仓库和本地 bare 远程验证脚本 |
 
-## 同步自写包
+## 同步
 
 ```bash
-cd /home/aa/BoomBoomFly
 ./Scripts/sync_ros_packages.sh
+# 只同步指定范围：
+./Scripts/sync_ros_packages.sh uav_control uav_bringup
+./Scripts/sync_ros_packages.sh swarm_ws ugv_ws
 ```
 
-当前同步 `BoomBoomFly/uav_control`、`BoomBoomFly/uav_vio_bridge`、
-`BoomBoomFly/uav_bringup` 和 `BoomBoomFly/uav_mission`。共享接口包
-`uav_interfaces` 位于 `uav_control/uav_interfaces/`，随 `uav_control` 克隆。
-已有非 Git 目录会报错并保留；已有仓库沿用当前
-分支的 upstream，不自动切分支、重置或处理冲突。无 upstream 时需先配置。
-脚本不更新 PX4、MAVROS、MAVLink、OpenVINS，也不创建尚未实现的功能包。
-同步依次进行，遇错即停止；已完成的前一个仓库同步不会回滚。
+默认同步六个独立仓库：`uav_ws/src/` 下的 `uav_control`、`uav_vio_bridge`、
+`uav_bringup`、`uav_mission`，以及项目根目录下的 `swarm_ws`、`ugv_ws`。
+共享接口包 `uav_interfaces` 随 `uav_control` 克隆。
+
+已有仓库沿用当前分支 upstream，执行 `git pull --ff-only`；首次克隆使用
+`https://github.com/BoomBoomFly/<仓库>.git`。遇错即停止，已完成的同步不回滚。
+已有非 Git 目录会保留并报错。脚本不切分支、不重置、不处理冲突，也不更新第三方或 PX4。
 
 ## 按仓库提交推送
 
-按需选择一个范围：
-
 ```bash
-./Scripts/push_git.sh uav_control "更新控制节点与共享接口"
+./Scripts/push_git.sh main "更新主项目脚本和 UAV 仿真文件"
+./Scripts/push_git.sh uav_control "更新控制节点"
 ./Scripts/push_git.sh uav_vio_bridge "更新位姿桥接"
 ./Scripts/push_git.sh uav_bringup "更新启动编排"
-./Scripts/push_git.sh uav_mission "更新飞行任务"
-./Scripts/push_git.sh main "更新工作区脚本与文档"
+./Scripts/push_git.sh uav_mission "更新任务"
+./Scripts/push_git.sh swarm_ws "更新集群源码与仿真"
+./Scripts/push_git.sh ugv_ws "更新地面车源码与仿真"
 ```
 
-`main` 是主项目范围名称，不限定当前分支名。四个自写包是独立仓库，
-通过自己的远程地址单独发布。
+`main` 表示主仓库范围，不限定分支名。执行前查看对应仓库 `git status`：
+脚本自动暂存所选仓库内全部未忽略的新增、修改和删除，并包括原有暂存内容。
 
-执行前用对应仓库的 `git status` 查看改动。脚本自动提交所选范围内所有
-未忽略的新增、修改和删除文件，包括已暂存内容。主仓库范围明确排除：
+主仓库范围包含 `uav_ws/sim/` 和 `uav_ws/.gitignore`，明确排除：
 
-- `ros_ws/src/uav_control/`、`ros_ws/src/uav_vio_bridge/`、`ros_ws/src/uav_bringup/` 和 `ros_ws/src/uav_mission/`
-- `ros_ws/src/thirdparty/` 和 `ros_ws/upstream/`
-- `ros_ws/build/`、`ros_ws/install/`、`ros_ws/log/`
-- `references/`、`reference/` 和 `docker/kalibr/source/`
+- 独立仓库 `swarm_ws/`、`ugv_ws/` 和四个 UAV 自写包。
+- `uav_ws/src/thirdparty/`、`uav_ws/upstream/`。
+- `uav_ws/build/`、`uav_ws/install/`、`uav_ws/log/`、主仓库 `log/`。
+- `references/`、`reference/`、`docker/kalibr/source/`。
 
-若上述排除路径已经有暂存改动，脚本直接停止，保留暂存区供你处理。
-这些排除规则仅约束本脚本，手动 `git add` 仍需留意范围。
-以后增加独立包时，应同时更新范围映射和主仓库排除列表。
+排除路径已有暂存改动时，脚本停止并保留暂存内容。没有新改动时跳过提交，
+仍推送已有提交到 `origin` 同名分支。不自动 pull、force push 或推送标签；
+推送失败保留本地提交。以后增加独立仓库需同时更新映射、排除列表及 `.gitignore`。
 
-没有新改动时跳过提交，仍推送已有提交。不自动 pull、force push 或推送标签。
-推送失败会保留本地提交，可处理网络或远端分歧后重试。
+UAV 仿真文件迁移后，`uav_bringup` 的构建需要同时具备 `uav_ws/src/` 和
+`uav_ws/sim/`。包仓库的同步不会获取主仓库管理的 `sim` 文件。
 
-## 加载 ROS 环境与编译
+## 加载环境与首次构建
 
 ```bash
-cd /home/aa/BoomBoomFly
-source Scripts/setup_ros_environment.bash
-cd ros_ws
-CMAKE_BUILD_PARALLEL_LEVEL=2 MAKEFLAGS="-j2" colcon build \
-  --base-paths src/uav_control/uav_interfaces src \
-  --packages-select uav_interfaces uav_control --symlink-install
-source install/local_setup.bash
+source Scripts/setup_ros_environment.bash          # 默认 uav_ws
+source Scripts/setup_ros_environment.bash ugv_ws
+source Scripts/setup_ros_environment.bash swarm_ws
 ```
 
-仅编译并启动位姿桥接包：
+环境脚本要求已有 `/opt/ros/humble/setup.bash` 和选中工作区的
+`install/local_setup.bash`；不自动构建、切换目录或启动节点。
+多个 overlay 连续加载会叠加，独立验证时使用新终端。
+
+首次构建尚无 overlay 时，直接加载系统 ROS：
 
 ```bash
-colcon build --base-paths src/uav_vio_bridge --packages-select uav_vio_bridge --symlink-install
-source install/local_setup.bash
-ros2 launch uav_vio_bridge uav_vio_bridge.launch.py
-```
-
-使用 bringup 顶层入口：
-
-```bash
+source /opt/ros/humble/setup.bash
+cd /home/aa/BoomBoomFly/uav_ws
 colcon build --base-paths src/uav_control/uav_interfaces src --symlink-install \
-  --packages-select uav_interfaces uav_control uav_mission uav_vio_bridge uav_bringup
-source install/setup.bash
-ros2 launch uav_bringup uav.launch.py
-# 或单独运行：ros2 launch uav_bringup vio.launch.py
+  --packages-select mavros_msgs uav_interfaces uav_control uav_mission uav_vio_bridge uav_bringup
+source install/local_setup.bash
 ```
 
-上述命令在 `ros_ws` 根目录执行。桥接节点不启动 OpenVINS、MAVROS 或飞控。
-
-环境脚本要求已有 Humble 和工作区安装产物，不安装依赖、不重编译第三方，
-也不启动 SITL、MAVROS 或控制节点。新工作区尚无 install 时先手动 source
-系统 Humble，按项目依赖准备步骤完成首次编译。
+UGV 从 `ugv_ws` 执行 `colcon build --base-paths src`。
+集群工作区目前只有预留说明，没有可构建的 ROS 包。
+仿真入口和验证边界见 [UAV](../uav_ws/sim/README.md)、
+[UGV](../ugv_ws/sim/README.md)、[集群](../swarm_ws/sim/README.md)。
 
 ## 离线检查
 
@@ -96,6 +88,6 @@ ros2 launch uav_bringup uav.launch.py
 python3 Scripts/test_scripts.py
 ```
 
-检查使用临时目录与本地 bare 远程，验证四个包的独立推送、主仓库范围保护、
-首次克隆、非 Git 目录保护和快进同步；
-不连接 GitHub，不提交或推送实际项目，不验证飞控功能。
+检查覆盖语法、六个独立仓库的推送和范围隔离、首次克隆、快进同步、
+越界暂存拒绝及工作区环境选择。测试仅操作临时目录和本地 bare 远程，
+不连接 GitHub、不提交或推送实际项目、不验证飞控或车辆功能。
