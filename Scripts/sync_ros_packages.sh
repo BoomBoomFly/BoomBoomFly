@@ -4,20 +4,18 @@ set -euo pipefail
 project_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 # 默认同步自写独立仓库；可显式选择一个或多个范围。
 if [[ $# == 0 ]]; then
-  set -- uav_ws uav_control uav_vio_bridge uav_bringup uav_mission swarm_ws ugv_ws
+  repository_list="$(python3 "${project_root}/Scripts/repository.py" --list)"
+  mapfile -t repositories <<< "${repository_list}"
+  set -- "${repositories[@]}"
 fi
 # 先验证全部范围，避免拼写错误前已经执行部分同步。
 for repository in "$@"; do
-  case "${repository}" in
-    uav_control|uav_vio_bridge|uav_bringup|uav_mission|uav_ws|swarm_ws|ugv_ws) ;;
-    *) echo "错误：未知仓库 ${repository}" >&2; exit 1 ;;
-  esac
+  [[ "${repository}" != main ]] || { echo "错误：主仓库请单独同步。" >&2; exit 1; }
+  python3 "${project_root}/Scripts/repository.py" "${repository}" >/dev/null
 done
 for repository in "$@"; do
-  case "${repository}" in
-    uav_ws|swarm_ws|ugv_ws) target="${project_root}/${repository}" ;;
-    *) target="${project_root}/uav_ws/src/${repository}" ;;
-  esac
+  relative="$(python3 "${project_root}/Scripts/repository.py" "${repository}")"
+  target="${project_root}/${relative}"
   url="https://github.com/BoomBoomFly/${repository}.git"
   if [[ -e "${target}/.git" ]]; then
     echo "更新 ${repository}（当前分支的 upstream）"

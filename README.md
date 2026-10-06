@@ -146,7 +146,7 @@ ros2 launch mavros px4.launch \
 ## 提交与推送
 
 ```bash
-# 八个独立范围，按需执行；会暂存并提交所选范围内全部未忽略改动。
+# 十二个独立范围，按需执行；会暂存并提交所选范围内全部未忽略改动。
 ./Scripts/push_git.sh uav_control "更新控制接口"
 ./Scripts/push_git.sh uav_vio_bridge "更新位姿桥接"
 ./Scripts/push_git.sh uav_bringup "更新启动编排"
@@ -162,3 +162,7 @@ ros2 launch mavros px4.launch \
 详细范围、保护规则与离线检查见 [Scripts/README.md](Scripts/README.md)。
 
 三个工作区的仿真说明：[UAV](https://github.com/BoomBoomFly/uav_ws/blob/main/sim/README.md)、[UGV](https://github.com/BoomBoomFly/ugv_ws/blob/main/sim/README.md)、[集群](https://github.com/BoomBoomFly/swarm_ws/blob/main/sim/README.md)。
+
+仓库目录与 repo 获取流程见 [manifest 说明](manifests/README.md)。UGV 四个功能包独立管理，ROS 包名保持不变；集群与足式机器人目录仍是预留说明。
+
+UGV 独立包的本地拆分与待发布状态见 [拆分计划](docs/多仓库拆分计划.md)。

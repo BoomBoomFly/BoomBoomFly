@@ -38,6 +38,7 @@ def main():
         root = temp / 'project'
         init_repo(root, temp / 'main.git')
         shutil.copytree(SCRIPTS, root / 'Scripts')
+        shutil.copytree(SCRIPTS.parent / 'manifests', root / 'manifests')
         package = root / 'uav_ws/src/uav_control'
         init_repo(package, temp / 'control.git')
         (package / 'control.txt').write_text('control\n')
@@ -65,14 +66,20 @@ def main():
             repo = root / workspace
             init_repo(repo, temp / f'{workspace}.git')
             (repo / 'sim').mkdir(exist_ok=True)
-            if workspace == 'uav_ws':
-                shutil.copyfile(SCRIPTS.parent / 'uav_ws/.gitignore', repo / '.gitignore')
+            if workspace in ('uav_ws', 'ugv_ws'):
+                shutil.copyfile(SCRIPTS.parent / workspace / '.gitignore', repo / '.gitignore')
             (repo / 'sim/README.md').write_text('workspace simulation\n')
+        ugv_packages = {'fpga_gateway': 'src/fpga_gateway', 'car_bringup': 'src/car/car_bringup',
+                        'car_navigation': 'src/car/car_navigation', 'car_mission': 'src/car/car_mission'}
+        for name, relative in ugv_packages.items():
+            repo = root / 'ugv_ws' / relative
+            init_repo(repo, temp / f'{name}.git')
+            (repo / 'README.md').write_text(f'{name}\n')
         push = root / 'Scripts/push_git.sh'
         run('bash', str(push), 'main', 'root commit', cwd=temp)
         tracked = run('git', '-C', str(root), 'ls-files').splitlines()
         assert 'README.md' in tracked
-        assert all(p == 'README.md' or p.startswith('Scripts/') for p in tracked)
+        assert all(p == 'README.md' or p.startswith(('Scripts/', 'manifests/')) for p in tracked)
         root_head = run('git', '-C', str(root), 'rev-parse', 'HEAD')
         for workspace in ('uav_ws', 'swarm_ws', 'ugv_ws'):
             run('bash', str(push), workspace, 'workspace commit', cwd=temp)
@@ -83,6 +90,15 @@ def main():
             run('bash', str(push), 'main', 'must reject workspace', ok=False)
             assert run('git', '-C', str(root), 'diff', '--cached') == before
             run('git', '-C', str(root), 'reset', 'HEAD', '--', workspace)
+        for name, relative in ugv_packages.items():
+            run('bash', str(push), name, 'package commit', cwd=temp)
+            repo = root / 'ugv_ws' / relative
+            assert run('git', '-C', str(repo), 'status', '--porcelain') == ''
+            run('git', '-C', str(root / 'ugv_ws'), 'add', '-f', relative)
+            before = run('git', '-C', str(root / 'ugv_ws'), 'diff', '--cached')
+            run('bash', str(push), 'ugv_ws', 'must reject nested package', ok=False)
+            assert run('git', '-C', str(root / 'ugv_ws'), 'diff', '--cached') == before
+            run('git', '-C', str(root / 'ugv_ws'), 'reset', 'HEAD', '--', relative)
         run('bash', str(push), 'uav_control', 'control commit', cwd=temp)
         assert run('git', '-C', str(root), 'rev-parse', 'HEAD') == root_head
         assert run('git', '-C', str(package), 'status', '--porcelain') == ''
@@ -128,7 +144,8 @@ def main():
         run('bash', str(push), 'uav_control', 'must reject', ok=False)
         run('git', '-C', str(package), 'checkout', 'main')
         # 远端新增提交后，同步脚本应只做快进。
-        for remote in ('control.git', 'bridge.git', 'bringup.git', 'mission.git', 'uav_ws.git', 'swarm_ws.git', 'ugv_ws.git'):
+        for remote in ('control.git', 'bridge.git', 'bringup.git', 'mission.git', 'uav_ws.git', 'swarm_ws.git', 'ugv_ws.git',
+                       'fpga_gateway.git', 'car_bringup.git', 'car_navigation.git', 'car_mission.git'):
             peer = temp / f'peer-{remote}'
             run('git', 'clone', '-b', 'main', str(temp / remote), str(peer))
             (peer / 'new.txt').write_text('remote update\n')
@@ -153,7 +170,9 @@ def main():
         config = temp / 'gitconfig'
         for name, remote in (('uav_control', 'control.git'), ('uav_vio_bridge', 'bridge.git'),
                              ('uav_bringup', 'bringup.git'), ('uav_mission', 'mission.git'),
-                             ('uav_ws', 'uav_ws.git'), ('swarm_ws', 'swarm_ws.git'), ('ugv_ws', 'ugv_ws.git')):
+                             ('uav_ws', 'uav_ws.git'), ('swarm_ws', 'swarm_ws.git'), ('ugv_ws', 'ugv_ws.git'),
+                             ('fpga_gateway', 'fpga_gateway.git'), ('car_bringup', 'car_bringup.git'),
+                             ('car_navigation', 'car_navigation.git'), ('car_mission', 'car_mission.git')):
             run('git', 'config', '--file', str(config),
                 f'url.{temp / remote}.insteadOf',
                 f'https://github.com/BoomBoomFly/{name}.git')
@@ -168,6 +187,8 @@ def main():
         assert (mission / 'new.txt').exists()
         assert (root / 'swarm_ws/new.txt').exists()
         assert (root / 'ugv_ws/new.txt').exists()
+        for relative in ugv_packages.values():
+            assert (root / 'ugv_ws' / relative / 'new.txt').exists()
         run('bash', str(sync), 'swarm_ws', 'ugv_ws', cwd=temp)
         run('bash', str(sync), 'unknown', ok=False)
         shutil.rmtree(bringup / '.git')
