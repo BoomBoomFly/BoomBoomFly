@@ -7,11 +7,11 @@ import xml.etree.ElementTree as ET
 
 def repositories():
     manifest = Path(__file__).resolve().parent.parent / 'manifests/default.xml'
-    result = {}
+    result = {'BoomBoomFly': '.'}
     for project in ET.parse(manifest).getroot().findall('project'):
         name = project.attrib['name']
-        path = PurePosixPath(project.attrib['path']).relative_to('BoomBoomFly')
-        if '..' in path.parts or name in result:
+        path = PurePosixPath(project.attrib['path'])
+        if path.is_absolute() or '..' in path.parts or str(path) == '.' or name in result:
             raise ValueError(f'invalid repository: {name}')
         result[name] = str(path)
     return result

@@ -99,4 +99,4 @@ python3 Scripts/test_scripts.py
 
 ## repo 获取
 
-repo 的新目录获取与版本锁定流程见 [manifest 说明](../manifests/README.md)。当前工作区继续使用 `sync_ros_packages.sh` 的快进同步；两个入口读取同一份仓库清单，不要同时运行。
+repo 在现有顶层目录初始化及版本锁定流程见 [manifest 说明](../manifests/README.md)。`/home/aa/BoomBoomFly` 直接作为 repo 客户端顶层，首次初始化使用 `--use-local-gitdirs` 复用现有 Git 目录。同步脚本和 repo 读取同一清单，不要同时运行。
