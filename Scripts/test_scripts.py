@@ -61,18 +61,20 @@ def main():
         (root / 'README.md').write_text('root\n')
         (root / 'uav_ws/sim').mkdir(parents=True)
         (root / 'uav_ws/sim/README.md').write_text('simulation\n')
-        for workspace in ('swarm_ws', 'ugv_ws'):
+        for workspace in ('uav_ws', 'swarm_ws', 'ugv_ws'):
             repo = root / workspace
             init_repo(repo, temp / f'{workspace}.git')
-            (repo / 'sim').mkdir()
+            (repo / 'sim').mkdir(exist_ok=True)
+            if workspace == 'uav_ws':
+                shutil.copyfile(SCRIPTS.parent / 'uav_ws/.gitignore', repo / '.gitignore')
             (repo / 'sim/README.md').write_text('workspace simulation\n')
         push = root / 'Scripts/push_git.sh'
         run('bash', str(push), 'main', 'root commit', cwd=temp)
         tracked = run('git', '-C', str(root), 'ls-files').splitlines()
         assert 'README.md' in tracked
-        assert all(p in ('README.md', 'uav_ws/sim/README.md') or p.startswith('Scripts/') for p in tracked)
+        assert all(p == 'README.md' or p.startswith('Scripts/') for p in tracked)
         root_head = run('git', '-C', str(root), 'rev-parse', 'HEAD')
-        for workspace in ('swarm_ws', 'ugv_ws'):
+        for workspace in ('uav_ws', 'swarm_ws', 'ugv_ws'):
             run('bash', str(push), workspace, 'workspace commit', cwd=temp)
             repo = root / workspace
             assert run('git', '-C', str(repo), 'status', '--porcelain') == ''
@@ -113,39 +115,20 @@ def main():
         assert run('git', '-C', str(mission), 'rev-parse', 'HEAD') == mission_head
         assert run('git', '-C', str(package), 'ls-tree', '-r', 'HEAD',
                    '--name-only').count('uav_interfaces/msg/VehicleState.msg') == 1
-        run('git', '-C', str(root), 'add', 'uav_ws/src/uav_bringup')
-        index_before = run('git', '-C', str(root), 'diff', '--cached')
-        run('bash', str(push), 'main', 'must reject bringup', ok=False)
-        assert run('git', '-C', str(root), 'diff', '--cached') == index_before
-        run('git', '-C', str(root), 'reset', 'HEAD', '--', 'uav_ws/src/uav_bringup')
-        run('git', '-C', str(root), 'add', 'uav_ws/src/uav_mission')
-        index_before = run('git', '-C', str(root), 'diff', '--cached')
-        run('bash', str(push), 'main', 'must reject mission', ok=False)
-        assert run('git', '-C', str(root), 'diff', '--cached') == index_before
-        run('git', '-C', str(root), 'reset', 'HEAD', '--', 'uav_ws/src/uav_mission')
-        # 即使独立包误入主仓库暂存区，也必须停止并保留暂存内容。
-        run('git', '-C', str(root), 'add', 'uav_ws/src/uav_vio_bridge')
-        index_before = run('git', '-C', str(root), 'diff', '--cached')
-        run('bash', str(push), 'main', 'must reject bridge', ok=False)
-        assert run('git', '-C', str(root), 'diff', '--cached') == index_before
-        run('git', '-C', str(root), 'reset', 'HEAD', '--', 'uav_ws/src/uav_vio_bridge')
-        run('git', '-C', str(root), 'add', 'uav_ws/src/thirdparty/mock/file')
-        index_before = run('git', '-C', str(root), 'diff', '--cached')
-        run('bash', str(push), 'main', 'must reject', ok=False)
-        assert run('git', '-C', str(root), 'diff', '--cached') == index_before
-        # 使用实际 ignore 规则验证主仓库发布，sim 文件仍应纳入。
-        run('git', '-C', str(root), 'reset', 'HEAD', '--', 'uav_ws/src/thirdparty/mock/file')
+        # 实际 ignore 规则排除整个工作区；仿真文件由 uav_ws 独立发布。
         shutil.copyfile(SCRIPTS.parent / '.gitignore', root / '.gitignore')
         (root / 'uav_ws/sim/README.md').write_text('updated simulation\n')
         run('bash', str(push), 'main', 'ignore-aware root commit')
-        assert run('git', '-C', str(root), 'show', 'HEAD:uav_ws/sim/README.md') == 'updated simulation'
+        assert not any(p.startswith('uav_ws/') for p in run('git', '-C', str(root), 'ls-files').splitlines())
+        run('bash', str(push), 'uav_ws', 'simulation update')
+        assert run('git', '-C', str(root / 'uav_ws'), 'show', 'HEAD:sim/README.md') == 'updated simulation'
         run('bash', str(push), 'unknown', 'must reject', ok=False)
         run('bash', str(push), 'main', ' ', ok=False)
         run('git', '-C', str(package), 'checkout', '--detach')
         run('bash', str(push), 'uav_control', 'must reject', ok=False)
         run('git', '-C', str(package), 'checkout', 'main')
         # 远端新增提交后，同步脚本应只做快进。
-        for remote in ('control.git', 'bridge.git', 'bringup.git', 'mission.git', 'swarm_ws.git', 'ugv_ws.git'):
+        for remote in ('control.git', 'bridge.git', 'bringup.git', 'mission.git', 'uav_ws.git', 'swarm_ws.git', 'ugv_ws.git'):
             peer = temp / f'peer-{remote}'
             run('git', 'clone', '-b', 'main', str(temp / remote), str(peer))
             (peer / 'new.txt').write_text('remote update\n')
@@ -164,12 +147,13 @@ def main():
         shutil.rmtree(bridge)
         shutil.rmtree(bringup)
         shutil.rmtree(mission)
+        shutil.rmtree(root / 'uav_ws')
         shutil.rmtree(root / 'swarm_ws')
         shutil.rmtree(root / 'ugv_ws')
         config = temp / 'gitconfig'
         for name, remote in (('uav_control', 'control.git'), ('uav_vio_bridge', 'bridge.git'),
                              ('uav_bringup', 'bringup.git'), ('uav_mission', 'mission.git'),
-                             ('swarm_ws', 'swarm_ws.git'), ('ugv_ws', 'ugv_ws.git')):
+                             ('uav_ws', 'uav_ws.git'), ('swarm_ws', 'swarm_ws.git'), ('ugv_ws', 'ugv_ws.git')):
             run('git', 'config', '--file', str(config),
                 f'url.{temp / remote}.insteadOf',
                 f'https://github.com/BoomBoomFly/{name}.git')

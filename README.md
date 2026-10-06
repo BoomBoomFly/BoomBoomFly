@@ -35,7 +35,7 @@ EGO-Swarm、DDS 迁移和完整任务框架属于后续工作。
 | PX4 | v1.17.0，关键 submodule 已初始化，`make px4_sitl gz_x500` 已实际启动成功 |
 | uav_control / uav_mission | MAVROS 控制节点与任务状态机已实现；SITL 编译、接口和飞行结果见本次测试记录 |
 | ROS 通信检查 | 隔离 ROS_DOMAIN_ID 下，统一状态、动态目标及 20 Hz MAVROS setpoint 路径通过 smoke 检查 |
-| 飞行控制 | 第一版起飞、位置稳定 2 秒、悬停 10 秒、AUTO.LAND 和上锁确认已实现；SITL 结果见 [测试记录](uav_ws/sim/PX4_SITL_起飞悬停降落验证.md) |
+| 飞行控制 | 第一版起飞、位置稳定 2 秒、悬停 10 秒、AUTO.LAND 和上锁确认已实现；SITL 结果见 [测试记录](https://github.com/BoomBoomFly/uav_ws/blob/main/sim/PX4_SITL_起飞悬停降落验证.md) |
 | 定位 | 最小 `uav_vio_bridge` 已实现，独立编译及 run/launch 启动通过；消息转发测试超时，OpenVINS → PX4 链路尚未验证 |
 | 启动编排 | `uav_bringup` 提供 VIO 与 SITL 测试 launch；VIO 消息链路仍未验证，飞行测试证据见下文 |
 | 实机 | 飞控尚未到货，H743 串口、固件、MAVLink 参数和 IMU 均未验证 |
@@ -61,10 +61,10 @@ BoomBoomFly/
 └── docker/kalibr/source/        # 本地第三方源码
 ```
 
-父仓库忽略第三方、参考仓库、构建产物与四个自写独立仓库目录。
+父仓库忽略三个独立工作区目录，各工作区独立管理说明及仿真文件。
 各包源码在各自仓库中提交，不是 Git submodule；`uav_interfaces` 随
-`uav_control` 仓库提交。克隆主仓库后可用同步脚本获取四个自写仓库。
-其他自写包不会因整个 `uav_ws/src` 被忽略而丢失。
+`uav_control` 仓库提交。克隆主仓库后可用同步脚本获取三个工作区和四个 UAV 自写包。
+UAV 工作区的仓库边界与获取步骤见 [uav_ws README](https://github.com/BoomBoomFly/uav_ws#readme)。
 
 ## 同步与编译
 
@@ -121,7 +121,7 @@ ros2 launch uav_bringup uav.launch.py
 ## SITL 与 MAVROS
 
 PX4 SITL 的版本、完整命令、参数、GCS 要求、正常测试和任务节点停止测试结果，记录在
-[PX4 SITL 起飞—悬停—降落验证文档](uav_ws/sim/PX4_SITL_起飞悬停降落验证.md)。
+[PX4 SITL 起飞—悬停—降落验证文档](https://github.com/BoomBoomFly/uav_ws/blob/main/sim/PX4_SITL_起飞悬停降落验证.md)。
 2026-09-19 已使用 PX4 v1.17.0、Gazebo Sim 8.14.0 和 ROS 2 Humble 完成正常 SITL
 PASS；没有连接实机。复现时先启动 PX4：
 
@@ -146,11 +146,14 @@ ros2 launch mavros px4.launch \
 ## 提交与推送
 
 ```bash
-# 五个独立范围，按需执行；会暂存并提交所选范围内全部未忽略改动。
+# 八个独立范围，按需执行；会暂存并提交所选范围内全部未忽略改动。
 ./Scripts/push_git.sh uav_control "更新控制接口"
 ./Scripts/push_git.sh uav_vio_bridge "更新位姿桥接"
 ./Scripts/push_git.sh uav_bringup "更新启动编排"
 ./Scripts/push_git.sh uav_mission "更新飞行任务"
+./Scripts/push_git.sh uav_ws "更新 UAV 工作区及仿真"
+./Scripts/push_git.sh swarm_ws "更新集群工作区"
+./Scripts/push_git.sh ugv_ws "更新地面车工作区"
 ./Scripts/push_git.sh main "更新工作区脚本与文档"
 ```
 
@@ -158,4 +161,4 @@ ros2 launch mavros px4.launch \
 脚本不自动拉取或强制推送；推送失败会保留本地提交。
 详细范围、保护规则与离线检查见 [Scripts/README.md](Scripts/README.md)。
 
-三个工作区的仿真说明：[UAV](uav_ws/sim/README.md)、[UGV](ugv_ws/sim/README.md)、[集群](swarm_ws/sim/README.md)。
+三个工作区的仿真说明：[UAV](https://github.com/BoomBoomFly/uav_ws/blob/main/sim/README.md)、[UGV](https://github.com/BoomBoomFly/ugv_ws/blob/main/sim/README.md)、[集群](https://github.com/BoomBoomFly/swarm_ws/blob/main/sim/README.md)。

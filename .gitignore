@@ -2,20 +2,9 @@
 /log/
 
 # 独立工作区仓库：在各自仓库中管理源码及 sim
+/uav_ws/
 /swarm_ws/
 /ugv_ws/
-
-# UAV 的源码、第三方仓库及构建产物由各自规则管理。
-# 保留 uav_ws/sim 和 uav_ws/.gitignore 的主仓库跟踪。
-/uav_ws/build/
-/uav_ws/install/
-/uav_ws/log/
-/uav_ws/upstream/
-/uav_ws/src/thirdparty/
-/uav_ws/src/uav_control/
-/uav_ws/src/uav_vio_bridge/
-/uav_ws/src/uav_bringup/
-/uav_ws/src/uav_mission/
 
 # 第三方源码与参考仓库
 /references/

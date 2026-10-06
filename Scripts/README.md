@@ -18,7 +18,7 @@
 ./Scripts/sync_ros_packages.sh swarm_ws ugv_ws
 ```
 
-默认同步六个独立仓库：`uav_ws/src/` 下的 `uav_control`、`uav_vio_bridge`、
+默认先同步 `uav_ws`，再同步其四个自写包及另外两个工作区，共七个独立仓库：`uav_ws/src/` 下的 `uav_control`、`uav_vio_bridge`、
 `uav_bringup`、`uav_mission`，以及项目根目录下的 `swarm_ws`、`ugv_ws`。
 共享接口包 `uav_interfaces` 随 `uav_control` 克隆。
 
@@ -29,7 +29,8 @@
 ## 按仓库提交推送
 
 ```bash
-./Scripts/push_git.sh main "更新主项目脚本和 UAV 仿真文件"
+./Scripts/push_git.sh main "更新主项目脚本"
+./Scripts/push_git.sh uav_ws "更新 UAV 工作区及仿真"
 ./Scripts/push_git.sh uav_control "更新控制节点"
 ./Scripts/push_git.sh uav_vio_bridge "更新位姿桥接"
 ./Scripts/push_git.sh uav_bringup "更新启动编排"
@@ -41,9 +42,9 @@
 `main` 表示主仓库范围，不限定分支名。执行前查看对应仓库 `git status`：
 脚本自动暂存所选仓库内全部未忽略的新增、修改和删除，并包括原有暂存内容。
 
-主仓库范围包含 `uav_ws/sim/` 和 `uav_ws/.gitignore`，明确排除：
+`uav_ws` 范围管理其 README、`.gitignore` 和 `sim/`；主仓库明确排除：
 
-- 独立仓库 `swarm_ws/`、`ugv_ws/` 和四个 UAV 自写包。
+- 独立工作区 `uav_ws/`、`swarm_ws/`、`ugv_ws/`（包括其中嵌套仓库）。
 - `uav_ws/src/thirdparty/`、`uav_ws/upstream/`。
 - `uav_ws/build/`、`uav_ws/install/`、`uav_ws/log/`、主仓库 `log/`。
 - `references/`、`reference/`、`docker/kalibr/source/`。
@@ -53,7 +54,7 @@
 推送失败保留本地提交。以后增加独立仓库需同时更新映射、排除列表及 `.gitignore`。
 
 UAV 仿真文件迁移后，`uav_bringup` 的构建需要同时具备 `uav_ws/src/` 和
-`uav_ws/sim/`。包仓库的同步不会获取主仓库管理的 `sim` 文件。
+`uav_ws/sim/`。包仓库的同步不会获取 `uav_ws` 仓库管理的 `sim` 文件。
 
 ## 加载环境与首次构建
 
@@ -79,8 +80,8 @@ source install/local_setup.bash
 
 UGV 从 `ugv_ws` 执行 `colcon build --base-paths src`。
 集群工作区目前只有预留说明，没有可构建的 ROS 包。
-仿真入口和验证边界见 [UAV](../uav_ws/sim/README.md)、
-[UGV](../ugv_ws/sim/README.md)、[集群](../swarm_ws/sim/README.md)。
+仿真入口和验证边界见 [UAV](https://github.com/BoomBoomFly/uav_ws/blob/main/sim/README.md)、
+[UGV](https://github.com/BoomBoomFly/ugv_ws/blob/main/sim/README.md)、[集群](https://github.com/BoomBoomFly/swarm_ws/blob/main/sim/README.md)。
 
 ## 离线检查
 
@@ -88,6 +89,6 @@ UGV 从 `ugv_ws` 执行 `colcon build --base-paths src`。
 python3 Scripts/test_scripts.py
 ```
 
-检查覆盖语法、六个独立仓库的推送和范围隔离、首次克隆、快进同步、
+检查覆盖语法、七个独立仓库的推送和范围隔离、首次克隆、快进同步、
 越界暂存拒绝及工作区环境选择。测试仅操作临时目录和本地 bare 远程，
 不连接 GitHub、不提交或推送实际项目、不验证飞控或车辆功能。
