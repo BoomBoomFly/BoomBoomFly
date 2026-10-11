@@ -77,11 +77,12 @@ CMAKE_BUILD_PARALLEL_LEVEL=2 MAKEFLAGS="-j2" colcon build \
   --base-paths src/uav_control/uav_interfaces src \
   --packages-select uav_interfaces uav_control --symlink-install
 source install/local_setup.bash
-ros2 launch uav_control setpoint.launch.py
+ros2 launch uav_control control.launch.py
 ```
 
 以上针对当前已有依赖和 install 的开发环境。同步脚本依次克隆或快进更新
-`uav_control`、`uav_vio_bridge`、`uav_bringup`、`uav_mission`，不安装 ROS、不准备第三方、不编译 PX4。
+清单内的工作区和自写包；有分支时沿其 upstream，detached HEAD 时快进到 origin/main 并保持 detached。
+历史分叉或文件冲突时停止。脚本不安装 ROS、不准备第三方、不编译 PX4。
 新机器需要先准备上述依赖；环境脚本要求工作区已生成 `install/local_setup.bash`。
 
 获取或更新自写包，然后仅编译 VIO 桥接包：
@@ -96,7 +97,7 @@ source install/setup.bash
 ros2 launch uav_vio_bridge uav_vio_bridge.launch.py
 ```
 
-已有独立仓库可执行 `git -C uav_ws/src/uav_vio_bridge pull --ff-only`。
+单独更新 Bridge 可执行 `./Scripts/sync_ros_packages.sh uav_vio_bridge`，兼容分支及 detached HEAD。
 桥接包参数、验证命令与证据边界见其 [README](https://github.com/BoomBoomFly/uav_vio_bridge#readme)。
 推送脚本支持 `uav_vio_bridge` 范围，见下方示例。
 

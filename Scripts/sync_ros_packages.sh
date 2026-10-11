@@ -18,8 +18,15 @@ for repository in "$@"; do
   target="${project_root}/${relative}"
   url="https://github.com/BoomBoomFly/${repository}.git"
   if [[ -e "${target}/.git" ]]; then
-    echo "更新 ${repository}（当前分支的 upstream）"
-    git -C "${target}" pull --ff-only
+    if git -C "${target}" symbolic-ref --quiet HEAD >/dev/null; then
+      echo "更新 ${repository}（当前分支的 upstream）"
+      git -C "${target}" pull --ff-only
+    else
+      # repo sync 通常留下 detached HEAD；当前清单统一跟随 origin/main。
+      echo "更新 ${repository}（detached HEAD，快进到 origin/main）"
+      git -C "${target}" fetch origin refs/heads/main
+      git -C "${target}" merge --ff-only --no-autostash FETCH_HEAD
+    fi
   elif [[ -e "${target}" ]]; then
     echo "错误：${target} 已存在，但不是独立 Git 仓库；保留原目录。" >&2
     exit 1

@@ -63,5 +63,6 @@ git rev-parse HEAD
 当前清单只包含自写仓库。PX4、MAVROS、MAVLink、OpenVINS 及参考仓库未纳入默认同步，上游保留原有 submodule 管理。
 集群尚无可构建功能包，先由工作区管理预留说明。
 
-`sync_ros_packages.sh` 从同一清单读取路径，并沿各仓库当前分支 upstream 快进；
+`sync_ros_packages.sh` 从同一清单读取路径：有分支时沿当前 upstream 快进；
+detached HEAD 时 fetch origin/main 并仅做快进，保持 detached HEAD；历史分叉或文件冲突时停止并保留本地工作。
 repo 使用清单 revision 同步。两个同步入口不要同时运行。

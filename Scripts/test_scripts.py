@@ -154,11 +154,57 @@ def main():
                 '-c', 'user.email=test@example.invalid', 'commit', '-m', 'update')
             run('git', '-C', str(peer), 'push')
         sync = root / 'Scripts/sync_ros_packages.sh'
+        # repo sync 的常见布局：工作区和源码包均为 detached HEAD。
+        detached_repos = (root / 'uav_ws', package, bridge, bringup, mission)
+        for repo in detached_repos:
+            run('git', '-C', str(repo), 'checkout', '--detach')
+        (package / 'control.txt').write_text('local working edit\n')
         run('bash', str(sync), cwd=temp)
         assert (package / 'new.txt').read_text() == 'remote update\n'
         assert (bridge / 'new.txt').read_text() == 'remote update\n'
         assert (bringup / 'new.txt').read_text() == 'remote update\n'
         assert (mission / 'new.txt').read_text() == 'remote update\n'
+        for repo in detached_repos:
+            assert run('git', '-C', str(repo), 'symbolic-ref', '--quiet', 'HEAD', ok=False) == ''
+            assert run('git', '-C', str(repo), 'rev-parse', 'HEAD') == run(
+                'git', '-C', str(repo), 'rev-parse', 'origin/main')
+        assert (package / 'control.txt').read_text() == 'local working edit\n'
+        # 已同步时重复运行仍保留 detached 状态及无冲突的本地修改。
+        run('bash', str(sync), 'uav_ws', 'uav_control', cwd=temp)
+        assert run('git', '-C', str(package), 'symbolic-ref', '--quiet', 'HEAD', ok=False) == ''
+        assert (package / 'control.txt').read_text() == 'local working edit\n'
+        # 远端新增文件与本地未跟踪文件冲突时，保留 HEAD 和文件内容。
+        peer = temp / 'peer-control.git'
+        (peer / 'blocked.txt').write_text('remote content\n')
+        run('git', '-C', str(peer), 'add', 'blocked.txt')
+        run('git', '-C', str(peer), '-c', 'user.name=Test',
+            '-c', 'user.email=test@example.invalid', 'commit', '-m', 'conflicting file')
+        run('git', '-C', str(peer), 'push')
+        (package / 'blocked.txt').write_text('local content\n')
+        before = run('git', '-C', str(package), 'rev-parse', 'HEAD')
+        run('bash', str(sync), 'uav_control', cwd=temp, ok=False)
+        assert run('git', '-C', str(package), 'rev-parse', 'HEAD') == before
+        assert (package / 'blocked.txt').read_text() == 'local content\n'
+        (package / 'blocked.txt').unlink()
+        run('bash', str(sync), 'uav_control', cwd=temp)
+        assert (package / 'blocked.txt').read_text() == 'remote content\n'
+        # detached 本地提交与远端分叉时，只 fetch；禁止合并或丢弃本地提交。
+        (package / 'local-only.txt').write_text('keep local commit\n')
+        run('git', '-C', str(package), 'add', 'local-only.txt')
+        run('git', '-C', str(package), 'commit', '-m', 'local detached commit')
+        detached_head = run('git', '-C', str(package), 'rev-parse', 'HEAD')
+        peer = temp / 'peer-control.git'
+        (peer / 'remote-only.txt').write_text('remote diverged\n')
+        run('git', '-C', str(peer), 'add', 'remote-only.txt')
+        run('git', '-C', str(peer), '-c', 'user.name=Test',
+            '-c', 'user.email=test@example.invalid', 'commit', '-m', 'remote diverged')
+        run('git', '-C', str(peer), 'push')
+        run('bash', str(sync), 'uav_control', cwd=temp, ok=False)
+        assert run('git', '-C', str(package), 'rev-parse', 'HEAD') == detached_head
+        assert run('git', '-C', str(package), 'symbolic-ref', '--quiet', 'HEAD', ok=False) == ''
+        assert (package / 'local-only.txt').read_text() == 'keep local commit\n'
+        assert (package / 'control.txt').read_text() == 'local working edit\n'
+        assert not (package / 'remote-only.txt').exists()
         # 首次 clone 通过 Git URL rewrite 转向本地 bare 仓库。
         shutil.rmtree(package)
         shutil.rmtree(bridge)

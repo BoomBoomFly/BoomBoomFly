@@ -22,7 +22,10 @@
 `uav_bringup`、`uav_mission`，以及项目根目录下的 `swarm_ws`、`ugv_ws`。
 共享接口包 `uav_interfaces` 随 `uav_control` 克隆。UGV 功能包包括 `fpga_gateway`、`car_bringup`、`car_navigation`、`car_mission`，保持原 ROS 包名。
 
-已有仓库沿用当前分支 upstream，执行 `git pull --ff-only`；首次克隆使用
+已有分支沿用其 upstream，执行 `git pull --ff-only`；`repo sync` 后的 detached HEAD
+按当前清单的 main 约定执行 `git fetch origin refs/heads/main` 和
+`git merge --ff-only --no-autostash FETCH_HEAD`，同步后仍保持 detached HEAD。
+历史分叉或本地修改与更新冲突时停止，保留本地文件和提交；不会自动建分支或暂存修改。首次克隆使用
 `https://github.com/BoomBoomFly/<仓库>.git`。遇错即停止，已完成的同步不回滚。
 已有非 Git 目录会保留并报错。脚本不切分支、不重置、不处理冲突，也不更新第三方或 PX4。
 
@@ -93,9 +96,10 @@ UGV 从 `ugv_ws` 执行 `colcon build --base-paths src`。
 python3 Scripts/test_scripts.py
 ```
 
-检查覆盖语法、十一个独立仓库的推送和范围隔离、首次克隆、快进同步、
+检查覆盖语法、十一个独立仓库的推送和范围隔离、首次克隆、分支及 detached HEAD 快进同步、
 越界暂存拒绝及工作区环境选择。测试仅操作临时目录和本地 bare 远程，
 不连接 GitHub、不提交或推送实际项目、不验证飞控或车辆功能。
+2026-10-12 已补充 detached HEAD、保留本地修改及分叉拒绝的回归源码；按用户要求，本轮未执行测试。
 
 ## repo 获取
 
