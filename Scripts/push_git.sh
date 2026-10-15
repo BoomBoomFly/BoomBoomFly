@@ -19,7 +19,7 @@ git -C "${target}" remote get-url origin >/dev/null
 
 case "$1" in
   main) excluded=(uav_ws swarm_ws ugv_ws log references reference docker/kalibr/source) ;;
-  uav_ws) excluded=(src/uav_control src/uav_vio_bridge src/uav_bringup src/uav_mission src/thirdparty upstream build install log) ;;
+  uav_ws) excluded=(src/uav_control src/uav_bridge src/uav_bringup src/uav_mission src/thirdparty upstream build install log) ;;
   ugv_ws) excluded=(src/fpga_gateway src/car/car_bringup src/car/car_navigation src/car/car_mission src/external build install log) ;;
   *) excluded=() ;;
 esac

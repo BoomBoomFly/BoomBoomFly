@@ -6,7 +6,7 @@
   <project name="ugv_ws" path="ugv_ws" groups="ugv" />
   <project name="swarm_ws" path="swarm_ws" groups="swarm" />
   <project name="uav_control" path="uav_ws/src/uav_control" groups="uav" />
-  <project name="uav_vio_bridge" path="uav_ws/src/uav_vio_bridge" groups="uav" />
+  <project name="uav_vio_bridge" path="uav_ws/src/uav_bridge" groups="uav" />
   <project name="uav_bringup" path="uav_ws/src/uav_bringup" groups="uav" />
   <project name="uav_mission" path="uav_ws/src/uav_mission" groups="uav" />
   <project name="fpga_gateway" path="ugv_ws/src/fpga_gateway" groups="ugv" />

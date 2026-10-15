@@ -20,6 +20,7 @@
 
 仓库路径统一从 `manifests/default.xml` 读取。默认先同步三个工作区，再同步八个自写包，共十一个独立仓库：`uav_ws/src/` 下的 `uav_control`、`uav_vio_bridge`、
 `uav_bringup`、`uav_mission`，以及项目根目录下的 `swarm_ws`、`ugv_ws`。
+桥接仓库的远程 project 名和同步／推送参数仍为 `uav_vio_bridge`；本地 checkout 路径与 ROS 包名已迁移为 `uav_ws/src/uav_bridge` / `uav_bridge`。
 共享接口包 `uav_interfaces` 随 `uav_control` 克隆。UGV 功能包包括 `fpga_gateway`、`car_bringup`、`car_navigation`、`car_mission`，保持原 ROS 包名。
 
 已有分支沿用其 upstream，执行 `git pull --ff-only`；`repo sync` 后的 detached HEAD
@@ -81,7 +82,7 @@ source Scripts/setup_ros_environment.bash swarm_ws
 source /opt/ros/humble/setup.bash
 cd /home/aa/BoomBoomFly/uav_ws
 colcon build --base-paths src/uav_control/uav_interfaces src --symlink-install \
-  --packages-select mavros_msgs uav_interfaces uav_control uav_mission uav_vio_bridge uav_bringup
+  --packages-select mavros_msgs uav_interfaces uav_control uav_mission uav_bridge uav_bringup
 source install/local_setup.bash
 ```
 

@@ -42,7 +42,7 @@ def main():
         package = root / 'uav_ws/src/uav_control'
         init_repo(package, temp / 'control.git')
         (package / 'control.txt').write_text('control\n')
-        bridge = root / 'uav_ws/src/uav_vio_bridge'
+        bridge = root / 'uav_ws/src/uav_bridge'
         init_repo(bridge, temp / 'bridge.git')
         (bridge / 'bridge.txt').write_text('bridge\n')
         bringup = root / 'uav_ws/src/uav_bringup'
