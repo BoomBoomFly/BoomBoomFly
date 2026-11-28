@@ -41,10 +41,6 @@ ros2 launch uav_bringup uav.launch.py start_control:=false \
 
 OpenVINS 使用 `run_subscribe_msckf` 接口：`config_path`、`verbosity`、`use_stereo`、`max_cameras`、`save_total_state` 与 `imu0_rostopic`。
 
-## 离线诊断工具
-
-VIO 实时检查、录包与离线分析脚本位于仓库根目录 `tools/vio/`（`check_vio.py`、`record_vio.py`、`analyze_vio_bag.py`），在加载工作区 overlay 后直接以 `python3 tools/vio/<脚本>` 运行。
-
 ## 集中配置分区
 
 `config/uav.yaml` 包含 `camera`、`uav_control`、`uav_bridge` 和 `uav_mission`。

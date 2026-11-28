@@ -8,7 +8,7 @@
 python3 tools/build_firmware.py
 ```
 
-[固件构建脚本](../../tools/build_firmware.py)使用 `riscv64-unknown-elf` 工具链，并将固件和清单写入 `impl/firmware/`。在 Ubuntu 22.04 上用 GCC 10.2.0 重建时，生成的 ROM 包与工程中的文件逐字节一致。
+`tools/build_firmware.py` 使用 `riscv64-unknown-elf` 工具链，并将固件和清单写入 `impl/firmware/`。在 Ubuntu 22.04 上用 GCC 10.2.0 重建时，生成的 ROM 包与工程中的文件逐字节一致。
 
 这些模块由 `main.c` 与板级软核平台连接，已接入雷达、IMU、编码器、以太网和电机控制链路。当前 `robot_config.h` 沿用地测试验值：x/y 制动减速度 200 mm/s²、yaw 制动减速度 1500 mrad/s²、响应和观测时间误差各 100 ms。这些值为试验参数，实车部署时需要标定。
 

@@ -1,7 +1,7 @@
 # BoomBoomFly
 
 无人机、地面车辆、六足机器人及空地协同研发仓库（ROS 2 Humble + FPGA/MCU）。
-仓库采用 **单一自研 Monorepo + `vcstool` 外部依赖清单** 结构：所有自研 ROS 2 功能包、仿真配置、硬件工程与诊断工具均在本仓库统一版本控制；OpenVINS、MAVROS、PX4 等上游源码通过清单按需拉取，不直接提交进主仓历史。
+仓库采用 **单一自研 Monorepo + `vcstool` 外部依赖清单** 结构：所有自研 ROS 2 功能包、仿真配置与硬件工程均在本仓库统一版本控制；OpenVINS、MAVROS、PX4 等上游源码通过清单按需拉取，不直接提交进主仓历史。
 
 ## 目录结构
 
@@ -14,18 +14,18 @@ BoomBoomFly/
 │   │   ├── ugv/                    # ugv_bridge, car/(car_bringup, car_navigation, car_vision), legged/
 │   │   ├── swarm/                  # swarm_cooperation（跨平台对齐、地图融合与协同调度）
 │   │   └── thirdparty/             # .gitignore 忽略；由 vcs import 拉取外部依赖
-│   └── sim/                        # 仿真配置与启动入口（uav/, swarm/）
+│   └── sim/                        # 仿真配置与启动入口（uav/, ugv/, swarm/）
 ├── hardware/
 │   ├── fpga/                       # 高云 FPGA 板级工程（boards/）及可复用参考库（rtl/, fw/）
-│   └── mcu/                        # 下位机 MCU 固件预留目录
+│   └── mcu/                        # 下位机 MCU 固件（boards/ 板级工程 + libs/ 通用库）
 ├── repos/                          # vcstool 外部依赖清单（uav_thirdparty.repos）
-├── tools/                          # 环境加载脚本与离线分析工具（setup_ros_env.bash, vio/）
 └── docs/                           # 架构设计、参考仓库分工与验证记录
 ```
 
 各子系统详细说明：
 - [ROS 2 工作区说明](ros2_ws/README.md)
 - [FPGA 工程说明](hardware/fpga/README.md)
+- [MCU 工程与算法库说明](hardware/mcu/README.md)
 - [外部依赖清单说明](repos/README.md)
 - [参考仓库与借鉴分工](docs/参考仓库与借鉴分工.md) · [任务与控制架构现状及讨论记录](docs/任务与控制架构现状及讨论记录.md)
 
@@ -69,7 +69,8 @@ colcon build --symlink-install --executor sequential --packages-up-to swarm_coop
 构建完成后，在新终端加载环境：
 
 ```bash
-source tools/setup_ros_env.bash
+source /opt/ros/humble/setup.bash
+source ~/BoomBoomFly/ros2_ws/install/local_setup.bash
 ```
 
 ## 开发、多端部署与子仓导出工作流

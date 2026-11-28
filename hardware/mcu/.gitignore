@@ -1,0 +1,18 @@
+# MCU 构建产物与 IDE 临时文件
+build/
+Debug/
+Release/
+Objects/
+Listings/
+.pio/
+*.elf
+*.hex
+*.bin
+*.axf
+*.map
+*.o
+*.d
+*.lst
+*.crf
+*.uvoptx
+*.uvguix.*

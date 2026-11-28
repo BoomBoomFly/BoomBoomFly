@@ -82,18 +82,18 @@ DVP 数据、HREF 和 VSYNC 在 FPGA 输入端加 64 个 IODELAY 抽头，降低
 | `CONTROL_BROADCAST_IP` | 板端 IP 的 `/24` 广播地址 | 可保留原有广播兼容；正常 Linux 控制用单播 |
 | `PACKET_GAP_CYCLES` | `60000`，125 MHz 下约 480 µs | 应用发包节奏，按接收端能力调整；PHY 保持千兆 |
 
-接收、视频转换、HTTP 接口与 ROS 2 发布统一使用工作区中的 [ACG720 接入程序](../../../ugv_ws/src/legged/legged_bridge/legged_bridge/acg720_bridge.py)。手动启动入口见 [树莓派桥接脚本](../../../ugv_ws/Scripts/acg720_run.sh)。
+接收、视频转换、HTTP 接口与 ROS 2 发布统一使用工作区中的 [ACG720 接入程序](../../../../ros2_ws/src/ugv/legged/legged_bridge/legged_bridge/acg720_bridge.py)（在 ROS 2 环境下运行 `ros2 run legged_bridge acg720_bridge`）。
 
 从工作区根目录启动接入程序时，可先仅运行 HTTP/UDP 模式；完成 ROS 2 环境配置后去掉 `--http-only` 启动 ROS 发布。
 
 ```bash
-PYTHONPATH="$PWD/ugv_ws/src/legged/legged_bridge" \
+PYTHONPATH="$PWD/ros2_ws/src/ugv/legged/legged_bridge" \
 python3 -m legged_bridge.acg720_bridge --http-only
 ```
 
 HTTP 状态、控制和图像入口依次为 `http://192.0.2.54:8766/api/status`、`/api/control` 和 `/frame.jpg`，总控通过该服务接入。使用 SRAM 调试时，板卡重新上电后需要再次装载位流才能接收遥测。
 
-ROS 下行入口为 `/acg720/command`（`std_msgs/String` JSON），结果为 `/acg720/command_result`，与 HTTP 共用动作、续租和停止逻辑。参数、启动及反馈语义见 [Linux 接入说明](../../../ugv_ws/src/legged/legged_bridge/README.md)。HEX1 没有逐命令 ACK，主机发送成功与异步 HXS1 观测分别呈现。
+ROS 下行入口为 `/acg720/command`（`std_msgs/String` JSON），结果为 `/acg720/command_result`，与 HTTP 共用动作、续租和停止逻辑。参数、启动及反馈语义见 [Linux 接入说明](../../../../ros2_ws/src/ugv/legged/legged_bridge/README.md)。HEX1 没有逐命令 ACK，主机发送成功与异步 HXS1 观测分别呈现。
 
 运动指令通过 UDP `6103` 接收，负载为四字节 `HEX1` 和一个命令字节。0 保持姿态；1–6 为前进、后退、左转、右转、左移、右移；7 释放舵机；8 回低姿态；9 选择标准三角；10 选择四足支撑涟漪。
 
