@@ -1,0 +1,13 @@
+# Gowin IDE 综合、布局布线与临时产物（保留 process_config.json）
+boards/*/impl/gwsynthesis/
+boards/*/impl/pnr/
+boards/*/impl/temp/
+boards/*/impl/firmware/
+*.gprj.user
+*.fs
+*.bin
+*.posp
+*.rpt*
+build/
+__pycache__/
+*.py[cod]

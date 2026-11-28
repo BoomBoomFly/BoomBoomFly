@@ -1,0 +1,13 @@
+repositories:
+  open_vins:
+    type: git
+    url: https://github.com/BoomBoomFly/open_vins.git
+    version: master
+  mavros:
+    type: git
+    url: https://github.com/mavlink/mavros.git
+    version: ros2
+  px4_msgs:
+    type: git
+    url: https://github.com/PX4/px4_msgs.git
+    version: main

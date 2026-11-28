@@ -1,0 +1,44 @@
+ugv_bridge_node:
+  ros__parameters:
+    source_address: '203.0.113.2'
+    telemetry_port: 6104
+    laser_x_m: 0.13
+    laser_y_m: 0.0
+    laser_yaw_rad: 0.0
+
+robot_command:
+  ros__parameters:
+    fpga_address: '203.0.113.2'
+    source_address: '203.0.113.4'
+    fpga_port: 5000
+    source_port: 6103
+    max_speed_mm_s: 800
+    cruise_speed_mm_s: 600
+    # The FPGA selects probe and avoidance speeds within this task limit.
+    explore_speed_mm_s: 600
+    max_accel_mm_s2: 200
+    goal_tolerance_mm: 100
+    yaw_tolerance_mrad: 100
+    task_duration_s: 120
+    continue_without_link: false
+
+robot_video:
+  ros__parameters:
+    source_address: '203.0.113.2'
+    video_port: 6102
+    http_port: 8081
+    width: 640
+    height: 360
+    jpeg_fps: 10.0
+    jpeg_quality: 60
+
+vision_node:
+  ros__parameters:
+    # Set engine_path here to override the default under $HOME/yolo.
+    image_topic: '/camera/image_raw'
+    process_hz: 10.0
+    class_id: -1
+
+vision_mission:
+  ros__parameters:
+    left_image_turn_sign: 1.0

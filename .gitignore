@@ -1,0 +1,39 @@
+# ROS 2 工作区构建与外部依赖
+/ros2_ws/build/
+/ros2_ws/install/
+/ros2_ws/log/
+/ros2_ws/upstream/
+/ros2_ws/src/thirdparty/
+
+# Gowin FPGA 综合、布局布线与临时产物（保留 impl/*_process_config.json）
+hardware/fpga/boards/*/impl/gwsynthesis/
+hardware/fpga/boards/*/impl/pnr/
+hardware/fpga/boards/*/impl/temp/
+hardware/fpga/boards/*/impl/firmware/
+*.gprj.user
+*.fs
+*.bin
+*.posp
+*.rpt*
+
+# 本地日志、参考仓库与运行时数据记录
+/log/
+/bags/
+/references/
+/reference/
+/docker/kalibr/source/
+
+# Python 缓存与测试缓存
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# 录包与模型权重（防止大文件污染 Git 历史）
+*.bag
+*.db3
+*.mcap
+*.ulg
+*.pt
+*.onnx
+*.engine
+*.trt
